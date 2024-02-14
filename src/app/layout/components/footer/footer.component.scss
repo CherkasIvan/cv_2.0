@@ -1,0 +1,65 @@
+@use '../../../../assets/styles/variables' as color;
+
+.footer {
+    display: flex;
+    column-gap: 30px;
+    justify-content: space-between;
+    align-items: center;
+
+    .footer-connect {
+        &_button {
+            display: flex;
+            align-items: center;
+            transition:
+                background-color 0.5s ease-in-out,
+                color 0.5s ease-in-out;
+            cursor: pointer;
+            border-radius: 50px;
+            background-color: color.$black;
+            padding: 23px 40px;
+            color: color.$white;
+            white-space: nowrap;
+        }
+
+        &_button::before {
+            content: attr(text);
+        }
+
+        &_button:hover::before {
+            content: attr(hover-text);
+        }
+
+        &_button:hover {
+            background-color: color.$blue;
+            color: color.$white;
+        }
+    }
+
+    .footer-links {
+        display: flex;
+        column-gap: 80.3px;
+        align-items: center;
+        transition: background-color 0.5s ease-in-out;
+        border-radius: 30px;
+        background-color: color.$lightGrey;
+        padding: 23px 65px;
+
+        &_item {
+            transition: color 0.3s ease-in-out;
+            cursor: pointer;
+            height: 100%;
+            color: color.$black;
+            // font-family: 'RS-extralight'; уточнить?
+            text-transform: uppercase;
+        }
+
+        &_item:hover {
+            color: color.$blue;
+            text-transform: uppercase;
+        }
+    }
+
+    .footer-links:hover {
+        background-color: color.$white;
+    }
+}
