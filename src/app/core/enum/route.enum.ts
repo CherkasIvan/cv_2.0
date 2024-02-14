@@ -1,10 +1,7 @@
 export enum ERoute {
-    AUTH = 'auth',
     LAYOUT = 'layout',
-    ABOUT_ME = 'about-me',
-    EDUCATION = 'education',
+    AUTH = 'auth',
     PROJECTS = 'projects',
+    EXPERIENCE = 'experience',
     TECHNOLOGIES = 'technologies',
-    WORK_EXPERIENCE = 'work-experience',
-    CV = 'cv',
 }
