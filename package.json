@@ -27,6 +27,7 @@
         "@angular/router": "^17.1.0",
         "@angular/ssr": "^17.1.3",
         "express": "^4.18.2",
+        "firebase": "^10.8.0",
         "npx": "^10.2.2",
         "prettier-plugin-css-order": "^2.0.1",
         "rxjs": "~7.8.0",
