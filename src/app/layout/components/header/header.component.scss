@@ -1,8 +1,10 @@
+@use '../../../../assets/styles/variables' as color;
+
 .navigation-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border: 2px solid black;
+    border: 2px solid color.$black;
     padding: 0 50px;
     height: 96px;
 
@@ -17,11 +19,11 @@
                 transition: color 0.5s ease-in-out;
                 cursor: pointer;
                 height: 100%;
-                color: #000000;
+                color: color.$black;
             }
 
             .item-link:hover {
-                color: #0000ff;
+                color: color.$blue;
             }
         }
     }

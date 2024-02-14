@@ -1,3 +1,5 @@
+@use '../../../../assets/styles/variables' as color;
+
 .footer {
     display: flex;
     column-gap: 30px;
@@ -8,19 +10,14 @@
         &_button {
             display: flex;
             align-items: center;
-            /* Устанавливаем продолжительность и функцию анимации */
             transition:
-                width 0.5s ease-in-out,
                 background-color 0.5s ease-in-out,
                 color 0.5s ease-in-out;
             cursor: pointer;
             border-radius: 50px;
-            background-color: #00a0ff;
-            background-color: #000000;
+            background-color: color.$black;
             padding: 23px 40px;
-            /* Устанавливаем цвет текста */
-            color: white;
-            color: #ffffff;
+            color: color.$white;
             white-space: nowrap;
         }
 
@@ -33,8 +30,8 @@
         }
 
         &_button:hover {
-            background-color: #0000ff;
-            color: #ffffff;
+            background-color: color.$blue;
+            color: color.$white;
         }
     }
 
@@ -44,25 +41,25 @@
         align-items: center;
         transition: background-color 0.5s ease-in-out;
         border-radius: 30px;
-        background-color: #ffffff99;
+        background-color: color.$lightGrey;
         padding: 23px 65px;
 
         &_item {
             transition: color 0.3s ease-in-out;
             cursor: pointer;
             height: 100%;
-            color: #000000;
+            color: color.$black;
             // font-family: 'RS-extralight'; уточнить?
             text-transform: uppercase;
         }
 
         &_item:hover {
-            color: #0000ff;
+            color: color.$blue;
             text-transform: uppercase;
         }
     }
 
     .footer-links:hover {
-        background-color: #ffffff;
+        background-color: color.$white;
     }
 }

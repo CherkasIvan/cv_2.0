@@ -9,13 +9,6 @@ export const LAYOUT_ROUTES: Routes = [
         path: '',
         component: LayoutComponent,
         children: [
-            // {
-            //     path: ERoute.AUTH,
-            //     loadComponent: () =>
-            //         import('./pages/auth/auth.component').then(
-            //             (c) => c.AuthComponent,
-            //         ),
-            // },
             {
                 path: ERoute.PROJECTS,
                 loadComponent: () =>
