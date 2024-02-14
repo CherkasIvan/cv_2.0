@@ -1,11 +1,26 @@
-// @font-face {
-//     src: url('../fonts/ofont.ru_Zekton.ttf');
-//     font-family: 'Zekton Rg';
-// }
+@font-face {
+    src: url('../fonts/RS-extrabold.otf') format('truetype');
+    font-family: 'RS-extrabold';
+}
 
-// body {
-//     font-family: 'Zekton Rg', Roboto, 'Helvetica Neue', sans-serif;
-// }
+@font-face {
+    src: url('../fonts/RS-extralight.otf') format('truetype');
+    font-family: 'RS-extralight';
+}
+
+@font-face {
+    src: url('../fonts/RS-regular.otf') format('truetype');
+    font-family: 'RS-regular';
+}
+
+@font-face {
+    src: url('../fonts/RS-semibold.otf') format('truetype');
+    font-family: 'RS-semibold';
+}
+
+body {
+    font-family: 'RS-regular', Roboto, 'Helvetica Neue', sans-serif;
+}
 
 ::-webkit-scrollbar {
     display: none;

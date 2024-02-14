@@ -1,20 +1,41 @@
 .footer {
     display: flex;
+    column-gap: 30px;
     justify-content: space-between;
     align-items: center;
-    background: yellow;
 
     .footer-connect {
         &_button {
             display: flex;
             align-items: center;
-            border-radius: 30px;
+            /* Устанавливаем продолжительность и функцию анимации */
+            transition:
+                width 0.5s ease-in-out,
+                background-color 0.5s ease-in-out,
+                color 0.5s ease-in-out;
+            cursor: pointer;
+            border-radius: 50px;
+            background-color: #00a0ff;
             background-color: #000000;
             padding: 23px 40px;
+            /* Устанавливаем цвет текста */
+            color: white;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        &_button::before {
+            content: attr(text);
+        }
+
+        &_button:hover::before {
+            content: attr(hover-text);
+        }
+
+        &_button:hover {
+            background-color: #0000ff;
             color: #ffffff;
         }
-    }
-    .footer-connect:hover {
     }
 
     .footer-links {
@@ -25,6 +46,20 @@
         border-radius: 30px;
         background-color: #ffffff99;
         padding: 23px 65px;
+
+        &_item {
+            transition: color 0.3s ease-in-out;
+            cursor: pointer;
+            height: 100%;
+            color: #000000;
+            // font-family: 'RS-extralight'; уточнить?
+            text-transform: uppercase;
+        }
+
+        &_item:hover {
+            color: #0000ff;
+            text-transform: uppercase;
+        }
     }
 
     .footer-links:hover {
