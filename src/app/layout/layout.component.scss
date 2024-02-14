@@ -1,0 +1,28 @@
+.layout-container {
+    background-image: url('../../assets/images/white-mode/background-main-menu.png');
+    background-size: cover;
+    background-color: #f6f6f7;
+    padding: 40px 135px 60px;
+    width: 100vw;
+    height: 100vh;
+    .layout {
+        // background-color: black;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+
+        .header {
+            border: 1px solid black;
+            width: 100%;
+        }
+
+        .general {
+            border: 1px solid red;
+        }
+
+        .footer {
+            border: 1px solid blue;
+        }
+    }
+}

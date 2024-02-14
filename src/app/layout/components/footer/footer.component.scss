@@ -1,0 +1,33 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: yellow;
+
+    .footer-connect {
+        &_button {
+            display: flex;
+            align-items: center;
+            border-radius: 30px;
+            background-color: #000000;
+            padding: 23px 40px;
+            color: #ffffff;
+        }
+    }
+    .footer-connect:hover {
+    }
+
+    .footer-links {
+        display: flex;
+        column-gap: 80.3px;
+        align-items: center;
+        transition: background-color 0.5s ease-in-out;
+        border-radius: 30px;
+        background-color: #ffffff99;
+        padding: 23px 65px;
+    }
+
+    .footer-links:hover {
+        background-color: #ffffff;
+    }
+}
