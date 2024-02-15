@@ -6,11 +6,16 @@
         />
     </article>
     <ul class="header-links">
-        <li class="header-links_item">
-            <a class="item-link">Опыт работы и образование</a>
-        </li>
-        <li class="header-links_item"><a class="item-link">Проекты</a></li>
-        <li class="header-links_item"><a class="item-link">Технологии</a></li>
+        @for (itemLink of navigationLinks; track itemLink; let i = $index) {
+            <li class="header-links_item">
+                <a
+                    routerLink="{{ itemLink.link }}"
+                    class="item-link"
+                >
+                    <p class="item-link_text">{{ itemLink.value }}</p>
+                </a>
+            </li>
+        }
     </ul>
     <aside class="header-buttons">
         <button class="header-buttons_dark-mode">mode</button>

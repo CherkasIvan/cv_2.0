@@ -18,6 +18,26 @@ import { AuthComponent } from './pages/auth/auth.component';
     styleUrl: './layout.component.scss',
 })
 export class LayoutComponent {
+    public navigation = [
+        { link: 'main', value: 'Домашнняя страница' },
+        { link: 'experience', value: 'опыт работы и образование' },
+        { link: 'projects', value: 'проекты' },
+        { link: 'technologies', value: 'технологии' },
+    ];
+
+    public social = [
+        {
+            link: 'https://www.linkedin.com/in/ivan-cherkas-723b411a2',
+            value: 'linkedin',
+        },
+        { link: 'https://github.com/CherkasIvan', value: 'github' },
+        { link: 'https://t.me/IvanCherkas', value: 'telegram' },
+        { link: 'https://www.facebook.com/ivan.cherkas', value: 'facebook' },
+        { link: 'cherkas.ivan13@gmail.com', value: 'mail' },
+        { link: 'https://vk.com/cherkasss', value: 'vkontakte' },
+        { link: 'live:.cid.270d4d79826c9a4d', value: 'skype' },
+    ];
+
     // public currentRoute!: string;
     // public navigation$: Observable<INavigation[]> =
     //     this._firebaseService.getNavigation();
