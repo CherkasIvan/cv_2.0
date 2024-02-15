@@ -2,13 +2,17 @@ import { Routes } from '@angular/router';
 
 import { ERoute } from '@app/core/enum/route.enum';
 
-import { LayoutComponent } from './layout.component';
-
 export const LAYOUT_ROUTES: Routes = [
     {
         path: '',
-        component: LayoutComponent,
         children: [
+            {
+                path: ERoute.MAIN,
+                loadComponent: () =>
+                    import('./pages/main/main.component').then(
+                        (c) => c.MainComponent,
+                    ),
+            },
             {
                 path: ERoute.PROJECTS,
                 loadComponent: () =>
@@ -29,6 +33,11 @@ export const LAYOUT_ROUTES: Routes = [
                     import('./pages/technologies/technologies.component').then(
                         (c) => c.TechnologiesComponent,
                     ),
+            },
+            {
+                path: '',
+                redirectTo: ERoute.MAIN,
+                pathMatch: 'full',
             },
         ],
     },

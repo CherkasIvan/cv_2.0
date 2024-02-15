@@ -1,6 +1,6 @@
 export enum ERoute {
     LAYOUT = 'layout',
-    AUTH = 'auth',
+    MAIN = 'main',
     PROJECTS = 'projects',
     EXPERIENCE = 'experience',
     TECHNOLOGIES = 'technologies',
