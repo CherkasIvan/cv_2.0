@@ -27,6 +27,8 @@ import { MAIN_ROUTES } from './main.routes';
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideAnimations(),
+        provideRouter(MAIN_ROUTES),
         importProvidersFrom(
             AngularFireModule.initializeApp(environment.firebase),
             provideFirebaseApp(() => initializeApp(environment.firebase)),
@@ -34,8 +36,6 @@ export const appConfig: ApplicationConfig = {
             provideFirestore(() => getFirestore()),
             provideDatabase(() => getDatabase()),
         ),
-        provideAnimations(),
-        provideRouter(MAIN_ROUTES),
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
         // { provide: TitleStrategy, useClass: CustomTitleStrategy },
         provideClientHydration(

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'cv-technologies',
+    selector: 'cv-main',
     standalone: true,
     imports: [],
-    templateUrl: './technologies.component.html',
-    styleUrl: './technologies.component.scss',
+    templateUrl: './main.component.html',
+    styleUrl: './main.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechnologiesComponent {}
+export class MainComponent {}
