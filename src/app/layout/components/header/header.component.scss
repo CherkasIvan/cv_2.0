@@ -15,11 +15,40 @@
         &_item {
             .item-link {
                 display: flex;
+                position: relative;
                 align-items: center;
                 transition: color 0.5s ease-in-out;
                 cursor: pointer;
                 height: 100%;
                 color: color.$black;
+
+                &_text::first-letter {
+                    text-transform: uppercase;
+                }
+            }
+
+            .item-link::before,
+            .item-link::after {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .item-link::before {
+                left: -15px;
+                content: '<';
+            }
+
+            .item-link::after {
+                right: -20px;
+                content: '/>';
+            }
+
+            .item-link:hover::before,
+            .item-link:hover::after {
+                opacity: 1;
             }
 
             .item-link:hover {
