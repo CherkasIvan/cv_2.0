@@ -4,7 +4,7 @@
     "compilerOptions": {
         "baseUrl": "./src",
         "paths": {
-            "@angular/*": ["../node_modules/@angular/*"],
+            "@angular/*": ["./node_modules/@angular/*"],
             "@env/*": ["environments/*"],
             "@utils/*": ["utils/*"],
             "@store/*": ["app/store/*"],

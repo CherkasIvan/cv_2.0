@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class CustomTitleStrategy extends TitleStrategy {
     override updateTitle(routerState: RouterStateSnapshot) {
         const title = this.buildTitle(routerState);
