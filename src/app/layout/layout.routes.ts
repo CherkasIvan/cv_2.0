@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 
 import { ERoute } from '@app/core/enum/route.enum';
 
+import { LayoutComponent } from './layout.component';
+
 export const LAYOUT_ROUTES: Routes = [
     {
         path: '',
