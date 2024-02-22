@@ -8,9 +8,8 @@ export const MAIN_ROUTES: Routes = [
     {
         path: ERoute.LAYOUT, //ERouterPath.LAYOUT,
         component: LayoutComponent,
-        // canActivate: [AuthGuard],
-
         loadChildren: () =>
             import('./layout/layout.routes').then((c) => c.LAYOUT_ROUTES),
     },
+    { path: '**', pathMatch: 'full', redirectTo: `/${ERoute.LAYOUT}` }, //`/${ERouterPath.AUTH}` },
 ];
