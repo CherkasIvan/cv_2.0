@@ -1,1 +1,11 @@
-<p>technologies works!</p>
+<div class="technologies">
+    <aside class="technologies-navigation">
+        <cv-aside-navigation
+            [navigationList]="technologiesAside"
+            (emittedTab)="switchTab($event)"
+        ></cv-aside-navigation>
+    </aside>
+    <main class="skills-list">
+        <cv-technologies-stack></cv-technologies-stack>
+    </main>
+</div>

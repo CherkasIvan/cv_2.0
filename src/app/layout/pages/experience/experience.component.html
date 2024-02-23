@@ -1,34 +1,10 @@
 <div class="experience">
-    <nav class="experience-navigation">
-        <ul class="navigation-list">
-            <li class="navigation_item">
-                <button
-                    type="button"
-                    class="item-button"
-                    (mouseDown)="changeTab('work')"
-                >
-                    <span [ngClass]="{ active: selectedTab === 'work' }">
-                        Опыт работы
-                    </span>
-                </button>
-            </li>
-            <li class="navigation_item">
-                <button
-                    type="button"
-                    class="item-button"
-                    (mouseDown)="changeTab('learning')"
-                >
-                    <span
-                        [ngClass]="{
-                            active: selectedTab === 'learning'
-                        }"
-                    >
-                        Образование
-                    </span>
-                </button>
-            </li>
-        </ul>
-    </nav>
+    <aside class="experience">
+        <cv-aside-navigation
+            [navigationList]="experienceAside"
+            (emittedTab)="switchTab($event)"
+        ></cv-aside-navigation>
+    </aside>
     <section class="experience-places">
         @switch (selectedTab) {
             @case ('work') {
@@ -37,7 +13,9 @@
             @case ('learning') {
                 <cv-learning-experience></cv-learning-experience>
             }
-            @default {}
+            @default {
+                <cv-work-experience></cv-work-experience>
+            }
         }
     </section>
 </div>
