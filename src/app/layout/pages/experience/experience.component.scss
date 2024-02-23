@@ -1,27 +1,5 @@
-@use '../../../../assets/styles/variables' as color;
-
 .experience {
     display: flex;
     column-gap: 62px;
     height: 100%;
-
-    &-navigation {
-        .navigation-list {
-            display: flex;
-            row-gap: 30px;
-            flex-direction: column;
-
-            .item-button {
-                cursor: pointer;
-                color: color.$darkGray;
-                font-size: 50px;
-                line-height: 51.1px;
-                font-family: 'RS-regular';
-            }
-        }
-    }
-}
-
-.active {
-    color: color.$black;
 }
