@@ -1,0 +1,28 @@
+@use '../../../../assets/styles/variables' as color;
+
+.general-button {
+    display: flex;
+    align-items: center;
+    transition:
+        background-color 0.5s ease-in-out,
+        color 0.5s ease-in-out;
+    cursor: pointer;
+    border-radius: 50px;
+    background-color: color.$black;
+    padding: 23px 40px;
+    color: color.$white;
+    white-space: nowrap;
+}
+
+.general-button::before {
+    content: attr(text);
+}
+
+.general-button:hover::before {
+    content: attr(hover-text);
+}
+
+.general-button:hover {
+    background-color: color.$blue;
+    color: color.$white;
+}

@@ -1,0 +1,21 @@
+.main {
+    &_info {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        .fullname-img {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .description-projects-stack {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .status-cv {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+}
