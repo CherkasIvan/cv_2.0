@@ -34,6 +34,14 @@
         "tslib": "^2.6.2",
         "zone.js": "~0.14.4"
     },
+    "overrides": {
+        "@angular/fire": {
+            "@angular/common": "^17.0.8",
+            "@angular/core": "^17.0.8",
+            "@angular/platform-browser": "^17.0.8",
+            "@angular/platform-browser-dynamic": "^17.0.8"
+        }
+    },
     "devDependencies": {
         "@angular-devkit/build-angular": "^17.2.0",
         "@angular/cli": "^17.2.0",
