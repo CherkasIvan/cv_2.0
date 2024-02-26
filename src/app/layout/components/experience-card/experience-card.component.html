@@ -1,0 +1,56 @@
+@switch (experienceType) {
+    @case ('work') {
+        <article
+            class="experience-card"
+            [ngClass]="{ activeWork: experienceType === 'work' }"
+        >
+            <div class="card-info">
+                <span class="card-info_place">место работы</span>
+                <span class="card-info_place-name">TeachMeSkills</span>
+                <span class="card-info_time">Сентябрь 2020 - Июль 2021</span>
+            </div>
+            <button class="card-button">
+                <img
+                    src="assets/images/white-mode/icons/arrow.svg"
+                    alt="arrow.svg"
+                />
+            </button>
+        </article>
+    }
+    @case ('learning') {
+        <article
+            class="experience-card"
+            [ngClass]="{ activeLearning: experienceType === 'learning' }"
+        >
+            <button class="card-button">
+                <img
+                    src="assets/images/white-mode/icons/download.svg"
+                    alt="download.svg"
+                />
+            </button>
+            <div class="card-info">
+                <span class="card-info_place">курсы</span>
+                <span class="card-info_place-name">TeachMeSkills</span>
+                <span class="card-info_time">Сентябрь 2020 - Июль 2021</span>
+            </div>
+        </article>
+    }
+    @default {
+        <article
+            class="experience-card"
+            [ngClass]="{ activeWork: experienceType === 'work' }"
+        >
+            <div class="card-info">
+                <span class="card-info_place">место работы</span>
+                <span class="card-info_place-name">TeachMeSkills</span>
+                <span class="card-info_time">Сентябрь 2020 - Июль 2021</span>
+            </div>
+            <button class="card-button">
+                <img
+                    src="assets/images/white-mode/icons/arrow.svg"
+                    alt="arrow.svg"
+                />
+            </button>
+        </article>
+    }
+}
