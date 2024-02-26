@@ -1,0 +1,47 @@
+@use '../../../../assets/styles/variables' as color;
+
+.skills-switcher {
+    .skills-list {
+        display: flex;
+        row-gap: 20px;
+        flex-direction: column;
+        .skill-item {
+            &_button {
+                position: relative;
+                align-items: center;
+                transition: color 0.5s ease-in-out;
+                cursor: pointer;
+                color: color.$black;
+                font-size: 20px;
+            }
+
+            &_button::before,
+            &_button::after {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            &_button::before {
+                left: -15px;
+                content: '<';
+            }
+
+            &_button::after {
+                right: -15px;
+                content: '>';
+            }
+
+            &_button:hover::before,
+            &_button:hover::after {
+                opacity: 1;
+            }
+
+            &_button:hover {
+                color: color.$blue;
+            }
+        }
+    }
+}
