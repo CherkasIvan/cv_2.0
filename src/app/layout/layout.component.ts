@@ -53,5 +53,9 @@ export class LayoutComponent {
     //     this._routerSubscription$.unsubscribe();
     // }
 
-    constructor() {}
+    // constructor(private _firebaseService: FirebaseService) {
+    //     this._firebaseService
+    //         .getNavigation()
+    //         .subscribe((el) => console.log(el));
+    // }
 }
