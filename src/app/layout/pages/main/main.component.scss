@@ -1,8 +1,9 @@
 .main {
+    height: 100%;
     &_info {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        justify-content: space-between;
         .fullname-img {
             display: flex;
             justify-content: space-around;

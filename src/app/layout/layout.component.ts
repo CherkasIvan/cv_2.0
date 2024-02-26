@@ -1,9 +1,5 @@
-import { Observable, Subscription } from 'rxjs';
-
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-
-import { INavigation } from '@core/models/navigation.interface';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';

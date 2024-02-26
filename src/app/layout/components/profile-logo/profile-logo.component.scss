@@ -1,0 +1,17 @@
+.profile-logo {
+    position: relative;
+    .circle {
+        transition: all 1s ease;
+        border: 20px solid white;
+        border-radius: 50%;
+    }
+
+    .circle:hover {
+        transform: rotate(15deg);
+    }
+
+    &_img {
+        border-radius: 50%;
+        max-width: 172px;
+    }
+}
