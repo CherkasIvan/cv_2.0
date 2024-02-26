@@ -1,20 +1,26 @@
 <div class="experience">
-    <aside class="experience">
+    <aside class="experience_navigation">
         <cv-aside-navigation
             [navigationList]="experienceAside"
             (emittedTab)="switchTab($event)"
         ></cv-aside-navigation>
     </aside>
-    <section class="experience-places">
+    <section class="experience_places">
         @switch (selectedTab) {
             @case ('work') {
-                <cv-work-experience></cv-work-experience>
+                <cv-work-experience
+                    [selectedTabWork]="selectedTab"
+                ></cv-work-experience>
             }
             @case ('learning') {
-                <cv-learning-experience></cv-learning-experience>
+                <cv-learning-experience
+                    [selectedTabLearning]="selectedTab"
+                ></cv-learning-experience>
             }
             @default {
-                <cv-work-experience></cv-work-experience>
+                <cv-work-experience
+                    [selectedTabWork]="selectedTab"
+                ></cv-work-experience>
             }
         }
     </section>
