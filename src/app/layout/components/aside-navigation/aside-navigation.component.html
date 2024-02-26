@@ -11,6 +11,11 @@
                         {{ navItem.title }}
                     </span>
                 </button>
+                @if (navItem.id === 1 && selectedTab === 'tech') {
+                    <cv-skills-switcher
+                        [skillsList]="hardSkillsNavigation"
+                    ></cv-skills-switcher>
+                }
             </li>
         } @empty {
             Empty list

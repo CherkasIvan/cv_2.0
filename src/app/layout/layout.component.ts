@@ -1,10 +1,5 @@
-import { Observable, Subscription } from 'rxjs';
-
 import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-
-import { INavigation } from '@core/models/navigation.interface';
-import { FirebaseService } from '@core/service/firebase/firebase.service';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -18,7 +13,7 @@ import { AuthComponent } from './pages/auth/auth.component';
     styleUrl: './layout.component.scss',
 })
 export class LayoutComponent {
-    public navigation = [
+    public navigation: any = [
         { link: 'main', value: 'Домашнняя страница' },
         { link: 'experience', value: 'опыт работы и образование' },
         { link: 'projects', value: 'проекты' },
@@ -56,5 +51,11 @@ export class LayoutComponent {
     // }
     // ngOnDestroy(): void {
     //     this._routerSubscription$.unsubscribe();
+    // }
+
+    // constructor(private _firebaseService: FirebaseService) {
+    //     this._firebaseService
+    //         .getNavigation()
+    //         .subscribe((el) => console.log(el));
     // }
 }

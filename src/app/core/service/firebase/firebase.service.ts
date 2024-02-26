@@ -8,8 +8,9 @@ import {
 } from '@angular/fire/compat/database';
 import { collectionData } from '@angular/fire/firestore';
 
-import { IFileUpload } from '@app/core/models/file-upload.interface';
-import { INavigation } from '@app/core/models/navigation.interface';
+// import { Firestore, collection, collectionData } from '@angular/fire/firestore';
+import { IFileUpload } from '@core/models/file-upload.interface';
+import { INavigation } from '@core/models/navigation.interface';
 
 @Injectable({
     providedIn: 'root',
