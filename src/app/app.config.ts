@@ -1,4 +1,3 @@
-import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
@@ -16,10 +15,10 @@ import {
     ScreenTrackingService,
     UserTrackingService,
 } from '@angular/fire/analytics';
-import { provideFirebaseApp } from '@angular/fire/app';
+import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth } from '@angular/fire/auth';
-import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
@@ -45,21 +44,19 @@ if (environment.production) {
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        importProvidersFrom(BrowserModule),
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
         provideAnimations(),
         provideRouter(MAIN_ROUTES, withViewTransitions()),
-        importProvidersFrom(
-            // AngularFireModule.initializeApp(environment.firebase),
-            provideFirebaseApp(
-                () => initializeApp(environment.firebase),
-                provideAuth(() => getAuth()),
-                provideFirestore(() => getFirestore()),
-                provideDatabase(() => getDatabase()),
-                provideStorage(() => getStorage()),
-                { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
-            ),
-        ),
+        importProvidersFrom([
+            AngularFireModule.initializeApp(environment.firebase),
+            AngularFireDatabaseModule,
+            BrowserModule,
+            provideStorage(() => getStorage()),
+            provideAuth(() => getAuth()),
+            provideFirestore(() => getFirestore()),
+            provideDatabase(() => getDatabase()),
+            provideFirebaseApp(() => initializeApp(environment.firebase)),
+        ]),
         provideClientHydration(
             withHttpTransferCacheOptions({ includePostRequests: true }),
         ),

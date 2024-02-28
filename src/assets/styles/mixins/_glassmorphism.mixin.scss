@@ -8,6 +8,14 @@
     border-radius: 10px 10px 0 0;
 }
 
+@mixin cards_glassmorphism {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
 @mixin header_glassmorphism {
     opacity: 0.95;
     backdrop-filter: blur(20px);

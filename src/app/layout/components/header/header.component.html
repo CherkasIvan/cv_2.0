@@ -6,7 +6,7 @@
         />
     </article>
     <ul class="header-links">
-        @for (itemLink of navigationLinks; track itemLink; let i = $index) {
+        @for (itemLink of navigationLinks$; track itemLink; let i = $index) {
             <li class="header-links_item">
                 <a
                     routerLink="{{ itemLink.link }}"
@@ -18,8 +18,8 @@
         }
     </ul>
     <aside class="header-buttons">
-        <button class="header-buttons_dark-mode">mode</button>
+        <cv-dark-mode-toggle></cv-dark-mode-toggle>
         <button class="header-buttons_language">EN</button>
-        <button class="header-buttons_log">Вход</button>
+        <button class="header-buttons_login">Вход</button>
     </aside>
 </nav>
