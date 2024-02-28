@@ -4,17 +4,13 @@
             buttonText="Связаться со мной"
             buttonHoverText="Написать мне"
         ></cv-button>
-        <!-- <button
-            class="footer-connect_button"
-            text="Связаться со мной"
-            hover-text="Написать мне"
-        ></button> -->
     </aside>
     <ul class="footer-links">
-        @for (itemLink of socialLinks; track itemLink; let i = $index) {
+        @for (itemLink of socialLinks$; track itemLink; let i = $index) {
             <li class="footer-links_item">
                 <a
                     href="{{ itemLink.link }}"
+                    target="_blank"
                     class="item-link"
                 >
                     <p class="item-link_text">{{ itemLink.value }}</p>
