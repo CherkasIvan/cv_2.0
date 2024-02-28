@@ -1,12 +1,13 @@
 @use '../../../../assets/styles/variables' as color;
+@use '../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
 
 .experience-card {
     display: flex;
     column-gap: 30px;
     align-items: center;
     cursor: pointer;
-    border-radius: 50px;
-    background: color.$lightGrey;
+    border-radius: 40px;
+    @include glassmorphism.cards_glassmorphism;
     padding: 30px;
     width: 100%;
     height: 140px;

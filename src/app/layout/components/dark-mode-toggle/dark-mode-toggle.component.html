@@ -1,1 +1,15 @@
-<p>dark-mode-toggle works!</p>
+<div class="dark-mode-toggle">
+    <input
+        #darkModeCheckBox
+        class="dark-mode-toggle__input"
+        type="checkbox"
+        name="dark-mode-toggle"
+        id="darkmode-toggle"
+        [value]="isChecked$"
+        (change)="changeView()"
+    />
+    <label
+        class="dark-mode-toggle__label"
+        for="darkmode-toggle"
+    ></label>
+</div>
