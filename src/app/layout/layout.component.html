@@ -1,13 +1,13 @@
 <div class="layout-container">
     <main class="layout">
         <header class="header">
-            <cv-header [navigationLinks]="navigation"></cv-header>
+            <cv-header [navigationLinks$]="navigation$ | async"></cv-header>
         </header>
         <main class="general">
             <router-outlet></router-outlet>
         </main>
         <footer class="footer">
-            <cv-footer [socialLinks]="social"></cv-footer>
+            <cv-footer [socialLinks$]="social$ | async"></cv-footer>
         </footer>
     </main>
 </div>

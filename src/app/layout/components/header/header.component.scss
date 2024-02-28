@@ -9,6 +9,10 @@
     padding: 0 50px;
     height: 96px;
 
+    .header-logo > * {
+        width: 240px;
+    }
+
     .header-links {
         display: flex;
         column-gap: 30px;
@@ -55,6 +59,32 @@
             .item-link:hover {
                 color: color.$blue;
             }
+        }
+    }
+
+    .header-buttons {
+        display: flex;
+        column-gap: 20px;
+        justify-content: space-between;
+        align-items: center;
+
+        &_language {
+            padding-right: 10px;
+        }
+
+        &_login {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        &_login:before {
+            position: absolute;
+            top: -5px;
+            left: -2px;
+            background: color.$darkGray;
+            width: 2px;
+            height: 30px;
+            content: ' ';
         }
     }
 }
