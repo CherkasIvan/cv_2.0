@@ -1,4 +1,7 @@
 {
+    "projects": {
+        "cv_2.0": "cv-cherkas-db"
+    },
     "targets": {
         "cv-cherkas-db": {
             "hosting": {
@@ -8,7 +11,5 @@
             }
         }
     },
-    "projects": {
-        "default": "cv-cherkas-db"
-    }
+    "etags": {}
 }
