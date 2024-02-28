@@ -1,0 +1,15 @@
+@use '../../../../../../assets/styles/variables' as color;
+@use '../../../../../../assets/styles/mixins/glassmorphism.mixin' as
+    glassmorphism;
+
+.technology-card {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+
+    &_block {
+        @include glassmorphism.cards_glassmorphism;
+        width: 140px;
+        height: 140px;
+    }
+}

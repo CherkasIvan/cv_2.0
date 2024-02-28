@@ -1,4 +1,5 @@
 @use '../../../../assets/styles/variables' as color;
+@use '../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
 
 .footer {
     display: flex;

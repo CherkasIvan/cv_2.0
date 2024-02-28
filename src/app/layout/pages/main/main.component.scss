@@ -6,17 +6,42 @@
         justify-content: space-between;
         .fullname-img {
             display: flex;
-            justify-content: space-around;
+            align-items: flex-end;
+            .fullname {
+                font-size: 140px;
+                font-family: 'RS-semibold';
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
         }
 
         .description-projects-stack {
             display: flex;
-            justify-content: space-between;
+
+            .description {
+                align-self: center;
+                font-size: 16px;
+                font-family: 'RS-extralight';
+            }
+
+            .stack {
+                font-size: 140px;
+                font-family: 'RS-semibold';
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
         }
 
         .status-cv {
             display: flex;
-            justify-content: space-around;
+            justify-content: flex-end;
+            align-items: center;
+            .status {
+                margin-right: 40px;
+                font-size: 140px;
+                font-family: 'RS-semibold';
+                text-transform: uppercase;
+            }
         }
     }
 }
