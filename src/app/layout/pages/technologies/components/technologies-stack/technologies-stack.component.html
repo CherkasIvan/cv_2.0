@@ -1,1 +1,9 @@
-<cv-technology-card></cv-technology-card>
+<section class="technology-stack">
+    @for (
+        technology of backendTech$ | async;
+        track technology;
+        let i = $index
+    ) {
+        <cv-technology-card [technologyItem]="technology"></cv-technology-card>
+    }
+</section>

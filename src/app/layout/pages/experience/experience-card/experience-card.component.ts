@@ -1,6 +1,8 @@
 import { NgClass, NgSwitch } from '@angular/common';
 import { Component, Input } from '@angular/core';
 
+import { IWorkExperience } from '@app/core/models/work-experience.interface';
+
 @Component({
     selector: 'cv-experience-card',
     standalone: true,
@@ -10,4 +12,11 @@ import { Component, Input } from '@angular/core';
 })
 export class ExperienceCardComponent {
     @Input() public experienceType: string = 'work';
+    @Input() public workDescription: IWorkExperience | null = null;
+
+    constructor() {}
+
+    ngOnInit() {
+        console.log(this.workDescription);
+    }
 }
