@@ -32,11 +32,7 @@ export class LayoutComponent {
 
     public social$: Observable<ISocialMedia[]> =
         this._firebaseService.getSocialMediaLinks();
-    constructor(private readonly _firebaseService: FirebaseService) {
-        this._firebaseService
-            .getNavigation()
-            .subscribe((el) => console.log(el));
-    }
+    constructor(private readonly _firebaseService: FirebaseService) {}
 
     // public currentRoute!: string;
     // public navigation$: Observable<INavigation[]> =
