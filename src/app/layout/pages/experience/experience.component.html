@@ -10,6 +10,7 @@
             @case ('work') {
                 <cv-work-experience
                     [selectedTabWork]="selectedTab"
+                    [workExperience$]="workPlace$ | async"
                 ></cv-work-experience>
             }
             @case ('learning') {
@@ -20,6 +21,7 @@
             @default {
                 <cv-work-experience
                     [selectedTabWork]="selectedTab"
+                    [workExperience$]="workPlace$ | async"
                 ></cv-work-experience>
             }
         }
