@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { ExperienceCardComponent } from '@layout/components/experience-card/experience-card.component';
+import { IWorkExperience } from '@app/core/models/work-experience.interface';
+import { ExperienceCardComponent } from '@app/layout/pages/experience/experience-card/experience-card.component';
 
 @Component({
     selector: 'cv-work-experience',
@@ -12,4 +13,5 @@ import { ExperienceCardComponent } from '@layout/components/experience-card/expe
 })
 export class WorkExperienceComponent {
     @Input() public selectedTabWork: string = '';
+    @Input() public workExperience$: IWorkExperience[] | null = [];
 }
