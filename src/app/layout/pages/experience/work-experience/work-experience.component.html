@@ -1,1 +1,8 @@
-<cv-experience-card [experienceType]="selectedTabWork"></cv-experience-card>
+<section class="work-experience">
+    @for (workPlace of workExperience$; track workPlace; let i = $index) {
+        <cv-experience-card
+            [workDescription]="workPlace"
+            [experienceType]="selectedTabWork"
+        ></cv-experience-card>
+    }
+</section>
