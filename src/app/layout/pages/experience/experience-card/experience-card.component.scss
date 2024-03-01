@@ -1,5 +1,5 @@
-@use '../../../../assets/styles/variables' as color;
-@use '../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
+@use '../../../../../assets/styles/variables' as color;
+@use '../../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
 
 .experience-card {
     display: flex;
