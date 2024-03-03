@@ -6,10 +6,15 @@
         />
     </article>
     <ul class="header-links">
-        @for (itemLink of navigationLinks$; track itemLink; let i = $index) {
-            <li class="header-links_item">
+        @for (itemLink of navigationLinks; track itemLink; let i = $index) {
+            <li
+                class="header-links_item"
+                [tabindex]="i"
+            >
                 <a
                     routerLink="{{ itemLink.link }}"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
                     class="item-link"
                 >
                     <p class="item-link_text">{{ itemLink.value }}</p>

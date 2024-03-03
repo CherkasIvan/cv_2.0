@@ -30,7 +30,8 @@ export class FirebaseService {
 
     frontendTechCollection$!: Observable<ITechnologies[]>;
     backendTechCollection$!: Observable<ITechnologies[]>;
-    socialTechCollection$!: Observable<ITechnologies[]>;
+    otherTechCollection$!: Observable<ITechnologies[]>;
+
     navigationCollection$!: Observable<INavigation[]>;
     workExperienceCollection$!: Observable<IWorkExperience[]>;
     educationCollection$!: Observable<IEducation[]>;
@@ -81,5 +82,21 @@ export class FirebaseService {
             idField: 'id',
         }) as Observable<ITechnologies[]>;
         return this.backendTechCollection$;
+    }
+
+    getOtherTech(): Observable<ITechnologies[]> {
+        const otherTechRef = collection(this._firestore, 'otherTech');
+        this.otherTechCollection$ = collectionData(otherTechRef, {
+            idField: 'id',
+        }) as Observable<ITechnologies[]>;
+        return this.otherTechCollection$;
+    }
+
+    getFrontendTech(): Observable<ITechnologies[]> {
+        const frontendTechRef = collection(this._firestore, 'frontendTech');
+        this.frontendTechCollection$ = collectionData(frontendTechRef, {
+            idField: 'id',
+        }) as Observable<ITechnologies[]>;
+        return this.frontendTechCollection$;
     }
 }

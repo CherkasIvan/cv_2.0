@@ -6,4 +6,11 @@
     .skills-list {
         width: 100%;
     }
+
+    &_stack {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        column-gap: 98px;
+        height: fit-content;
+    }
 }
