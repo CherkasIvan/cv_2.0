@@ -11,7 +11,4 @@ import { ITechnologies } from '@app/core/models/technologies.interface';
 })
 export class TechnologyCardComponent {
     @Input() public technologyItem: ITechnologies | null = null;
-    ngOnInit(){
-      console.log(this.technologyItem)
-    }
 }
