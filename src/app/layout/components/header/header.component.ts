@@ -28,7 +28,7 @@ import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.co
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-    @Input() public navigationLinks$: INavigation[] | null = [];
+    @Input() public navigationLinks: INavigation[] | null = [];
 
     public currentRoute: string = '';
     private _routerSubscription$: Subscription = new Subscription();
