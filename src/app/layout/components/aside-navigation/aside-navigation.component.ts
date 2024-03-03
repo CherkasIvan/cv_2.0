@@ -35,6 +35,12 @@ export class AsideNavigationComponent implements OnInit {
         this.emittedTab.emit(this.selectedTab);
         this.cdr.detectChanges();
     }
+
+    public switch(e: any) {
+        this.selectedTab = e;
+        this.emittedTab.emit(this.selectedTab);
+    }
+
     ngOnInit(): void {
         this.selectedTab = this.navigationList[0].value;
     }
