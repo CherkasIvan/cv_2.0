@@ -1,5 +1,12 @@
 import { NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+} from '@angular/core';
 
 @Component({
     selector: 'cv-skills-switcher',
@@ -10,6 +17,7 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 })
 export class SkillsSwitcherComponent implements OnInit {
     @Input() public skillsList: any = [];
+    @Output() public emittedCurrentTab = new EventEmitter<string>();
 
     public currentSkills: string = '';
 
@@ -18,7 +26,7 @@ export class SkillsSwitcherComponent implements OnInit {
     public changeSkillsList(tab: string) {
         console.log(tab);
         this.currentSkills = tab;
-        // this.emittedTab.emit(this.selectedTab);
+        this.emittedCurrentTab.emit(tab);
         this.cdr.detectChanges();
     }
     ngOnInit(): void {

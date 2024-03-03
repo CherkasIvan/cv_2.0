@@ -1,7 +1,7 @@
 <div class="layout-container">
     <main class="layout">
         <header class="header">
-            <cv-header [navigationLinks$]="navigation$ | async"></cv-header>
+            <cv-header [navigationLinks]="navigation$ | async"></cv-header>
         </header>
         <main class="general">
             <router-outlet></router-outlet>

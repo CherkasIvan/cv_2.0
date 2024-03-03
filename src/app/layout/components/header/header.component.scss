@@ -32,8 +32,8 @@
                 }
             }
 
-            .item-link::before,
-            .item-link::after {
+            .active::before,
+            .active::after {
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
@@ -41,19 +41,28 @@
                 transition: opacity 0.3s;
             }
 
-            .item-link::before {
+            .active::before {
                 left: -15px;
                 content: '<';
             }
 
-            .item-link::after {
+            .active::after {
                 right: -20px;
                 content: '/>';
             }
 
-            .item-link:hover::before,
-            .item-link:hover::after {
+            .active::before,
+            .active::after {
                 opacity: 1;
+            }
+
+            .active {
+                color: color.$blue;
+            }
+
+            .item-link:focus,
+            .item-link:active {
+                color: color.$blue;
             }
 
             .item-link:hover {
