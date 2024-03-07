@@ -7,15 +7,42 @@
                     class="item-button"
                     (click)="changeTab(navItem.value)"
                 >
-                    <span [ngClass]="{ active: selectedTab === navItem.value }">
+                    <a [ngClass]="{ active: selectedTab === navItem.value }">
                         {{ navItem.title }}
-                    </span>
+                    </a>
                 </button>
                 @if (navItem.id === 1 && selectedTab === 'tech') {
-                    <cv-skills-switcher
-                        [skillsList]="hardSkillsNavigation"
-                        (emittedCurrentTab)="switch($event)"
-                    ></cv-skills-switcher>
+                    <section class="skills-switcher">
+                        <ul class="skills-list">
+                            @for (
+                                skillItem of hardSkillsNavigation;
+                                track skillItem;
+                                let i = $index
+                            ) {
+                                <li class="skill-item">
+                                    <a
+                                        class="skill-item_link"
+                                        routerLinkActive="active"
+                                        [routerLinkActiveOptions]="{
+                                            exact: true
+                                        }"
+                                        [ngClass]="{
+                                            active:
+                                                currentSkills === skillItem.link
+                                        }"
+                                        (click)="
+                                            changeSkillsList(
+                                                skillItem.link,
+                                                $event
+                                            )
+                                        "
+                                    >
+                                        {{ skillItem.value }}
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </section>
                 }
             </li>
         } @empty {

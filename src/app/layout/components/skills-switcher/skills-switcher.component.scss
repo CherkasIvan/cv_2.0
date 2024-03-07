@@ -6,7 +6,7 @@
         row-gap: 20px;
         flex-direction: column;
         .skill-item {
-            &_button {
+            &_link {
                 position: relative;
                 align-items: center;
                 transition: color 0.5s ease-in-out;
@@ -15,8 +15,12 @@
                 font-size: 20px;
             }
 
-            &_button::before,
-            &_button::after {
+            .active {
+                color: color.$blue;
+            }
+
+            .active::before,
+            .active::after {
                 position: absolute;
                 top: 50%;
                 transform: translateY(-50%);
@@ -24,23 +28,32 @@
                 transition: opacity 0.3s;
             }
 
-            &_button::before {
+            .active::after {
                 left: -15px;
                 content: '<';
             }
 
-            &_button::after {
+            .active::before {
                 right: -15px;
                 content: '>';
             }
 
-            &_button:hover::before,
-            &_button:hover::after {
+            .active::before,
+            .active::after {
                 opacity: 1;
             }
 
-            &_button:hover {
+            &_link:hover {
                 color: color.$blue;
+            }
+
+            &_link {
+                position: relative;
+                align-items: center;
+                transition: color 0.5s ease-in-out;
+                cursor: pointer;
+                color: color.$black;
+                font-size: 20px;
             }
         }
     }
