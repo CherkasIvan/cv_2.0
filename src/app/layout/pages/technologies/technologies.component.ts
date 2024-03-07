@@ -49,7 +49,6 @@ export class TechnologiesComponent {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
                         this.cdr.markForCheck();
-                        console.log(this.currentTechnologiesStack);
                     }
                 });
                 break;
