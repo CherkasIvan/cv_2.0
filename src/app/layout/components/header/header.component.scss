@@ -9,8 +9,11 @@
     padding: 0 50px;
     height: 96px;
 
-    .header-logo > * {
-        width: 240px;
+    .header-logo {
+        &_link,
+        &_link > * {
+            width: 240px;
+        }
     }
 
     .header-links {

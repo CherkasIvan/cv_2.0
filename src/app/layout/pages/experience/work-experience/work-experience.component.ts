@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    input,
+} from '@angular/core';
 
-import { IWorkExperience } from '@app/core/models/work-experience.interface';
-import { ExperienceCardComponent } from '@app/layout/pages/experience/experience-card/experience-card.component';
+import { IWorkExperience } from '@core/models/work-experience.interface';
+
+import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
 
 @Component({
     selector: 'cv-work-experience',
@@ -12,6 +18,6 @@ import { ExperienceCardComponent } from '@app/layout/pages/experience/experience
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkExperienceComponent {
-    @Input() public selectedTabWork: string = '';
-    @Input() public workExperience$: IWorkExperience[] | null = [];
+    public selectedTabWork = input.required<string>();
+    public workExperience$ = input.required<IWorkExperience[] | null>();
 }

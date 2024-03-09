@@ -6,30 +6,42 @@ import {
     Input,
     OnInit,
     Output,
+    computed,
+    input,
 } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
     selector: 'cv-skills-switcher',
     standalone: true,
-    imports: [NgClass],
+    imports: [NgClass, RouterLink, RouterLinkActive],
     templateUrl: './skills-switcher.component.html',
     styleUrl: './skills-switcher.component.scss',
 })
 export class SkillsSwitcherComponent implements OnInit {
-    @Input() public skillsList: any = [];
+    public skillsList = input.required<[]>();
+    public currentTab = input.required<string>();
     @Output() public emittedCurrentTab = new EventEmitter<string>();
 
     public currentSkills: string = '';
 
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor(private cdr: ChangeDetectorRef) {
+        this.currentSkills = computed(() =>
+            this.skillsList().find((el: any) => el.id === 1),
+        );
+    }
 
-    public changeSkillsList(tab: string) {
+    public changeSkillsList(tab: string, event: Event) {
         console.log(tab);
+        event.stopPropagation();
         this.currentSkills = tab;
         this.emittedCurrentTab.emit(tab);
         this.cdr.detectChanges();
     }
     ngOnInit(): void {
-        this.currentSkills = this.skillsList[0].value;
+        console.log(this.currentTab);
+
+        this.emittedCurrentTab.emit(this.currentSkills);
+        console.log(this.currentSkills);
     }
 }
