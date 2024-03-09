@@ -1,15 +1,25 @@
-import { Component, Input } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { Component, Input, input, signal } from '@angular/core';
 
 @Component({
     selector: 'cv-button',
     standalone: true,
-    imports: [],
+    imports: [NgClass],
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss',
 })
 export class ButtonComponent {
-    @Input() public buttonText: string = '';
-    @Input() public buttonHoverText: string = '';
+    public buttonText = input.required<string>();
+    public buttonHoverText = input.required<string>();
+    public isHovered = false;
+
+    onHover() {
+        this.isHovered = true;
+    }
+
+    onLeave() {
+        this.isHovered = false;
+    }
 
     ngOnInit() {
         console.log(this.buttonText);

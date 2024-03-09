@@ -9,7 +9,7 @@ import {
     RouterLinkActive,
 } from '@angular/router';
 
-import { INavigation } from '@app/core/models/navigation.interface';
+import { INavigation } from '@core/models/navigation.interface';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
 

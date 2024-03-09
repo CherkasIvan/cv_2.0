@@ -1,6 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    input,
+} from '@angular/core';
 
-import { ExperienceCardComponent } from '@app/layout/pages/experience/experience-card/experience-card.component';
+import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
 
 @Component({
     selector: 'cv-learning-experience',
@@ -11,5 +16,5 @@ import { ExperienceCardComponent } from '@app/layout/pages/experience/experience
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LearningExperienceComponent {
-    @Input() public selectedTabLearning: string = '';
+    public selectedTabLearning = input<string>('');
 }

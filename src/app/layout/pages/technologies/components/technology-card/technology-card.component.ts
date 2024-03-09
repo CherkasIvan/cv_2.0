@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 
-import { ITechnologies } from '@app/core/models/technologies.interface';
+import { ITechnologies } from '@core/models/technologies.interface';
 
 @Component({
     selector: 'cv-technology-card',
@@ -10,5 +10,5 @@ import { ITechnologies } from '@app/core/models/technologies.interface';
     styleUrl: './technology-card.component.scss',
 })
 export class TechnologyCardComponent {
-    @Input() public technologyItem: ITechnologies | null = null;
+    public technologyItem = input.required<ITechnologies | null>();
 }
