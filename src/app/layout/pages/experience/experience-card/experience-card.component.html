@@ -1,16 +1,16 @@
-@switch (experienceType) {
+@switch (experienceType()) {
     @case ('work') {
         <article
             class="experience-card"
-            [ngClass]="{ activeWork: experienceType === 'work' }"
+            [ngClass]="{ activeWork: experienceType() === 'work' }"
         >
             <div class="card-info">
                 <span class="card-info_place">место работы</span>
                 <span class="card-info_place-name">
-                    {{ workDescription?.company }}
+                    {{ workDescription()?.company }}
                 </span>
                 <span class="card-info_time">
-                    {{ workDescription?.from }} - {{ workDescription?.to }}
+                    {{ workDescription()?.from }} - {{ workDescription()?.to }}
                 </span>
             </div>
             <button class="card-button">
@@ -24,7 +24,7 @@
     @case ('learning') {
         <article
             class="experience-card"
-            [ngClass]="{ activeLearning: experienceType === 'learning' }"
+            [ngClass]="{ activeLearning: experienceType() === 'learning' }"
         >
             <button class="card-button">
                 <img
@@ -42,15 +42,15 @@
     @default {
         <article
             class="experience-card"
-            [ngClass]="{ activeWork: experienceType === 'work' }"
+            [ngClass]="{ activeWork: experienceType() === 'work' }"
         >
             <div class="card-info">
                 <span class="card-info_place">место работы</span>
                 <span class="card-info_place-name">
-                    {{ workDescription?.company }}
+                    {{ workDescription()?.company }}
                 </span>
                 <span class="card-info_time">
-                    {{ workDescription?.from }} - {{ workDescription?.to }}
+                    {{ workDescription()?.from }} - {{ workDescription()?.to }}
                 </span>
             </div>
             <button class="card-button">

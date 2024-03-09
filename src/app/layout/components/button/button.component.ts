@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, input, signal } from '@angular/core';
 
 @Component({
     selector: 'cv-button',
@@ -9,8 +9,8 @@ import { Component, Input } from '@angular/core';
     styleUrl: './button.component.scss',
 })
 export class ButtonComponent {
-    @Input() public buttonText: string = '';
-    @Input() public buttonHoverText: string = '';
+    public buttonText = input.required<string>();
+    public buttonHoverText = input.required<string>();
     public isHovered = false;
 
     onHover() {
