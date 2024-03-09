@@ -7,12 +7,14 @@
         class="general-button_text"
         [ngClass]="{ active: isHovered }"
     >
-        {{ buttonText }}
+        {{ buttonText() }}
     </span>
     <span
         class="general-button_text"
         [ngClass]="{ active: !isHovered }"
     >
-        {{ buttonHoverText }}
+        <div class="absolute">
+            {{ buttonHoverText() }}
+        </div>
     </span>
 </button>

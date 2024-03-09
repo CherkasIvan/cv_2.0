@@ -6,6 +6,8 @@ import {
     Input,
     OnInit,
     Output,
+    computed,
+    input,
 } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -17,13 +19,17 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     styleUrl: './skills-switcher.component.scss',
 })
 export class SkillsSwitcherComponent implements OnInit {
-    @Input() public skillsList: any = [];
-    @Input() public currentTab: string = '';
+    public skillsList = input.required<[]>();
+    public currentTab = input.required<string>();
     @Output() public emittedCurrentTab = new EventEmitter<string>();
 
     public currentSkills: string = '';
 
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor(private cdr: ChangeDetectorRef) {
+        this.currentSkills = computed(() =>
+            this.skillsList().find((el: any) => el.id === 1),
+        );
+    }
 
     public changeSkillsList(tab: string, event: Event) {
         console.log(tab);
@@ -34,7 +40,7 @@ export class SkillsSwitcherComponent implements OnInit {
     }
     ngOnInit(): void {
         console.log(this.currentTab);
-        this.currentSkills = this.skillsList[0].link;
+
         this.emittedCurrentTab.emit(this.currentSkills);
         console.log(this.currentSkills);
     }

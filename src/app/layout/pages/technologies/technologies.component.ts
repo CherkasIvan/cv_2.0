@@ -8,10 +8,12 @@ import {
     Input,
 } from '@angular/core';
 
+import { ITechnologies } from '@core/models/technologies.interface';
+import { FirebaseService } from '@core/service/firebase/firebase.service';
+
 import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
 
-import { ITechnologies } from '@app/core/models/technologies.interface';
-import { FirebaseService } from '@app/core/service/firebase/firebase.service';
+import { TExperienceAside } from '@app/core/models/experience-aside.type';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
 
@@ -26,7 +28,7 @@ import { TechnologyCardComponent } from './components/technology-card/technology
 export class TechnologiesComponent {
     public selectedTab: string = '';
 
-    public technologiesAside: any = [
+    public technologiesAside: TExperienceAside[] = [
         { id: 1, title: 'Технические навыки', value: 'tech' },
         { id: 2, title: 'Остальные навыки', value: 'other' },
     ];

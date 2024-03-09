@@ -9,7 +9,7 @@ import {
 import {
     ApplicationConfig,
     enableProdMode,
-    importProvidersFrom,
+    importProvidersFrom, isDevMode,
 } from '@angular/core';
 import {
     ScreenTrackingService,
@@ -37,6 +37,11 @@ import {
 import { CustomTitleStrategy } from './custom-title-strategy';
 import { environment } from './layout/environments/environment.development';
 import { MAIN_ROUTES } from './main.routes';
+import { provideStore } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
+import { provideRouterStore } from '@ngrx/router-store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideServiceWorker } from '@angular/service-worker';
 
 if (environment.production) {
     enableProdMode();
@@ -44,22 +49,27 @@ if (environment.production) {
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideHttpClient(withInterceptorsFromDi(), withFetch()),
-        provideAnimations(),
-        provideRouter(MAIN_ROUTES, withViewTransitions()),
-        importProvidersFrom([
-            AngularFireModule.initializeApp(environment.firebase),
-            AngularFireDatabaseModule,
-            BrowserModule,
-            provideStorage(() => getStorage()),
-            provideAuth(() => getAuth()),
-            provideFirestore(() => getFirestore()),
-            provideDatabase(() => getDatabase()),
-            provideFirebaseApp(() => initializeApp(environment.firebase)),
-        ]),
-        provideClientHydration(
-            withHttpTransferCacheOptions({ includePostRequests: true }),
-        ),
-        // { provide: TitleStrategy, useClass: CustomTitleStrategy },
-    ],
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideAnimations(),
+    provideRouter(MAIN_ROUTES, withViewTransitions()),
+    importProvidersFrom([
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireDatabaseModule,
+        BrowserModule,
+        provideStorage(() => getStorage()),
+        provideAuth(() => getAuth()),
+        provideFirestore(() => getFirestore()),
+        provideDatabase(() => getDatabase()),
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+    ]),
+    provideClientHydration(withHttpTransferCacheOptions({ includePostRequests: true })),
+    provideStore(),
+    provideEffects(),
+    provideRouterStore(),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideServiceWorker('ngsw-worker.js', {
+        enabled: !isDevMode(),
+        registrationStrategy: 'registerWhenStable:30000'
+    })
+],
 };

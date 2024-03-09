@@ -1,3 +1,5 @@
+import { findIndex } from 'rxjs';
+
 import { NgClass } from '@angular/common';
 import {
     ChangeDetectorRef,
@@ -6,8 +8,13 @@ import {
     Input,
     OnInit,
     Output,
+    computed,
+    input,
+    signal,
 } from '@angular/core';
 import { RouterLinkActive } from '@angular/router';
+
+import { TExperienceAside } from '@app/core/models/experience-aside.type';
 
 @Component({
     selector: 'cv-aside-navigation',
@@ -17,7 +24,7 @@ import { RouterLinkActive } from '@angular/router';
     styleUrl: './aside-navigation.component.scss',
 })
 export class AsideNavigationComponent implements OnInit {
-    @Input() public navigationList: any[] = [];
+    public navigationList = input<TExperienceAside[]>([]);
     @Output() public emittedTab = new EventEmitter<string>();
     public currentSkills: string = '';
     public hardSkillsNavigation: any = [
@@ -38,6 +45,14 @@ export class AsideNavigationComponent implements OnInit {
         this.cdr.detectChanges();
     }
 
+    private _tab = computed(() => {
+        this.navigationList().find((el: any) => {
+            if (el.id === 1) {
+                this.selectedTab = el.value;
+            }
+        });
+    });
+
     public changeSkillsList(tab: string, event: Event) {
         event.stopPropagation();
         this.currentSkills = tab;
@@ -45,7 +60,6 @@ export class AsideNavigationComponent implements OnInit {
         this.cdr.detectChanges();
     }
 
-    ngOnInit(): void {
-        this.selectedTab = this.navigationList[0].value;
-    }
+    ngOnInit(): void {}
 }
+// this.navigationList[0].value

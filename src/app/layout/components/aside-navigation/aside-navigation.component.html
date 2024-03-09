@@ -1,6 +1,6 @@
 <aside class="aside-navigation">
     <ul class="navigation-list">
-        @for (navItem of navigationList; track navItem.id) {
+        @for (navItem of navigationList(); track navItem.id) {
             <li class="navigation_item">
                 <button
                     type="button"

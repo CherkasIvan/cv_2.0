@@ -3,9 +3,10 @@ import { Observable, of } from 'rxjs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 
-import { ITechnologies } from '@app/core/models/technologies.interface';
-import { FirebaseService } from '@app/core/service/firebase/firebase.service';
-import { environment } from '@app/layout/environments/environment.development';
+import { ITechnologies } from '@core/models/technologies.interface';
+import { FirebaseService } from '@core/service/firebase/firebase.service';
+
+import { environment } from '@layout/environments/environment.development';
 
 import { TechnologiesComponent } from './technologies.component';
 
