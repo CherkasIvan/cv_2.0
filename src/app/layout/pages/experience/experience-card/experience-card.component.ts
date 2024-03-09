@@ -1,7 +1,7 @@
 import { NgClass, NgSwitch } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 
-import { IWorkExperience } from '@app/core/models/work-experience.interface';
+import { IWorkExperience } from '@core/models/work-experience.interface';
 
 @Component({
     selector: 'cv-experience-card',
@@ -11,8 +11,8 @@ import { IWorkExperience } from '@app/core/models/work-experience.interface';
     styleUrl: './experience-card.component.scss',
 })
 export class ExperienceCardComponent {
-    @Input() public experienceType: string = 'work';
-    @Input() public workDescription: IWorkExperience | null = null;
+    public experienceType = input.required<string>();
+    public workDescription = input<IWorkExperience | null>(null);
 
     constructor() {}
 

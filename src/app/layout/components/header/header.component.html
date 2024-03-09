@@ -1,9 +1,12 @@
 <nav class="navigation-header">
     <article class="header-logo">
-        <img
-            src="assets/images/white-mode/logo-i.cherkas-wm.svg"
-            alt="logo-i.cherkas-wm.svg"
-        />
+        <a class="header-logo_link">
+            <img
+                class="header-logo_link-img"
+                src="assets/images/white-mode/logo-i.cherkas-wm.svg"
+                alt="logo-i.cherkas-wm.svg"
+            />
+        </a>
     </article>
     <ul class="header-links">
         @for (itemLink of navigationLinks; track itemLink; let i = $index) {
