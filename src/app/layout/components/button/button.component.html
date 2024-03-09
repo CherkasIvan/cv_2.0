@@ -1,5 +1,20 @@
 <button
     class="general-button"
-    [attr.text]="buttonText"
-    [attr.hover-text]="buttonHoverText"
-></button>
+    (mouseover)="onHover()"
+    (mouseout)="onLeave()"
+>
+    <span
+        class="general-button_text"
+        [ngClass]="{ active: isHovered }"
+    >
+        {{ buttonText() }}
+    </span>
+    <span
+        class="general-button_text"
+        [ngClass]="{ active: !isHovered }"
+    >
+        <div class="absolute">
+            {{ buttonHoverText() }}
+        </div>
+    </span>
+</button>

@@ -5,9 +5,8 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 
 import { INavigation } from '@core/models/navigation.interface';
+import { ISocialMedia } from '@core/models/social-media.interface';
 import { FirebaseService } from '@core/service/firebase/firebase.service';
-
-import { ISocialMedia } from '@app/core/models/social-media.interface';
 
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';

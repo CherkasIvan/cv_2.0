@@ -2,27 +2,54 @@
 
 .general-button {
     display: flex;
-    align-items: center;
-    transition:
-        background-color 0.5s ease-in-out,
-        color 0.5s ease-in-out;
+    transition: max-width 0.5s ease-in-out;
     cursor: pointer;
     border-radius: 50px;
     background-color: color.$black;
     padding: 23px 40px;
+    overflow: hidden;
     color: color.$white;
     white-space: nowrap;
 }
 
-.general-button::before {
-    content: attr(text);
+.general-button_text:nth-child(1) {
+    transform: translateY(10px);
+    visibility: visible;
+    transition:
+        transform 0.5s ease-in-out,
+        opacity 0.5s ease-in-out;
+    &.active {
+        transform: translateY(-300%);
+        transition: transform 0.5s ease-in-out;
+    }
 }
 
-.general-button:hover::before {
-    content: attr(hover-text);
-}
+.general-button_text:nth-child(2) {
+    position: relative;
+    transform: translateY(-100px);
+    visibility: visible;
+    transition:
+        transform 0.5s ease-in-out,
+        opacity 0.5s ease-in-out;
+    width: fit-content;
 
-.general-button:hover {
-    background-color: color.$blue;
-    color: color.$white;
+    &.active {
+        transform: translateY(300%);
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .absolute {
+        display: flex;
+        position: absolute;
+        top: -10%;
+        left: -150px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: color.$blue;
+        width: 200px;
+        height: 200px;
+        line-height: 86px; // равно высоте кнопки минус вертикальные паддинги
+        text-align: center;
+    }
 }

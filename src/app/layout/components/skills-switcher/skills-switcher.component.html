@@ -2,13 +2,17 @@
     <ul class="skills-list">
         @for (skillItem of skillsList; track skillItem; let i = $index) {
             <li class="skill-item">
-                <button
-                    class="skill-item_button"
-                    [ngClass]="{ active: currentSkills === skillItem.link }"
-                    (click)="changeSkillsList(skillItem.link)"
+                <a
+                    class="skill-item_link"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    [ngClass]="{
+                        active: currentSkills === skillItem.link
+                    }"
+                    (click)="changeSkillsList(skillItem.link, $event)"
                 >
                     {{ skillItem.value }}
-                </button>
+                </a>
             </li>
         }
     </ul>

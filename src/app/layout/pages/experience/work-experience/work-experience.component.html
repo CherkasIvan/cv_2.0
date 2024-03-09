@@ -1,8 +1,8 @@
 <section class="work-experience">
-    @for (workPlace of workExperience$; track workPlace; let i = $index) {
+    @for (workPlace of workExperience$(); track workPlace; let i = $index) {
         <cv-experience-card
             [workDescription]="workPlace"
-            [experienceType]="selectedTabWork"
+            [experienceType]="selectedTabWork()"
         ></cv-experience-card>
     }
 </section>

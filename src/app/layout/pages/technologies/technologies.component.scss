@@ -2,6 +2,7 @@
     display: flex;
     column-gap: 62px;
     height: 100%;
+    overflow: scroll;
 
     .skills-list {
         width: 100%;
@@ -9,8 +10,10 @@
 
     &_stack {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(100px, auto));
         column-gap: 98px;
+        justify-items: center;
+        width: 100%;
         height: fit-content;
     }
 }
