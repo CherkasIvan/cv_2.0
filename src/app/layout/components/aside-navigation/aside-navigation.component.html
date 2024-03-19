@@ -15,7 +15,7 @@
                     <section class="skills-switcher">
                         <ul class="skills-list">
                             @for (
-                                skillItem of hardSkillsNavigation;
+                                skillItem of hardSkillsNavigation$ | async;
                                 track skillItem;
                                 let i = $index
                             ) {

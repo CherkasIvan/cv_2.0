@@ -13,10 +13,11 @@ import { IWorkExperience } from '@core/models/work-experience.interface';
 export class ExperienceCardComponent {
     public experienceType = input.required<string>();
     public workDescription = input<IWorkExperience | null>(null);
+    public experienceDescription = input<IWorkExperience | null>(null);
 
     constructor() {}
 
     ngOnInit() {
-        console.log(this.workDescription);
+        console.log(this.experienceDescription);
     }
 }

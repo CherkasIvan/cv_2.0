@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SkillsSwitcherComponent } from './skills-switcher.component';
+import { 404Component } from './404.component';
 
-describe('SkillsSwitcherComponent', () => {
-  let component: SkillsSwitcherComponent;
-  let fixture: ComponentFixture<SkillsSwitcherComponent>;
+describe('404Component', () => {
+  let component: 404Component;
+  let fixture: ComponentFixture<404Component>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SkillsSwitcherComponent]
+      imports: [404Component]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SkillsSwitcherComponent);
+    fixture = TestBed.createComponent(404Component);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
