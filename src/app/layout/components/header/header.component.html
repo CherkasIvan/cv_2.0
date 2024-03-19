@@ -1,4 +1,10 @@
-<nav class="navigation-header">
+<nav
+    class="navigation-header"
+    [ngClass]="{
+        'visible fade-in': navigationLinks && navigationLinks.length > 0,
+        hidden: !(navigationLinks && navigationLinks.length > 0)
+    }"
+>
     <article class="header-logo">
         <a class="header-logo_link">
             <img
