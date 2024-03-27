@@ -28,7 +28,10 @@ import {
     provideClientHydration,
     withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+    BrowserAnimationsModule,
+    provideAnimations,
+} from '@angular/platform-browser/animations';
 import {
     TitleStrategy,
     provideRouter,
@@ -58,6 +61,7 @@ export const appConfig: ApplicationConfig = {
             AngularFireModule.initializeApp(environment.firebase),
             AngularFireDatabaseModule,
             BrowserModule,
+            BrowserAnimationsModule,
             provideStorage(() => getStorage()),
             provideAuth(() => getAuth()),
             provideFirestore(() => getFirestore()),

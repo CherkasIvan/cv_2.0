@@ -9,8 +9,9 @@
     height: 100vh;
     overflow: hidden;
     .layout {
-        // background-color: black;
         display: flex;
+        // background-color: black;
+        position: relative;
         flex-direction: column;
         justify-content: space-between;
         height: 100vh;

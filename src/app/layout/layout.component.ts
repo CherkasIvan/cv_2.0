@@ -2,12 +2,15 @@ import { Observable } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
 import { FirebaseService } from '@core/service/firebase/firebase.service';
 
+import { routeAnimations } from '@app/core/utils/animations/router-animations';
+
+import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AuthComponent } from './pages/auth/auth.component';
@@ -15,11 +18,13 @@ import { AuthComponent } from './pages/auth/auth.component';
 @Component({
     selector: 'app-layout',
     standalone: true,
+    animations: [routeAnimations],
     imports: [
         FooterComponent,
         HeaderComponent,
         RouterOutlet,
         AuthComponent,
+        AnimationBgComponent,
         AsyncPipe,
     ],
     templateUrl: './layout.component.html',
@@ -32,6 +37,14 @@ export class LayoutComponent {
     public social$: Observable<ISocialMedia[]> =
         this._firebaseService.getSocialMediaLinks();
     constructor(private readonly _firebaseService: FirebaseService) {}
+
+    public prepareRoute(outlet: RouterOutlet) {
+        return (
+            outlet &&
+            outlet.activatedRouteData &&
+            outlet.activatedRouteData['animation']
+        );
+    }
 
     // public currentRoute!: string;
     // public navigation$: Observable<INavigation[]> =

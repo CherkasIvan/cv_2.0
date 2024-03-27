@@ -98,7 +98,7 @@ export class FirebaseService {
     }
 
     getHardSkillsNav(): Observable<INavigation[]> {
-        const hardSkillsNavRef = collection(this._firestore, 'hardSkillsNavCollection');
+        const hardSkillsNavRef = collection(this._firestore, 'hardSkillsNav');
         this.hardSkillsNavCollection$ = collectionData(hardSkillsNavRef, {
             idField: 'id',
         }) as Observable<INavigation[]>;
@@ -106,7 +106,10 @@ export class FirebaseService {
     }
 
     getEducationPlaces(): Observable<IWorkExperience[]> {
-        const educationExperienceRef = collection(this._firestore, 'educationExperience');
+        const educationExperienceRef = collection(
+            this._firestore,
+            'educationExperience',
+        );
         this.educationCollection$ = collectionData(educationExperienceRef, {
             idField: 'id',
         }) as Observable<IWorkExperience[]>;
