@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -20,7 +20,12 @@ import { TechnologyCardComponent } from './components/technology-card/technology
 @Component({
     selector: 'cv-technologies',
     standalone: true,
-    imports: [AsideNavigationComponent, TechnologyCardComponent, AsyncPipe],
+    imports: [
+        AsideNavigationComponent,
+        TechnologyCardComponent,
+        AsyncPipe,
+        NgClass,
+    ],
     templateUrl: './technologies.component.html',
     styleUrl: './technologies.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +49,6 @@ export class TechnologiesComponent {
         this._firebaseService.getFrontendTech();
 
     public technologiesSwitcher(tab: string): void {
-        console.log(tab);
         switch (tab) {
             case 'other':
                 this.otherTech$.subscribe((tech) => {
@@ -73,14 +77,11 @@ export class TechnologiesComponent {
         }
     }
 
-    public switch(e: any) {
-        console.log(e);
-    }
+    public switch(e: any) {}
 
     public switchTab($event: string) {
         this.selectedTab = $event;
         this.technologiesSwitcher(this.selectedTab);
-        console.log(this.selectedTab);
     }
 
     constructor(
@@ -90,6 +91,5 @@ export class TechnologiesComponent {
 
     ngOnInit(): void {
         this.technologiesSwitcher(this.selectedTab);
-        console.log(this.selectedTab);
     }
 }

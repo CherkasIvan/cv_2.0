@@ -3,8 +3,13 @@
         <header class="header">
             <cv-header [navigationLinks]="navigation$ | async"></cv-header>
         </header>
-        <main class="general">
-            <router-outlet></router-outlet>
+        <cv-animation-bg></cv-animation-bg>
+
+        <main
+            class="general"
+            [@routeAnimations]="prepareRoute(outlet)"
+        >
+            <router-outlet #outlet="outlet"></router-outlet>
         </main>
         <footer class="footer">
             <cv-footer [socialLinks$]="social$ | async"></cv-footer>

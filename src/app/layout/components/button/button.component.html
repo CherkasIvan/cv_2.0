@@ -10,10 +10,15 @@
         {{ buttonText() }}
     </span>
     <span
+        #generalButton
         class="general-button_text"
         [ngClass]="{ active: !isHovered }"
+        [ngStyle]="setActivePosition()"
     >
-        <div class="absolute">
+        <div
+            class="absolute"
+            [ngStyle]="setAbsoluteWidth()"
+        >
             {{ buttonHoverText() }}
         </div>
     </span>

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
     AngularFireDatabase,
     AngularFireList,
@@ -33,14 +33,12 @@ export class FirebaseService {
 
     navigationCollection$!: Observable<INavigation[]>;
     workExperienceCollection$!: Observable<IWorkExperience[]>;
-    educationCollection$!: Observable<IEducation[]>;
+    educationCollection$!: Observable<IWorkExperience[]>;
     socialMediaLinksCollection$!: Observable<ISocialMedia[]>;
+    hardSkillsNavCollection$!: Observable<INavigation[]>;
     charts$: AngularFireList<IFileUpload> | undefined;
 
-    constructor(
-        private db: AngularFireDatabase,
-        // private readonly _firestore: Firestore,
-    ) {}
+    constructor(private db: AngularFireDatabase) {}
 
     getFiles(numberItems: number): AngularFireList<IFileUpload> {
         return (this.charts$ = this.db.list(this.basePath, (ref) =>
@@ -97,5 +95,24 @@ export class FirebaseService {
             idField: 'id',
         }) as Observable<ITechnologies[]>;
         return this.frontendTechCollection$;
+    }
+
+    getHardSkillsNav(): Observable<INavigation[]> {
+        const hardSkillsNavRef = collection(this._firestore, 'hardSkillsNav');
+        this.hardSkillsNavCollection$ = collectionData(hardSkillsNavRef, {
+            idField: 'id',
+        }) as Observable<INavigation[]>;
+        return this.hardSkillsNavCollection$;
+    }
+
+    getEducationPlaces(): Observable<IWorkExperience[]> {
+        const educationExperienceRef = collection(
+            this._firestore,
+            'educationExperience',
+        );
+        this.educationCollection$ = collectionData(educationExperienceRef, {
+            idField: 'id',
+        }) as Observable<IWorkExperience[]>;
+        return this.educationCollection$;
     }
 }
