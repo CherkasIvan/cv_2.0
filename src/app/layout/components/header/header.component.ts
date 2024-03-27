@@ -11,7 +11,10 @@ import {
 
 import { INavigation } from '@core/models/navigation.interface';
 
+import { ModalDialogResult } from '@app/core/enum/modal-dialog.base.enum';
+
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
+import { LoginModalComponent } from '../login-modal/login-modal.component';
 
 @Component({
     selector: 'cv-header',
@@ -22,6 +25,7 @@ import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.co
         RouterLinkActive,
         NgClass,
         DarkModeToggleComponent,
+        LoginModalComponent,
     ],
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss',
@@ -32,6 +36,7 @@ export class HeaderComponent {
 
     public currentRoute: string = '';
     private _routerSubscription$: Subscription = new Subscription();
+    public isModalDialogVisible: boolean = false;
 
     constructor(private readonly _router: Router) {
         this._routerSubscription$.add(
@@ -43,10 +48,17 @@ export class HeaderComponent {
         );
     }
 
-    // public openLoginModal() {
-    //     this._modalService.openLoginModal();
-    //     // .subscribe((action)=> {
-    //     //   console.log('Action:' action)
-    //     // });
-    // }
+    public showDialog() {
+        this.isModalDialogVisible = true;
+    }
+
+    public closeModal(isConfirmed: any) {
+        this.isModalDialogVisible = false;
+        // if (isConfirmed) {
+        //   this.showToast('modal dialog', "modal dialog is confirmed");
+        // }
+        // else {
+        //   this.showToast('modal dialog', "modal dialog is closed");
+        // }
+    }
 }

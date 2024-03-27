@@ -49,7 +49,6 @@ export class TechnologiesComponent {
         this._firebaseService.getFrontendTech();
 
     public technologiesSwitcher(tab: string): void {
-        console.log(tab);
         switch (tab) {
             case 'other':
                 this.otherTech$.subscribe((tech) => {
@@ -78,9 +77,7 @@ export class TechnologiesComponent {
         }
     }
 
-    public switch(e: any) {
-        console.log(e);
-    }
+    public switch(e: any) {}
 
     public switchTab($event: string) {
         this.selectedTab = $event;

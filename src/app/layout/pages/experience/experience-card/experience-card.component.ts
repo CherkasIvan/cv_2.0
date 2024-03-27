@@ -17,7 +17,5 @@ export class ExperienceCardComponent {
 
     constructor() {}
 
-    ngOnInit() {
-        console.log(this.experienceDescription);
-    }
+    ngOnInit() {}
 }
