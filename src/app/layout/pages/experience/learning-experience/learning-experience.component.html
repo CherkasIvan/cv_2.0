@@ -1,3 +1,9 @@
-<cv-experience-card
-    [experienceType]="selectedTabLearning()"
-></cv-experience-card>
+
+<section class="learning-experience">
+  @for (learningPlace of learningExperience(); track learningPlace; let i = $index) {
+      <cv-experience-card
+          [experienceType]="selectedTabLearning()"
+          [experienceDescription]="learningPlace"
+      ></cv-experience-card>
+  }
+</section>

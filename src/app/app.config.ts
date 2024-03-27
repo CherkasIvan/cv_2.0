@@ -9,7 +9,8 @@ import {
 import {
     ApplicationConfig,
     enableProdMode,
-    importProvidersFrom, isDevMode,
+    importProvidersFrom,
+    isDevMode,
 } from '@angular/core';
 import {
     ScreenTrackingService,
@@ -27,21 +28,25 @@ import {
     provideClientHydration,
     withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+    BrowserAnimationsModule,
+    provideAnimations,
+} from '@angular/platform-browser/animations';
 import {
     TitleStrategy,
     provideRouter,
     withViewTransitions,
 } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
+
+import { provideEffects } from '@ngrx/effects';
+import { provideRouterStore, routerReducer } from '@ngrx/router-store';
+import { provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { CustomTitleStrategy } from './custom-title-strategy';
 import { environment } from './layout/environments/environment.development';
 import { MAIN_ROUTES } from './main.routes';
-import { provideStore } from '@ngrx/store';
-import { provideEffects } from '@ngrx/effects';
-import { provideRouterStore } from '@ngrx/router-store';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideServiceWorker } from '@angular/service-worker';
 
 if (environment.production) {
     enableProdMode();
@@ -49,27 +54,32 @@ if (environment.production) {
 
 export const appConfig: ApplicationConfig = {
     providers: [
-    provideHttpClient(withInterceptorsFromDi(), withFetch()),
-    provideAnimations(),
-    provideRouter(MAIN_ROUTES, withViewTransitions()),
-    importProvidersFrom([
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFireDatabaseModule,
-        BrowserModule,
-        provideStorage(() => getStorage()),
-        provideAuth(() => getAuth()),
-        provideFirestore(() => getFirestore()),
-        provideDatabase(() => getDatabase()),
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-    ]),
-    provideClientHydration(withHttpTransferCacheOptions({ includePostRequests: true })),
-    provideStore(),
-    provideEffects(),
-    provideRouterStore(),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
-    })
-],
+        provideHttpClient(withInterceptorsFromDi(), withFetch()),
+        provideAnimations(),
+        provideRouter(MAIN_ROUTES, withViewTransitions()),
+        importProvidersFrom([
+            AngularFireModule.initializeApp(environment.firebase),
+            AngularFireDatabaseModule,
+            BrowserModule,
+            BrowserAnimationsModule,
+            provideStorage(() => getStorage()),
+            provideAuth(() => getAuth()),
+            provideFirestore(() => getFirestore()),
+            provideDatabase(() => getDatabase()),
+            provideFirebaseApp(() => initializeApp(environment.firebase)),
+        ]),
+        provideClientHydration(
+            withHttpTransferCacheOptions({ includePostRequests: true }),
+        ),
+        provideStore({
+            router: routerReducer,
+        }),
+        provideEffects(),
+        provideRouterStore(),
+        provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+        provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
+    ],
 };

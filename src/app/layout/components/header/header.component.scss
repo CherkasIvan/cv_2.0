@@ -2,8 +2,10 @@
 
 .navigation-header {
     display: flex;
+    position: relative;
     justify-content: space-between;
     align-items: center;
+    z-index: 10;
     border: 10px solid color.$black;
     border-radius: 50px;
     padding: 0 50px;
@@ -99,4 +101,15 @@
             content: ' ';
         }
     }
+}
+.visible {
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+.visible.fade-in {
+    opacity: 1;
+}
+
+.hidden {
+    opacity: 0;
 }
