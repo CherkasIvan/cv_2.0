@@ -13,42 +13,39 @@
 }
 
 .general-button_text:nth-child(1) {
-    transform: translateY(10px);
+    transform: translateY(0);
     visibility: visible;
     transition:
-        transform 0.5s ease-in-out,
-        opacity 0.5s ease-in-out;
+        transform 1.2s ease-in-out,
+        opacity 1.2s ease-in-out;
     &.active {
         transform: translateY(-300%);
-        transition: transform 0.5s ease-in-out;
+        transition: transform 0.6s ease-in-out;
     }
 }
 
 .general-button_text:nth-child(2) {
     position: relative;
-    transform: translateY(-100px);
+    transform: translateY(-130px);
     visibility: visible;
     transition:
-        transform 0.5s ease-in-out,
-        opacity 0.5s ease-in-out;
-    width: fit-content;
+        transform 1s ease-in-out,
+        opacity 1s ease-in-out;
+    width: 100%;
 
     &.active {
-        transform: translateY(300%);
-        transition: transform 0.5s ease-in-out;
+        transform: translateY(600%);
+        transition: transform 1s ease-in-out;
     }
 
     .absolute {
         display: flex;
         position: absolute;
-        top: -10%;
-        left: -150px;
+        top: 40px;
         justify-content: center;
         align-items: center;
         border-radius: 50%;
         background-color: color.$blue;
-        width: 200px;
-        height: 200px;
         line-height: 86px; // равно высоте кнопки минус вертикальные паддинги
         text-align: center;
     }

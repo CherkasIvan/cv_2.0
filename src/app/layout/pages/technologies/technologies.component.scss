@@ -17,3 +17,25 @@
         height: fit-content;
     }
 }
+
+// .technologies_stack-column {
+//     @for $i from 1 through 3 {
+//         &:nth-of-type(#{$i}) {
+//             @if $i % 2 == 0 {
+//                 // Even columns
+//                 color: blue;
+//             } @else {
+//                 // Odd columns
+//                 color: red;
+//             }
+//         }
+//     }
+// }
+
+// .even {
+//     color: blue;
+// }
+
+// .odd {
+//     color: red;
+// }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SkillsSwitcherComponent } from './skills-switcher.component';
+import { AnimationBgComponent } from './animation-bg.component';
 
-describe('SkillsSwitcherComponent', () => {
-  let component: SkillsSwitcherComponent;
-  let fixture: ComponentFixture<SkillsSwitcherComponent>;
+describe('AnimationBgComponent', () => {
+  let component: AnimationBgComponent;
+  let fixture: ComponentFixture<AnimationBgComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SkillsSwitcherComponent]
+      imports: [AnimationBgComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(SkillsSwitcherComponent);
+    fixture = TestBed.createComponent(AnimationBgComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

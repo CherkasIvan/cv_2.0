@@ -16,6 +16,7 @@
             @case ('learning') {
                 <cv-learning-experience
                     [selectedTabLearning]="selectedTab"
+                    [learningExperience]="learningPlace$ | async"
                 ></cv-learning-experience>
             }
             @default {

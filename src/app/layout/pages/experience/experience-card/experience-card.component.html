@@ -34,8 +34,8 @@
             </button>
             <div class="card-info">
                 <span class="card-info_place">курс</span>
-                <span class="card-info_place-name">TeachMeSkills</span>
-                <span class="card-info_time">Сентябрь 2020 - Июль 2021</span>
+                <span class="card-info_place-name">{{ experienceDescription()?.company }}</span>
+                <span class="card-info_time">{{ experienceDescription()?.from }} - {{ experienceDescription()?.to }}</span>
             </div>
         </article>
     }

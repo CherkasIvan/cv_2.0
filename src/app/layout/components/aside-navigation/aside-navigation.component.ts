@@ -1,6 +1,6 @@
-import { findIndex } from 'rxjs';
+import { Observable, find, findIndex } from 'rxjs';
 
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectorRef,
     Component,
@@ -15,11 +15,13 @@ import {
 import { RouterLinkActive } from '@angular/router';
 
 import { TExperienceAside } from '@app/core/models/experience-aside.type';
+import { INavigation } from '@app/core/models/navigation.interface';
+import { FirebaseService } from '@app/core/service/firebase/firebase.service';
 
 @Component({
     selector: 'cv-aside-navigation',
     standalone: true,
-    imports: [NgClass, RouterLinkActive],
+    imports: [NgClass, RouterLinkActive, AsyncPipe],
     templateUrl: './aside-navigation.component.html',
     styleUrl: './aside-navigation.component.scss',
 })
@@ -27,13 +29,14 @@ export class AsideNavigationComponent implements OnInit {
     public navigationList = input<TExperienceAside[]>([]);
     @Output() public emittedTab = new EventEmitter<string>();
     public currentSkills: string = '';
-    public hardSkillsNavigation: any = [
-        { id: 1, link: 'front', value: 'Навыки стороны клиента' },
-        { id: 2, link: 'back', value: 'Навыки стороны сервера' },
-    ];
+    public hardSkillsNavigation$: Observable<INavigation[]> =
+        this._firebaseService.getHardSkillsNav();
     public selectedTab: string = '';
 
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private _firebaseService: FirebaseService,
+    ) {}
 
     public changeTab(tab: string) {
         this.selectedTab = tab;
@@ -60,6 +63,17 @@ export class AsideNavigationComponent implements OnInit {
         this.cdr.detectChanges();
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.selectedTab === '' ? this._tab() : this.selectedTab;
+        this.selectedTab === 'tech'
+            ? this.hardSkillsNavigation$.subscribe((skills) => {
+                  skills.find((skill) => {
+                      skill.id === '1';
+                      return (this.currentSkills = skill.link);
+                  });
+              })
+            : null;
+        this.emittedTab.emit(this.currentSkills);
+    }
 }
 // this.navigationList[0].value
