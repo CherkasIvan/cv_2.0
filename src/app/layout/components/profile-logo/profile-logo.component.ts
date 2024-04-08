@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cv-profile-logo',
-  standalone: true,
-  imports: [],
-  templateUrl: './profile-logo.component.html',
-  styleUrl: './profile-logo.component.scss'
+    selector: 'cv-profile-logo',
+    standalone: true,
+    imports: [],
+    templateUrl: './profile-logo.component.html',
+    styleUrl: './profile-logo.component.scss',
 })
-export class ProfileLogoComponent {
-
-}
+export class ProfileLogoComponent {}

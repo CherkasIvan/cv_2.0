@@ -1,7 +1,13 @@
 import { Subscription } from 'rxjs';
 
 import { NgClass, NgFor } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    Output,
+} from '@angular/core';
 import {
     NavigationEnd,
     Router,
@@ -33,6 +39,7 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
 })
 export class HeaderComponent {
     @Input() public navigationLinks: INavigation[] | null = [];
+    @Output() public emittedModal = new EventEmitter<boolean>();
 
     public currentRoute: string = '';
     private _routerSubscription$: Subscription = new Subscription();
@@ -50,6 +57,7 @@ export class HeaderComponent {
 
     public showDialog() {
         this.isModalDialogVisible = true;
+        this.emittedModal.emit(true);
     }
 
     public closeModal(isConfirmed: any) {

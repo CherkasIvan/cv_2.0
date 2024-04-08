@@ -1,10 +1,12 @@
 <div class="animation-bg">
     <ul class="circles-list">
-        <li
-            class="circle-element"
-            [@bgLayoutAnimation]="animationState"
-        >
-            <div class="circle-element_img"></div>
-        </li>
+        @for (item of animationCircles; track $index) {
+            <li class="circle-element">
+                <div
+                    class="circle-element_img"
+                    [ngStyle]="item"
+                ></div>
+            </li>
+        }
     </ul>
 </div>
