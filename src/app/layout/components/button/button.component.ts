@@ -53,9 +53,6 @@ export class ButtonComponent {
     }
 
     public setActivePosition() {
-        const btnElement = <HTMLElement>(
-            this.el.nativeElement.querySelector('.active')
-        );
         if (this.buttonText().length > 11 && this.isHovered) {
             return this._activePosition;
         } else {

@@ -6,9 +6,10 @@
         justify-content: space-between;
         .fullname-img {
             display: flex;
+            column-gap: 56px;
             align-items: flex-end;
             .fullname {
-                font-size: 140px;
+                font-size: calc(20px + 120 * (100vw / 1920));
                 font-family: 'RS-semibold';
                 text-transform: uppercase;
                 white-space: nowrap;
@@ -17,6 +18,7 @@
 
         .description-projects-stack {
             display: flex;
+            align-items: center;
 
             .description {
                 align-self: center;
@@ -25,10 +27,25 @@
             }
 
             .stack {
-                font-size: 140px;
+                font-size: calc(20px + 120 * (100vw / 1920));
                 font-family: 'RS-semibold';
                 text-transform: uppercase;
                 white-space: nowrap;
+            }
+
+            .projects-button {
+                max-width: 235px;
+                max-height: 112px;
+
+                &_link {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                &_img {
+                    border-radius: 50px;
+                }
             }
         }
 
@@ -38,7 +55,7 @@
             align-items: center;
             .status {
                 margin-right: 40px;
-                font-size: 140px;
+                font-size: calc(20px + 120 * (100vw / 1920));
                 font-family: 'RS-semibold';
                 text-transform: uppercase;
             }

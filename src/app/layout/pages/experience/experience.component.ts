@@ -38,9 +38,10 @@ export class ExperienceComponent {
     public selectedTab: string = '';
 
     public learningPlace$: Observable<IWorkExperience[]> =
-    this._firebaseService.getEducationPlaces();
+        this._firebaseService.getEducationPlaces();
 
     public switchTab($event: string) {
+        console.log($event);
         this.selectedTab = $event;
     }
 
