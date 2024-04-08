@@ -13,6 +13,7 @@ import { routeAnimations } from '@app/core/utils/animations/router-animations';
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
+import { LoginModalComponent } from './components/login-modal/login-modal.component';
 import { AuthComponent } from './pages/auth/auth.component';
 
 @Component({
@@ -25,12 +26,19 @@ import { AuthComponent } from './pages/auth/auth.component';
         RouterOutlet,
         AuthComponent,
         AnimationBgComponent,
+        LoginModalComponent,
         AsyncPipe,
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',
 })
 export class LayoutComponent {
+    public isModalDialogVisible: boolean = false;
+
+    public getModalInstance($event: boolean) {
+        console.log($event);
+        this.isModalDialogVisible = $event;
+    }
     public navigation$: Observable<INavigation[]> =
         this._firebaseService.getNavigation();
 
@@ -46,6 +54,15 @@ export class LayoutComponent {
         );
     }
 
+    public closeModal(isConfirmed: any) {
+        this.isModalDialogVisible = false;
+        // if (isConfirmed) {
+        //   this.showToast('modal dialog', "modal dialog is confirmed");
+        // }
+        // else {
+        //   this.showToast('modal dialog', "modal dialog is closed");
+        // }
+    }
     // public currentRoute!: string;
     // public navigation$: Observable<INavigation[]> =
     //     this._firebaseService.getNavigation();

@@ -1,7 +1,10 @@
 <div class="layout-container">
     <main class="layout">
         <header class="header">
-            <cv-header [navigationLinks]="navigation$ | async"></cv-header>
+            <cv-header
+                [navigationLinks]="navigation$ | async"
+                (emittedModal)="getModalInstance($event)"
+            ></cv-header>
         </header>
         <cv-animation-bg></cv-animation-bg>
 
@@ -15,4 +18,12 @@
             <cv-footer [socialLinks$]="social$ | async"></cv-footer>
         </footer>
     </main>
+
+    @if (isModalDialogVisible) {
+        <cv-login-modal
+            header="'header.value'"
+            description="description.value"
+            (isConfirmed)="closeModal($event)"
+        ></cv-login-modal>
+    }
 </div>

@@ -6,5 +6,6 @@ export interface IWorkExperience {
     to: string;
     place: string;
     link: string;
+    specialization: string;
     workTime?: string;
 }
