@@ -16,7 +16,7 @@
     .header-logo {
         &_link,
         &_link > * {
-            width: 240px;
+            width: calc(100px + 140 * (100vw / 1920));
         }
     }
 

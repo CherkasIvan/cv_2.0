@@ -14,6 +14,7 @@ import { AnimationBgComponent } from './components/animation-bg/animation-bg.com
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LoginModalComponent } from './components/login-modal/login-modal.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AuthComponent } from './pages/auth/auth.component';
 
 @Component({
@@ -28,6 +29,7 @@ import { AuthComponent } from './pages/auth/auth.component';
         AnimationBgComponent,
         LoginModalComponent,
         AsyncPipe,
+        SpinnerComponent,
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',

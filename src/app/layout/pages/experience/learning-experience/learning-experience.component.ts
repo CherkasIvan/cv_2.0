@@ -4,9 +4,10 @@ import {
     Input,
     input,
 } from '@angular/core';
-import { IWorkExperience } from '@app/core/models/work-experience.interface';
 
 import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
+
+import { IWorkExperience } from '@app/core/models/work-experience.interface';
 
 @Component({
     selector: 'cv-learning-experience',
@@ -18,5 +19,5 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
 })
 export class LearningExperienceComponent {
     public selectedTabLearning = input<string>('');
-    public learningExperience = input.required<IWorkExperience[] | null>()
+    public learningExperience = input.required<IWorkExperience[] | null>();
 }

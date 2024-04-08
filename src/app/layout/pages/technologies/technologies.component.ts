@@ -54,7 +54,7 @@ export class TechnologiesComponent {
                 this.otherTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
-                        this.cdr.markForCheck();
+                        this._cdr.markForCheck();
                     }
                 });
                 break;
@@ -62,7 +62,7 @@ export class TechnologiesComponent {
                 this.frontendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
-                        this.cdr.markForCheck();
+                        this._cdr.markForCheck();
                     }
                 });
                 break;
@@ -70,7 +70,7 @@ export class TechnologiesComponent {
                 this.backendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
-                        this.cdr.markForCheck();
+                        this._cdr.markForCheck();
                     }
                 });
                 break;
@@ -86,7 +86,7 @@ export class TechnologiesComponent {
 
     constructor(
         private _firebaseService: FirebaseService,
-        private cdr: ChangeDetectorRef,
+        private _cdr: ChangeDetectorRef,
     ) {}
 
     ngOnInit(): void {

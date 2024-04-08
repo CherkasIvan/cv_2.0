@@ -22,7 +22,7 @@
 
             .description {
                 align-self: center;
-                font-size: 16px;
+                font-size: calc(14px + 4 * (100vw / 1920));
                 font-family: 'RS-extralight';
             }
 
@@ -34,8 +34,8 @@
             }
 
             .projects-button {
-                max-width: 235px;
-                max-height: 112px;
+                width: calc(115px + 120 * (100vw / 1920));
+                height: calc(100px + 12 * (100vh / 1080));
 
                 &_link {
                     display: block;
