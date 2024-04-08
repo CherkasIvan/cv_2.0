@@ -1,375 +1,1111 @@
-<!DOCTYPE html>
+<!doctype html>
 <!-- saved from url=(0041)http://localhost:4200/layout/technologies -->
-<html lang="en" fire-extension-installed="XMvsgsdM"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <script type="module" src="./Cv20_files/client"></script>
+<html
+    lang="en"
+    fire-extension-installed="XMvsgsdM"
+>
+    <head>
+        <meta
+            http-equiv="Content-Type"
+            content="text/html; charset=UTF-8"
+        />
+        <script
+            type="module"
+            src="./Cv20_files/client"
+        ></script>
 
-        
         <title>Cv20</title>
-        <!--<base href="/">--><base href=".">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" type="image/x-icon" href="http://localhost:4200/favicon.ico">
-      <link rel="manifest" href="http://localhost:4200/manifest.webmanifest">
-  <meta name="theme-color" content="#1976d2">
-<link rel="stylesheet" href="./Cv20_files/styles.css"><style ng-style-reused="">
+        <!--<base href="/">-->
+        <base href="." />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+        />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="http://localhost:4200/favicon.ico"
+        />
+        <link
+            rel="manifest"
+            href="http://localhost:4200/manifest.webmanifest"
+        />
+        <meta
+            name="theme-color"
+            content="#1976d2"
+        />
+        <link
+            rel="stylesheet"
+            href="./Cv20_files/styles.css"
+        />
+        <style ng-style-reused=""></style>
+        <style ng-style-reused="">
+            .layout-container[_ngcontent-ng-c813166043] {
+                background-image: url('./media/background-main-menu.png');
+                background-size: cover;
+                background-color: #f6f6f7;
+                padding: 40px 135px 60px;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+            }
+            .layout-container[_ngcontent-ng-c813166043]
+                .layout[_ngcontent-ng-c813166043] {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 100vh;
+                max-height: 100vh;
+            }
+            .layout-container[_ngcontent-ng-c813166043]
+                .layout[_ngcontent-ng-c813166043]
+                .general[_ngcontent-ng-c813166043] {
+                padding-top: 60px;
+                height: 100%;
+            }
+        </style>
+        <style ng-style-reused="">
+            .navigation-header[_ngcontent-ng-c272844734] {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border: 10px solid #000000;
+                border-radius: 50px;
+                padding: 0 50px;
+                height: 96px;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-logo_link[_ngcontent-ng-c272844734],
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-logo_link[_ngcontent-ng-c272844734]
+                > *[_ngcontent-ng-c272844734] {
+                width: 240px;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links[_ngcontent-ng-c272844734] {
+                display: flex;
+                column-gap: 30px;
+                height: 100%;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .item-link[_ngcontent-ng-c272844734] {
+                display: flex;
+                position: relative;
+                align-items: center;
+                transition: color 0.5s ease-in-out;
+                cursor: pointer;
+                height: 100%;
+                color: #000000;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .item-link_text[_ngcontent-ng-c272844734]::first-letter {
+                text-transform: uppercase;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .active[_ngcontent-ng-c272844734]::before,
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .active[_ngcontent-ng-c272844734]::after {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .active[_ngcontent-ng-c272844734]::before {
+                left: -15px;
+                content: '<';
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .active[_ngcontent-ng-c272844734]::after {
+                right: -20px;
+                content: '/>';
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .active[_ngcontent-ng-c272844734]::before,
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .active[_ngcontent-ng-c272844734]::after {
+                opacity: 1;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .active[_ngcontent-ng-c272844734] {
+                color: #0000ff;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .item-link[_ngcontent-ng-c272844734]:focus,
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .item-link[_ngcontent-ng-c272844734]:active {
+                color: #0000ff;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-links_item[_ngcontent-ng-c272844734]
+                .item-link[_ngcontent-ng-c272844734]:hover {
+                color: #0000ff;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-buttons[_ngcontent-ng-c272844734] {
+                display: flex;
+                column-gap: 20px;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-buttons_language[_ngcontent-ng-c272844734] {
+                padding-right: 10px;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-buttons_login[_ngcontent-ng-c272844734] {
+                position: relative;
+                padding-left: 30px;
+            }
+            .navigation-header[_ngcontent-ng-c272844734]
+                .header-buttons_login[_ngcontent-ng-c272844734]:before {
+                position: absolute;
+                top: -5px;
+                left: -2px;
+                background: #999a9c;
+                width: 2px;
+                height: 30px;
+                content: ' ';
+            }
+            .visible[_ngcontent-ng-c272844734] {
+                opacity: 0;
+                transition: opacity 1.5s ease-in-out;
+            }
+            .visible.fade-in[_ngcontent-ng-c272844734] {
+                opacity: 1;
+            }
+            .hidden[_ngcontent-ng-c272844734] {
+                opacity: 0;
+            }
+        </style>
+        <style ng-style-reused="">
+            .animation-bg[_ngcontent-ng-c75327838] {
+                width: 100%;
+                height: 10%;
+            }
+        </style>
+        <style ng-style-reused="">
+            .footer[_ngcontent-ng-c2064542086] {
+                display: flex;
+                position: fixed;
+                bottom: 60px;
+                left: 10%;
+                column-gap: 30px;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links[_ngcontent-ng-c2064542086] {
+                display: flex;
+                column-gap: 80.3px;
+                align-items: center;
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
+                transition: background-color 0.5s ease-in-out;
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                border-radius: 30px;
+                border-radius: 40px;
+                background: rgba(255, 255, 255, 0.4);
+                padding: 23px 65px;
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link[_ngcontent-ng-c2064542086] {
+                display: flex;
+                position: relative;
+                align-items: center;
+                transition: color 0.5s ease-in-out;
+                cursor: pointer;
+                height: 100%;
+                color: #000000;
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link_text[_ngcontent-ng-c2064542086] {
+                text-transform: uppercase;
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link[_ngcontent-ng-c2064542086]::before,
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link[_ngcontent-ng-c2064542086]::after {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link[_ngcontent-ng-c2064542086]::before {
+                left: -10px;
+                content: '[';
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link[_ngcontent-ng-c2064542086]::after {
+                right: -10px;
+                content: ']';
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link[_ngcontent-ng-c2064542086]:hover::before,
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link[_ngcontent-ng-c2064542086]:hover::after {
+                opacity: 1;
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links_item[_ngcontent-ng-c2064542086]
+                .item-link[_ngcontent-ng-c2064542086]:hover {
+                color: #0000ff;
+            }
+            .footer[_ngcontent-ng-c2064542086]
+                .footer-links[_ngcontent-ng-c2064542086]:hover {
+                background-color: #ffffff;
+            }
+        </style>
+        <style ng-style-reused="">
+            .dark-mode-toggle[_ngcontent-ng-c2213313691] {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 50px;
+                height: 25px;
+            }
+            .dark-mode-toggle__input[_ngcontent-ng-c2213313691] {
+                visibility: hidden;
+                width: 0;
+                height: 0;
+            }
+            .dark-mode-toggle__input[_ngcontent-ng-c2213313691]:checked
+                + label[_ngcontent-ng-c2213313691] {
+                background: #242424;
+            }
+            .dark-mode-toggle__input[_ngcontent-ng-c2213313691]:checked
+                + label[_ngcontent-ng-c2213313691]:after {
+                left: 48.5px;
+                transform: translateX(-100%);
+                background-position: center;
+                background-size: contain;
+            }
+            .dark-mode-toggle__label[_ngcontent-ng-c2213313691],
+            .dark-mode-toggle__label[_ngcontent-ng-c2213313691]:after {
+                transition: 0.3s;
+            }
+            .dark-mode-toggle__label[_ngcontent-ng-c2213313691] {
+                display: block;
+                position: relative;
+                cursor: pointer;
+                box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4);
+                border-radius: 50px;
+                background: #ebebeb;
+                width: 100%;
+                height: 25px;
+            }
+            .dark-mode-toggle__label[_ngcontent-ng-c2213313691]::after {
+                position: absolute;
+                top: 1.5px;
+                left: 1px;
+                border-radius: 22px;
+                background-position: center;
+                background-size: contain;
+                width: 22px;
+                height: 22px;
+                content: '';
+            }
+            .dark-mode-toggle__label[_ngcontent-ng-c2213313691]:active:after {
+                width: 27px;
+            }
+        </style>
+        <style ng-style-reused="">
+            .general-button[_ngcontent-ng-c1259203187] {
+                display: flex;
+                transition: max-width 0.5s ease-in-out;
+                cursor: pointer;
+                border-radius: 50px;
+                background-color: #000000;
+                padding: 23px 40px;
+                overflow: hidden;
+                color: #ffffff;
+                white-space: nowrap;
+            }
+            .general-button_text[_ngcontent-ng-c1259203187]:nth-child(1) {
+                transform: translateY(0);
+                visibility: visible;
+                transition:
+                    transform 1.2s ease-in-out,
+                    opacity 1.2s ease-in-out;
+            }
+            .general-button_text[_ngcontent-ng-c1259203187]:nth-child(
+                    1
+                ).active {
+                transform: translateY(-300%);
+                transition: transform 0.6s ease-in-out;
+            }
+            .general-button_text[_ngcontent-ng-c1259203187]:nth-child(2) {
+                position: relative;
+                transform: translateY(-130px);
+                visibility: visible;
+                transition:
+                    transform 1s ease-in-out,
+                    opacity 1s ease-in-out;
+                width: 100%;
+            }
+            .general-button_text[_ngcontent-ng-c1259203187]:nth-child(
+                    2
+                ).active {
+                transform: translateY(600%);
+                transition: transform 1s ease-in-out;
+            }
+            .general-button_text[_ngcontent-ng-c1259203187]:nth-child(2)
+                .absolute[_ngcontent-ng-c1259203187] {
+                display: flex;
+                position: absolute;
+                top: 40px;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                background-color: #0000ff;
+                line-height: 86px;
+                text-align: center;
+            }
+        </style>
+        <style ng-style-reused="">
+            .technologies[_ngcontent-ng-c1196504650] {
+                display: flex;
+                column-gap: 62px;
+                height: 100%;
+                overflow: scroll;
+            }
+            .technologies[_ngcontent-ng-c1196504650]
+                .skills-list[_ngcontent-ng-c1196504650] {
+                width: 100%;
+            }
+            .technologies_stack[_ngcontent-ng-c1196504650] {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                column-gap: 98px;
+                justify-items: center;
+                width: 100%;
+                height: fit-content;
+            }
+        </style>
+        <style ng-style-reused="">
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .navigation-list[_ngcontent-ng-c2998911466] {
+                display: flex;
+                row-gap: 30px;
+                flex-direction: column;
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .navigation-list[_ngcontent-ng-c2998911466]
+                .item-button[_ngcontent-ng-c2998911466] {
+                cursor: pointer;
+                background-color: transparent;
+                color: #999a9c;
+                font-size: 50px;
+                line-height: 51.1px;
+                font-family: 'RS-regular';
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466] {
+                display: flex;
+                row-gap: 20px;
+                flex-direction: column;
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item_link[_ngcontent-ng-c2998911466] {
+                position: relative;
+                align-items: center;
+                transition: color 0.5s ease-in-out;
+                cursor: pointer;
+                color: #000000;
+                font-size: 20px;
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item[_ngcontent-ng-c2998911466]
+                .active[_ngcontent-ng-c2998911466] {
+                color: #0000ff;
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item[_ngcontent-ng-c2998911466]
+                .active[_ngcontent-ng-c2998911466]::before,
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item[_ngcontent-ng-c2998911466]
+                .active[_ngcontent-ng-c2998911466]::after {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item[_ngcontent-ng-c2998911466]
+                .active[_ngcontent-ng-c2998911466]::after {
+                left: -15px;
+                content: '<';
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item[_ngcontent-ng-c2998911466]
+                .active[_ngcontent-ng-c2998911466]::before {
+                right: -15px;
+                content: '>';
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item[_ngcontent-ng-c2998911466]
+                .active[_ngcontent-ng-c2998911466]::before,
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item[_ngcontent-ng-c2998911466]
+                .active[_ngcontent-ng-c2998911466]::after {
+                opacity: 1;
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item_link[_ngcontent-ng-c2998911466]:hover {
+                color: #0000ff;
+            }
+            .aside-navigation[_ngcontent-ng-c2998911466]
+                .skills-switcher[_ngcontent-ng-c2998911466]
+                .skills-list[_ngcontent-ng-c2998911466]
+                .skill-item_link[_ngcontent-ng-c2998911466] {
+                position: relative;
+                align-items: center;
+                transition: color 0.5s ease-in-out;
+                cursor: pointer;
+                color: #000000;
+                font-size: 20px;
+            }
+            .active[_ngcontent-ng-c2998911466] {
+                color: #000000;
+            }
+        </style>
+    </head>
+    <body>
+        <!--nghm-->
+        <app-root
+            _nghost-ng-c3984273398=""
+            ng-version="17.2.4"
+            ng-server-context="ssr"
+        >
+            <router-outlet _ngcontent-ng-c3984273398=""></router-outlet>
+            <app-layout
+                _nghost-ng-c813166043=""
+                ng-version="17.2.4"
+            >
+                <div
+                    _ngcontent-ng-c813166043=""
+                    class="layout-container"
+                >
+                    <main
+                        _ngcontent-ng-c813166043=""
+                        class="layout"
+                    >
+                        <header
+                            _ngcontent-ng-c813166043=""
+                            class="header"
+                        >
+                            <cv-header
+                                _ngcontent-ng-c813166043=""
+                                _nghost-ng-c272844734=""
+                                ng-reflect-navigation-links="[object Object],[object Object"
+                            >
+                                <nav
+                                    _ngcontent-ng-c272844734=""
+                                    class="navigation-header visible fade-in"
+                                    ng-reflect-ng-class="[object Object]"
+                                >
+                                    <article
+                                        _ngcontent-ng-c272844734=""
+                                        class="header-logo"
+                                    >
+                                        <a
+                                            _ngcontent-ng-c272844734=""
+                                            class="header-logo_link"
+                                        >
+                                            <img
+                                                _ngcontent-ng-c272844734=""
+                                                src="./Cv20_files/logo-i.cherkas-wm.svg"
+                                                alt="logo-i.cherkas-wm.svg"
+                                                class="header-logo_link-img"
+                                            />
+                                        </a>
+                                    </article>
+                                    <ul
+                                        _ngcontent-ng-c272844734=""
+                                        class="header-links"
+                                    >
+                                        <li
+                                            _ngcontent-ng-c272844734=""
+                                            class="header-links_item"
+                                            tabindex="0"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c272844734=""
+                                                routerlinkactive="active"
+                                                class="item-link"
+                                                ng-reflect-router-link-active="active"
+                                                ng-reflect-router-link="projects"
+                                                ng-reflect-router-link-active-options="[object Object]"
+                                                href="http://localhost:4200/layout/projects"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c272844734=""
+                                                    class="item-link_text"
+                                                >
+                                                    проекты
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c272844734=""
+                                            class="header-links_item"
+                                            tabindex="1"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c272844734=""
+                                                routerlinkactive="active"
+                                                class="item-link"
+                                                ng-reflect-router-link-active="active"
+                                                ng-reflect-router-link="experience"
+                                                ng-reflect-router-link-active-options="[object Object]"
+                                                href="http://localhost:4200/layout/experience"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c272844734=""
+                                                    class="item-link_text"
+                                                >
+                                                    опыт работы и образование
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c272844734=""
+                                            class="header-links_item"
+                                            tabindex="2"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c272844734=""
+                                                routerlinkactive="active"
+                                                class="item-link"
+                                                ng-reflect-router-link-active="active"
+                                                ng-reflect-router-link="main"
+                                                ng-reflect-router-link-active-options="[object Object]"
+                                                href="http://localhost:4200/layout/main"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c272844734=""
+                                                    class="item-link_text"
+                                                >
+                                                    главная
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c272844734=""
+                                            class="header-links_item"
+                                            tabindex="3"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c272844734=""
+                                                routerlinkactive="active"
+                                                class="item-link active"
+                                                ng-reflect-router-link-active="active"
+                                                ng-reflect-router-link="technologies"
+                                                ng-reflect-router-link-active-options="[object Object]"
+                                                href="http://localhost:4200/layout/technologies"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c272844734=""
+                                                    class="item-link_text"
+                                                >
+                                                    технологии
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <!--container-->
+                                    </ul>
+                                    <aside
+                                        _ngcontent-ng-c272844734=""
+                                        class="header-buttons"
+                                    >
+                                        <cv-dark-mode-toggle
+                                            _ngcontent-ng-c272844734=""
+                                            _nghost-ng-c2213313691=""
+                                        >
+                                            <div
+                                                _ngcontent-ng-c2213313691=""
+                                                class="dark-mode-toggle"
+                                            >
+                                                <input
+                                                    _ngcontent-ng-c2213313691=""
+                                                    type="checkbox"
+                                                    name="dark-mode-toggle"
+                                                    id="darkmode-toggle"
+                                                    class="dark-mode-toggle__input"
+                                                    value="false"
+                                                />
+                                                <label
+                                                    _ngcontent-ng-c2213313691=""
+                                                    for="darkmode-toggle"
+                                                    class="dark-mode-toggle__label"
+                                                ></label>
+                                            </div>
+                                        </cv-dark-mode-toggle>
+                                        <button
+                                            _ngcontent-ng-c272844734=""
+                                            class="header-buttons_language"
+                                        >
+                                            EN
+                                        </button>
+                                        <button
+                                            _ngcontent-ng-c272844734=""
+                                            class="header-buttons_login"
+                                        >
+                                            Вход
+                                        </button>
+                                    </aside>
+                                </nav>
+                                <!--container-->
+                            </cv-header>
+                        </header>
+                        <cv-animation-bg
+                            _ngcontent-ng-c813166043=""
+                            _nghost-ng-c75327838=""
+                        >
+                            <div
+                                _ngcontent-ng-c75327838=""
+                                class="animation-bg"
+                            >
+                                <ul
+                                    _ngcontent-ng-c75327838=""
+                                    class="circles-list"
+                                >
+                                    <li
+                                        _ngcontent-ng-c75327838=""
+                                        class="circle-element"
+                                    ></li>
+                                </ul>
+                            </div>
+                        </cv-animation-bg>
+                        <main
+                            _ngcontent-ng-c813166043=""
+                            class="general"
+                        >
+                            <router-outlet
+                                _ngcontent-ng-c813166043=""
+                            ></router-outlet>
+                            <cv-technologies
+                                _nghost-ng-c1196504650=""
+                                ng-version="17.2.4"
+                            >
+                                <div
+                                    _ngcontent-ng-c1196504650=""
+                                    class="technologies"
+                                >
+                                    <aside
+                                        _ngcontent-ng-c1196504650=""
+                                        class="technologies_navigation"
+                                    >
+                                        <cv-aside-navigation
+                                            _ngcontent-ng-c1196504650=""
+                                            _nghost-ng-c2998911466=""
+                                            ng-reflect-navigation-list="[object Object],[object Object"
+                                        >
+                                            <aside
+                                                _ngcontent-ng-c2998911466=""
+                                                class="aside-navigation"
+                                            >
+                                                <ul
+                                                    _ngcontent-ng-c2998911466=""
+                                                    class="navigation-list"
+                                                >
+                                                    <li
+                                                        _ngcontent-ng-c2998911466=""
+                                                        class="navigation_item"
+                                                    >
+                                                        <button
+                                                            _ngcontent-ng-c2998911466=""
+                                                            type="button"
+                                                            class="item-button"
+                                                        >
+                                                            <a
+                                                                _ngcontent-ng-c2998911466=""
+                                                                ng-reflect-ng-class="[object Object]"
+                                                                class="active"
+                                                            >
+                                                                Технические
+                                                                навыки
+                                                            </a>
+                                                        </button>
+                                                        <section
+                                                            _ngcontent-ng-c2998911466=""
+                                                            class="skills-switcher"
+                                                        >
+                                                            <ul
+                                                                _ngcontent-ng-c2998911466=""
+                                                                class="skills-list"
+                                                            >
+                                                                <li
+                                                                    _ngcontent-ng-c2998911466=""
+                                                                    class="skill-item"
+                                                                >
+                                                                    <a
+                                                                        _ngcontent-ng-c2998911466=""
+                                                                        routerlinkactive="active"
+                                                                        class="skill-item_link active"
+                                                                        ng-reflect-router-link-active="active"
+                                                                        ng-reflect-router-link-active-options="[object Object]"
+                                                                        ng-reflect-ng-class="[object Object]"
+                                                                    >
+                                                                        Навыки
+                                                                        стороны
+                                                                        клиента
+                                                                    </a>
+                                                                </li>
+                                                                <li
+                                                                    _ngcontent-ng-c2998911466=""
+                                                                    class="skill-item"
+                                                                >
+                                                                    <a
+                                                                        _ngcontent-ng-c2998911466=""
+                                                                        routerlinkactive="active"
+                                                                        class="skill-item_link"
+                                                                        ng-reflect-router-link-active="active"
+                                                                        ng-reflect-router-link-active-options="[object Object]"
+                                                                        ng-reflect-ng-class="[object Object]"
+                                                                    >
+                                                                        Навыки
+                                                                        стороны
+                                                                        сервера
+                                                                    </a>
+                                                                </li>
+                                                                <!--container-->
+                                                            </ul>
+                                                        </section>
+                                                        <!--container-->
+                                                    </li>
+                                                    <li
+                                                        _ngcontent-ng-c2998911466=""
+                                                        class="navigation_item"
+                                                    >
+                                                        <button
+                                                            _ngcontent-ng-c2998911466=""
+                                                            type="button"
+                                                            class="item-button"
+                                                        >
+                                                            <a
+                                                                _ngcontent-ng-c2998911466=""
+                                                                ng-reflect-ng-class="[object Object]"
+                                                                class=""
+                                                            >
+                                                                Остальные навыки
+                                                            </a>
+                                                        </button>
+                                                        <!--container-->
+                                                    </li>
+                                                    <!--container-->
+                                                    <!--container-->
+                                                </ul>
+                                            </aside>
+                                        </cv-aside-navigation>
+                                    </aside>
+                                    <section
+                                        _ngcontent-ng-c1196504650=""
+                                        class="technologies_stack"
+                                    >
+                                        <!--container-->
+                                    </section>
+                                </div>
+                            </cv-technologies>
+                            <!--container-->
+                        </main>
+                        <footer
+                            _ngcontent-ng-c813166043=""
+                            class="footer"
+                        >
+                            <cv-footer
+                                _ngcontent-ng-c813166043=""
+                                _nghost-ng-c2064542086=""
+                                ng-reflect-social-links_="[object Object],[object Object"
+                            >
+                                <footer
+                                    _ngcontent-ng-c2064542086=""
+                                    class="footer"
+                                >
+                                    <aside
+                                        _ngcontent-ng-c2064542086=""
+                                        class="footer-connect"
+                                    >
+                                        <cv-button
+                                            _ngcontent-ng-c2064542086=""
+                                            buttontext="Связаться со мной"
+                                            buttonhovertext="Написать мне"
+                                            _nghost-ng-c1259203187=""
+                                            ng-reflect-button-text="Связаться со мной"
+                                            ng-reflect-button-hover-text="Написать мне"
+                                        >
+                                            <button
+                                                _ngcontent-ng-c1259203187=""
+                                                class="general-button"
+                                            >
+                                                <span
+                                                    _ngcontent-ng-c1259203187=""
+                                                    class="general-button_text"
+                                                    ng-reflect-ng-class="[object Object]"
+                                                >
+                                                    Связаться со мной
+                                                </span>
+                                                <span
+                                                    _ngcontent-ng-c1259203187=""
+                                                    class="general-button_text active"
+                                                    ng-reflect-ng-class="[object Object]"
+                                                >
+                                                    <div
+                                                        _ngcontent-ng-c1259203187=""
+                                                        class="absolute"
+                                                        ng-reflect-ng-style="[object Object]"
+                                                        style="
+                                                            width: 250px;
+                                                            height: 250px;
+                                                            left: -200px;
+                                                        "
+                                                    >
+                                                        Написать мне
+                                                    </div>
+                                                </span>
+                                            </button>
+                                        </cv-button>
+                                    </aside>
+                                    <ul
+                                        _ngcontent-ng-c2064542086=""
+                                        class="footer-links"
+                                    >
+                                        <li
+                                            _ngcontent-ng-c2064542086=""
+                                            class="footer-links_item"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c2064542086=""
+                                                target="_blank"
+                                                class="item-link"
+                                                href="https://www.facebook.com/ivan.cherkas"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c2064542086=""
+                                                    class="item-link_text"
+                                                >
+                                                    facebook
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c2064542086=""
+                                            class="footer-links_item"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c2064542086=""
+                                                target="_blank"
+                                                class="item-link"
+                                                href="mailto:%20cherkas.ivan13@gmail.com"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c2064542086=""
+                                                    class="item-link_text"
+                                                >
+                                                    email
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c2064542086=""
+                                            class="footer-links_item"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c2064542086=""
+                                                target="_blank"
+                                                class="item-link"
+                                                href="https://github.com/CherkasIvan"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c2064542086=""
+                                                    class="item-link_text"
+                                                >
+                                                    github
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c2064542086=""
+                                            class="footer-links_item"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c2064542086=""
+                                                target="_blank"
+                                                class="item-link"
+                                                href="https://vk.com/cherkasss"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c2064542086=""
+                                                    class="item-link_text"
+                                                >
+                                                    vkontakte
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c2064542086=""
+                                            class="footer-links_item"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c2064542086=""
+                                                target="_blank"
+                                                class="item-link"
+                                                href="live:.cid.270d4d79826c9a4d"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c2064542086=""
+                                                    class="item-link_text"
+                                                >
+                                                    skype
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c2064542086=""
+                                            class="footer-links_item"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c2064542086=""
+                                                target="_blank"
+                                                class="item-link"
+                                                href="https://www.linkedin.com/in/ivan-cherkas-723b411a2"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c2064542086=""
+                                                    class="item-link_text"
+                                                >
+                                                    linkedin
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li
+                                            _ngcontent-ng-c2064542086=""
+                                            class="footer-links_item"
+                                        >
+                                            <a
+                                                _ngcontent-ng-c2064542086=""
+                                                target="_blank"
+                                                class="item-link"
+                                                href="https://t.me/IvanCherkas"
+                                            >
+                                                <p
+                                                    _ngcontent-ng-c2064542086=""
+                                                    class="item-link_text"
+                                                >
+                                                    telegram
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <!--container-->
+                                    </ul>
+                                </footer>
+                            </cv-footer>
+                        </footer>
+                    </main>
+                </div>
+            </app-layout>
+            <!--container-->
+        </app-root>
+        <noscript>
+            Please enable JavaScript to continue using this application.
+        </noscript>
+        <script
+            src="./Cv20_files/polyfills.js.Без названия"
+            type="module"
+        ></script>
+        <script
+            src="./Cv20_files/main.js.Без названия"
+            type="module"
+        ></script>
 
-/*# sourceMappingURL=app.component.css.map */</style><style ng-style-reused="">
-
-.layout-container[_ngcontent-ng-c813166043] {
-  background-image: url("./media/background-main-menu.png");
-  background-size: cover;
-  background-color: #f6f6f7;
-  padding: 40px 135px 60px;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-.layout-container[_ngcontent-ng-c813166043]   .layout[_ngcontent-ng-c813166043] {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
-  max-height: 100vh;
-}
-.layout-container[_ngcontent-ng-c813166043]   .layout[_ngcontent-ng-c813166043]   .general[_ngcontent-ng-c813166043] {
-  padding-top: 60px;
-  height: 100%;
-}
-/*# sourceMappingURL=layout.component.css.map */</style><style ng-style-reused="">
-
-.navigation-header[_ngcontent-ng-c272844734] {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 10px solid #000000;
-  border-radius: 50px;
-  padding: 0 50px;
-  height: 96px;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-logo_link[_ngcontent-ng-c272844734], .navigation-header[_ngcontent-ng-c272844734]   .header-logo_link[_ngcontent-ng-c272844734]    > *[_ngcontent-ng-c272844734] {
-  width: 240px;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links[_ngcontent-ng-c272844734] {
-  display: flex;
-  column-gap: 30px;
-  height: 100%;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .item-link[_ngcontent-ng-c272844734] {
-  display: flex;
-  position: relative;
-  align-items: center;
-  transition: color 0.5s ease-in-out;
-  cursor: pointer;
-  height: 100%;
-  color: #000000;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .item-link_text[_ngcontent-ng-c272844734]::first-letter {
-  text-transform: uppercase;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .active[_ngcontent-ng-c272844734]::before, .navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .active[_ngcontent-ng-c272844734]::after {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .active[_ngcontent-ng-c272844734]::before {
-  left: -15px;
-  content: "<";
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .active[_ngcontent-ng-c272844734]::after {
-  right: -20px;
-  content: "/>";
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .active[_ngcontent-ng-c272844734]::before, .navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .active[_ngcontent-ng-c272844734]::after {
-  opacity: 1;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .active[_ngcontent-ng-c272844734] {
-  color: #0000ff;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .item-link[_ngcontent-ng-c272844734]:focus, .navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .item-link[_ngcontent-ng-c272844734]:active {
-  color: #0000ff;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-links_item[_ngcontent-ng-c272844734]   .item-link[_ngcontent-ng-c272844734]:hover {
-  color: #0000ff;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-buttons[_ngcontent-ng-c272844734] {
-  display: flex;
-  column-gap: 20px;
-  justify-content: space-between;
-  align-items: center;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-buttons_language[_ngcontent-ng-c272844734] {
-  padding-right: 10px;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-buttons_login[_ngcontent-ng-c272844734] {
-  position: relative;
-  padding-left: 30px;
-}
-.navigation-header[_ngcontent-ng-c272844734]   .header-buttons_login[_ngcontent-ng-c272844734]:before {
-  position: absolute;
-  top: -5px;
-  left: -2px;
-  background: #999a9c;
-  width: 2px;
-  height: 30px;
-  content: " ";
-}
-.visible[_ngcontent-ng-c272844734] {
-  opacity: 0;
-  transition: opacity 1.5s ease-in-out;
-}
-.visible.fade-in[_ngcontent-ng-c272844734] {
-  opacity: 1;
-}
-.hidden[_ngcontent-ng-c272844734] {
-  opacity: 0;
-}
-/*# sourceMappingURL=header.component.css.map */</style><style ng-style-reused="">
-
-.animation-bg[_ngcontent-ng-c75327838] {
-  width: 100%;
-  height: 10%;
-}
-/*# sourceMappingURL=animation-bg.component.css.map */</style><style ng-style-reused="">
-
-.footer[_ngcontent-ng-c2064542086] {
-  display: flex;
-  position: fixed;
-  bottom: 60px;
-  left: 10%;
-  column-gap: 30px;
-  justify-content: space-between;
-  align-items: center;
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links[_ngcontent-ng-c2064542086] {
-  display: flex;
-  column-gap: 80.3px;
-  align-items: center;
-  transition: background-color 0.5s ease-in-out;
-  border-radius: 30px;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 40px;
-  background: rgba(255, 255, 255, 0.4);
-  padding: 23px 65px;
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link[_ngcontent-ng-c2064542086] {
-  display: flex;
-  position: relative;
-  align-items: center;
-  transition: color 0.5s ease-in-out;
-  cursor: pointer;
-  height: 100%;
-  color: #000000;
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link_text[_ngcontent-ng-c2064542086] {
-  text-transform: uppercase;
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link[_ngcontent-ng-c2064542086]::before, .footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link[_ngcontent-ng-c2064542086]::after {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link[_ngcontent-ng-c2064542086]::before {
-  left: -10px;
-  content: "[";
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link[_ngcontent-ng-c2064542086]::after {
-  right: -10px;
-  content: "]";
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link[_ngcontent-ng-c2064542086]:hover::before, .footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link[_ngcontent-ng-c2064542086]:hover::after {
-  opacity: 1;
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links_item[_ngcontent-ng-c2064542086]   .item-link[_ngcontent-ng-c2064542086]:hover {
-  color: #0000ff;
-}
-.footer[_ngcontent-ng-c2064542086]   .footer-links[_ngcontent-ng-c2064542086]:hover {
-  background-color: #ffffff;
-}
-/*# sourceMappingURL=footer.component.css.map */</style><style ng-style-reused="">
-
-.dark-mode-toggle[_ngcontent-ng-c2213313691] {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50px;
-  height: 25px;
-}
-.dark-mode-toggle__input[_ngcontent-ng-c2213313691] {
-  visibility: hidden;
-  width: 0;
-  height: 0;
-}
-.dark-mode-toggle__input[_ngcontent-ng-c2213313691]:checked    + label[_ngcontent-ng-c2213313691] {
-  background: #242424;
-}
-.dark-mode-toggle__input[_ngcontent-ng-c2213313691]:checked    + label[_ngcontent-ng-c2213313691]:after {
-  left: 48.5px;
-  transform: translateX(-100%);
-  background-position: center;
-  background-size: contain;
-}
-.dark-mode-toggle__label[_ngcontent-ng-c2213313691], .dark-mode-toggle__label[_ngcontent-ng-c2213313691]:after {
-  transition: 0.3s;
-}
-.dark-mode-toggle__label[_ngcontent-ng-c2213313691] {
-  display: block;
-  position: relative;
-  cursor: pointer;
-  box-shadow: inset 0px 5px 15px rgba(0, 0, 0, 0.4);
-  border-radius: 50px;
-  background: #ebebeb;
-  width: 100%;
-  height: 25px;
-}
-.dark-mode-toggle__label[_ngcontent-ng-c2213313691]::after {
-  position: absolute;
-  top: 1.5px;
-  left: 1px;
-  border-radius: 22px;
-  background-position: center;
-  background-size: contain;
-  width: 22px;
-  height: 22px;
-  content: "";
-}
-.dark-mode-toggle__label[_ngcontent-ng-c2213313691]:active:after {
-  width: 27px;
-}
-/*# sourceMappingURL=dark-mode-toggle.component.css.map */</style><style ng-style-reused="">
-
-.general-button[_ngcontent-ng-c1259203187] {
-  display: flex;
-  transition: max-width 0.5s ease-in-out;
-  cursor: pointer;
-  border-radius: 50px;
-  background-color: #000000;
-  padding: 23px 40px;
-  overflow: hidden;
-  color: #ffffff;
-  white-space: nowrap;
-}
-.general-button_text[_ngcontent-ng-c1259203187]:nth-child(1) {
-  transform: translateY(0);
-  visibility: visible;
-  transition: transform 1.2s ease-in-out, opacity 1.2s ease-in-out;
-}
-.general-button_text[_ngcontent-ng-c1259203187]:nth-child(1).active {
-  transform: translateY(-300%);
-  transition: transform 0.6s ease-in-out;
-}
-.general-button_text[_ngcontent-ng-c1259203187]:nth-child(2) {
-  position: relative;
-  transform: translateY(-130px);
-  visibility: visible;
-  transition: transform 1s ease-in-out, opacity 1s ease-in-out;
-  width: 100%;
-}
-.general-button_text[_ngcontent-ng-c1259203187]:nth-child(2).active {
-  transform: translateY(600%);
-  transition: transform 1s ease-in-out;
-}
-.general-button_text[_ngcontent-ng-c1259203187]:nth-child(2)   .absolute[_ngcontent-ng-c1259203187] {
-  display: flex;
-  position: absolute;
-  top: 40px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background-color: #0000ff;
-  line-height: 86px;
-  text-align: center;
-}
-/*# sourceMappingURL=button.component.css.map */</style><style ng-style-reused="">
-
-.technologies[_ngcontent-ng-c1196504650] {
-  display: flex;
-  column-gap: 62px;
-  height: 100%;
-  overflow: scroll;
-}
-.technologies[_ngcontent-ng-c1196504650]   .skills-list[_ngcontent-ng-c1196504650] {
-  width: 100%;
-}
-.technologies_stack[_ngcontent-ng-c1196504650] {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(100px, auto));
-  column-gap: 98px;
-  justify-items: center;
-  width: 100%;
-  height: fit-content;
-}
-/*# sourceMappingURL=technologies.component.css.map */</style><style ng-style-reused="">
-
-.aside-navigation[_ngcontent-ng-c2998911466]   .navigation-list[_ngcontent-ng-c2998911466] {
-  display: flex;
-  row-gap: 30px;
-  flex-direction: column;
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .navigation-list[_ngcontent-ng-c2998911466]   .item-button[_ngcontent-ng-c2998911466] {
-  cursor: pointer;
-  background-color: transparent;
-  color: #999a9c;
-  font-size: 50px;
-  line-height: 51.1px;
-  font-family: "RS-regular";
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466] {
-  display: flex;
-  row-gap: 20px;
-  flex-direction: column;
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item_link[_ngcontent-ng-c2998911466] {
-  position: relative;
-  align-items: center;
-  transition: color 0.5s ease-in-out;
-  cursor: pointer;
-  color: #000000;
-  font-size: 20px;
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item[_ngcontent-ng-c2998911466]   .active[_ngcontent-ng-c2998911466] {
-  color: #0000ff;
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item[_ngcontent-ng-c2998911466]   .active[_ngcontent-ng-c2998911466]::before, .aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item[_ngcontent-ng-c2998911466]   .active[_ngcontent-ng-c2998911466]::after {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item[_ngcontent-ng-c2998911466]   .active[_ngcontent-ng-c2998911466]::after {
-  left: -15px;
-  content: "<";
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item[_ngcontent-ng-c2998911466]   .active[_ngcontent-ng-c2998911466]::before {
-  right: -15px;
-  content: ">";
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item[_ngcontent-ng-c2998911466]   .active[_ngcontent-ng-c2998911466]::before, .aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item[_ngcontent-ng-c2998911466]   .active[_ngcontent-ng-c2998911466]::after {
-  opacity: 1;
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item_link[_ngcontent-ng-c2998911466]:hover {
-  color: #0000ff;
-}
-.aside-navigation[_ngcontent-ng-c2998911466]   .skills-switcher[_ngcontent-ng-c2998911466]   .skills-list[_ngcontent-ng-c2998911466]   .skill-item_link[_ngcontent-ng-c2998911466] {
-  position: relative;
-  align-items: center;
-  transition: color 0.5s ease-in-out;
-  cursor: pointer;
-  color: #000000;
-  font-size: 20px;
-}
-.active[_ngcontent-ng-c2998911466] {
-  color: #000000;
-}
-/*# sourceMappingURL=aside-navigation.component.css.map */</style></head>
-    <body><!--nghm-->
-        <app-root _nghost-ng-c3984273398="" ng-version="17.2.4" ng-server-context="ssr"><router-outlet _ngcontent-ng-c3984273398=""></router-outlet><app-layout _nghost-ng-c813166043="" ng-version="17.2.4"><div _ngcontent-ng-c813166043="" class="layout-container"><main _ngcontent-ng-c813166043="" class="layout"><header _ngcontent-ng-c813166043="" class="header"><cv-header _ngcontent-ng-c813166043="" _nghost-ng-c272844734="" ng-reflect-navigation-links="[object Object],[object Object"><nav _ngcontent-ng-c272844734="" class="navigation-header visible fade-in" ng-reflect-ng-class="[object Object]"><article _ngcontent-ng-c272844734="" class="header-logo"><a _ngcontent-ng-c272844734="" class="header-logo_link"><img _ngcontent-ng-c272844734="" src="./Cv20_files/logo-i.cherkas-wm.svg" alt="logo-i.cherkas-wm.svg" class="header-logo_link-img"></a></article><ul _ngcontent-ng-c272844734="" class="header-links"><li _ngcontent-ng-c272844734="" class="header-links_item" tabindex="0"><a _ngcontent-ng-c272844734="" routerlinkactive="active" class="item-link" ng-reflect-router-link-active="active" ng-reflect-router-link="projects" ng-reflect-router-link-active-options="[object Object]" href="http://localhost:4200/layout/projects"><p _ngcontent-ng-c272844734="" class="item-link_text">проекты</p></a></li><li _ngcontent-ng-c272844734="" class="header-links_item" tabindex="1"><a _ngcontent-ng-c272844734="" routerlinkactive="active" class="item-link" ng-reflect-router-link-active="active" ng-reflect-router-link="experience" ng-reflect-router-link-active-options="[object Object]" href="http://localhost:4200/layout/experience"><p _ngcontent-ng-c272844734="" class="item-link_text">опыт работы и образование</p></a></li><li _ngcontent-ng-c272844734="" class="header-links_item" tabindex="2"><a _ngcontent-ng-c272844734="" routerlinkactive="active" class="item-link" ng-reflect-router-link-active="active" ng-reflect-router-link="main" ng-reflect-router-link-active-options="[object Object]" href="http://localhost:4200/layout/main"><p _ngcontent-ng-c272844734="" class="item-link_text">главная</p></a></li><li _ngcontent-ng-c272844734="" class="header-links_item" tabindex="3"><a _ngcontent-ng-c272844734="" routerlinkactive="active" class="item-link active" ng-reflect-router-link-active="active" ng-reflect-router-link="technologies" ng-reflect-router-link-active-options="[object Object]" href="http://localhost:4200/layout/technologies"><p _ngcontent-ng-c272844734="" class="item-link_text">технологии</p></a></li><!--container--></ul><aside _ngcontent-ng-c272844734="" class="header-buttons"><cv-dark-mode-toggle _ngcontent-ng-c272844734="" _nghost-ng-c2213313691=""><div _ngcontent-ng-c2213313691="" class="dark-mode-toggle"><input _ngcontent-ng-c2213313691="" type="checkbox" name="dark-mode-toggle" id="darkmode-toggle" class="dark-mode-toggle__input" value="false"><label _ngcontent-ng-c2213313691="" for="darkmode-toggle" class="dark-mode-toggle__label"></label></div></cv-dark-mode-toggle><button _ngcontent-ng-c272844734="" class="header-buttons_language">EN</button><button _ngcontent-ng-c272844734="" class="header-buttons_login"> Вход </button></aside></nav><!--container--></cv-header></header><cv-animation-bg _ngcontent-ng-c813166043="" _nghost-ng-c75327838=""><div _ngcontent-ng-c75327838="" class="animation-bg"><ul _ngcontent-ng-c75327838="" class="circles-list"><li _ngcontent-ng-c75327838="" class="circle-element"></li></ul></div></cv-animation-bg><main _ngcontent-ng-c813166043="" class="general"><router-outlet _ngcontent-ng-c813166043=""></router-outlet><cv-technologies _nghost-ng-c1196504650="" ng-version="17.2.4"><div _ngcontent-ng-c1196504650="" class="technologies"><aside _ngcontent-ng-c1196504650="" class="technologies_navigation"><cv-aside-navigation _ngcontent-ng-c1196504650="" _nghost-ng-c2998911466="" ng-reflect-navigation-list="[object Object],[object Object"><aside _ngcontent-ng-c2998911466="" class="aside-navigation"><ul _ngcontent-ng-c2998911466="" class="navigation-list"><li _ngcontent-ng-c2998911466="" class="navigation_item"><button _ngcontent-ng-c2998911466="" type="button" class="item-button"><a _ngcontent-ng-c2998911466="" ng-reflect-ng-class="[object Object]" class="active"> Технические навыки </a></button><section _ngcontent-ng-c2998911466="" class="skills-switcher"><ul _ngcontent-ng-c2998911466="" class="skills-list"><li _ngcontent-ng-c2998911466="" class="skill-item"><a _ngcontent-ng-c2998911466="" routerlinkactive="active" class="skill-item_link active" ng-reflect-router-link-active="active" ng-reflect-router-link-active-options="[object Object]" ng-reflect-ng-class="[object Object]"> Навыки стороны клиента </a></li><li _ngcontent-ng-c2998911466="" class="skill-item"><a _ngcontent-ng-c2998911466="" routerlinkactive="active" class="skill-item_link" ng-reflect-router-link-active="active" ng-reflect-router-link-active-options="[object Object]" ng-reflect-ng-class="[object Object]"> Навыки стороны сервера </a></li><!--container--></ul></section><!--container--></li><li _ngcontent-ng-c2998911466="" class="navigation_item"><button _ngcontent-ng-c2998911466="" type="button" class="item-button"><a _ngcontent-ng-c2998911466="" ng-reflect-ng-class="[object Object]" class=""> Остальные навыки </a></button><!--container--></li><!--container--><!--container--></ul></aside></cv-aside-navigation></aside><section _ngcontent-ng-c1196504650="" class="technologies_stack"><!--container--></section></div></cv-technologies><!--container--></main><footer _ngcontent-ng-c813166043="" class="footer"><cv-footer _ngcontent-ng-c813166043="" _nghost-ng-c2064542086="" ng-reflect-social-links_="[object Object],[object Object"><footer _ngcontent-ng-c2064542086="" class="footer"><aside _ngcontent-ng-c2064542086="" class="footer-connect"><cv-button _ngcontent-ng-c2064542086="" buttontext="Связаться со мной" buttonhovertext="Написать мне" _nghost-ng-c1259203187="" ng-reflect-button-text="Связаться со мной" ng-reflect-button-hover-text="Написать мне"><button _ngcontent-ng-c1259203187="" class="general-button"><span _ngcontent-ng-c1259203187="" class="general-button_text" ng-reflect-ng-class="[object Object]"> Связаться со мной </span><span _ngcontent-ng-c1259203187="" class="general-button_text active" ng-reflect-ng-class="[object Object]"><div _ngcontent-ng-c1259203187="" class="absolute" ng-reflect-ng-style="[object Object]" style="width: 250px; height: 250px; left: -200px;"> Написать мне </div></span></button></cv-button></aside><ul _ngcontent-ng-c2064542086="" class="footer-links"><li _ngcontent-ng-c2064542086="" class="footer-links_item"><a _ngcontent-ng-c2064542086="" target="_blank" class="item-link" href="https://www.facebook.com/ivan.cherkas"><p _ngcontent-ng-c2064542086="" class="item-link_text">facebook</p></a></li><li _ngcontent-ng-c2064542086="" class="footer-links_item"><a _ngcontent-ng-c2064542086="" target="_blank" class="item-link" href="mailto:%20cherkas.ivan13@gmail.com"><p _ngcontent-ng-c2064542086="" class="item-link_text">email</p></a></li><li _ngcontent-ng-c2064542086="" class="footer-links_item"><a _ngcontent-ng-c2064542086="" target="_blank" class="item-link" href="https://github.com/CherkasIvan"><p _ngcontent-ng-c2064542086="" class="item-link_text">github</p></a></li><li _ngcontent-ng-c2064542086="" class="footer-links_item"><a _ngcontent-ng-c2064542086="" target="_blank" class="item-link" href="https://vk.com/cherkasss"><p _ngcontent-ng-c2064542086="" class="item-link_text">vkontakte</p></a></li><li _ngcontent-ng-c2064542086="" class="footer-links_item"><a _ngcontent-ng-c2064542086="" target="_blank" class="item-link" href="live:.cid.270d4d79826c9a4d"><p _ngcontent-ng-c2064542086="" class="item-link_text">skype</p></a></li><li _ngcontent-ng-c2064542086="" class="footer-links_item"><a _ngcontent-ng-c2064542086="" target="_blank" class="item-link" href="https://www.linkedin.com/in/ivan-cherkas-723b411a2"><p _ngcontent-ng-c2064542086="" class="item-link_text">linkedin</p></a></li><li _ngcontent-ng-c2064542086="" class="footer-links_item"><a _ngcontent-ng-c2064542086="" target="_blank" class="item-link" href="https://t.me/IvanCherkas"><p _ngcontent-ng-c2064542086="" class="item-link_text">telegram</p></a></li><!--container--></ul></footer></cv-footer></footer></main></div></app-layout><!--container--></app-root>
-      <noscript>Please enable JavaScript to continue using this application.</noscript>
-<script src="./Cv20_files/polyfills.js.Без названия" type="module"></script><script src="./Cv20_files/main.js.Без названия" type="module"></script>
-
-<script id="ng-state" type="application/json">{"__nghData__":[{},{"t":{"6":"t35","13":"t36"},"c":{"6":[],"13":[]}},{"t":{"3":"t13","4":"t16"},"c":{"3":[{"i":"t13","r":1,"t":{"4":"t14"},"c":{"4":[{"i":"t14","r":1,"t":{"3":"t15"},"c":{"3":[]}}]}},{"i":"t13","r":1,"t":{"4":"t14"},"c":{"4":[]}}],"4":[]}},{"t":{"5":"t27"},"c":{"5":[]}},{"t":{"5":"t37"},"c":{"5":[]}},{"c":{"7":[{"i":"c1196504650","r":1}]}},{"c":{"0":[{"i":"c813166043","r":1}]}}]}</script></body></html>
+        <script
+            id="ng-state"
+            type="application/json"
+        >
+            {
+                "__nghData__": [
+                    {},
+                    {
+                        "t": { "6": "t35", "13": "t36" },
+                        "c": { "6": [], "13": [] }
+                    },
+                    {
+                        "t": { "3": "t13", "4": "t16" },
+                        "c": {
+                            "3": [
+                                {
+                                    "i": "t13",
+                                    "r": 1,
+                                    "t": { "4": "t14" },
+                                    "c": {
+                                        "4": [
+                                            {
+                                                "i": "t14",
+                                                "r": 1,
+                                                "t": { "3": "t15" },
+                                                "c": { "3": [] }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "i": "t13",
+                                    "r": 1,
+                                    "t": { "4": "t14" },
+                                    "c": { "4": [] }
+                                }
+                            ],
+                            "4": []
+                        }
+                    },
+                    { "t": { "5": "t27" }, "c": { "5": [] } },
+                    { "t": { "5": "t37" }, "c": { "5": [] } },
+                    { "c": { "7": [{ "i": "c1196504650", "r": 1 }] } },
+                    { "c": { "0": [{ "i": "c813166043", "r": 1 }] } }
+                ]
+            }
+        </script>
+    </body>
+</html>

@@ -1,6 +1,7 @@
 @use '../../../../assets/styles/variables' as color;
 
 .aside-navigation {
+    position: relative;
     .navigation-list {
         display: flex;
         row-gap: 30px;

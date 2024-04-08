@@ -21,7 +21,7 @@
         }
 
         .general {
-            padding-top: 60px;
+            padding-top: calc(0px + 60 * (100vh / 1080));
             height: 100%;
         }
 
