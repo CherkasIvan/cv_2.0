@@ -2,6 +2,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 import {
+    HTTP_INTERCEPTORS,
     provideHttpClient,
     withFetch,
     withInterceptorsFromDi,
@@ -41,11 +42,13 @@ import { provideServiceWorker } from '@angular/service-worker';
 
 import { provideEffects } from '@ngrx/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
-import { provideStore } from '@ngrx/store';
+import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { CustomTitleStrategy } from './custom-title-strategy';
 import { environment } from './layout/environments/environment.development';
+import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
 
 if (environment.production) {
@@ -62,12 +65,19 @@ export const appConfig: ApplicationConfig = {
             AngularFireDatabaseModule,
             BrowserModule,
             BrowserAnimationsModule,
+            StoreModule.forRoot({}),
+            StoreModule.forFeature('spinner', spinnerReducer),
             provideStorage(() => getStorage()),
             provideAuth(() => getAuth()),
             provideFirestore(() => getFirestore()),
             provideDatabase(() => getDatabase()),
             provideFirebaseApp(() => initializeApp(environment.firebase)),
         ]),
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoadingInterceptor,
+            multi: true,
+        },
         provideClientHydration(
             withHttpTransferCacheOptions({ includePostRequests: true }),
         ),
