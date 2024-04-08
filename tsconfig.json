@@ -12,7 +12,7 @@
             "@assets/*": ["assets/*"],
             "@pages/*": ["app/pages/*"],
             "@core/*": ["app/core/*"],
-            "@layout/*": ["app/layout/*"],
+            "@layout/*": ["app/layout/*"]
         },
         "outDir": "./dist/out-tsc",
         "forceConsistentCasingInFileNames": true,
@@ -31,12 +31,12 @@
         "target": "ES2022",
         "module": "ES2022",
         "useDefineForClassFields": false,
-        "lib": ["ES2022", "dom"],
+        "lib": ["ES2022", "dom"]
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
-        "strictTemplates": true,
-    },
+        "strictTemplates": true
+    }
 }

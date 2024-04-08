@@ -1,5 +1,6 @@
 .experience {
     display: flex;
+    // position: relative;
     column-gap: 62px;
     height: 100%;
 
@@ -7,6 +8,8 @@
     }
 
     &_places {
+        margin-bottom: 300px;
         width: 100%;
+        overflow: scroll;
     }
 }

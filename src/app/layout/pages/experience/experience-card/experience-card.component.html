@@ -3,7 +3,19 @@
         <article
             class="experience-card"
             [ngClass]="{ activeWork: experienceType() === 'work' }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
         >
+            @if (experienceCardImgVisibility) {
+                <div class="experience-card_picture-work">
+                    <img
+                        class="card-img"
+                        [src]="workDescription()?.logoPath"
+                        [alt]="workDescription()?.logoPath"
+                    />
+                </div>
+            }
+
             <div class="card-info">
                 <span class="card-info_place">место работы</span>
                 <span class="card-info_place-name">
@@ -25,7 +37,18 @@
         <article
             class="experience-card"
             [ngClass]="{ activeLearning: experienceType() === 'learning' }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
         >
+            @if (experienceCardImgVisibility) {
+                <div class="experience-card_picture-learning">
+                    <img
+                        class="card-img"
+                        [src]="workDescription()?.logoPath"
+                        [alt]="workDescription()?.logoPath"
+                    />
+                </div>
+            }
             <button class="card-button">
                 <img
                     src="assets/images/white-mode/icons/download.svg"
@@ -34,8 +57,14 @@
             </button>
             <div class="card-info">
                 <span class="card-info_place">курс</span>
-                <span class="card-info_place-name">{{ experienceDescription()?.company }}</span>
-                <span class="card-info_time">{{ experienceDescription()?.from }} - {{ experienceDescription()?.to }}</span>
+                <span class="card-info_place-name">
+                    {{ experienceDescription()?.company }}
+                    {{ experienceDescription()?.specialization }}
+                </span>
+                <span class="card-info_time">
+                    {{ experienceDescription()?.from }} -
+                    {{ experienceDescription()?.to }}
+                </span>
             </div>
         </article>
     }
@@ -43,7 +72,19 @@
         <article
             class="experience-card"
             [ngClass]="{ activeWork: experienceType() === 'work' }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
         >
+            @if (experienceCardImgVisibility) {
+                <div class="experience-card_picture-work">
+                    <img
+                        class="card-img"
+                        [src]="workDescription()?.logoPath"
+                        [alt]="workDescription()?.logoPath"
+                    />
+                </div>
+            }
+
             <div class="card-info">
                 <span class="card-info_place">место работы</span>
                 <span class="card-info_place-name">
