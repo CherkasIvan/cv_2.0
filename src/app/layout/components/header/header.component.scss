@@ -88,11 +88,15 @@
         align-items: center;
 
         &_language {
+            cursor: pointer;
+            background-color: transparent;
             padding-right: 10px;
         }
 
         &_login {
             position: relative;
+            cursor: pointer;
+            background-color: transparent;
             padding-left: 30px;
         }
 
