@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cv-404',
-  standalone: true,
-  imports: [],
-  templateUrl: './404.component.html',
-  styleUrl: './404.component.scss'
+    selector: 'cv-404',
+    standalone: true,
+    imports: [],
+    templateUrl: './404.component.html',
+    styleUrl: './404.component.scss',
 })
-export class 404Component {
-
-}
+export class ErrorPageComponent {}

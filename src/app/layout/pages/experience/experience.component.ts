@@ -41,7 +41,6 @@ export class ExperienceComponent {
         this._firebaseService.getEducationPlaces();
 
     public switchTab($event: string) {
-        console.log($event);
         this.selectedTab = $event;
     }
 

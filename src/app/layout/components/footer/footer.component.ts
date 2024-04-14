@@ -1,12 +1,5 @@
-import { Observable } from 'rxjs';
-
 import { NgFor } from '@angular/common';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { ISocialMedia } from '@core/models/social-media.interface';

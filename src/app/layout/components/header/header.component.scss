@@ -33,7 +33,7 @@
                 cursor: pointer;
                 height: 100%;
                 color: color.$black;
-                font-size: calc(8px + 8 * (100vw / 1920));
+                font-size: calc(4px + 12 * (100vw / 1920));
 
                 &_text::first-letter {
                     text-transform: uppercase;
