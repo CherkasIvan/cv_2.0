@@ -18,7 +18,7 @@ import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AuthComponent } from './pages/auth/auth.component';
 
 @Component({
-    selector: 'app-layout',
+    selector: 'cv-layout',
     standalone: true,
     animations: [routeAnimations],
     imports: [
@@ -38,7 +38,6 @@ export class LayoutComponent {
     public isModalDialogVisible: boolean = false;
 
     public getModalInstance($event: boolean) {
-        console.log($event);
         this.isModalDialogVisible = $event;
     }
     public navigation$: Observable<INavigation[]> =
@@ -56,7 +55,7 @@ export class LayoutComponent {
         );
     }
 
-    public closeModal(isConfirmed: any) {
+    public closeModal() {
         this.isModalDialogVisible = false;
         // if (isConfirmed) {
         //   this.showToast('modal dialog', "modal dialog is confirmed");

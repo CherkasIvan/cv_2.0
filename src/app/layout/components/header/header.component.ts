@@ -17,8 +17,6 @@ import {
 
 import { INavigation } from '@core/models/navigation.interface';
 
-import { ModalDialogResult } from '@app/core/enum/modal-dialog.base.enum';
-
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 
@@ -39,7 +37,7 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
 })
 export class HeaderComponent {
     @Input() public navigationLinks: INavigation[] | null = [];
-    @Output() public emittedModal = new EventEmitter<boolean>();
+    @Output() public emittedModalShow = new EventEmitter<boolean>();
 
     public currentRoute: string = '';
     private _routerSubscription$: Subscription = new Subscription();
@@ -57,16 +55,6 @@ export class HeaderComponent {
 
     public showDialog() {
         this.isModalDialogVisible = true;
-        this.emittedModal.emit(true);
-    }
-
-    public closeModal(isConfirmed: any) {
-        this.isModalDialogVisible = false;
-        // if (isConfirmed) {
-        //   this.showToast('modal dialog', "modal dialog is confirmed");
-        // }
-        // else {
-        //   this.showToast('modal dialog', "modal dialog is closed");
-        // }
+        this.emittedModalShow.emit(true);
     }
 }

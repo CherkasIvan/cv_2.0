@@ -1,16 +1,17 @@
-import { NgStyle } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { NgClass, NgStyle } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
 
-import { bgLayoutAnimation } from '@core/utils/animations/bg-layout.animation';
+import { INavigation } from '@core/models/navigation.interface';
 
 @Component({
     selector: 'cv-animation-bg',
     standalone: true,
-    imports: [NgStyle],
+    imports: [NgStyle, NgClass],
     templateUrl: './animation-bg.component.html',
     styleUrl: './animation-bg.component.scss',
 })
 export class AnimationBgComponent implements OnInit {
+    @Input() public navigationLinks: INavigation[] | null = [];
     public animationCircles: any[] = [
         {
             width: '70px',

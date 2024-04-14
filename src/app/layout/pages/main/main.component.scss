@@ -9,7 +9,7 @@
             column-gap: 56px;
             align-items: flex-end;
             .fullname {
-                font-size: calc(20px + 120 * (100vw / 1920));
+                font-size: calc(14px + 126 * (100vw / 1920));
                 font-family: 'RS-semibold';
                 text-transform: uppercase;
                 white-space: nowrap;
@@ -22,12 +22,12 @@
 
             .description {
                 align-self: center;
-                font-size: calc(14px + 4 * (100vw / 1920));
+                font-size: calc(12px + 6 * (100vw / 1920));
                 font-family: 'RS-extralight';
             }
 
             .stack {
-                font-size: calc(20px + 120 * (100vw / 1920));
+                font-size: calc(14px + 126 * (100vw / 1920));
                 font-family: 'RS-semibold';
                 text-transform: uppercase;
                 white-space: nowrap;
@@ -55,7 +55,7 @@
             align-items: center;
             .status {
                 margin-right: 40px;
-                font-size: calc(20px + 120 * (100vw / 1920));
+                font-size: calc(14px + 126 * (100vw / 1920));
                 font-family: 'RS-semibold';
                 text-transform: uppercase;
             }

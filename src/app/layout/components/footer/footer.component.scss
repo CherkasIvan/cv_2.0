@@ -12,12 +12,13 @@
 
     .footer-links {
         display: flex;
-        column-gap: 80.3px;
+        column-gap: calc(20.3px + 60 * (100vw / 1920));
         align-items: center;
         transition: background-color 0.5s ease-in-out;
         border-radius: 30px;
         @include glassmorphism.cards_glassmorphism;
-        padding: 23px 65px;
+        padding: calc(13px + 10 * (100vw / 1920))
+            calc(15px + 50 * (100vw / 1920));
 
         &_item {
             .item-link {

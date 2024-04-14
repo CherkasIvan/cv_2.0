@@ -5,7 +5,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Input,
+    OnInit,
 } from '@angular/core';
 
 import { ITechnologies } from '@core/models/technologies.interface';
@@ -30,7 +30,7 @@ import { TechnologyCardComponent } from './components/technology-card/technology
     styleUrl: './technologies.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechnologiesComponent {
+export class TechnologiesComponent implements OnInit {
     public selectedTab: string = '';
 
     public technologiesAside: TExperienceAside[] = [
@@ -76,8 +76,6 @@ export class TechnologiesComponent {
                 break;
         }
     }
-
-    public switch(e: any) {}
 
     public switchTab($event: string) {
         this.selectedTab = $event;
