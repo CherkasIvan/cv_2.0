@@ -1,11 +1,4 @@
-import { Subject } from 'rxjs';
-
-import { Component, input } from '@angular/core';
-
-import {
-    ModalDialogBase,
-    ModalDialogResult,
-} from '@core/enum/modal-dialog.base.enum';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 
 @Component({
     selector: 'cv-login-modal',
@@ -14,25 +7,19 @@ import {
     templateUrl: './login-modal.component.html',
     styleUrl: './login-modal.component.scss',
 })
-export class LoginModalComponent extends ModalDialogBase {
+export class LoginModalComponent {
     public header = input.required<string>();
-    public description = input.required<string>();
-    private modalState: Subject<ModalDialogResult>;
+    @Output() public emittedModalHide = new EventEmitter<boolean>();
 
-    constructor() {
-        super();
-        this.modalState = new Subject();
+    public confirmModalDialog() {
+        this.emittedModalHide.emit(false);
     }
 
-    public getDialogState(): Subject<ModalDialogResult> {
-        return this.modalState;
+    public closeModalDialog() {
+        this.emittedModalHide.emit(false);
     }
 
-    public confirm() {
-        this.modalState.next(ModalDialogResult.Confirmed);
-    }
-
-    public close() {
-        this.modalState.next(ModalDialogResult.Closed);
+    public resetModalDialog() {
+        this.emittedModalHide.emit(false);
     }
 }

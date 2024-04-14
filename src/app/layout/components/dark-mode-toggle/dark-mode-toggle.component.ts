@@ -1,9 +1,10 @@
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
     selector: 'cv-dark-mode-toggle',
     standalone: true,
-    imports: [],
+    imports: [NgClass],
     templateUrl: './dark-mode-toggle.component.html',
     styleUrl: './dark-mode-toggle.component.scss',
 })

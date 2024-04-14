@@ -1,5 +1,5 @@
 import { NgClass, NgSwitch } from '@angular/common';
-import { Component, Input, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { IWorkExperience } from '@core/models/work-experience.interface';
@@ -18,6 +18,4 @@ export class ExperienceCardComponent {
     public experienceCardImgVisibility: boolean = false;
 
     constructor() {}
-
-    ngOnInit() {}
 }

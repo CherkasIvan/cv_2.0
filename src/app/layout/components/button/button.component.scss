@@ -6,7 +6,7 @@
     cursor: pointer;
     border-radius: 50px;
     background-color: color.$black;
-    padding: 23px 40px;
+    padding: calc(13px + 10 * (100vw / 1920)) calc(15px + 50 * (100vw / 1920));
     overflow: hidden;
     color: color.$white;
     white-space: nowrap;
