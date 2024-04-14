@@ -4,7 +4,9 @@
             class="experience-card"
             [ngClass]="{ activeWork: experienceType() === 'work' }"
             (mouseover)="experienceCardImgVisibility = true"
+            (focus)="experienceCardImgVisibility = true"
             (mouseleave)="experienceCardImgVisibility = false"
+            (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
                 <div class="experience-card_picture-work">
@@ -38,7 +40,9 @@
             class="experience-card"
             [ngClass]="{ activeLearning: experienceType() === 'learning' }"
             (mouseover)="experienceCardImgVisibility = true"
+            (focus)="experienceCardImgVisibility = true"
             (mouseleave)="experienceCardImgVisibility = false"
+            (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
                 <div class="experience-card_picture-learning">
@@ -73,7 +77,9 @@
             class="experience-card"
             [ngClass]="{ activeWork: experienceType() === 'work' }"
             (mouseover)="experienceCardImgVisibility = true"
+            (focus)="experienceCardImgVisibility = true"
             (mouseleave)="experienceCardImgVisibility = false"
+            (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
                 <div class="experience-card_picture-work">

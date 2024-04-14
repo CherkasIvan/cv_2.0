@@ -4,14 +4,14 @@
     position: relative;
     .navigation-list {
         display: flex;
-        row-gap: 30px;
+        row-gap: calc(10px + 20 * (100vw / 1920));
         flex-direction: column;
 
         .item-button {
             cursor: pointer;
             background-color: transparent;
             color: color.$darkGray;
-            font-size: 50px;
+            font-size: calc(20px + 30 * (100vw / 1920));
             line-height: 51.1px;
             font-family: 'RS-regular';
         }
@@ -29,7 +29,7 @@
                     transition: color 0.5s ease-in-out;
                     cursor: pointer;
                     color: color.$black;
-                    font-size: 20px;
+                    font-size: calc(10px + 10 * (100vw / 1920));
                 }
 
                 .active {
@@ -70,7 +70,7 @@
                     transition: color 0.5s ease-in-out;
                     cursor: pointer;
                     color: color.$black;
-                    font-size: 20px;
+                    font-size: calc(10px + 10 * (100vw / 1920));
                 }
             }
         }

@@ -45,3 +45,10 @@
     color: color.$white;
     font-size: 18px;
 }
+
+@mixin modal_background {
+    backdrop-filter: blur(10px);
+    transition: 0.5s ease;
+    box-shadow: 10px 10px 20px -10px rgba(253, 253, 253, 0.2);
+    background-color: rgba(0, 0, 0, 0.8);
+}
