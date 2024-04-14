@@ -37,9 +37,21 @@
 @keyframes spin {
     0%,
     100% {
-        transform: translateY(0); /* Начало и конец анимации в верхней точке */
+        transform: translateY(0);
     }
     50% {
-        transform: translateY(200%); /* Середина анимации в нижней точке */
+        transform: translateY(200%);
     }
+}
+
+.visible {
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+.visible.fade-in {
+    opacity: 1;
+}
+
+.hidden {
+    opacity: 0;
 }

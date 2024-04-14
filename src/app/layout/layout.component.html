@@ -3,10 +3,12 @@
         <header class="header">
             <cv-header
                 [navigationLinks]="navigation$ | async"
-                (emittedModal)="getModalInstance($event)"
+                (emittedModalShow)="getModalInstance($event)"
             ></cv-header>
         </header>
-        <cv-animation-bg></cv-animation-bg>
+        <cv-animation-bg
+            [navigationLinks]="navigation$ | async"
+        ></cv-animation-bg>
 
         <main
             class="general"
@@ -21,11 +23,10 @@
 
     @if (isModalDialogVisible) {
         <cv-login-modal
-            header="'header.value'"
-            description="description.value"
-            (isConfirmed)="closeModal($event)"
+            header="Авторизация"
+            (emittedModalHide)="getModalInstance($event)"
         ></cv-login-modal>
     }
 
-    <cv-spinner spinnerStyle="layout"></cv-spinner>
+    <!-- <cv-spinner spinnerStyle="layout"></cv-spinner> -->
 </div>

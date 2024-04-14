@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
 

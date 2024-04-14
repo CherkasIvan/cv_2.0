@@ -9,7 +9,6 @@ export class ModalService {
     constructor(private viewContainerRef: ViewContainerRef) {}
 
     public openLoginModal() {
-        const modalComponent =
-            this.viewContainerRef.createComponent(LoginModalComponent);
+        this.viewContainerRef.createComponent(LoginModalComponent);
     }
 }

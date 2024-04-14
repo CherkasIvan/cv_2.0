@@ -1,4 +1,10 @@
-<div class="animation-bg">
+<div
+    class="animation-bg"
+    [ngClass]="{
+        'visible fade-in': navigationLinks && navigationLinks.length > 0,
+        hidden: !(navigationLinks && navigationLinks.length > 0)
+    }"
+>
     <ul class="circles-list">
         @for (item of animationCircles; track $index) {
             <li class="circle-element">
