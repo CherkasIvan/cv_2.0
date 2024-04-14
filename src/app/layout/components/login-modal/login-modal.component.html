@@ -1,35 +1,64 @@
 <div class="modal-background">
-    <div class="container">
-        <div class="header-block">
-            <h3 class="header-title">{{ header() }}</h3>
-            <a
-                class="close-button"
-                (click)="close()"
+    <dialog class="modal-dialog">
+        <header class="header-block">
+            <h3 class="header-block_title">{{ header() }}</h3>
+            <button
+                class="header-block_close-button"
+                (click)="closeModalDialog()"
             >
-                <i
-                    class="fa fa-times"
+                <img
                     aria-hidden="true"
+                    src="assets/images/white-mode/icons/close.svg"
+                    alt="close.svg"
+                />
+            </button>
+        </header>
+        <body class="modal-dialog_content">
+            <form
+                action=""
+                method="post"
+                class="content-form"
+            >
+                <label
+                    for="email"
+                    class="content-form_label"
                 >
-                    x
-                </i>
-            </a>
-        </div>
-        <div class="content">
-            <span>{{ description() }}</span>
-        </div>
-        <div class="action-block">
-            <button
-                class="simple-button"
-                (click)="confirm()"
-            >
-                ОК
-            </button>
-            <button
-                class="simple-button"
-                (click)="close()"
-            >
-                Отмена
-            </button>
-        </div>
-    </div>
+                    Е-мейл
+                    <input
+                        type="email"
+                        name="email"
+                        class="content-form_input"
+                    />
+                </label>
+                <label
+                    for="password"
+                    class="content-form_label"
+                >
+                    Пароль
+                    <input
+                        type="password"
+                        name="password"
+                        class="content-form_input"
+                    />
+                </label>
+
+                <div class="content-form_submit-buttons">
+                    <button
+                        class="submit-button"
+                        (click)="confirmModalDialog()"
+                        type="button"
+                    >
+                        Войти
+                    </button>
+                    <button
+                        class="reset-button"
+                        (click)="resetModalDialog()"
+                        type="button"
+                    >
+                        Сбросить
+                    </button>
+                </div>
+            </form>
+        </body>
+    </dialog>
 </div>

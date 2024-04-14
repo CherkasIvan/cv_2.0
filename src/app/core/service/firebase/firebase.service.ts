@@ -11,7 +11,6 @@ import {
     getFirestore,
 } from '@angular/fire/firestore';
 
-import { IEducation } from '@core/models/education.interface';
 import { IFileUpload } from '@core/models/file-upload.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
