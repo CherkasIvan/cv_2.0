@@ -17,8 +17,8 @@ import {
 
 import { INavigation } from '@core/models/navigation.interface';
 
+import { ConnectionModalComponent } from '../connection-modal/connection-modal.component';
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
-import { LoginModalComponent } from '../login-modal/login-modal.component';
 
 @Component({
     selector: 'cv-header',
@@ -29,7 +29,7 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
         RouterLinkActive,
         NgClass,
         DarkModeToggleComponent,
-        LoginModalComponent,
+        ConnectionModalComponent,
     ],
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss',

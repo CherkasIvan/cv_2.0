@@ -22,10 +22,10 @@
     </main>
 
     @if (isModalDialogVisible) {
-        <cv-login-modal
+        <cv-connection-modal
             header="Авторизация"
             (emittedModalHide)="getModalInstance($event)"
-        ></cv-login-modal>
+        ></cv-connection-modal>
     }
 
     <!-- <cv-spinner spinnerStyle="layout"></cv-spinner> -->

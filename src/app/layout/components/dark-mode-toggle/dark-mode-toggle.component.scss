@@ -97,7 +97,7 @@
         transition: 0.4s;
         cursor: pointer;
         border-radius: 50%;
-        background-color: color.$white;
+        background-color: color.$black;
         width: 19px;
         height: 19px;
         content: '';
@@ -110,6 +110,7 @@
 
     &__input:checked + &__slider::before {
         transform: translateX(25px);
+        background-color: color.$white;
     }
 
     &__sun {

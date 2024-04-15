@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Output, input } from '@angular/core';
 
 @Component({
-    selector: 'cv-login-modal',
+    selector: 'cv-connection-modal',
     standalone: true,
     imports: [],
-    templateUrl: './login-modal.component.html',
-    styleUrl: './login-modal.component.scss',
+    templateUrl: './connection-modal.component.html',
+    styleUrl: './connection-modal.component.scss',
 })
-export class LoginModalComponent {
+export class ConnectionModalComponent {
     public header = input.required<string>();
     @Output() public emittedModalHide = new EventEmitter<boolean>();
 
