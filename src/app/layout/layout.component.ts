@@ -11,9 +11,9 @@ import { FirebaseService } from '@core/service/firebase/firebase.service';
 import { routeAnimations } from '@app/core/utils/animations/router-animations';
 
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
+import { ConnectionModalComponent } from './components/connection-modal/connection-modal.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import { LoginModalComponent } from './components/login-modal/login-modal.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AuthComponent } from './pages/auth/auth.component';
 
@@ -27,9 +27,9 @@ import { AuthComponent } from './pages/auth/auth.component';
         RouterOutlet,
         AuthComponent,
         AnimationBgComponent,
-        LoginModalComponent,
         AsyncPipe,
         SpinnerComponent,
+        ConnectionModalComponent,
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',
