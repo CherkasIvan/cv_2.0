@@ -8,12 +8,11 @@ import {
     OnInit,
 } from '@angular/core';
 
+import { TExperienceAside } from '@core/models/experience-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { FirebaseService } from '@core/service/firebase/firebase.service';
 
-import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
-
-import { TExperienceAside } from '@app/core/models/experience-aside.type';
+import { AsideNavigationComponent } from '@app/layout/components/aside-navigation/aside-navigation.component';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
 

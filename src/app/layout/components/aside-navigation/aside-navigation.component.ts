@@ -1,22 +1,21 @@
-import { Observable, find, findIndex } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input,
     OnInit,
     Output,
     computed,
     input,
-    signal,
 } from '@angular/core';
 import { RouterLinkActive } from '@angular/router';
 
+import { INavigation } from '@core/models/navigation.interface';
+import { FirebaseService } from '@core/service/firebase/firebase.service';
+
 import { TExperienceAside } from '@app/core/models/experience-aside.type';
-import { INavigation } from '@app/core/models/navigation.interface';
-import { FirebaseService } from '@app/core/service/firebase/firebase.service';
 
 @Component({
     selector: 'cv-aside-navigation',

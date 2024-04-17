@@ -19,7 +19,7 @@
     "@ngrx/entity": "^17.1.1",
     "@ngrx/operators": "^17.1.1",
     "@ngrx/router-store": "^17.1.1",
-    "@ngrx/signals": "^17.1.1",
+    "@ngrx/signals": "^17.2.0",
     "@ngrx/store": "^17.1.1",
     "@ngrx/store-devtools": "^17.1.1",
     "express": "^4.18.3",
@@ -296,7 +296,7 @@
       },
       {
         "file": "src/app/layout/components/animation-bg/animation-bg.component.scss",
-        "hash": "8931417962602781706"
+        "hash": "9416147257748146438"
       },
       {
         "file": "src/app/layout/components/animation-bg/animation-bg.component.spec.ts",
@@ -339,12 +339,28 @@
         "hash": "5528765297318056899"
       },
       {
+        "file": "src/app/layout/components/connection-modal/connection-modal.component.html",
+        "hash": "454216014626042350"
+      },
+      {
+        "file": "src/app/layout/components/connection-modal/connection-modal.component.scss",
+        "hash": "3166400460171662863"
+      },
+      {
+        "file": "src/app/layout/components/connection-modal/connection-modal.component.spec.ts",
+        "hash": "3999247162222562754"
+      },
+      {
+        "file": "src/app/layout/components/connection-modal/connection-modal.component.ts",
+        "hash": "2067940232526484229"
+      },
+      {
         "file": "src/app/layout/components/dark-mode-toggle/dark-mode-toggle.component.html",
         "hash": "3225615635897765614"
       },
       {
         "file": "src/app/layout/components/dark-mode-toggle/dark-mode-toggle.component.scss",
-        "hash": "12332183706231631625"
+        "hash": "11409856831923626813"
       },
       {
         "file": "src/app/layout/components/dark-mode-toggle/dark-mode-toggle.component.spec.ts",
@@ -360,7 +376,7 @@
       },
       {
         "file": "src/app/layout/components/footer/footer.component.scss",
-        "hash": "3592286946372101712"
+        "hash": "172966216179911012"
       },
       {
         "file": "src/app/layout/components/footer/footer.component.spec.ts",
@@ -372,11 +388,11 @@
       },
       {
         "file": "src/app/layout/components/header/header.component.html",
-        "hash": "3395406876601776929"
+        "hash": "16215571696878584870"
       },
       {
         "file": "src/app/layout/components/header/header.component.scss",
-        "hash": "14831545789042674252"
+        "hash": "10476333612368211434"
       },
       {
         "file": "src/app/layout/components/header/header.component.spec.ts",
@@ -384,23 +400,7 @@
       },
       {
         "file": "src/app/layout/components/header/header.component.ts",
-        "hash": "7385742484790302862"
-      },
-      {
-        "file": "src/app/layout/components/login-modal/login-modal.component.html",
-        "hash": "6794660505015871235"
-      },
-      {
-        "file": "src/app/layout/components/login-modal/login-modal.component.scss",
-        "hash": "3166400460171662863"
-      },
-      {
-        "file": "src/app/layout/components/login-modal/login-modal.component.spec.ts",
-        "hash": "3999247162222562754"
-      },
-      {
-        "file": "src/app/layout/components/login-modal/login-modal.component.ts",
-        "hash": "14315619985199017382"
+        "hash": "8534602585367930726"
       },
       {
         "file": "src/app/layout/components/profile-logo/profile-logo.component.html",
@@ -448,7 +448,7 @@
       },
       {
         "file": "src/app/layout/layout.component.html",
-        "hash": "7604633907846349831"
+        "hash": "8185835841348201323"
       },
       {
         "file": "src/app/layout/layout.component.scss",
@@ -460,7 +460,7 @@
       },
       {
         "file": "src/app/layout/layout.component.ts",
-        "hash": "16378525273231871577"
+        "hash": "17853122854500162213"
       },
       {
         "file": "src/app/layout/layout.routes.ts",
@@ -504,7 +504,7 @@
       },
       {
         "file": "src/app/layout/pages/experience/experience-card/experience-card.component.scss",
-        "hash": "3757031528734108158"
+        "hash": "10186276879077935956"
       },
       {
         "file": "src/app/layout/pages/experience/experience-card/experience-card.component.spec.ts",
@@ -520,7 +520,7 @@
       },
       {
         "file": "src/app/layout/pages/experience/experience.component.scss",
-        "hash": "9310473182202594455"
+        "hash": "14806581903111288248"
       },
       {
         "file": "src/app/layout/pages/experience/experience.component.spec.ts",

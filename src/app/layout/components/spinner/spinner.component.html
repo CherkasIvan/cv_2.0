@@ -14,11 +14,11 @@
     }
 </ng-template>
 
-@if (spinnerStyle === 'layout') {
+@if (spinnerStyle() === 'light-theme') {
     <ng-container [ngTemplateOutlet]="isWhiteMode"></ng-container>
 }
 
-<ng-template #isDarkMode>
+<!-- <ng-template #isDarkMode>
     @if (loading$ | async) {
         <div
             [ngClass]="spinnerStyle"
@@ -48,4 +48,4 @@
 
 @if (spinnerStyle === 'dark-layout') {
     <ng-container [ngTemplateOutlet]="isDarkMode"></ng-container>
-}
+} -->

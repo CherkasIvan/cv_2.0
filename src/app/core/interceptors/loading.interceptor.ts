@@ -1,4 +1,4 @@
-import { Observable, finalize } from 'rxjs';
+import { Observable, catchError, finalize, tap, throwError } from 'rxjs';
 
 import {
     HttpEvent,
@@ -18,17 +18,21 @@ import {
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-    private totalRequests = 0;
     constructor(private _store: Store<ISpinner>) {}
 
     intercept(
         req: HttpRequest<unknown>,
         next: HttpHandler,
     ): Observable<HttpEvent<unknown>> {
-        this._store.dispatch(showSpinner()); // dispatch showSpinner action before each request
+        this._store.dispatch(showSpinner());
         return next.handle(req).pipe(
+            tap(() => console.log(req)),
+            catchError((error) => {
+                console.error('An error occurred:', error);
+                return throwError(error);
+            }),
             finalize(() => {
-                this._store.dispatch(hideSpinner()); // dispatch hideSpinner action after each request
+                this._store.dispatch(hideSpinner());
             }),
         );
     }
