@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 import { AsyncPipe, NgSwitch } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IWorkExperience } from '@core/models/work-experience.interface';
-import { FirebaseService } from '@core/service/firebase/firebase.service';
 
 import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
 
-import { TExperienceAside } from '@app/core/models/experience-aside.type';
+import { FirebaseService } from '@app/core/service/firebase/firebase.service';
 
 import { LearningExperienceComponent } from './learning-experience/learning-experience.component';
 import { WorkExperienceComponent } from './work-experience/work-experience.component';

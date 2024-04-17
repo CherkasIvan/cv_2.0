@@ -27,6 +27,7 @@
             (emittedModalHide)="getModalInstance($event)"
         ></cv-connection-modal>
     }
-
-    <!-- <cv-spinner spinnerStyle="layout"></cv-spinner> -->
 </div>
+<cv-spinner
+    [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
+></cv-spinner>
