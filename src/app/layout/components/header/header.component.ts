@@ -7,6 +7,7 @@ import {
     EventEmitter,
     Input,
     Output,
+    input,
 } from '@angular/core';
 import {
     NavigationEnd,
@@ -37,6 +38,7 @@ import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.co
 })
 export class HeaderComponent {
     @Input() public navigationLinks: INavigation[] | null = [];
+    public theme = input<boolean | null>();
     @Output() public emittedModalShow = new EventEmitter<boolean>();
 
     public currentRoute: string = '';
@@ -44,6 +46,7 @@ export class HeaderComponent {
     public isModalDialogVisible: boolean = false;
 
     constructor(private readonly _router: Router) {
+        console.log(this.theme());
         this._routerSubscription$.add(
             this._router.events.subscribe((event) => {
                 event instanceof NavigationEnd

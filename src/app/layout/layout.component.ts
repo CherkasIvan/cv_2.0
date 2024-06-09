@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
@@ -33,6 +33,7 @@ import { darkModeSelector } from './store/dark-mode-store/dark-mode.selectors';
         AsyncPipe,
         SpinnerComponent,
         ConnectionModalComponent,
+        NgClass,
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',

@@ -1,5 +1,9 @@
 <button
     class="general-button"
+    [ngClass]="{
+        'dark-theme': buttonTheme(),
+        'light-theme': !buttonTheme()
+    }"
     (mouseover)="onHover()"
     (mouseout)="onLeave()"
 >

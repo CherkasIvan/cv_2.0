@@ -3,14 +3,13 @@
 .layout-container {
     background-image: url('../../assets/images/white-mode/background-main-menu.png');
     background-size: cover;
-    background-color: color.$lightGrey;
     padding: 40px 135px 60px;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+
     .layout {
         display: flex;
-        // background-color: black;
         position: relative;
         flex-direction: column;
         justify-content: space-between;
@@ -28,4 +27,14 @@
         .footer {
         }
     }
+}
+
+.light-theme {
+    transition: 0.3s;
+    background-color: color.$lightGrey;
+}
+
+.dark-theme {
+    transition: 0.3s;
+    background-color: color.$black;
 }

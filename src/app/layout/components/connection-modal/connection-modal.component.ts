@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output, input } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Output,
+    ViewChild,
+    input,
+} from '@angular/core';
 
 @Component({
     selector: 'cv-connection-modal',
@@ -8,11 +15,28 @@ import { Component, EventEmitter, Output, input } from '@angular/core';
     styleUrl: './connection-modal.component.scss',
 })
 export class ConnectionModalComponent {
+    @ViewChild('modal', { static: false })
+    modal!: ElementRef;
     public header = input.required<string>();
     @Output() public emittedModalHide = new EventEmitter<boolean>();
 
+    // @HostListener('document:click', ['$event'])
+    // public onDocumentClick(event: MouseEvent): void {
+    //     const target = event.target as HTMLElement;
+    //     if (!this.modal.nativeElement.contains(target)) {
+    //         this.closeModalDialog();
+    //     }
+    // }
+
     public confirmModalDialog() {
         this.emittedModalHide.emit(false);
+    }
+
+    public onBackgroundClick(event: MouseEvent): void {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains(this.modal.nativeElement.classList)) {
+            this.closeModalDialog();
+        }
     }
 
     public closeModalDialog() {

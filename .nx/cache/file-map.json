@@ -132,11 +132,11 @@
       },
       {
         "file": "package-lock.json",
-        "hash": "6010191780352031841"
+        "hash": "9403400576037802399"
       },
       {
         "file": "package.json",
-        "hash": "16546962409510619067"
+        "hash": "4786080106409992824"
       },
       {
         "file": "server.ts",
@@ -164,7 +164,7 @@
       },
       {
         "file": "src/app/app.config.ts",
-        "hash": "381681291740535634"
+        "hash": "2486140674029766559"
       },
       {
         "file": "src/app/core/enum/modal-dialog.base.enum.ts",
@@ -180,7 +180,7 @@
       },
       {
         "file": "src/app/core/interceptors/loading.interceptor.ts",
-        "hash": "4965357995323776717"
+        "hash": "1901770436078211055"
       },
       {
         "file": "src/app/core/models/contacts.interface.ts",
@@ -244,18 +244,18 @@
       },
       {
         "file": "src/app/core/service/firebase/firebase.service.spec.ts",
-        "hash": "8187996939566346717"
+        "hash": "10884819612951963336"
       },
       {
         "file": "src/app/core/service/firebase/firebase.service.ts",
         "hash": "7946922806631548923"
       },
       {
-        "file": "src/app/core/service/local-storage.service.spec.ts",
+        "file": "src/app/core/service/local-storage/local-storage.service.spec.ts",
         "hash": "1940534669552124172"
       },
       {
-        "file": "src/app/core/service/local-storage.service.ts",
+        "file": "src/app/core/service/local-storage/local-storage.service.ts",
         "hash": "14768487162388840831"
       },
       {
@@ -275,6 +275,14 @@
         "hash": "382273471035173653"
       },
       {
+        "file": "src/app/core/service/theme/theme.service.spec.ts",
+        "hash": "14197313395001699105"
+      },
+      {
+        "file": "src/app/core/service/theme/theme.service.ts",
+        "hash": "8460667725421451061"
+      },
+      {
         "file": "src/app/core/utils/animations/bg-layout.animation.ts",
         "hash": "361422657269500064"
       },
@@ -284,7 +292,7 @@
       },
       {
         "file": "src/app/core/utils/firebase/firebase.config.ts",
-        "hash": "7892179935248642323"
+        "hash": "9063000328194897256"
       },
       {
         "file": "src/app/custom-title-strategy.ts",
@@ -320,15 +328,15 @@
       },
       {
         "file": "src/app/layout/components/aside-navigation/aside-navigation.component.ts",
-        "hash": "14973035644702772647"
+        "hash": "15819250700566025805"
       },
       {
         "file": "src/app/layout/components/button/button.component.html",
-        "hash": "17111031119871966815"
+        "hash": "5002428727231103244"
       },
       {
         "file": "src/app/layout/components/button/button.component.scss",
-        "hash": "975620889424806108"
+        "hash": "7372786653500000258"
       },
       {
         "file": "src/app/layout/components/button/button.component.spec.ts",
@@ -336,11 +344,11 @@
       },
       {
         "file": "src/app/layout/components/button/button.component.ts",
-        "hash": "5528765297318056899"
+        "hash": "3825412656167746576"
       },
       {
         "file": "src/app/layout/components/connection-modal/connection-modal.component.html",
-        "hash": "454216014626042350"
+        "hash": "9037067874142192000"
       },
       {
         "file": "src/app/layout/components/connection-modal/connection-modal.component.scss",
@@ -352,7 +360,7 @@
       },
       {
         "file": "src/app/layout/components/connection-modal/connection-modal.component.ts",
-        "hash": "2067940232526484229"
+        "hash": "13036010687678349482"
       },
       {
         "file": "src/app/layout/components/dark-mode-toggle/dark-mode-toggle.component.html",
@@ -368,15 +376,15 @@
       },
       {
         "file": "src/app/layout/components/dark-mode-toggle/dark-mode-toggle.component.ts",
-        "hash": "14021589714863570037"
+        "hash": "436256496145505809"
       },
       {
         "file": "src/app/layout/components/footer/footer.component.html",
-        "hash": "16429616771710831381"
+        "hash": "16673691118735790970"
       },
       {
         "file": "src/app/layout/components/footer/footer.component.scss",
-        "hash": "172966216179911012"
+        "hash": "7483002630713529051"
       },
       {
         "file": "src/app/layout/components/footer/footer.component.spec.ts",
@@ -384,15 +392,15 @@
       },
       {
         "file": "src/app/layout/components/footer/footer.component.ts",
-        "hash": "2590866535532411139"
+        "hash": "3359681101793905997"
       },
       {
         "file": "src/app/layout/components/header/header.component.html",
-        "hash": "16215571696878584870"
+        "hash": "6813323257515759898"
       },
       {
         "file": "src/app/layout/components/header/header.component.scss",
-        "hash": "10476333612368211434"
+        "hash": "12277661295359338997"
       },
       {
         "file": "src/app/layout/components/header/header.component.spec.ts",
@@ -400,7 +408,7 @@
       },
       {
         "file": "src/app/layout/components/header/header.component.ts",
-        "hash": "8534602585367930726"
+        "hash": "15972837268200753685"
       },
       {
         "file": "src/app/layout/components/profile-logo/profile-logo.component.html",
@@ -420,7 +428,7 @@
       },
       {
         "file": "src/app/layout/components/spinner/spinner.component.html",
-        "hash": "4342156195725679571"
+        "hash": "7488052726917905156"
       },
       {
         "file": "src/app/layout/components/spinner/spinner.component.scss",
@@ -432,7 +440,7 @@
       },
       {
         "file": "src/app/layout/components/spinner/spinner.component.ts",
-        "hash": "12449586607262496752"
+        "hash": "5557302733477299522"
       },
       {
         "file": "src/app/layout/environments/environment.development.ts",
@@ -448,11 +456,11 @@
       },
       {
         "file": "src/app/layout/layout.component.html",
-        "hash": "8185835841348201323"
+        "hash": "774632404698809457"
       },
       {
         "file": "src/app/layout/layout.component.scss",
-        "hash": "12411567556613082916"
+        "hash": "1685793394861818526"
       },
       {
         "file": "src/app/layout/layout.component.spec.ts",
@@ -460,27 +468,11 @@
       },
       {
         "file": "src/app/layout/layout.component.ts",
-        "hash": "17853122854500162213"
+        "hash": "16878324256212211368"
       },
       {
         "file": "src/app/layout/layout.routes.ts",
         "hash": "12271794672156790359"
-      },
-      {
-        "file": "src/app/layout/pages/404/404.component.html",
-        "hash": "6293157497718905807"
-      },
-      {
-        "file": "src/app/layout/pages/404/404.component.scss",
-        "hash": "3244421341483603138"
-      },
-      {
-        "file": "src/app/layout/pages/404/404.component.spec.ts",
-        "hash": "500169343673056052"
-      },
-      {
-        "file": "src/app/layout/pages/404/404.component.ts",
-        "hash": "11522645075010202249"
       },
       {
         "file": "src/app/layout/pages/auth/auth.component.html",
@@ -528,7 +520,7 @@
       },
       {
         "file": "src/app/layout/pages/experience/experience.component.ts",
-        "hash": "14804959798287289739"
+        "hash": "16272801824020464487"
       },
       {
         "file": "src/app/layout/pages/experience/learning-experience/learning-experience.component.html",
@@ -579,6 +571,22 @@
         "hash": "16638012652684271903"
       },
       {
+        "file": "src/app/layout/pages/notFound/notFound.component.html",
+        "hash": "6293157497718905807"
+      },
+      {
+        "file": "src/app/layout/pages/notFound/notFound.component.scss",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/app/layout/pages/notFound/notFound.component.spec.ts",
+        "hash": "2892553766684790172"
+      },
+      {
+        "file": "src/app/layout/pages/notFound/notFound.component.ts",
+        "hash": "8082967413628741179"
+      },
+      {
         "file": "src/app/layout/pages/projects/projects.component.html",
         "hash": "10539649865700167359"
       },
@@ -620,15 +628,27 @@
       },
       {
         "file": "src/app/layout/pages/technologies/technologies.component.spec.ts",
-        "hash": "1445987800272969150"
+        "hash": "17741708385103256369"
       },
       {
         "file": "src/app/layout/pages/technologies/technologies.component.ts",
-        "hash": "6779436203436477444"
+        "hash": "18080819122392173700"
+      },
+      {
+        "file": "src/app/layout/store/dark-mode-store/dark-mode.actions.ts",
+        "hash": "5437198326268243099"
+      },
+      {
+        "file": "src/app/layout/store/dark-mode-store/dark-mode.reducers.ts",
+        "hash": "7502993011637061965"
+      },
+      {
+        "file": "src/app/layout/store/dark-mode-store/dark-mode.selectors.ts",
+        "hash": "10350848601183408692"
       },
       {
         "file": "src/app/layout/store/index.ts",
-        "hash": "519074593386343383"
+        "hash": "13750206537034624321"
       },
       {
         "file": "src/app/layout/store/model/dark-mode.interface.ts",
@@ -651,15 +671,11 @@
         "hash": "2927019444244632856"
       },
       {
-        "file": "src/app/layout/store/spinner-store/spinner.effects.ts",
-        "hash": "3244421341483603138"
-      },
-      {
         "file": "src/app/layout/store/spinner-store/spinner.reducer.ts",
         "hash": "7985765298629403677"
       },
       {
-        "file": "src/app/layout/store/spinner-store/spinner.selectots.ts",
+        "file": "src/app/layout/store/spinner-store/spinner.selector.ts",
         "hash": "1836725605119864466"
       },
       {
@@ -771,8 +787,8 @@
         "hash": "8885173773558657501"
       },
       {
-        "file": "src/assets/images/dark-mode/profile-logo/logo-i.cherkas-dm_.svg",
-        "hash": "6056046307701029427"
+        "file": "src/assets/images/dark-mode/profile-logo/logo-i.cherkas-dm.svg",
+        "hash": "15805139285138077297"
       },
       {
         "file": "src/assets/images/projects-logo/project-link-button.png",
@@ -895,7 +911,7 @@
         "hash": "15362647101243192773"
       },
       {
-        "file": "src/assets/images/white-mode/logo-i.cherkas-wm.svg",
+        "file": "src/assets/images/white-mode/profile-logo/logo-i.cherkas-wm.svg",
         "hash": "4064780579583569301"
       },
       {
@@ -912,7 +928,7 @@
       },
       {
         "file": "src/assets/styles/_variables.scss",
-        "hash": "4293320003722667115"
+        "hash": "13215450622285352197"
       },
       {
         "file": "src/assets/styles/mixins/_flex.mixin.scss",
