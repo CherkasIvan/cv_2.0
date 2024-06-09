@@ -1,4 +1,8 @@
-<div class="modal-background">
+<div
+    class="modal-background"
+    #modal
+    (click)="onBackgroundClick($event)"
+>
     <dialog class="modal-dialog">
         <header class="header-block">
             <h3 class="header-block_title">{{ header() }}</h3>

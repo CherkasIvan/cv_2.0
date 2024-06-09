@@ -11,6 +11,7 @@ import { Component, ElementRef, ViewChild, input } from '@angular/core';
 export class ButtonComponent {
     @ViewChild('generalButton') generalButton!: ElementRef;
     public buttonText = input.required<string>();
+    public buttonTheme = input<boolean | null>();
     public buttonHoverText = input.required<string>();
     public isHovered = false;
 

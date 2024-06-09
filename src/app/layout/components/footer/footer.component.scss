@@ -30,6 +30,7 @@
                 cursor: pointer;
                 height: 100%;
                 color: color.$black;
+                font-size: calc(4px + 12 * (100vw / 1920));
 
                 &_text {
                     text-transform: uppercase;

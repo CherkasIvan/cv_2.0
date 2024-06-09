@@ -2,10 +2,15 @@
     class="navigation-border"
     [ngClass]="{
         'visible fade-in': navigationLinks && navigationLinks.length > 0,
-        hidden: !(navigationLinks && navigationLinks.length > 0)
+        hidden: !(navigationLinks && navigationLinks.length > 0),
+        'dark-theme': theme(),
+        'light-theme': !theme()
     }"
 >
-    <nav class="navigation-header">
+    <nav
+        class="navigation-header"
+        [ngClass]="theme() ? 'dark-theme' : 'light-theme'"
+    >
         <article class="header-logo">
             <a
                 class="header-logo_link"
@@ -13,8 +18,12 @@
             >
                 <img
                     class="header-logo_link-img"
-                    src="assets/images/white-mode/logo-i.cherkas-wm.svg"
-                    alt="logo-i.cherkas-wm.svg"
+                    [src]="
+                        !theme()
+                            ? 'assets/images/white-mode/profile-logo/logo-i.cherkas-wm.svg'
+                            : 'assets/images/dark-mode/profile-logo/logo-i.cherkas-dm.svg'
+                    "
+                    alt="logo-i.cherkas.svg"
                 />
             </a>
         </article>

@@ -1,4 +1,4 @@
-import { Observable, timeout } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -29,8 +29,8 @@ import { spinnerSelector } from '@layout/store/spinner-store/spinner.selector';
 export class SpinnerComponent {
     public spinnerStyle = input<string>('');
     public loading$: Observable<boolean> = this._store.pipe(
-        timeout(1000),
         select(spinnerSelector),
+        tap((el) => console.log(el)),
     );
 
     constructor(private _store: Store<ISpinner>) {}
