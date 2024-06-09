@@ -39,6 +39,7 @@
                     height: 100%;
                     color: color.$black;
                     font-size: calc(4px + 12 * (100vw / 1920));
+                    white-space: nowrap;
 
                     &_text::first-letter {
                         text-transform: uppercase;
