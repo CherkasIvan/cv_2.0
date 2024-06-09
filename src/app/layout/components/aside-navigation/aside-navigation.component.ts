@@ -63,9 +63,10 @@ export class AsideNavigationComponent implements OnInit {
     }
 
     ngOnInit(): void {
+      debugger
         this.selectedTab === '' ? this._tab() : this.selectedTab;
         this.selectedTab === 'tech'
-            ? this.hardSkillsNavigation$.subscribe((skills) => {
+            ? this.hardSkillsNavigation$.subscribe((skills:INavigation[]) => {
                   skills.find((skill) => {
                       skill.id === '1';
                       return (this.currentSkills = skill.link);
