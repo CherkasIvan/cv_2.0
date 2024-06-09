@@ -1,12 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
-import {
-    HTTP_INTERCEPTORS,
-    provideHttpClient,
-    withFetch,
-    withInterceptorsFromDi,
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import {
     ApplicationConfig,
     enableProdMode,
