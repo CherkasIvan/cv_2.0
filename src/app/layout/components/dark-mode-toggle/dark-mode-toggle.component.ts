@@ -1,6 +1,11 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
+import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
+import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+
 @Component({
     selector: 'cv-dark-mode-toggle',
     standalone: true,
@@ -13,5 +18,8 @@ export class DarkModeToggleComponent {
 
     public changeView(): void {
         this.isChecked$ = !this.isChecked$;
+        this._store$.dispatch(setModeSuccess(this.isChecked$));
     }
+
+    constructor(private _store$: Store<IDarkMode>) {}
 }

@@ -1,7 +1,11 @@
-<div class="layout-container">
+<div
+    class="layout-container"
+    [ngClass]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
+>
     <main class="layout">
         <header class="header">
             <cv-header
+                [theme]="currentTheme$ | async"
                 [navigationLinks]="navigation$ | async"
                 (emittedModalShow)="getModalInstance($event)"
             ></cv-header>
@@ -17,16 +21,20 @@
             <router-outlet #outlet="outlet"></router-outlet>
         </main>
         <footer class="footer">
-            <cv-footer [socialLinks$]="social$ | async"></cv-footer>
+            <cv-footer
+                [theme]="currentTheme$ | async"
+                [socialLinks$]="social$ | async"
+            ></cv-footer>
         </footer>
     </main>
 
     @if (isModalDialogVisible) {
-        <cv-login-modal
+        <cv-connection-modal
             header="Авторизация"
             (emittedModalHide)="getModalInstance($event)"
-        ></cv-login-modal>
+        ></cv-connection-modal>
     }
-
-    <!-- <cv-spinner spinnerStyle="layout"></cv-spinner> -->
 </div>
+<cv-spinner
+    [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
+></cv-spinner>

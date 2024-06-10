@@ -1,5 +1,9 @@
 <button
     class="general-button"
+    [ngClass]="{
+        'dark-theme': buttonTheme(),
+        'light-theme': !buttonTheme(),
+    }"
     (mouseover)="onHover()"
     (mouseout)="onLeave()"
 >
@@ -7,7 +11,11 @@
         class="general-button_text"
         [ngClass]="{ active: isHovered }"
     >
-        {{ buttonText() }}
+        @if (buttonType() === 'short-main-button') {
+            Смотреть CV
+        } @else {
+            Связаться со мной
+        }
     </span>
     <span
         #generalButton
@@ -17,9 +25,15 @@
     >
         <div
             class="absolute"
-            [ngStyle]="setAbsoluteWidth()"
+            [ngClass]="
+                this.buttonType().length > 11 ? 'connect-me' : 'watch-cv'
+            "
         >
-            {{ buttonHoverText() }}
+            @if (buttonType() === 'short-main-button') {
+                Открыть СV
+            } @else {
+                Написать мне
+            }
         </div>
     </span>
 </button>
