@@ -17,17 +17,16 @@
         .circle-element {
             display: flex;
             align-items: flex-start;
-            backdrop-filter: blur(100px);
             width: fit-content;
             height: 100%;
 
             &_img {
-                // width: 50px;
-                // height: 50px;
+                backdrop-filter: blur(100px);
                 animation: spin infinite linear;
                 animation-fill-mode: forwards;
                 border-radius: 50%;
                 background: color.$black;
+
                 background-image: url('../../../../assets/images/white-mode/background-main-menu.png');
                 overflow: hidden;
             }

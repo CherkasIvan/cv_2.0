@@ -1,4 +1,8 @@
-<div class="modal-background">
+<div
+    class="modal-background"
+    #modal
+    (click)="onBackgroundClick($event)"
+>
     <dialog class="modal-dialog">
         <header class="header-block">
             <h3 class="header-block_title">{{ header() }}</h3>
@@ -26,7 +30,7 @@
                     Е-мейл
                     <input
                         type="email"
-                        name="email"
+                        id="email"
                         class="content-form_input"
                     />
                 </label>
@@ -37,7 +41,7 @@
                     Пароль
                     <input
                         type="password"
-                        name="password"
+                        id="password"
                         class="content-form_input"
                     />
                 </label>

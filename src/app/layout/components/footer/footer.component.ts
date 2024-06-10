@@ -16,4 +16,5 @@ import { ButtonComponent } from '../button/button.component';
 })
 export class FooterComponent {
     public socialLinks$ = input.required<ISocialMedia[] | null>();
+    public theme = input<boolean | null>();
 }

@@ -10,21 +10,9 @@ import { Component, ElementRef, ViewChild, input } from '@angular/core';
 })
 export class ButtonComponent {
     @ViewChild('generalButton') generalButton!: ElementRef;
-    public buttonText = input.required<string>();
-    public buttonHoverText = input.required<string>();
+    public buttonType = input.required<string>();
+    public buttonTheme = input<boolean | null>();
     public isHovered = false;
-
-    private _watchCv = {
-        width: '200px',
-        height: '200px',
-        left: '-150px',
-    };
-
-    private _connectWithMe = {
-        width: '250px',
-        height: '250px',
-        left: '-200px',
-    };
 
     private _activePosition = {
         transform: ' translateY(-155px)',
@@ -33,8 +21,6 @@ export class ButtonComponent {
     // private _inactivePosition = {
     //   transform: 'translateY(-130px)';
     // }
-
-    constructor(private el: ElementRef) {}
 
     onHover() {
         this.isHovered = true;
@@ -45,16 +31,10 @@ export class ButtonComponent {
     }
 
     public setActivePosition() {
-        if (this.buttonText().length > 11 && this.isHovered) {
+        if (this.buttonType().length > 11 && this.isHovered) {
             return this._activePosition;
         } else {
             return;
         }
-    }
-
-    public setAbsoluteWidth() {
-        return this.buttonText().length > 11
-            ? this._connectWithMe
-            : this._watchCv;
     }
 }
