@@ -1,7 +1,9 @@
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-
-import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import {
+    HTTP_INTERCEPTORS,
+    provideHttpClient,
+    withFetch,
+    withInterceptorsFromDi,
+} from '@angular/common/http';
 import {
     ApplicationConfig,
     enableProdMode,
@@ -9,11 +11,11 @@ import {
     isDevMode,
 } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { provideAuth } from '@angular/fire/auth';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
-import { provideFirestore } from '@angular/fire/firestore';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import {
     BrowserModule,
@@ -51,6 +53,11 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
         provideAnimations(),
         provideRouter(MAIN_ROUTES, withViewTransitions()),
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideFirestore(() => getFirestore()),
+        provideDatabase(() => getDatabase()),
+        provideStorage(() => getStorage()),
+        provideAuth(() => getAuth()),
         importProvidersFrom([
             AngularFireModule.initializeApp(environment.firebase),
             AngularFireDatabaseModule,
@@ -60,11 +67,6 @@ export const appConfig: ApplicationConfig = {
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),
             StoreRouterConnectingModule.forRoot(),
-            provideStorage(() => getStorage()),
-            provideAuth(() => getAuth()),
-            provideFirestore(() => getFirestore()),
-            provideDatabase(() => getDatabase()),
-            provideFirebaseApp(() => initializeApp(environment.firebase)),
         ]),
         {
             provide: HTTP_INTERCEPTORS,

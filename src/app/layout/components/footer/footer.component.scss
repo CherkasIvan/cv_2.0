@@ -5,11 +5,12 @@
     display: flex;
     position: fixed;
     right: 10%;
-    bottom: 60px;
-    left: 10%;
+    bottom: 2%;
+    left: 50%;
     column-gap: 30px;
     justify-content: space-between;
     align-items: center;
+    transform: translate(-50%, -50%);
     width: 80%;
 
     .footer-links {
