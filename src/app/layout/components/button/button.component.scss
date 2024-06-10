@@ -3,12 +3,14 @@
 .general-button {
     display: flex;
     transition: max-width 0.5s ease-in-out;
+    transition: 0.3s;
     cursor: pointer;
     border-radius: 50px;
     background-color: color.$black;
     padding: calc(13px + 10 * (100vw / 1920)) calc(15px + 50 * (100vw / 1920));
     overflow: hidden;
     color: color.$white;
+    font-size: calc(4px + 12 * (100vw / 1920));
     white-space: nowrap;
 }
 
@@ -22,6 +24,18 @@
         transform: translateY(-300%);
         transition: transform 0.6s ease-in-out;
     }
+}
+
+.connect-me {
+    left: -200px;
+    width: 250px;
+    height: 250px;
+}
+
+.watch-cv {
+    left: -150px;
+    width: 200px;
+    height: 200px;
 }
 
 .general-button_text:nth-child(2) {
@@ -49,4 +63,10 @@
         line-height: 86px; // равно высоте кнопки минус вертикальные паддинги
         text-align: center;
     }
+}
+
+.dark-theme {
+    transition: 0.3s;
+    background-color: color.$white;
+    color: color.$black;
 }

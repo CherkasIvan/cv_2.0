@@ -23,16 +23,18 @@
     }
 
     &_picture-work {
-        > * {
-            border-radius: 8px;
+        transition: 0.3s;
+        .card-img {
+            border-radius: 28px;
             max-width: 15rem;
             overflow: visible;
         }
     }
 
     &_picture-learning {
-        > * {
-            border-radius: 8px;
+        transition: 0.3s;
+        .card-img {
+            border-radius: 28px;
             max-width: 15rem;
             overflow: visible;
         }

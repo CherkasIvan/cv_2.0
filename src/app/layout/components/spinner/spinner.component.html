@@ -14,7 +14,7 @@
     }
 </ng-template>
 
-@if (spinnerStyle === 'layout') {
+@if (spinnerStyle() === 'light-theme') {
     <ng-container [ngTemplateOutlet]="isWhiteMode"></ng-container>
 }
 
@@ -46,6 +46,6 @@
     }
 </ng-template>
 
-@if (spinnerStyle === 'dark-layout') {
+@if (spinnerStyle() === 'dark-layout') {
     <ng-container [ngTemplateOutlet]="isDarkMode"></ng-container>
 }

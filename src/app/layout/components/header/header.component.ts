@@ -7,6 +7,7 @@ import {
     EventEmitter,
     Input,
     Output,
+    input,
 } from '@angular/core';
 import {
     NavigationEnd,
@@ -17,8 +18,8 @@ import {
 
 import { INavigation } from '@core/models/navigation.interface';
 
+import { ConnectionModalComponent } from '../connection-modal/connection-modal.component';
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
-import { LoginModalComponent } from '../login-modal/login-modal.component';
 
 @Component({
     selector: 'cv-header',
@@ -29,7 +30,7 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
         RouterLinkActive,
         NgClass,
         DarkModeToggleComponent,
-        LoginModalComponent,
+        ConnectionModalComponent,
     ],
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss',
@@ -37,6 +38,7 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
 })
 export class HeaderComponent {
     @Input() public navigationLinks: INavigation[] | null = [];
+    public theme = input<boolean | null>();
     @Output() public emittedModalShow = new EventEmitter<boolean>();
 
     public currentRoute: string = '';
@@ -44,6 +46,7 @@ export class HeaderComponent {
     public isModalDialogVisible: boolean = false;
 
     constructor(private readonly _router: Router) {
+        console.log(this.theme());
         this._routerSubscription$.add(
             this._router.events.subscribe((event) => {
                 event instanceof NavigationEnd
