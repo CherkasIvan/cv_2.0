@@ -1,47 +1,58 @@
-<nav
-    class="navigation-header"
+<div
+    class="navigation-border"
     [ngClass]="{
         'visible fade-in': navigationLinks && navigationLinks.length > 0,
-        hidden: !(navigationLinks && navigationLinks.length > 0)
+        hidden: !(navigationLinks && navigationLinks.length > 0),
+        'dark-theme': theme(),
+        'light-theme': !theme()
     }"
 >
-    <article class="header-logo">
-        <a
-            class="header-logo_link"
-            routerLink="/layout/main"
-        >
-            <img
-                class="header-logo_link-img"
-                src="assets/images/white-mode/logo-i.cherkas-wm.svg"
-                alt="logo-i.cherkas-wm.svg"
-            />
-        </a>
-    </article>
-    <ul class="header-links">
-        @for (itemLink of navigationLinks; track itemLink; let i = $index) {
-            <li
-                class="header-links_item"
-                [tabindex]="i"
+    <nav
+        class="navigation-header"
+        [ngClass]="theme() ? 'dark-theme' : 'light-theme'"
+    >
+        <article class="header-logo">
+            <a
+                class="header-logo_link"
+                routerLink="/layout/main"
             >
-                <a
-                    routerLink="{{ itemLink.link }}"
-                    routerLinkActive="active"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                    class="item-link"
+                <img
+                    class="header-logo_link-img"
+                    [src]="
+                        !theme()
+                            ? 'assets/images/white-mode/profile-logo/logo-i.cherkas-wm.svg'
+                            : 'assets/images/dark-mode/profile-logo/logo-i.cherkas-dm.svg'
+                    "
+                    alt="logo-i.cherkas.svg"
+                />
+            </a>
+        </article>
+        <ul class="header-links">
+            @for (itemLink of navigationLinks; track itemLink; let i = $index) {
+                <li
+                    class="header-links_item"
+                    [tabindex]="i"
                 >
-                    <p class="item-link_text">{{ itemLink.value }}</p>
-                </a>
-            </li>
-        }
-    </ul>
-    <aside class="header-buttons">
-        <cv-dark-mode-toggle></cv-dark-mode-toggle>
-        <button class="header-buttons_language">EN</button>
-        <button
-            class="header-buttons_login"
-            (click)="showDialog()"
-        >
-            Вход
-        </button>
-    </aside>
-</nav>
+                    <a
+                        routerLink="{{ itemLink.link }}"
+                        routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }"
+                        class="item-link"
+                    >
+                        <span class="item-link_text">{{ itemLink.value }}</span>
+                    </a>
+                </li>
+            }
+        </ul>
+        <aside class="header-buttons">
+            <cv-dark-mode-toggle></cv-dark-mode-toggle>
+            <button class="header-buttons_language">EN</button>
+            <button
+                class="header-buttons_login"
+                (click)="showDialog()"
+            >
+                Вход
+            </button>
+        </aside>
+    </nav>
+</div>

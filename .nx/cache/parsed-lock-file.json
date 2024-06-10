@@ -3073,9 +3073,9 @@
       "type": "npm",
       "name": "npm:@ngrx/signals",
       "data": {
-        "version": "17.1.1",
+        "version": "17.2.0",
         "packageName": "@ngrx/signals",
-        "hash": "sha512-9Rlw7u8LxkyS+HMZe7DzUkV1p/2IL5tDa1ZHhX8Ldilx4HoOHvISdzCagCpXMoXDLZGEaWOA/n/BcQQxsjytEg=="
+        "hash": "sha512-tkkxifeOVPOhpTqbHyK1WOx4qz49HLR/h0vhaa/MRGRIZoOR/6gR4KB3hbC8FD3FdnuNqOgOZ2lGsTfWPB/6BQ=="
       }
     },
     "npm:@ngrx/store": {

@@ -4,21 +4,23 @@
 .footer {
     display: flex;
     position: fixed;
-    bottom: 60px;
-    left: 10%;
+    right: 10%;
+    bottom: 2%;
+    left: 50%;
     column-gap: 30px;
     justify-content: space-between;
     align-items: center;
+    transform: translate(-50%, -50%);
+    width: 80%;
 
     .footer-links {
         display: flex;
-        column-gap: calc(20.3px + 60 * (100vw / 1920));
+        column-gap: calc(10.3px + 70 * (100vw / 1920));
         align-items: center;
         transition: background-color 0.5s ease-in-out;
-        border-radius: 30px;
         @include glassmorphism.cards_glassmorphism;
         padding: calc(13px + 10 * (100vw / 1920))
-            calc(15px + 50 * (100vw / 1920));
+            calc(5px + 60 * (100vh / 1920));
 
         &_item {
             .item-link {
@@ -29,6 +31,8 @@
                 cursor: pointer;
                 height: 100%;
                 color: color.$black;
+                font-size: calc(4px + 12 * (100vw / 1920));
+                white-space: nowrap;
 
                 &_text {
                     text-transform: uppercase;
