@@ -5,6 +5,7 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
+    InputSignal,
     OnInit,
     Output,
     computed,
@@ -25,11 +26,15 @@ import { TExperienceAside } from '@app/core/models/experience-aside.type';
     styleUrl: './aside-navigation.component.scss',
 })
 export class AsideNavigationComponent implements OnInit {
-    public navigationList = input<TExperienceAside[]>([]);
     @Output() public emittedTab = new EventEmitter<string>();
-    public currentSkills: string = '';
+
     public hardSkillsNavigation$: Observable<INavigation[]> =
         this._firebaseService.getHardSkillsNav();
+
+    public navigationList: InputSignal<TExperienceAside[]> = input<
+        TExperienceAside[]
+    >([]);
+    public currentSkills: string = '';
     public selectedTab: string = '';
 
     constructor(
@@ -49,27 +54,31 @@ export class AsideNavigationComponent implements OnInit {
 
     private _tab = computed(() => {
         this.navigationList().find((el: any) => {
+            console.log(el);
             if (el.id === 1) {
                 this.selectedTab = el.value;
+                console.log(this.selectedTab);
             }
         });
     });
 
-    public changeSkillsList(tab: string, event: Event) {
-        event.stopPropagation();
+    public changeSkillsList(tab: string) {
+        console.log(tab);
         this.currentSkills = tab;
         this.emittedTab.emit(this.currentSkills);
         this.cdr.detectChanges();
     }
 
     ngOnInit(): void {
-      debugger
         this.selectedTab === '' ? this._tab() : this.selectedTab;
         this.selectedTab === 'tech'
-            ? this.hardSkillsNavigation$.subscribe((skills:INavigation[]) => {
+            ? this.hardSkillsNavigation$.subscribe((skills: INavigation[]) => {
                   skills.find((skill) => {
-                      skill.id === '1';
-                      return (this.currentSkills = skill.link);
+                      console.log(skill);
+                      if (skill.id === '1') {
+                          this.currentSkills = skill.link;
+                          this.changeSkillsList(skill.link);
+                      }
                   });
               })
             : null;

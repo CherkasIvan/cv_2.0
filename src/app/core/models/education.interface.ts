@@ -1,8 +1,3 @@
-import { IEducationPlaceName } from './education-place-name.interface';
-import { IProfilePhoto } from './profile-photo.interface';
+import { IWorkExperience } from './work-experience.interface';
 
-export interface IEducation {
-    educationTitle: string;
-    educationLogo?: IProfilePhoto[];
-    educationPlaceName: IEducationPlaceName[];
-}
+export interface IEducation extends IWorkExperience {}

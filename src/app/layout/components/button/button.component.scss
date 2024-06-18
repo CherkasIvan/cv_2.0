@@ -1,7 +1,17 @@
 @use '../../../../assets/styles/variables' as color;
 
+.short-button {
+    width: 280px;
+}
+
+.long-button {
+    width: 300px;
+}
+
 .general-button {
     display: flex;
+    position: relative;
+    justify-content: center;
     transition: max-width 0.5s ease-in-out;
     transition: 0.3s;
     cursor: pointer;
@@ -12,55 +22,42 @@
     color: color.$white;
     font-size: calc(4px + 12 * (100vw / 1920));
     white-space: nowrap;
-}
 
-.general-button_text:nth-child(1) {
-    transform: translateY(0);
-    visibility: visible;
-    transition:
-        transform 1.2s ease-in-out,
-        opacity 1.2s ease-in-out;
-    &.active {
-        transform: translateY(-300%);
-        transition: transform 0.6s ease-in-out;
-    }
-}
+    .general-button_text:nth-child(1) {
+        transform: translateY(0);
+        visibility: visible;
+        transition:
+            transform 1.2s ease-in-out,
+            opacity 1.2s ease-in-out;
 
-.connect-me {
-    left: -200px;
-    width: 250px;
-    height: 250px;
-}
-
-.watch-cv {
-    left: -150px;
-    width: 200px;
-    height: 200px;
-}
-
-.general-button_text:nth-child(2) {
-    position: relative;
-    transform: translateY(-130px);
-    visibility: visible;
-    transition:
-        transform 1s ease-in-out,
-        opacity 1s ease-in-out;
-    width: 100%;
-
-    &.active {
-        transform: translateY(600%);
-        transition: transform 1s ease-in-out;
+        &.generalButtonActive {
+            transform: translateY(-300%);
+            transition: transform 0.6s ease-in-out;
+        }
     }
 
-    .absolute {
-        display: flex;
+    .general-button_text:nth-child(2) {
+        position: relative;
+        transform: translateY(-130px);
+        visibility: visible;
+        transition:
+            transform 1s ease-in-out,
+            opacity 1s ease-in-out;
+        width: 100%;
+
+        &.generalButtonActive {
+            transform: translateY(600%);
+            transition: transform 1s ease-in-out;
+        }
+    }
+
+    .general-button_text-absolute {
         position: absolute;
-        top: 40px;
         justify-content: center;
         align-items: center;
         border-radius: 50%;
         background-color: color.$blue;
-        line-height: 86px; // равно высоте кнопки минус вертикальные паддинги
+        line-height: 86px;
         text-align: center;
     }
 }
@@ -69,4 +66,18 @@
     transition: 0.3s;
     background-color: color.$white;
     color: color.$black;
+}
+
+.connect-me {
+    top: 58px;
+    left: 0;
+    width: 280px;
+    height: 280px;
+}
+
+.watch-cv {
+    bottom: 58px;
+    left: 0;
+    width: 300px;
+    height: 300px;
 }
