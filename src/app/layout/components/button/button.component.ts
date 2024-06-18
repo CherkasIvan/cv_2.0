@@ -11,16 +11,14 @@ import { Component, ElementRef, ViewChild, input } from '@angular/core';
 export class ButtonComponent {
     @ViewChild('generalButton') generalButton!: ElementRef;
     public buttonType = input.required<string>();
+    public buttonText = input.required<string>();
+    public buttonHoverText = input.required<string>();
     public buttonTheme = input<boolean | null>();
     public isHovered = false;
 
     private _activePosition = {
         transform: ' translateY(-155px)',
     };
-
-    // private _inactivePosition = {
-    //   transform: 'translateY(-130px)';
-    // }
 
     onHover() {
         this.isHovered = true;

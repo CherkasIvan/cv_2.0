@@ -1,0 +1,14 @@
+<section class="education-cards">
+    @for (educationPlace of educationExperience(); track educationPlace; let i = $index) {
+        <cv-experience-card
+            [experienceType]="selectedTabEducation()"
+            [experienceDescription]="educationPlace"
+        ></cv-experience-card>
+        {{ educationPlace | json }}
+
+        <img
+            src="../../../../../assets/images/certificates/stepik-excel.jpg"
+            alt=""
+        />
+    }
+</section>

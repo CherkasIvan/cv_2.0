@@ -10,9 +10,7 @@
                 (emittedModalShow)="getModalInstance($event)"
             ></cv-header>
         </header>
-        <cv-animation-bg
-            [navigationLinks]="navigation$ | async"
-        ></cv-animation-bg>
+        <cv-animation-bg [navigationLinks]="navigation$ | async"></cv-animation-bg>
 
         <main
             class="general"
@@ -35,6 +33,4 @@
         ></cv-connection-modal>
     }
 </div>
-<cv-spinner
-    [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
-></cv-spinner>
+<cv-spinner [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"></cv-spinner>

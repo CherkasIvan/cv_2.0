@@ -11,6 +11,14 @@
     "printWidth": 80,
     "tabWidth": 4,
     "useTabs": false,
+    "overrides": [
+        {
+            "files": ["./**/*.html", "./**/*.scss", "./**/*.css"],
+            "options": {
+                "printWidth": 120
+            }
+        }
+    ],
     "plugins": [
         "@trivago/prettier-plugin-sort-imports",
         "prettier-plugin-css-order"

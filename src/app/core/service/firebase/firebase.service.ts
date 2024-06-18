@@ -11,6 +11,7 @@ import {
     getFirestore,
 } from '@angular/fire/firestore';
 
+import { IEducation } from '@core/models/education.interface';
 import { IFileUpload } from '@core/models/file-upload.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
@@ -32,12 +33,16 @@ export class FirebaseService {
 
     navigationCollection$!: Observable<INavigation[]>;
     workExperienceCollection$!: Observable<IWorkExperience[]>;
-    educationCollection$!: Observable<IWorkExperience[]>;
+    educationCollection$!: Observable<IEducation[]>;
     socialMediaLinksCollection$!: Observable<ISocialMedia[]>;
     hardSkillsNavCollection$!: Observable<INavigation[]>;
     charts$: AngularFireList<IFileUpload> | undefined;
 
     constructor(private db: AngularFireDatabase) {}
+
+    getImages(): Observable<ImageData[]> {
+        return this.db.list<ImageData>('путь/к/изображениям').valueChanges();
+    }
 
     getFiles(numberItems: number): AngularFireList<IFileUpload> {
         return (this.charts$ = this.db.list(this.basePath, (ref) =>
@@ -105,13 +110,13 @@ export class FirebaseService {
     }
 
     getEducationPlaces(): Observable<IWorkExperience[]> {
-        const educationExperienceRef = collection(
+        const educationPlacesRef = collection(
             this._firestore,
             'educationExperience',
         );
-        this.educationCollection$ = collectionData(educationExperienceRef, {
+        this.educationCollection$ = collectionData(educationPlacesRef, {
             idField: 'id',
-        }) as Observable<IWorkExperience[]>;
+        }) as Observable<IEducation[]>;
         return this.educationCollection$;
     }
 }
