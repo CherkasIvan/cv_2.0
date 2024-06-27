@@ -18,10 +18,13 @@
         max-height: 100vh;
 
         .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
         }
 
         .general {
-            padding-top: calc(0px + 60 * (100vh / 1080));
             height: 100%;
         }
 

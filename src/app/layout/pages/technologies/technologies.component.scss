@@ -2,7 +2,11 @@
     display: flex;
     column-gap: 62px;
     height: 100%;
-    overflow: scroll;
+
+    &_navigation {
+        z-index: 100;
+        padding-top: 140px;
+    }
 
     .skills-list {
         width: 100%;
@@ -13,29 +17,10 @@
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         column-gap: 98px;
         justify-items: center;
+        padding-top: 140px;
+        padding-bottom: 80px;
         width: 100%;
-        height: fit-content;
+        height: 100%;
+        overflow-y: scroll;
     }
 }
-
-// .technologies_stack-column {
-//     @for $i from 1 through 3 {
-//         &:nth-of-type(#{$i}) {
-//             @if $i % 2 == 0 {
-//                 // Even columns
-//                 color: blue;
-//             } @else {
-//                 // Odd columns
-//                 color: red;
-//             }
-//         }
-//     }
-// }
-
-// .even {
-//     color: blue;
-// }
-
-// .odd {
-//     color: red;
-// }
