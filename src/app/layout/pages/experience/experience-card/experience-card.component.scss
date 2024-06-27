@@ -18,25 +18,17 @@
         position: absolute;
         bottom: 0;
         left: 0;
-        border-radius: 8px;
+        z-index: 100;
+        border-radius: 28px;
         background-color: color.$white;
     }
 
-    &_picture-work {
-        transition: 0.3s;
-        .card-img {
-            border-radius: 28px;
-            max-width: 15rem;
-            overflow: visible;
-        }
-    }
-
+    &_picture-work,
     &_picture-education {
         transition: 0.3s;
         .card-img {
             border-radius: 28px;
             max-width: 15rem;
-            overflow: visible;
         }
     }
 
