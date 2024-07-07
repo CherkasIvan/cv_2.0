@@ -126,13 +126,13 @@
         background-image: url('../../../../assets/images/white-mode/background-main-menu-dark.png');
         .header-links {
             .item-link {
-                color: color.$white;
+                color: color.$dm-neon-green;
             }
         }
 
         .header-buttons {
             > * {
-                color: color.$white;
+                color: color.$dm-neon-green;
             }
         }
     }
@@ -146,7 +146,7 @@
 .navigation-border.dark-theme {
     transition: 0.3s;
     background-image: url('../../../../assets/images/white-mode/background-main-menu.png');
-    background-color: color.$white;
+    background-color: color.$dm-neon-green;
 }
 
 .visible {
