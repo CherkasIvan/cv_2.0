@@ -1,31 +1,36 @@
-<main class="main">
-    <div class="main_info">
-        <section class="fullname-img">
-            <span class="fullname">ivan cherkas</span>
-            <cv-profile-logo></cv-profile-logo>
-        </section>
-        <section class="description-projects-stack">
-            <p class="description">
-                Меня зовут Черкасов Иван, и я являюсь фул-стэк разработчик с
-                опытом работы более 3 лет.
-            </p>
-            <button class="projects-button">
-                <a
-                    routerLink="/layout/projects"
-                    class="projects-button_link"
-                >
-                    <img
-                        class="projects-button_img"
-                        src="assets/images/projects-logo/project-link-button.png"
-                        alt="project-link-button.png"
-                    />
-                </a>
-            </button>
-            <span class="stack">full-stack</span>
-        </section>
-        <section class="status-cv">
-            <span class="status">developer</span>
-            <cv-button buttonType="short-main-button"></cv-button>
-        </section>
-    </div>
-</main>
+@if (mainInfoPageData) {
+    <main class="main">
+        <div class="main_info">
+            <section class="fullname-img">
+                <span class="fullname">{{ mainInfoPageData.fullName }}</span>
+                <cv-profile-logo></cv-profile-logo>
+            </section>
+            <section class="description-projects-stack">
+                <p class="description">
+                    {{ mainInfoPageData.description }}
+                </p>
+                <button class="projects-button">
+                    <a
+                        routerLink="/layout/projects"
+                        class="projects-button_link"
+                    >
+                        <img
+                            class="projects-button_img"
+                            [src]="mainInfoPageData.imgSrc"
+                            alt="project-link-button.png"
+                        />
+                    </a>
+                </button>
+                <span class="stack">{{ mainInfoPageData.stack }}</span>
+            </section>
+            <section class="status-cv">
+                <span class="status">{{ mainInfoPageData.status }}</span>
+                <cv-button
+                    buttonType="long"
+                    buttonText="{{ mainInfoPageData.buttonText }}"
+                    buttonHoverText="{{ mainInfoPageData.buttonHoverText }}"
+                ></cv-button>
+            </section>
+        </div>
+    </main>
+}

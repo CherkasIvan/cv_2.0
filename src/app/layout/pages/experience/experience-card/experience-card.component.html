@@ -23,9 +23,7 @@
                 <span class="card-info_place-name">
                     {{ workDescription()?.company }}
                 </span>
-                <span class="card-info_time">
-                    {{ workDescription()?.from }} - {{ workDescription()?.to }}
-                </span>
+                <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
             </div>
             <button class="card-button">
                 <img
@@ -35,17 +33,17 @@
             </button>
         </article>
     }
-    @case ('learning') {
+    @case ('education') {
         <article
             class="experience-card"
-            [ngClass]="{ activeLearning: experienceType() === 'learning' }"
+            [ngClass]="{ activeEducation: experienceType() === 'education' }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
             (mouseleave)="experienceCardImgVisibility = false"
             (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
-                <div class="experience-card_picture-learning">
+                <div class="experience-card_picture-education">
                     <img
                         class="card-img"
                         [src]="workDescription()?.logoPath"
@@ -96,9 +94,7 @@
                 <span class="card-info_place-name">
                     {{ workDescription()?.company }}
                 </span>
-                <span class="card-info_time">
-                    {{ workDescription()?.from }} - {{ workDescription()?.to }}
-                </span>
+                <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
             </div>
             <button class="card-button">
                 <img

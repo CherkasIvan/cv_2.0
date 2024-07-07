@@ -2,6 +2,7 @@ import { NgClass, NgStyle } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 import { INavigation } from '@core/models/navigation.interface';
+import { blobFloat } from '@core/utils/animations/bg-layout.animation';
 
 @Component({
     selector: 'cv-animation-bg',
@@ -9,10 +10,11 @@ import { INavigation } from '@core/models/navigation.interface';
     imports: [NgStyle, NgClass],
     templateUrl: './animation-bg.component.html',
     styleUrl: './animation-bg.component.scss',
+    animations: [blobFloat],
 })
 export class AnimationBgComponent implements OnInit {
     @Input() public navigationLinks: INavigation[] | null = [];
-    public animationCircles: any[] = [
+    public animationBlobs: any[] = [
         {
             width: '70px',
             height: '70px',

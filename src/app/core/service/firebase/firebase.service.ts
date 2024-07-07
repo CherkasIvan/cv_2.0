@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import {
@@ -9,13 +9,18 @@ import {
     collection,
     collectionData,
     getFirestore,
+    orderBy,
+    query,
 } from '@angular/fire/firestore';
 
+import { IEducation } from '@core/models/education.interface';
 import { IFileUpload } from '@core/models/file-upload.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
+
+import { IMainPageInfo } from '@app/core/models/main-page-info';
 
 @Injectable({
     providedIn: 'root',
@@ -32,12 +37,17 @@ export class FirebaseService {
 
     navigationCollection$!: Observable<INavigation[]>;
     workExperienceCollection$!: Observable<IWorkExperience[]>;
-    educationCollection$!: Observable<IWorkExperience[]>;
+    educationCollection$!: Observable<IEducation[]>;
     socialMediaLinksCollection$!: Observable<ISocialMedia[]>;
     hardSkillsNavCollection$!: Observable<INavigation[]>;
     charts$: AngularFireList<IFileUpload> | undefined;
+    mainPageInfo$: AngularFireList<IMainPageInfo> | undefined;
 
     constructor(private db: AngularFireDatabase) {}
+
+    getImages(): Observable<ImageData[]> {
+        return this.db.list<ImageData>('путь/к/изображениям').valueChanges();
+    }
 
     getFiles(numberItems: number): AngularFireList<IFileUpload> {
         return (this.charts$ = this.db.list(this.basePath, (ref) =>
@@ -47,7 +57,8 @@ export class FirebaseService {
 
     getNavigation(): Observable<INavigation[]> {
         const navigationRef = collection(this._firestore, 'navigation');
-        this.navigationCollection$ = collectionData(navigationRef, {
+        const navigationQuery = query(navigationRef, orderBy('position'));
+        this.navigationCollection$ = collectionData(navigationQuery, {
             idField: 'id',
         }) as Observable<INavigation[]>;
         return this.navigationCollection$;
@@ -105,13 +116,20 @@ export class FirebaseService {
     }
 
     getEducationPlaces(): Observable<IWorkExperience[]> {
-        const educationExperienceRef = collection(
+        const educationPlacesRef = collection(
             this._firestore,
             'educationExperience',
         );
-        this.educationCollection$ = collectionData(educationExperienceRef, {
+        this.educationCollection$ = collectionData(educationPlacesRef, {
             idField: 'id',
-        }) as Observable<IWorkExperience[]>;
+        }) as Observable<IEducation[]>;
         return this.educationCollection$;
+    }
+
+    getMainPageInfo(): Observable<IMainPageInfo> {
+        const mainPageInfoRef = collection(this._firestore, 'mainPageInfo');
+        return collectionData(mainPageInfoRef, { idField: 'id' }).pipe(
+            map((data) => data[0] as IMainPageInfo),
+        );
     }
 }
