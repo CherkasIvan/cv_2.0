@@ -2,12 +2,25 @@
     class="profile-logo"
     (click)="githubNavigation()"
 >
-    <div class="profile-logo_circle"></div>
-    <div class="profile-logo_circle"></div>
-    <div class="profile-logo_circle"></div>
+    <div
+        class="profile-logo_circle"
+        [ngClass]="{ 'dark-theme': (currentTheme$ | async) }"
+    ></div>
+    <div
+        class="profile-logo_circle"
+        [ngClass]="{ 'dark-theme': (currentTheme$ | async) }"
+    ></div>
+    <div
+        class="profile-logo_circle"
+        [ngClass]="{ 'dark-theme': (currentTheme$ | async) }"
+    ></div>
     <img
         class="profile-logo_img"
-        src="assets/images/dark-mode/profile-logo/logo-cherkas-ivan-dm.jpg"
+        [src]="
+            (currentTheme$ | async)
+                ? 'assets/images/dark-mode/profile-logo/profile-i.cherkas-dm.jpg'
+                : 'assets/images/white-mode/profile-logo/profile-i.cherkas-wm.jpg'
+        "
         alt="logo.jpg"
     />
 </div>

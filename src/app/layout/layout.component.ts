@@ -67,36 +67,5 @@ export class LayoutComponent {
 
     public closeModal() {
         this.isModalDialogVisible = false;
-        // if (isConfirmed) {
-        //   this.showToast('modal dialog', "modal dialog is confirmed");
-        // }
-        // else {
-        //   this.showToast('modal dialog', "modal dialog is closed");
-        // }
     }
-    // public currentRoute!: string;
-    // public navigation$: Observable<INavigation[]> =
-    //     this._firebaseService.getNavigation();
-    // private _routerSubscription$: Subscription = new Subscription();
-    // constructor(
-    //     private readonly _router: Router,
-    //     private readonly _firebaseService: FirebaseService,
-    // ) {
-    //     this._routerSubscription$.add(
-    //         this._router.events.subscribe((event) => {
-    //             event instanceof NavigationEnd
-    //                 ? (this.currentRoute = event.url)
-    //                 : null;
-    //         }),
-    //     );
-    // }
-    // ngOnDestroy(): void {
-    //     this._routerSubscription$.unsubscribe();
-    // }
-
-    // constructor(private _firebaseService: FirebaseService) {
-    //     this._firebaseService
-    //         .getNavigation()
-    //         .subscribe((el) => console.log(el));
-    // }
 }
