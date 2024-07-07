@@ -39,7 +39,6 @@ export class MainComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.mainInfo$.pipe(takeUntil(this.destroyed$)).subscribe((info) => {
             this.mainInfoPageData = info;
-            console.log(this.mainInfoPageData);
             this._cdr.markForCheck();
         });
     }

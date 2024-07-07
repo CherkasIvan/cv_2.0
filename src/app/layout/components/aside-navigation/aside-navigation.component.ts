@@ -54,16 +54,13 @@ export class AsideNavigationComponent implements OnInit {
 
     private _tab = computed(() => {
         this.navigationList().find((el: any) => {
-            console.log(el);
             if (el.id === 1) {
                 this.selectedTab = el.value;
-                console.log(this.selectedTab);
             }
         });
     });
 
     public changeSkillsList(tab: string) {
-        console.log(tab);
         this.currentSkills = tab;
         this.emittedTab.emit(this.currentSkills);
         this.cdr.detectChanges();
@@ -74,7 +71,6 @@ export class AsideNavigationComponent implements OnInit {
         this.selectedTab === 'tech'
             ? this.hardSkillsNavigation$.subscribe((skills: INavigation[]) => {
                   skills.find((skill) => {
-                      console.log(skill);
                       if (skill.id === '1') {
                           this.currentSkills = skill.link;
                           this.changeSkillsList(skill.link);

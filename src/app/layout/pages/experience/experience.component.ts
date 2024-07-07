@@ -42,7 +42,6 @@ export class ExperienceComponent {
 
     public switchTab($event: string) {
         this.selectedTab = $event;
-        console.log(this.selectedTab);
     }
 
     constructor(private _firebaseService: FirebaseService) {

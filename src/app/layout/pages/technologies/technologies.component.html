@@ -6,7 +6,7 @@
         ></cv-aside-navigation>
     </aside>
     <section class="technologies_stack">
-        @for (technology of currentTechnologiesStack; track technology; let i = $index) {
+        @for (technology of currentTechnologiesStack; track technology.id; let i = $index) {
             <div class="technologies_stack-column">
                 <cv-technology-card [technologyItem]="technology"></cv-technology-card>
             </div>

@@ -26,7 +26,6 @@ export class LoadingInterceptor implements HttpInterceptor {
     ): Observable<HttpEvent<unknown>> {
         this._store.dispatch(showSpinner());
         return next.handle(req).pipe(
-            tap(() => console.log(req)),
             catchError((error) => {
                 console.error('An error occurred:', error);
                 return throwError(error);
