@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import {
@@ -17,6 +17,8 @@ import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
+
+import { IMainPageInfo } from '@app/core/models/main-page-info';
 
 @Injectable({
     providedIn: 'root',
@@ -37,6 +39,7 @@ export class FirebaseService {
     socialMediaLinksCollection$!: Observable<ISocialMedia[]>;
     hardSkillsNavCollection$!: Observable<INavigation[]>;
     charts$: AngularFireList<IFileUpload> | undefined;
+    mainPageInfo$: AngularFireList<IMainPageInfo> | undefined;
 
     constructor(private db: AngularFireDatabase) {}
 
@@ -118,5 +121,12 @@ export class FirebaseService {
             idField: 'id',
         }) as Observable<IEducation[]>;
         return this.educationCollection$;
+    }
+
+    getMainPageInfo(): Observable<IMainPageInfo> {
+        const mainPageInfoRef = collection(this._firestore, 'mainPageInfo');
+        return collectionData(mainPageInfoRef, { idField: 'id' }).pipe(
+            map((data) => data[0] as IMainPageInfo),
+        );
     }
 }

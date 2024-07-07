@@ -5,14 +5,15 @@
         hidden: !(navigationLinks && navigationLinks.length > 0),
     }"
 >
-    <ul class="circles-list">
-        @for (item of animationCircles; track $index) {
-            <li class="circle-element">
-                <div
-                    class="circle-element_img"
-                    [ngStyle]="item"
-                ></div>
-            </li>
+    <div class="circles-list">
+        @for (blob of animationBlobs; track $index) {
+            <div
+                class="circle-element_img"
+                [ngStyle]="blob"
+            >
+                <p><span></span></p>
+                <p><span></span></p>
+            </div>
         }
-    </ul>
+    </div>
 </div>

@@ -29,17 +29,35 @@
 // ]);
 import {
     animate,
+    keyframes,
     state,
     style,
     transition,
     trigger,
 } from '@angular/animations';
 
-export const bgLayoutAnimation = trigger('bgLayoutAnimation', [
-    // Определение состояний для бесконечной анимации
-    state('start', style({ transform: 'translateY(0)' })),
-    state('end', style({ transform: 'translateY(-90%)' })),
-    // Переходы между состояниями
-    transition('start => end', animate('20s ease-in-out')),
-    transition('end => start', animate('20s ease-in-out')),
+export const blobFloat = trigger('blobFloat', [
+    transition('void => *', [
+        animate(
+            '5s ease-in-out',
+            style({
+                transform: 'translateY(0) scale(1)',
+                filter: 'blur(0px)',
+            }),
+        ),
+        animate(
+            '5s ease-in-out',
+            style({
+                transform: 'translateY(-100%) scale(1.5)',
+                filter: 'blur(10px)',
+            }),
+        ),
+        animate(
+            '5s ease-in-out',
+            style({
+                transform: 'translateY(0) scale(1)',
+                filter: 'blur(0px)',
+            }),
+        ),
+    ]),
 ]);
