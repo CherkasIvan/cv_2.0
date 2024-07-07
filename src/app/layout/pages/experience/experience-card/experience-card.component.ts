@@ -2,6 +2,7 @@ import { NgClass, NgSwitch } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { IEducation } from '@core/models/education.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
 @Component({
@@ -13,8 +14,10 @@ import { IWorkExperience } from '@core/models/work-experience.interface';
 })
 export class ExperienceCardComponent {
     public experienceType = input.required<string>();
-    public workDescription = input<IWorkExperience | null>(null);
-    public experienceDescription = input<IWorkExperience | null>(null);
+    public workDescription = input<IWorkExperience | IEducation | null>(null);
+    public experienceDescription = input<IWorkExperience | IEducation | null>(
+        null,
+    );
     public experienceCardImgVisibility: boolean = false;
 
     constructor() {}

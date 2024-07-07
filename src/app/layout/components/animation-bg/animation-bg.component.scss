@@ -21,14 +21,13 @@
             height: 100%;
 
             &_img {
-                backdrop-filter: blur(100px);
+                // backdrop-filter: blur(100px);
                 animation: spin infinite linear;
                 animation-fill-mode: forwards;
                 border-radius: 50%;
-                background: color.$black;
-
-                background-image: url('../../../../assets/images/white-mode/background-main-menu.png');
-                overflow: hidden;
+                // background: color.$black;
+                // background-image: url('../../../../assets/images/white-mode/background-main-menu.png');
+                // overflow: hidden;
             }
         }
     }
@@ -54,4 +53,143 @@
 
 .hidden {
     opacity: 0;
+}
+
+.circle-element_img {
+    --size: 250px;
+    // top: 50%;
+    // left: 50%;
+    // filter: blur(10px) contrast(15);
+    margin: calc(var(--size) / -2);
+    // background: white;
+    width: var(--size);
+    height: var(--size);
+
+    span {
+        display: inline-block;
+        position: relative;
+        border-radius: 50%;
+        background: black;
+    }
+
+    p {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+
+    p:nth-child(1) {
+        position: absolute;
+        animation: skewing-child 1s ease-in-out infinite alternate;
+
+        span {
+            animation: moving 2s cubic-bezier(0.97, 0.01, 0.12, 0.99) infinite alternate;
+            margin: calc(var(--size) / -20);
+            width: calc(var(--size) / 10);
+            height: calc(var(--size) / 10);
+        }
+    }
+
+    p:nth-child(2) {
+        position: absolute;
+        animation: squishing 1s ease-in-out infinite alternate;
+
+        span {
+            top: 50%;
+            left: 50%;
+            animation: skewing 2s 1.5s ease-in-out infinite;
+            margin: calc(var(--size) / -8);
+            width: calc(var(--size) / 4);
+            height: calc(var(--size) / 4);
+        }
+    }
+}
+
+@keyframes skewing {
+    0% {
+        transform: skewY(6deg);
+    }
+    10% {
+        transform: skewY(-6deg);
+    }
+    20% {
+        transform: skewY(4deg);
+    }
+    30% {
+        transform: skewY(-4deg);
+    }
+    40% {
+        transform: skewY(2deg);
+    }
+    50% {
+        transform: skewY(-6deg);
+    }
+    55% {
+        transform: skewY(6deg);
+    }
+    60% {
+        transform: skewY(-5deg);
+    }
+    65% {
+        transform: skewY(5deg);
+    }
+    70% {
+        transform: skewY(-4deg);
+    }
+    75% {
+        transform: skewY(4deg);
+    }
+    80% {
+        transform: skewY(-3deg);
+    }
+    85% {
+        transform: skewY(3deg);
+    }
+    90% {
+        transform: skewY(-2deg);
+    }
+    95% {
+        transform: skewY(2deg);
+    }
+    100% {
+        transform: skewY(1deg);
+    }
+}
+
+@keyframes skewing-child {
+    0% {
+        transform: skewY(-10deg);
+    }
+    100% {
+        transform: skewY(10deg);
+    }
+}
+
+@keyframes moving {
+    0% {
+        transform: translateY(calc(var(--size) / -2.5));
+    }
+    30% {
+        transform: translateY(calc(var(--size) / -10));
+    }
+    70% {
+        transform: translateY(calc(var(--size) / 10));
+    }
+    100% {
+        transform: translateY(calc(var(--size) / 2.5));
+    }
+}
+
+@keyframes squishing {
+    10%,
+    40%,
+    80% {
+        transform: scale(1.1, 0.9);
+    }
+    0%,
+    30%,
+    60%,
+    100% {
+        transform: scale(0.9, 1.1);
+    }
 }

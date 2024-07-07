@@ -4,7 +4,7 @@
         'visible fade-in': navigationLinks && navigationLinks.length > 0,
         hidden: !(navigationLinks && navigationLinks.length > 0),
         'dark-theme': theme(),
-        'light-theme': !theme()
+        'light-theme': !theme(),
     }"
 >
     <nav
@@ -28,7 +28,7 @@
             </a>
         </article>
         <ul class="header-links">
-            @for (itemLink of navigationLinks; track itemLink; let i = $index) {
+            @for (itemLink of navigationLinks; track itemLink.position; let i = $index) {
                 <li
                     class="header-links_item"
                     [tabindex]="i"

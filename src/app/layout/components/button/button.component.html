@@ -3,37 +3,29 @@
     [ngClass]="{
         'dark-theme': buttonTheme(),
         'light-theme': !buttonTheme(),
+        'long-button': buttonType() === 'long',
+        'short-button': buttonType() === 'short',
     }"
     (mouseover)="onHover()"
     (mouseout)="onLeave()"
 >
     <span
         class="general-button_text"
-        [ngClass]="{ active: isHovered }"
+        [ngClass]="{ generalButtonActive: isHovered }"
     >
-        @if (buttonType() === 'short-main-button') {
-            Смотреть CV
-        } @else {
-            Связаться со мной
-        }
+        {{ buttonText() }}
     </span>
     <span
         #generalButton
-        class="general-button_text"
-        [ngClass]="{ active: !isHovered }"
+        class="general-button_hover-text"
+        [ngClass]="{ generalButtonActive: !isHovered }"
         [ngStyle]="setActivePosition()"
     >
         <div
-            class="absolute"
-            [ngClass]="
-                this.buttonType().length > 11 ? 'connect-me' : 'watch-cv'
-            "
+            class="general-button_text-absolute"
+            [ngClass]="buttonType() === 'short' ? 'connect-me' : 'watch-cv'"
         >
-            @if (buttonType() === 'short-main-button') {
-                Открыть СV
-            } @else {
-                Написать мне
-            }
+            {{ buttonHoverText() }}
         </div>
     </span>
 </button>

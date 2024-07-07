@@ -1,6 +1,11 @@
 import { Observable, catchError, finalize, tap, throwError } from 'rxjs';
 
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+    HttpEvent,
+    HttpHandler,
+    HttpInterceptor,
+    HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
@@ -21,7 +26,6 @@ export class LoadingInterceptor implements HttpInterceptor {
     ): Observable<HttpEvent<unknown>> {
         this._store.dispatch(showSpinner());
         return next.handle(req).pipe(
-            tap(() => console.log(req)),
             catchError((error) => {
                 console.error('An error occurred:', error);
                 return throwError(error);

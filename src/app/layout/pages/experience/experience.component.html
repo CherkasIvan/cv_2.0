@@ -13,11 +13,11 @@
                     [workExperience$]="workPlace$ | async"
                 ></cv-work-experience>
             }
-            @case ('learning') {
-                <cv-learning-experience
-                    [selectedTabLearning]="selectedTab"
-                    [learningExperience]="learningPlace$ | async"
-                ></cv-learning-experience>
+            @case ('education') {
+                <cv-education
+                    [selectedTabEducation]="selectedTab"
+                    [educationExperience]="educationPlace$ | async"
+                ></cv-education>
             }
             @default {
                 <cv-work-experience
@@ -28,3 +28,4 @@
         }
     </section>
 </div>
+education

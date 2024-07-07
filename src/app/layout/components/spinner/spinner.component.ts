@@ -30,7 +30,6 @@ export class SpinnerComponent {
     public spinnerStyle = input<string>('');
     public loading$: Observable<boolean> = this._store.pipe(
         select(spinnerSelector),
-        tap((el) => console.log(el)),
     );
 
     constructor(private _store: Store<ISpinner>) {}
