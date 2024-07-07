@@ -1,5 +1,5 @@
 <section class="education-cards">
-    @for (educationPlace of educationExperience(); track educationPlace; let i = $index) {
+    @for (educationPlace of educationExperience(); track educationPlace.id; let i = $index) {
         <cv-experience-card
             [experienceType]="selectedTabEducation()"
             [experienceDescription]="educationPlace"

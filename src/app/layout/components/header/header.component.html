@@ -28,7 +28,7 @@
             </a>
         </article>
         <ul class="header-links">
-            @for (itemLink of navigationLinks; track itemLink; let i = $index) {
+            @for (itemLink of navigationLinks; track itemLink.position; let i = $index) {
                 <li
                     class="header-links_item"
                     [tabindex]="i"

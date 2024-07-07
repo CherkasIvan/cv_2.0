@@ -9,6 +9,8 @@ import {
     collection,
     collectionData,
     getFirestore,
+    orderBy,
+    query,
 } from '@angular/fire/firestore';
 
 import { IEducation } from '@core/models/education.interface';
@@ -55,7 +57,8 @@ export class FirebaseService {
 
     getNavigation(): Observable<INavigation[]> {
         const navigationRef = collection(this._firestore, 'navigation');
-        this.navigationCollection$ = collectionData(navigationRef, {
+        const navigationQuery = query(navigationRef, orderBy('position'));
+        this.navigationCollection$ = collectionData(navigationQuery, {
             idField: 'id',
         }) as Observable<INavigation[]>;
         return this.navigationCollection$;

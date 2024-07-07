@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject } from '@angular/core';
 
 @Component({
     selector: 'cv-profile-logo',
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
     templateUrl: './profile-logo.component.html',
     styleUrl: './profile-logo.component.scss',
 })
-export class ProfileLogoComponent {}
+export class ProfileLogoComponent {
+    constructor(@Inject(DOCUMENT) private document: Document) {}
+
+    githubNavigation() {
+        this.document.defaultView?.open(
+            'https://github.com/CherkasIvan',
+            '_blank',
+        );
+    }
+}

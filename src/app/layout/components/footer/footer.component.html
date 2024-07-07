@@ -8,7 +8,7 @@
         ></cv-button>
     </aside>
     <ul class="footer-links">
-        @for (itemLink of socialLinks$(); track itemLink; let i = $index) {
+        @for (itemLink of socialLinks$(); track itemLink.id; let i = $index) {
             <li class="footer-links_item">
                 <a
                     href="{{ itemLink.link }}"
