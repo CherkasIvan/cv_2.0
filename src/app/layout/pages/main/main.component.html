@@ -1,5 +1,8 @@
 @if (mainInfoPageData) {
-    <main class="main">
+    <main
+        class="main"
+        [ngClass]="{ 'dark-theme': (currentTheme$ | async) }"
+    >
         <div class="main_info">
             <section class="fullname-img">
                 <span class="fullname">{{ mainInfoPageData.fullName }}</span>
@@ -29,6 +32,7 @@
                     buttonType="long"
                     buttonText="{{ mainInfoPageData.buttonText }}"
                     buttonHoverText="{{ mainInfoPageData.buttonHoverText }}"
+                    [buttonTheme]="currentTheme$ | async"
                 ></cv-button>
             </section>
         </div>

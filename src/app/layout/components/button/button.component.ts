@@ -1,5 +1,11 @@
+import { Observable } from 'rxjs';
+
 import { NgClass, NgStyle } from '@angular/common';
 import { Component, ElementRef, ViewChild, input } from '@angular/core';
+
+import { Store, select } from '@ngrx/store';
+
+import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
 
 @Component({
     selector: 'cv-button',
@@ -15,10 +21,14 @@ export class ButtonComponent {
     public buttonHoverText = input.required<string>();
     public buttonTheme = input<boolean | null>();
     public isHovered = false;
-
+    public currentTheme$: Observable<boolean> = this._store$.pipe(
+        select(darkModeSelector),
+    );
     private _activePosition = {
         transform: ' translateY(-155px)',
     };
+
+    constructor(private _store$: Store) {}
 
     onHover() {
         this.isHovered = true;

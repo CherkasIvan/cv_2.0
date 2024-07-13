@@ -1,0 +1,30 @@
+@use '../../../../../assets/styles/variables' as color;
+@use '../../../../../assets/styles/mixins/neon.mixin' as neon;
+
+.dark-theme {
+    background: color.$black;
+    background-image: url('../../../../../assets/images/white-mode/background-main-menu-dark.png');
+}
+
+.navigation-border {
+    .navigation-header.dark-theme {
+        .header-links {
+            .item-link {
+                color: color.$white;
+            }
+        }
+
+        .header-buttons {
+            > * {
+                color: color.$white;
+            }
+        }
+    }
+}
+
+.navigation-border.fade-in.dark-theme {
+    transition: 0.3s;
+    background-image: url('../../../../../assets/images/white-mode/background-main-menu.png');
+    background-color: color.$white !important;
+    @include neon.dm-neon-block;
+}

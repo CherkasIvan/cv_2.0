@@ -41,13 +41,13 @@
     }
 
     &__input:checked + &__slider {
-        border: 2px solid color.$dm-neon-green;
+        border: 2px solid color.$white;
         background: #242424;
     }
 
     &__input:checked + &__slider::before {
         transform: translateX(25px);
-        background-color: color.$dm-neon-green;
+        background-color: color.$white;
     }
 
     &__sun {
