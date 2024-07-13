@@ -35,7 +35,10 @@ import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.co
         ConnectionModalComponent,
     ],
     templateUrl: './header.component.html',
-    styleUrl: './header.component.scss',
+    styleUrls: [
+        './header.component.scss',
+        './header-dark-mode/header.component.dm.scss',
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
