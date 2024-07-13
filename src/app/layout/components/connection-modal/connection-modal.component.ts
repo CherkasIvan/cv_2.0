@@ -2,6 +2,7 @@ import {
     Component,
     ElementRef,
     EventEmitter,
+    HostListener,
     Output,
     ViewChild,
     input,
@@ -19,14 +20,15 @@ export class ConnectionModalComponent {
     modal!: ElementRef;
     public header = input.required<string>();
     @Output() public emittedModalHide = new EventEmitter<boolean>();
-
-    // @HostListener('document:click', ['$event'])
-    // public onDocumentClick(event: MouseEvent): void {
-    //     const target = event.target as HTMLElement;
-    //     if (!this.modal.nativeElement.contains(target)) {
-    //         this.closeModalDialog();
-    //     }
-    // }
+    @HostListener('document:mousemove', ['$event'])
+    onMouseMove(event: MouseEvent) {
+        const target = event.target as HTMLElement;
+        if (!this.modal.nativeElement.contains(target)) {
+            this.modal.nativeElement.classList.add('dimmed');
+        } else {
+            this.modal.nativeElement.classList.remove('dimmed');
+        }
+    }
 
     public confirmModalDialog() {
         this.emittedModalHide.emit(false);
