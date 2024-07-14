@@ -8,13 +8,13 @@
         type="checkbox"
         name="dark-mode-toggle"
         id="darkmode-toggle"
-        [value]="isChecked$"
+        [value]="isChecked"
         (change)="changeView()"
     />
     <span class="dark-mode-toggle__slider"></span>
     <span
         class="dark-mode-toggle__moon"
-        [ngClass]="{ active: !isChecked$ }"
+        [ngClass]="{ active: !isChecked }"
     >
         <img
             src="assets/images/white-mode/icons/moon.svg"
@@ -23,7 +23,7 @@
     </span>
     <span
         class="dark-mode-toggle__sun"
-        [ngClass]="{ active: isChecked$ }"
+        [ngClass]="{ active: isChecked }"
     >
         <img
             src="assets/images/dark-mode/icons/sun.svg"

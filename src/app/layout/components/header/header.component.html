@@ -46,7 +46,12 @@
         </ul>
         <aside class="header-buttons">
             <cv-dark-mode-toggle></cv-dark-mode-toggle>
-            <button class="header-buttons_language">EN</button>
+            <button
+                class="header-buttons_language"
+                (click)="changeLanguage()"
+            >
+                {{ isCheckedLanguage ? 'RU' : 'EN' }}
+            </button>
             <button
                 class="header-buttons_login"
                 (click)="showDialog()"
