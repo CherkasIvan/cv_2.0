@@ -1,19 +1,35 @@
-import { NgClass, NgStyle } from '@angular/common';
+import { Observable } from 'rxjs';
+
+import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+
+import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
 import { blobFloat } from '@core/utils/animations/bg-layout.animation';
 
+import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
+import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+
 @Component({
     selector: 'cv-animation-bg',
     standalone: true,
-    imports: [NgStyle, NgClass],
+    imports: [NgStyle, NgClass, AsyncPipe],
     templateUrl: './animation-bg.component.html',
-    styleUrl: './animation-bg.component.scss',
+    styleUrls: [
+        './animation-bg.component.scss',
+        './animation-bg-dark-mode/animation-bg-dark-mode.component.scss',
+    ],
     animations: [blobFloat],
 })
 export class AnimationBgComponent implements OnInit {
     @Input() public navigationLinks: INavigation[] | null = [];
+    public currentTheme$: Observable<boolean> = this._store$.pipe(
+        select(darkModeSelector),
+    );
+
+    constructor(private _store$: Store<IDarkMode>) {}
+
     public animationBlobs: any[] = [
         {
             width: '70px',

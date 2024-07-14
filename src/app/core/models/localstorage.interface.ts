@@ -5,5 +5,5 @@ export interface ILocalStorage {
     user: IProfile | null;
     rout: string;
     isDarkMode: string;
-    language: string;
+    isLanguage: string;
 }

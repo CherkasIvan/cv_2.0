@@ -1,0 +1,15 @@
+@use '../../../../../assets/styles/variables' as color;
+
+.animation-bg {
+    .circles-list {
+        .circle-element {
+            &_img.dark-blob {
+                > * {
+                    > * {
+                        background-color: red;
+                    }
+                }
+            }
+        }
+    }
+}

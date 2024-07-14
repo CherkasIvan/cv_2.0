@@ -14,11 +14,11 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
     styleUrl: './dark-mode-toggle.component.scss',
 })
 export class DarkModeToggleComponent {
-    public isChecked$: boolean = false;
+    public isChecked: boolean = false;
 
     public changeView(): void {
-        this.isChecked$ = !this.isChecked$;
-        this._store$.dispatch(setModeSuccess(this.isChecked$));
+        this.isChecked = !this.isChecked;
+        this._store$.dispatch(setModeSuccess(this.isChecked));
     }
 
     constructor(private _store$: Store<IDarkMode>) {}

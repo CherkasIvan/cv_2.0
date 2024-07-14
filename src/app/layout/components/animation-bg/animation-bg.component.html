@@ -9,6 +9,7 @@
         @for (blob of animationBlobs; track $index) {
             <div
                 class="circle-element_img"
+                [ngClass]="{ 'dark-blob': currentTheme$ | async }"
                 [ngStyle]="blob"
             >
                 <p><span></span></p>

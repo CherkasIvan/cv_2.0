@@ -41,6 +41,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { environment } from './layout/environments/environment.development';
 import { darkModeReducer } from './layout/store/dark-mode-store/dark-mode.reducers';
+import { languageReducer } from './layout/store/language-selector-store/language-selector.reducers';
 import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
 
@@ -66,6 +67,7 @@ export const appConfig: ApplicationConfig = {
             StoreModule.forRoot({}),
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),
+            StoreModule.forFeature('language', languageReducer),
             StoreRouterConnectingModule.forRoot(),
         ]),
         {

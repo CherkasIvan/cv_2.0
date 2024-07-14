@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 
 import { NgClass, NgFor } from '@angular/common';
 import {
@@ -7,8 +7,10 @@ import {
     Component,
     EventEmitter,
     Input,
+    OnDestroy,
     OnInit,
     Output,
+    computed,
     input,
 } from '@angular/core';
 import {
@@ -18,7 +20,12 @@ import {
     RouterLinkActive,
 } from '@angular/router';
 
+import { Store } from '@ngrx/store';
+
 import { INavigation } from '@core/models/navigation.interface';
+
+import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
+import { ILanguagesSelector } from '@layout/store/model/language-selector.interface';
 
 import { ConnectionModalComponent } from '../connection-modal/connection-modal.component';
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
@@ -41,18 +48,22 @@ import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.co
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
     @Input() public navigationLinks: INavigation[] | null = [];
     public theme = input<boolean | null>();
+    public currentLanguage = input<string>('EN');
     @Output() public emittedModalShow = new EventEmitter<boolean>();
-
+    public isCheckedLanguage: boolean = false;
     public currentRoute: string = '';
-    private _routerSubscription$: Subscription = new Subscription();
     public isModalDialogVisible: boolean = false;
+
+    private _routerSubscription$: Subscription = new Subscription();
+    private _destroyed$: Subject<void> = new Subject();
 
     constructor(
         private readonly _router: Router,
         private _cdr: ChangeDetectorRef,
+        private _store$: Store<ILanguagesSelector>,
     ) {}
 
     public showDialog() {
@@ -60,14 +71,27 @@ export class HeaderComponent implements OnInit {
         this.emittedModalShow.emit(true);
     }
 
+    public changeLanguage() {
+        this.isCheckedLanguage = !this.isCheckedLanguage;
+        this._store$.dispatch(setLanguageSuccess(this.isCheckedLanguage));
+        console.log(this.isCheckedLanguage);
+    }
+
     ngOnInit(): void {
         this._routerSubscription$.add(
-            this._router.events.subscribe((event) => {
-                event instanceof NavigationEnd
-                    ? (this.currentRoute = event.url)
-                    : null;
-            }),
+            this._router.events
+                .pipe(takeUntil(this._destroyed$))
+                .subscribe((event) => {
+                    event instanceof NavigationEnd
+                        ? (this.currentRoute = event.url)
+                        : null;
+                }),
         );
         this._cdr.markForCheck();
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }
