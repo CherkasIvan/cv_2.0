@@ -12,6 +12,7 @@ import { TExperienceAside } from '@core/models/experience-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { FirebaseService } from '@core/service/firebase/firebase.service';
 
+import { EvenColumnDirective } from '@app/core/directives/even-column.directive';
 import { AsideNavigationComponent } from '@app/layout/components/aside-navigation/aside-navigation.component';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
@@ -24,6 +25,7 @@ import { TechnologyCardComponent } from './components/technology-card/technology
         TechnologyCardComponent,
         AsyncPipe,
         NgClass,
+        EvenColumnDirective,
     ],
     templateUrl: './technologies.component.html',
     styleUrl: './technologies.component.scss',
