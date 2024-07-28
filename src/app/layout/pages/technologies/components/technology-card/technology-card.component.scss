@@ -5,6 +5,7 @@
 .technology-card {
     @include flex.flex-a_center-d_column;
     column-gap: 96px;
+    cursor: pointer;
     width: fit-content;
     max-width: 140px;
 

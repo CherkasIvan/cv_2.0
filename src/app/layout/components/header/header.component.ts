@@ -50,9 +50,9 @@ import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.co
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     @Input() public navigationLinks: INavigation[] | null = [];
+    @Output() public emittedModalShow = new EventEmitter<boolean>();
     public theme = input<boolean | null>();
     public currentLanguage = input<string>('EN');
-    @Output() public emittedModalShow = new EventEmitter<boolean>();
     public isCheckedLanguage: boolean = false;
     public currentRoute: string = '';
     public isModalDialogVisible: boolean = false;
@@ -74,7 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public changeLanguage() {
         this.isCheckedLanguage = !this.isCheckedLanguage;
         this._store$.dispatch(setLanguageSuccess(this.isCheckedLanguage));
-        console.log(this.isCheckedLanguage);
     }
 
     ngOnInit(): void {
