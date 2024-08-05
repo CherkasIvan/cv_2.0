@@ -1,0 +1,12 @@
+@use '../../../../../../../assets/styles/variables' as color;
+@use '../../../../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
+
+.technology-card.dark-theme {
+    .technology-card_block {
+        @include glassmorphism.cards_glassmorphism-dm;
+    }
+
+    .technology-card_description {
+        color: color.$white;
+    }
+}

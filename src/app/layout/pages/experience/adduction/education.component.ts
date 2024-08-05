@@ -16,4 +16,5 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
 export class educationComponent {
     public selectedTabEducation = input<string>('');
     public educationExperience = input.required<IEducation[] | null>();
+    public theme = input<boolean | null>();
 }

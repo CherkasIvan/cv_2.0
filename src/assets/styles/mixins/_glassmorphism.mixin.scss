@@ -16,6 +16,14 @@
     background: rgba(255, 255, 255, 0.4);
 }
 
+@mixin cards_glassmorphism-dm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(41, 41, 41, 0.8);
+    border-radius: 40px;
+    background: rgba(41, 41, 41, 0.6);
+}
+
 @mixin header_glassmorphism {
     opacity: 0.95;
     backdrop-filter: blur(20px);
