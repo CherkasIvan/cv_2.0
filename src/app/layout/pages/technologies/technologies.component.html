@@ -2,6 +2,7 @@
     <aside class="technologies_navigation">
         <cv-aside-navigation
             [navigationList]="technologiesAside"
+            [theme]="currentTheme$ | async"
             (emittedTab)="switchTab($event)"
         ></cv-aside-navigation>
     </aside>
@@ -11,7 +12,10 @@
                 class="technologies_stack-column"
                 cvEvenColumn
             >
-                <cv-technology-card [technologyItem]="technology"></cv-technology-card>
+                <cv-technology-card
+                    [technologyItem]="technology"
+                    [theme]="currentTheme$ | async"
+                ></cv-technology-card>
             </div>
         }
     </section>

@@ -8,12 +8,16 @@ import {
     OnInit,
 } from '@angular/core';
 
+import { Store, select } from '@ngrx/store';
+
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { FirebaseService } from '@core/service/firebase/firebase.service';
 
 import { EvenColumnDirective } from '@app/core/directives/even-column.directive';
 import { AsideNavigationComponent } from '@app/layout/components/aside-navigation/aside-navigation.component';
+import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
+import { IDarkMode } from '@app/layout/store/model/dark-mode.interface';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
 
@@ -38,6 +42,11 @@ export class TechnologiesComponent implements OnInit {
         { id: 1, title: 'Технические навыки', value: 'tech' },
         { id: 2, title: 'Остальные навыки', value: 'other' },
     ];
+
+    public currentTheme$: Observable<boolean> = this._store$.pipe(
+        select(darkModeSelector),
+    );
+
     public currentTechnologiesStack: ITechnologies[] = [];
 
     public backendTech$: Observable<ITechnologies[]> =
@@ -86,6 +95,7 @@ export class TechnologiesComponent implements OnInit {
     constructor(
         private _firebaseService: FirebaseService,
         private _cdr: ChangeDetectorRef,
+        private _store$: Store<IDarkMode>,
     ) {}
 
     ngOnInit(): void {

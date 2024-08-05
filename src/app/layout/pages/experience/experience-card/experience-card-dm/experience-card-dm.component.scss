@@ -1,0 +1,29 @@
+@use '../../../../../../assets/styles/variables' as color;
+@use '../../../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
+
+.experience-card.dark-theme {
+    @include glassmorphism.cards_glassmorphism-dm;
+
+    .experience-card_picture-work,
+    .experience-card_picture-education {
+        background-color: color.$dm-black;
+    }
+
+    .card-info {
+        &_place {
+            color: color.$dm-dark-text-title;
+        }
+
+        &_place-name {
+            color: color.$white;
+        }
+
+        &_time {
+            color: color.$dm-dark-text;
+        }
+    }
+
+    .card-button {
+        background: color.$black;
+    }
+}

@@ -1,4 +1,7 @@
-<aside class="aside-navigation">
+<aside
+    class="aside-navigation"
+    [ngClass]="{ 'dark-theme': theme() }"
+>
     <ul class="navigation-list">
         @for (navItem of navigationList(); track navItem.id) {
             <li class="navigation_item">

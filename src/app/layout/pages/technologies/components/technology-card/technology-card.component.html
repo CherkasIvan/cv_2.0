@@ -1,4 +1,7 @@
-<article class="technology-card">
+<article
+    class="technology-card"
+    [ngClass]="{ 'dark-theme': theme() }"
+>
     <div class="technology-card_block">
         <img
             src="{{ technologyItem()?.iconPath }}"

@@ -2,14 +2,17 @@
     @case ('work') {
         <article
             class="experience-card"
-            [ngClass]="{ activeWork: experienceType() === 'work' }"
+            [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
             (mouseleave)="experienceCardImgVisibility = false"
             (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
-                <div class="experience-card_picture-work">
+                <div
+                    class="experience-card_picture-work"
+                    @fadeInOutCards
+                >
                     <img
                         class="card-img"
                         [src]="workDescription()?.logoPath"
@@ -27,8 +30,12 @@
             </div>
             <button class="card-button">
                 <img
-                    src="assets/images/white-mode/icons/arrow.svg"
-                    alt="arrow.svg"
+                    [src]="
+                        !theme()
+                            ? 'assets/images/white-mode/icons/arrow-wm.svg'
+                            : 'assets/images/dark-mode/icons/arrow-dm.svg'
+                    "
+                    [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
                 />
             </button>
         </article>
@@ -36,14 +43,17 @@
     @case ('education') {
         <article
             class="experience-card"
-            [ngClass]="{ activeEducation: experienceType() === 'education' }"
+            [ngClass]="{ activeEducation: experienceType() === 'education', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
             (mouseleave)="experienceCardImgVisibility = false"
             (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
-                <div class="experience-card_picture-education">
+                <div
+                    class="experience-card_picture-education"
+                    @fadeInOutCards
+                >
                     <img
                         class="card-img"
                         [src]="workDescription()?.logoPath"
@@ -53,8 +63,12 @@
             }
             <button class="card-button">
                 <img
-                    src="assets/images/white-mode/icons/download.svg"
-                    alt="download.svg"
+                    [src]="
+                        !theme()
+                            ? 'assets/images/white-mode/icons/download-wm.svg'
+                            : 'assets/images/dark-mode/icons/download-dm.svg'
+                    "
+                    [alt]="!theme() ? 'download-wm.svg' : 'download-dm.svg'"
                 />
             </button>
             <div class="card-info">
@@ -73,14 +87,17 @@
     @default {
         <article
             class="experience-card"
-            [ngClass]="{ activeWork: experienceType() === 'work' }"
+            [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
             (mouseleave)="experienceCardImgVisibility = false"
             (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
-                <div class="experience-card_picture-work">
+                <div
+                    @fadeInOutCards
+                    class="experience-card_picture-work"
+                >
                     <img
                         class="card-img"
                         [src]="workDescription()?.logoPath"
@@ -98,8 +115,12 @@
             </div>
             <button class="card-button">
                 <img
-                    src="assets/images/white-mode/icons/arrow.svg"
-                    alt="arrow.svg"
+                    [src]="
+                        !theme()
+                            ? 'assets/images/white-mode/icons/arrow-wm.svg'
+                            : 'assets/images/dark-mode/icons/arrow-dm.svg'
+                    "
+                    [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
                 />
             </button>
         </article>
