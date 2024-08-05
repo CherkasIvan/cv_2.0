@@ -23,13 +23,18 @@ import { TExperienceAside } from '@app/core/models/experience-aside.type';
     standalone: true,
     imports: [NgClass, RouterLinkActive, AsyncPipe],
     templateUrl: './aside-navigation.component.html',
-    styleUrl: './aside-navigation.component.scss',
+    styleUrls: [
+        './aside-navigation.component.scss',
+        './aside-navigation-dm/aside-navigation-dm.component.scss',
+    ],
 })
 export class AsideNavigationComponent implements OnInit {
     @Output() public emittedTab = new EventEmitter<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> =
         this._firebaseService.getHardSkillsNav();
+
+    public theme = input<boolean | null>(false);
 
     public navigationList: InputSignal<TExperienceAside[]> = input<
         TExperienceAside[]
@@ -68,17 +73,19 @@ export class AsideNavigationComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectedTab === '' ? this._tab() : this.selectedTab;
+        console.log(this.selectedTab);
         this.selectedTab === 'tech'
             ? this.hardSkillsNavigation$.subscribe((skills: INavigation[]) => {
                   skills.find((skill) => {
                       if (skill.id === '1') {
                           this.currentSkills = skill.link;
+                          console.log(this.currentSkills);
                           this.changeSkillsList(skill.link);
                       }
                   });
               })
             : null;
+        this.cdr.detectChanges();
         this.emittedTab.emit(this.currentSkills);
     }
 }
-// this.navigationList[0].value

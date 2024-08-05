@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -9,9 +9,12 @@ import { ButtonComponent } from '../button/button.component';
 @Component({
     selector: 'cv-footer',
     standalone: true,
-    imports: [RouterLink, NgFor, RouterLinkActive, ButtonComponent],
+    imports: [RouterLink, NgFor, RouterLinkActive, ButtonComponent, NgClass],
     templateUrl: './footer.component.html',
-    styleUrl: './footer.component.scss',
+    styleUrls: [
+        './footer.component.scss',
+        './footer-dm/footer-dm.component.scss',
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {

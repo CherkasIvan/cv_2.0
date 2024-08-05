@@ -6,6 +6,7 @@ import { Component, ElementRef, ViewChild, input } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
+import { IDarkMode } from '@app/layout/store/model/dark-mode.interface';
 
 @Component({
     selector: 'cv-button',
@@ -28,7 +29,7 @@ export class ButtonComponent {
         transform: ' translateY(-155px)',
     };
 
-    constructor(private _store$: Store) {}
+    constructor(private _store$: Store<IDarkMode>) {}
 
     onHover() {
         this.isHovered = true;

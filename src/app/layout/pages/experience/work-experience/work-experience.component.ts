@@ -15,4 +15,5 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
 export class WorkExperienceComponent {
     public selectedTabWork = input.required<string>();
     public workExperience$ = input.required<IWorkExperience[] | null>();
+    public theme = input<boolean | null>();
 }

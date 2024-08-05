@@ -41,6 +41,8 @@
     "prettier-plugin-css-order": "^2.0.1",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
+    "web3": "^4.11.1",
+    "web3modal": "^1.9.12",
     "zone.js": "~0.14.4"
   },
   "devDependencies": {
