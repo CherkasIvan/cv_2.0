@@ -20,7 +20,9 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import {
     BrowserModule,
     provideClientHydration,
+    withEventReplay,
     withHttpTransferCacheOptions,
+    withI18nSupport,
 } from '@angular/platform-browser';
 import {
     BrowserAnimationsModule,
@@ -76,7 +78,9 @@ export const appConfig: ApplicationConfig = {
             multi: true,
         },
         provideClientHydration(
+            withEventReplay(),
             withHttpTransferCacheOptions({ includePostRequests: true }),
+            withI18nSupport(),
         ),
         provideStore({
             router: routerReducer,
