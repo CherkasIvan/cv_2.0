@@ -10,7 +10,7 @@ import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
 import { FirebaseService } from '@core/service/firebase/firebase.service';
 
-import { routeAnimations } from '@app/core/utils/animations/router-animations';
+import { routeAnimations } from '@core/utils/animations/router-animations';
 
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
 import { ConnectionModalComponent } from './components/connection-modal/connection-modal.component';

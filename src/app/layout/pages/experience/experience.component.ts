@@ -12,8 +12,8 @@ import { FirebaseService } from '@core/service/firebase/firebase.service';
 
 import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
 
-import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
-import { IDarkMode } from '@app/layout/store/model/dark-mode.interface';
+import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
+import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 import { educationComponent } from './adduction/education.component';
 import { WorkExperienceComponent } from './work-experience/work-experience.component';

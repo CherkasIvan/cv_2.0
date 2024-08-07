@@ -16,7 +16,7 @@ import { RouterLinkActive } from '@angular/router';
 import { INavigation } from '@core/models/navigation.interface';
 import { FirebaseService } from '@core/service/firebase/firebase.service';
 
-import { TExperienceAside } from '@app/core/models/experience-aside.type';
+import { TExperienceAside } from '@core/models/experience-aside.type';
 
 @Component({
     selector: 'cv-aside-navigation',

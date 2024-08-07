@@ -5,7 +5,7 @@ import { Component, Inject } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
-import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
+import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 
 @Component({
     selector: 'cv-profile-logo',

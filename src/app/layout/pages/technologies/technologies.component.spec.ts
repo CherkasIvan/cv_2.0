@@ -7,7 +7,7 @@ import { ITechnologies } from '@core/models/technologies.interface';
 
 import { environment } from '@layout/environments/environment.development';
 
-import { FirebaseService } from '@app/core/service/local-storage/firebase.service';
+import { FirebaseService } from '@core/service/local-storage/firebase.service';
 
 import { TechnologiesComponent } from './technologies.component';
 
