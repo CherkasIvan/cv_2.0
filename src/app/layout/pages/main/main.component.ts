@@ -14,9 +14,9 @@ import { Store, select } from '@ngrx/store';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
 
-import { IMainPageInfo } from '@app/core/models/main-page-info';
-import { FirebaseService } from '@app/core/service/firebase/firebase.service';
-import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
+import { IMainPageInfo } from '@core/models/main-page-info';
+import { FirebaseService } from '@core/service/firebase/firebase.service';
+import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 
 import { ProfileLogoComponent } from '../../../layout/components/profile-logo/profile-logo.component';
 
