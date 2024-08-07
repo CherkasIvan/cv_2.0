@@ -11,7 +11,7 @@ import {
     isDevMode,
 } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
+// import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
@@ -58,7 +58,7 @@ export const appConfig: ApplicationConfig = {
         provideFirestore(() => getFirestore()),
         provideDatabase(() => getDatabase()),
         provideStorage(() => getStorage()),
-        provideAuth(() => getAuth()),
+        // provideAuth(() => getAuth()),
         importProvidersFrom([
             AngularFireModule.initializeApp(environment.firebase),
             AngularFireDatabaseModule,
