@@ -1,17 +1,10 @@
-import {
-    animate,
-    state,
-    style,
-    transition,
-    trigger,
-} from '@angular/animations';
 import { NgClass, NgSwitch } from '@angular/common';
 import { ChangeDetectorRef, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { fadeInOutCards } from '@app/core/utils/animations/fade-in-out-cards';
 
 import { IEducation } from '@core/models/education.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
+import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
 
 @Component({
     selector: 'cv-experience-card',
@@ -22,9 +15,7 @@ import { IWorkExperience } from '@core/models/work-experience.interface';
         './experience-card.component.scss',
         './experience-card-dm/experience-card-dm.component.scss',
     ],
-    animations: [
-      fadeInOutCards
-    ],
+    animations: [fadeInOutCards],
 })
 export class ExperienceCardComponent {
     public experienceType = input.required<string>();
@@ -42,7 +33,6 @@ export class ExperienceCardComponent {
         this.workDescription = this.workDescription || null;
         this.experienceDescription = this.experienceDescription || null;
 
-        // Обнаружение изменений
         this.cdr.detectChanges();
     }
 }

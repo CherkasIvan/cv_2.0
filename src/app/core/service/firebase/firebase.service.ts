@@ -15,12 +15,11 @@ import {
 
 import { IEducation } from '@core/models/education.interface';
 import { IFileUpload } from '@core/models/file-upload.interface';
+import { IMainPageInfo } from '@core/models/main-page-info';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
-
-import { IMainPageInfo } from '@app/core/models/main-page-info';
 
 @Injectable({
     providedIn: 'root',
