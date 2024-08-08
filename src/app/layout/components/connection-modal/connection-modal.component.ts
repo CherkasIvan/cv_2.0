@@ -17,7 +17,7 @@ import {
 })
 export class ConnectionModalComponent {
     @ViewChild('modal', { static: false })
-    modal!: ElementRef;
+    public modal!: ElementRef;
     public header = input.required<string>();
     @Output() public emittedModalHide = new EventEmitter<boolean>();
     @HostListener('document:mousemove', ['$event'])

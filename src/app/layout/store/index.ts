@@ -25,7 +25,7 @@ export function globalSetReducers(
                   .isSpinnerOn
             : false,
         isLanguage: state
-            ? languageReducer({ isLanguage: state.isLanguage }, action)
+            ? languageReducer({ isLanguage: state.isLanguage }, action).isLanguage
             : false,
     };
 }
