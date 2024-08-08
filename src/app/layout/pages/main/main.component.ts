@@ -12,11 +12,14 @@ import { RouterLink } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
-import { ButtonComponent } from '@layout/components/button/button.component';
-
 import { IMainPageInfo } from '@core/models/main-page-info';
-import { FirebaseService } from '@core/service/firebase/firebase.service';
+
+import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
+
+import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
+import { selectMainPageInfo } from '@app/layout/store/firebase-store/firebase.selectors';
+import { IDarkMode } from '@app/layout/store/model/dark-mode.interface';
 
 import { ProfileLogoComponent } from '../../../layout/components/profile-logo/profile-logo.component';
 
@@ -38,8 +41,9 @@ import { ProfileLogoComponent } from '../../../layout/components/profile-logo/pr
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent implements OnInit, OnDestroy {
-    public mainInfo$: Observable<IMainPageInfo> =
-        this._firebaseService.getMainPageInfo();
+    public mainInfo$: Observable<IMainPageInfo | null> = this._store$.pipe(
+        select(selectMainPageInfo),
+    );
     public mainInfoPageData: IMainPageInfo | null = null;
 
     private destroyed$: Subject<void> = new Subject();
@@ -48,12 +52,12 @@ export class MainComponent implements OnInit, OnDestroy {
     );
 
     constructor(
-        private _firebaseService: FirebaseService,
         private _cdr: ChangeDetectorRef,
-        private _store$: Store,
+        private _store$: Store<IDarkMode | IMainPageInfo>,
     ) {}
 
     ngOnInit(): void {
+        this._store$.dispatch(FirebaseActions.getMainPageInfo());
         this.mainInfo$.pipe(takeUntil(this.destroyed$)).subscribe((info) => {
             this.mainInfoPageData = info;
             this._cdr.markForCheck();

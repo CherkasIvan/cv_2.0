@@ -1,14 +1,15 @@
 import { Observable, map } from 'rxjs';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
     AngularFireDatabase,
     AngularFireList,
 } from '@angular/fire/compat/database';
 import {
+    CollectionReference,
+    Firestore,
     collection,
     collectionData,
-    getFirestore,
     orderBy,
     query,
 } from '@angular/fire/firestore';
@@ -28,12 +29,11 @@ export class FirebaseService {
     private basePath = 'gs://cv-cherkas-db.appspot.com';
     file!: File;
     url = '';
-    private _firestore = getFirestore();
+    private _firestore = inject(Firestore);
 
     frontendTechCollection$!: Observable<ITechnologies[]>;
     backendTechCollection$!: Observable<ITechnologies[]>;
     otherTechCollection$!: Observable<ITechnologies[]>;
-
     navigationCollection$!: Observable<INavigation[]>;
     workExperienceCollection$!: Observable<IWorkExperience[]>;
     educationCollection$!: Observable<IEducation[]>;
@@ -55,7 +55,10 @@ export class FirebaseService {
     }
 
     getNavigation(): Observable<INavigation[]> {
-        const navigationRef = collection(this._firestore, 'navigation');
+        const navigationRef = collection(
+            this._firestore,
+            'navigation',
+        ) as CollectionReference<INavigation>;
         const navigationQuery = query(navigationRef, orderBy('position'));
         this.navigationCollection$ = collectionData(navigationQuery, {
             idField: 'id',
@@ -67,7 +70,7 @@ export class FirebaseService {
         const socialMediaLinksRef = collection(
             this._firestore,
             'socialMediaLinks',
-        );
+        ) as CollectionReference<ISocialMedia>;
         this.socialMediaLinksCollection$ = collectionData(socialMediaLinksRef, {
             idField: 'id',
         }) as Observable<ISocialMedia[]>;
@@ -75,7 +78,10 @@ export class FirebaseService {
     }
 
     getWorkExperience(): Observable<IWorkExperience[]> {
-        const workExperienceRef = collection(this._firestore, 'workExperience');
+        const workExperienceRef = collection(
+            this._firestore,
+            'workExperience',
+        ) as CollectionReference<IWorkExperience>;
         this.workExperienceCollection$ = collectionData(workExperienceRef, {
             idField: 'id',
         }) as Observable<IWorkExperience[]>;
@@ -83,7 +89,10 @@ export class FirebaseService {
     }
 
     getBackendTech(): Observable<ITechnologies[]> {
-        const backendTechRef = collection(this._firestore, 'backendTech');
+        const backendTechRef = collection(
+            this._firestore,
+            'backendTech',
+        ) as CollectionReference<ITechnologies>;
         this.backendTechCollection$ = collectionData(backendTechRef, {
             idField: 'id',
         }) as Observable<ITechnologies[]>;
@@ -91,7 +100,10 @@ export class FirebaseService {
     }
 
     getOtherTech(): Observable<ITechnologies[]> {
-        const otherTechRef = collection(this._firestore, 'otherTech');
+        const otherTechRef = collection(
+            this._firestore,
+            'otherTech',
+        ) as CollectionReference<ITechnologies>;
         this.otherTechCollection$ = collectionData(otherTechRef, {
             idField: 'id',
         }) as Observable<ITechnologies[]>;
@@ -99,7 +111,10 @@ export class FirebaseService {
     }
 
     getFrontendTech(): Observable<ITechnologies[]> {
-        const frontendTechRef = collection(this._firestore, 'frontendTech');
+        const frontendTechRef = collection(
+            this._firestore,
+            'frontendTech',
+        ) as CollectionReference<ITechnologies>;
         this.frontendTechCollection$ = collectionData(frontendTechRef, {
             idField: 'id',
         }) as Observable<ITechnologies[]>;
@@ -107,18 +122,21 @@ export class FirebaseService {
     }
 
     getHardSkillsNav(): Observable<INavigation[]> {
-        const hardSkillsNavRef = collection(this._firestore, 'hardSkillsNav');
+        const hardSkillsNavRef = collection(
+            this._firestore,
+            'hardSkillsNav',
+        ) as CollectionReference<INavigation>;
         this.hardSkillsNavCollection$ = collectionData(hardSkillsNavRef, {
             idField: 'id',
         }) as Observable<INavigation[]>;
         return this.hardSkillsNavCollection$;
     }
 
-    getEducationPlaces(): Observable<IWorkExperience[]> {
+    getEducationPlaces(): Observable<IEducation[]> {
         const educationPlacesRef = collection(
             this._firestore,
             'educationExperience',
-        );
+        ) as CollectionReference<IEducation>;
         this.educationCollection$ = collectionData(educationPlacesRef, {
             idField: 'id',
         }) as Observable<IEducation[]>;
@@ -126,7 +144,10 @@ export class FirebaseService {
     }
 
     getMainPageInfo(): Observable<IMainPageInfo> {
-        const mainPageInfoRef = collection(this._firestore, 'mainPageInfo');
+        const mainPageInfoRef = collection(
+            this._firestore,
+            'mainPageInfo',
+        ) as CollectionReference<IMainPageInfo>;
         return collectionData(mainPageInfoRef, { idField: 'id' }).pipe(
             map((data) => data[0] as IMainPageInfo),
         );

@@ -10,14 +10,20 @@ import {
 
 import { Store, select } from '@ngrx/store';
 
+import { EvenColumnDirective } from '@core/directives/even-column.directive';
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
-import { FirebaseService } from '@core/service/firebase/firebase.service';
 
-import { EvenColumnDirective } from '@core/directives/even-column.directive';
 import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+
+import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
+import {
+    selectBackendTech,
+    selectFrontendTech,
+    selectOtherTech,
+} from '@app/layout/store/firebase-store/firebase.selectors';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
 
@@ -49,14 +55,17 @@ export class TechnologiesComponent implements OnInit {
 
     public currentTechnologiesStack: ITechnologies[] = [];
 
-    public backendTech$: Observable<ITechnologies[]> =
-        this._firebaseService.getBackendTech();
+    public backendTech$: Observable<ITechnologies[]> = this._store$.pipe(
+        select(selectBackendTech),
+    );
 
-    public otherTech$: Observable<ITechnologies[]> =
-        this._firebaseService.getOtherTech();
+    public otherTech$: Observable<ITechnologies[]> = this._store$.pipe(
+        select(selectOtherTech),
+    );
 
-    public frontendTech$: Observable<ITechnologies[]> =
-        this._firebaseService.getFrontendTech();
+    public frontendTech$: Observable<ITechnologies[]> = this._store$.pipe(
+        select(selectFrontendTech),
+    );
 
     public technologiesSwitcher(tab: string): void {
         switch (tab) {
@@ -92,13 +101,19 @@ export class TechnologiesComponent implements OnInit {
         this.technologiesSwitcher(this.selectedTab);
     }
 
+    private _technologiesDispatcher() {
+        this._store$.dispatch(FirebaseActions.getBackendTech());
+        this._store$.dispatch(FirebaseActions.getFrontendTech());
+        this._store$.dispatch(FirebaseActions.getOtherTech());
+    }
+
     constructor(
-        private _firebaseService: FirebaseService,
         private _cdr: ChangeDetectorRef,
         private _store$: Store<IDarkMode>,
     ) {}
 
     ngOnInit(): void {
+        this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
     }
 }

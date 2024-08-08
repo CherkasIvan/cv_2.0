@@ -13,10 +13,13 @@ import {
 } from '@angular/core';
 import { RouterLinkActive } from '@angular/router';
 
-import { INavigation } from '@core/models/navigation.interface';
-import { FirebaseService } from '@core/service/firebase/firebase.service';
+import { Store, select } from '@ngrx/store';
 
 import { TExperienceAside } from '@core/models/experience-aside.type';
+import { INavigation } from '@core/models/navigation.interface';
+
+import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
+import { selectHardSkillsNav } from '@app/layout/store/firebase-store/firebase.selectors';
 
 @Component({
     selector: 'cv-aside-navigation',
@@ -31,8 +34,9 @@ import { TExperienceAside } from '@core/models/experience-aside.type';
 export class AsideNavigationComponent implements OnInit {
     @Output() public emittedTab = new EventEmitter<string>();
 
-    public hardSkillsNavigation$: Observable<INavigation[]> =
-        this._firebaseService.getHardSkillsNav();
+    public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
+        select(selectHardSkillsNav),
+    );
 
     public theme = input<boolean | null>(false);
 
@@ -44,7 +48,7 @@ export class AsideNavigationComponent implements OnInit {
 
     constructor(
         private cdr: ChangeDetectorRef,
-        private _firebaseService: FirebaseService,
+        private _store$: Store<INavigation>,
     ) {}
 
     public changeTab(tab: string) {
@@ -72,6 +76,7 @@ export class AsideNavigationComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this._store$.dispatch(FirebaseActions.getHardSkillsNav());
         this.selectedTab === '' ? this._tab() : this.selectedTab;
         console.log(this.selectedTab);
         this.selectedTab === 'tech'

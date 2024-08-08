@@ -11,7 +11,7 @@ import {
     isDevMode,
 } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-// import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
@@ -29,7 +29,7 @@ import {
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
-import { provideEffects } from '@ngrx/effects';
+import { EffectsModule, provideEffects } from '@ngrx/effects';
 import {
     StoreRouterConnectingModule,
     provideRouterStore,
@@ -41,6 +41,8 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { environment } from './layout/environments/environment.development';
 import { darkModeReducer } from './layout/store/dark-mode-store/dark-mode.reducers';
+import { FirebaseEffects } from './layout/store/firebase-store/firebase.effects';
+import { firebaseReducer } from './layout/store/firebase-store/firebase.reducers';
 import { languageReducer } from './layout/store/language-selector-store/language-selector.reducers';
 import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
@@ -58,14 +60,21 @@ export const appConfig: ApplicationConfig = {
         provideFirestore(() => getFirestore()),
         provideDatabase(() => getDatabase()),
         provideStorage(() => getStorage()),
-        // provideAuth(() => getAuth()),
+        provideAuth(() => getAuth()),
+        provideEffects(),
+        provideStore(),
         importProvidersFrom([
             AngularFireModule.initializeApp(environment.firebase),
             AngularFireDatabaseModule,
             BrowserModule,
             BrowserAnimationsModule,
-            StoreModule.forRoot({}),
+            StoreModule.forRoot({
+                router: routerReducer,
+            }),
+            EffectsModule.forRoot({}),
+            EffectsModule.forRoot([FirebaseEffects]),
             StoreModule.forFeature('spinner', spinnerReducer),
+            StoreModule.forFeature('firebase', firebaseReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),
             StoreModule.forFeature('language', languageReducer),
             StoreRouterConnectingModule.forRoot(),
