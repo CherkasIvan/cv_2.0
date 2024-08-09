@@ -1,7 +1,7 @@
 <div class="experience">
     <aside class="experience_navigation">
         <cv-aside-navigation
-            [navigationList]="experienceAside"
+            [navigationList]="(experienceAside$ | async) ?? []"
             (emittedTab)="switchTab($event)"
             [theme]="currentTheme$ | async"
         ></cv-aside-navigation>

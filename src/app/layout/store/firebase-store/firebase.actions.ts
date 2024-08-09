@@ -1,9 +1,11 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
 import { IEducation } from '@core/models/education.interface';
+import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IMainPageInfo } from '@core/models/main-page-info';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
@@ -51,5 +53,17 @@ export const FirebaseActions = createActionGroup({
         getMainPageInfo: emptyProps(),
         getMainPageInfoSuccess: props<{ mainPageInfo: IMainPageInfo }>(),
         getMainPageInfoError: props<{ error: any }>(),
+
+        getExperienceAside: emptyProps(),
+        getExperienceAsideSuccess: props<{
+            experienceAside: TExperienceAside[];
+        }>(),
+        getExperienceAsideError: props<{ error: any }>(),
+
+        getTechnologiesAside: emptyProps(),
+        getTechnologiesAsideSuccess: props<{
+            technologiesAside: TTechnologiesAside[];
+        }>(),
+        getTechnologiesAsideError: props<{ error: any }>(),
     },
 });

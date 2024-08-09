@@ -14,7 +14,7 @@
                         {{ navItem.title }}
                     </a>
                 </button>
-                @if (navItem.id === 1 && selectedTab === 'tech') {
+                @if (navItem.id === '1' && selectedTab === 'tech') {
                     <section class="skills-switcher">
                         <ul class="skills-list">
                             @for (skillItem of hardSkillsNavigation$ | async; track skillItem.id; let i = $index) {

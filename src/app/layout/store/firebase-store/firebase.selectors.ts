@@ -54,3 +54,13 @@ export const selectError = createSelector(
     selectFirebaseState,
     (state: FirebaseState) => state.error,
 );
+
+export const selectTechnologiesAside = createSelector(
+    selectFirebaseState,
+    (state: FirebaseState) => state.technologiesAside,
+);
+
+export const selectExperienceAside = createSelector(
+    selectFirebaseState,
+    (state: FirebaseState) => state.experienceAside,
+);

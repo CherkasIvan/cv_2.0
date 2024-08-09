@@ -23,6 +23,7 @@ import {
     selectBackendTech,
     selectFrontendTech,
     selectOtherTech,
+    selectTechnologiesAside,
 } from '@app/layout/store/firebase-store/firebase.selectors';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
@@ -44,10 +45,8 @@ import { TechnologyCardComponent } from './components/technology-card/technology
 export class TechnologiesComponent implements OnInit {
     public selectedTab: string = '';
 
-    public technologiesAside: TExperienceAside[] = [
-        { id: 1, title: 'Технические навыки', value: 'tech' },
-        { id: 2, title: 'Остальные навыки', value: 'other' },
-    ];
+    public technologiesAside$: Observable<TExperienceAside[]> =
+        this._store$.pipe(select(selectTechnologiesAside));
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         select(darkModeSelector),
@@ -102,6 +101,7 @@ export class TechnologiesComponent implements OnInit {
     }
 
     private _technologiesDispatcher() {
+        this._store$.dispatch(FirebaseActions.getTechnologiesAside());
         this._store$.dispatch(FirebaseActions.getBackendTech());
         this._store$.dispatch(FirebaseActions.getFrontendTech());
         this._store$.dispatch(FirebaseActions.getOtherTech());

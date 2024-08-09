@@ -15,10 +15,12 @@ import {
 } from '@angular/fire/firestore';
 
 import { IEducation } from '@core/models/education.interface';
+import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IFileUpload } from '@core/models/file-upload.interface';
 import { IMainPageInfo } from '@core/models/main-page-info';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
@@ -40,7 +42,10 @@ export class FirebaseService {
     socialMediaLinksCollection$!: Observable<ISocialMedia[]>;
     hardSkillsNavCollection$!: Observable<INavigation[]>;
     charts$: AngularFireList<IFileUpload> | undefined;
-    mainPageInfo$: AngularFireList<IMainPageInfo> | undefined;
+    mainPageInfo$!: Observable<IMainPageInfo>;
+
+    experienceAside$!: Observable<TExperienceAside[]>;
+    technologiesAside$!: Observable<TTechnologiesAside[]>;
 
     constructor(private db: AngularFireDatabase) {}
 
@@ -151,5 +156,27 @@ export class FirebaseService {
         return collectionData(mainPageInfoRef, { idField: 'id' }).pipe(
             map((data) => data[0] as IMainPageInfo),
         );
+    }
+
+    getTechnologiesAside(): Observable<TTechnologiesAside[]> {
+        const technologiesAsideRef = collection(
+            this._firestore,
+            'technologiesAside',
+        ) as CollectionReference<TTechnologiesAside>;
+        this.technologiesAside$ = collectionData(technologiesAsideRef, {
+            idField: 'id',
+        }) as Observable<TTechnologiesAside[]>;
+        return this.technologiesAside$;
+    }
+
+    getExperienceAside(): Observable<TExperienceAside[]> {
+        const experienceAsideRef = collection(
+            this._firestore,
+            'experienceAside',
+        ) as CollectionReference<TExperienceAside>;
+        this.experienceAside$ = collectionData(experienceAsideRef, {
+            idField: 'id',
+        }) as Observable<TExperienceAside[]>;
+        return this.experienceAside$;
     }
 }

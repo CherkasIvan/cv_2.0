@@ -1,7 +1,7 @@
 <div class="technologies">
     <aside class="technologies_navigation">
         <cv-aside-navigation
-            [navigationList]="technologiesAside"
+            [navigationList]="(technologiesAside$ | async) ?? []"
             [theme]="currentTheme$ | async"
             (emittedTab)="switchTab($event)"
         ></cv-aside-navigation>
