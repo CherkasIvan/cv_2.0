@@ -4,12 +4,12 @@ import { ERoute } from './core/enum/route.enum';
 import { LayoutComponent } from './layout/layout.component';
 
 export const MAIN_ROUTES: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: `/${ERoute.LAYOUT}` }, //`/${ERouterPath.AUTH}` },
+    { path: '', pathMatch: 'full', redirectTo: `/${ERoute.LAYOUT}` },
     {
-        path: ERoute.LAYOUT, //ERouterPath.LAYOUT,
+        path: ERoute.LAYOUT,
         component: LayoutComponent,
         loadChildren: () =>
             import('./layout/layout.routes').then((c) => c.LAYOUT_ROUTES),
     },
-    { path: '**', pathMatch: 'full', redirectTo: `/${ERoute.LAYOUT}` }, //`/${ERouterPath.AUTH}` },
+    { path: '**', pathMatch: 'full', redirectTo: `/${ERoute.LAYOUT}` },
 ];

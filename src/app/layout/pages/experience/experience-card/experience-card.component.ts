@@ -1,5 +1,10 @@
 import { NgClass, NgSwitch } from '@angular/common';
-import { ChangeDetectorRef, Component, input } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    input,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { IEducation } from '@core/models/education.interface';
@@ -16,6 +21,7 @@ import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
         './experience-card-dm/experience-card-dm.component.scss',
     ],
     animations: [fadeInOutCards],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceCardComponent {
     public experienceType = input.required<string>();

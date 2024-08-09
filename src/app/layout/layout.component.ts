@@ -1,7 +1,13 @@
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    OnInit,
+} from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { RouterOutlet } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
@@ -41,6 +47,7 @@ import { IDarkMode } from './store/model/dark-mode.interface';
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
     public isModalDialogVisible: boolean = false;
@@ -51,6 +58,7 @@ export class LayoutComponent implements OnInit {
     public getModalInstance($event: boolean) {
         this.isModalDialogVisible = $event;
     }
+
     public navigation$: Observable<INavigation[]> = this._store$.pipe(
         select(selectNavigation),
     );
@@ -61,11 +69,18 @@ export class LayoutComponent implements OnInit {
 
     constructor(
         private _store$: Store<IDarkMode | INavigation | ISocialMedia>,
+        @Inject(AngularFireAuth) public afAuth: AngularFireAuth,
     ) {}
 
     ngOnInit(): void {
         this._store$.dispatch(FirebaseActions.getNavigation());
         this._store$.dispatch(FirebaseActions.getSocialMedia());
+
+        this.afAuth.authState.subscribe((user) => {
+            if (!user) {
+                this.isModalDialogVisible = true;
+            }
+        });
     }
 
     public prepareRoute(outlet: RouterOutlet) {

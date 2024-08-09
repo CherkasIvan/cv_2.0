@@ -10,6 +10,7 @@
                 (emittedModalShow)="getModalInstance($event)"
             ></cv-header>
         </header>
+
         <cv-animation-bg [navigationLinks]="navigation$ | async"></cv-animation-bg>
 
         <main
@@ -18,6 +19,7 @@
         >
             <router-outlet #outlet="outlet"></router-outlet>
         </main>
+
         <footer class="footer">
             <cv-footer
                 [theme]="currentTheme$ | async"

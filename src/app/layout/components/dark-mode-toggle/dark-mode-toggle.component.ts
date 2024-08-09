@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -12,6 +12,7 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
     imports: [NgClass],
     templateUrl: './dark-mode-toggle.component.html',
     styleUrl: './dark-mode-toggle.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DarkModeToggleComponent {
     public isChecked: boolean = false;
