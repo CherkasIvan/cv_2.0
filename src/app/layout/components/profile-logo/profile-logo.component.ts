@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
@@ -13,6 +13,7 @@ import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.select
     imports: [AsyncPipe, NgClass],
     templateUrl: './profile-logo.component.html',
     styleUrl: './profile-logo.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileLogoComponent {
     public currentTheme$: Observable<boolean> = this._store$.pipe(

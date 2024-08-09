@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { ITechnologies } from '@core/models/technologies.interface';
 
@@ -12,6 +12,7 @@ import { ITechnologies } from '@core/models/technologies.interface';
         './technology-card.component.scss',
         './technology-card-dm/technology-card-dm.component.scss',
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechnologyCardComponent {
     public technologyItem = input.required<ITechnologies | null>();

@@ -1,7 +1,12 @@
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnInit,
+} from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
@@ -21,6 +26,7 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
         './animation-bg-dark-mode/animation-bg-dark-mode.component.scss',
     ],
     animations: [blobFloat],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimationBgComponent implements OnInit {
     @Input() public navigationLinks: INavigation[] | null = [];
