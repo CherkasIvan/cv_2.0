@@ -172,4 +172,44 @@ export class FirebaseEffects {
             ),
         ),
     );
+
+    loadExperienceAside$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(FirebaseActions.getExperienceAside),
+            mergeMap(() =>
+                this.firebaseService.getExperienceAside().pipe(
+                    map((experienceAside) =>
+                        FirebaseActions.getExperienceAsideSuccess({
+                            experienceAside,
+                        }),
+                    ),
+                    catchError((error) =>
+                        of(FirebaseActions.getExperienceAsideError({ error })),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    loadTechnologiesAside$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(FirebaseActions.getTechnologiesAside),
+            mergeMap(() =>
+                this.firebaseService.getTechnologiesAside().pipe(
+                    map((technologiesAside) =>
+                        FirebaseActions.getTechnologiesAsideSuccess({
+                            technologiesAside,
+                        }),
+                    ),
+                    catchError((error) =>
+                        of(
+                            FirebaseActions.getTechnologiesAsideError({
+                                error,
+                            }),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    );
 }

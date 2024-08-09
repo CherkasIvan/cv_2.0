@@ -16,6 +16,7 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
 import {
     selectEducation,
+    selectExperienceAside,
     selectWorkExperience,
 } from '@app/layout/store/firebase-store/firebase.selectors';
 
@@ -37,10 +38,9 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceComponent implements OnInit {
-    public experienceAside: TExperienceAside[] = [
-        { id: 1, title: 'Опыт работы', value: 'work' },
-        { id: 2, title: 'Образование', value: 'education' },
-    ];
+    public experienceAside$: Observable<TExperienceAside[]> = this._store$.pipe(
+        select(selectExperienceAside),
+    );
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         select(darkModeSelector),
@@ -60,7 +60,9 @@ export class ExperienceComponent implements OnInit {
     }
 
     constructor(
-        private _store$: Store<IDarkMode | IWorkExperience | IEducation>,
+        private _store$: Store<
+            IDarkMode | IWorkExperience | IEducation | TExperienceAside
+        >,
     ) {
         this.selectedTab === ''
             ? (this.selectedTab = 'work')
@@ -68,6 +70,7 @@ export class ExperienceComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this._store$.dispatch(FirebaseActions.getExperienceAside());
         this._store$.dispatch(FirebaseActions.getWorkExperience());
         this._store$.dispatch(FirebaseActions.getEducationPlaces());
     }

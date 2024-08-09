@@ -1,9 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { IEducation } from '@core/models/education.interface';
+import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IMainPageInfo } from '@core/models/main-page-info';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
@@ -19,6 +21,8 @@ export interface FirebaseState {
     hardSkillsNav: INavigation[];
     education: IEducation[];
     mainPageInfo: IMainPageInfo | null;
+    experienceAside: TExperienceAside[];
+    technologiesAside: TTechnologiesAside[];
     error: any;
 }
 
@@ -32,6 +36,8 @@ export const initialFirebaseState: FirebaseState = {
     hardSkillsNav: [],
     education: [],
     mainPageInfo: null,
+    experienceAside: [],
+    technologiesAside: [],
     error: null,
 };
 
@@ -112,6 +118,28 @@ export const firebaseReducer = createReducer(
         mainPageInfo,
     })),
     on(FirebaseActions.getMainPageInfoError, (state, { error }) => ({
+        ...state,
+        error,
+    })),
+    on(
+        FirebaseActions.getTechnologiesAsideSuccess,
+        (state, { technologiesAside }) => ({
+            ...state,
+            technologiesAside,
+        }),
+    ),
+    on(FirebaseActions.getTechnologiesAsideError, (state, { error }) => ({
+        ...state,
+        error,
+    })),
+    on(
+        FirebaseActions.getExperienceAsideSuccess,
+        (state, { experienceAside }) => ({
+            ...state,
+            experienceAside,
+        }),
+    ),
+    on(FirebaseActions.getExperienceAsideError, (state, { error }) => ({
         ...state,
         error,
     })),

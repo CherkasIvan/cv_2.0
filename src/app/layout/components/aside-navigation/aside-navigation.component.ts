@@ -6,6 +6,7 @@ import {
     Component,
     EventEmitter,
     InputSignal,
+    OnChanges,
     OnInit,
     Output,
     computed,
@@ -31,7 +32,7 @@ import { selectHardSkillsNav } from '@app/layout/store/firebase-store/firebase.s
         './aside-navigation-dm/aside-navigation-dm.component.scss',
     ],
 })
-export class AsideNavigationComponent implements OnInit {
+export class AsideNavigationComponent implements OnChanges {
     @Output() public emittedTab = new EventEmitter<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
@@ -63,7 +64,7 @@ export class AsideNavigationComponent implements OnInit {
 
     private _tab = computed(() => {
         this.navigationList().find((el: any) => {
-            if (el.id === 1) {
+            if (el.id === '1') {
                 this.selectedTab = el.value;
             }
         });
@@ -75,22 +76,28 @@ export class AsideNavigationComponent implements OnInit {
         this.cdr.detectChanges();
     }
 
-    ngOnInit(): void {
-        this._store$.dispatch(FirebaseActions.getHardSkillsNav());
-        this.selectedTab === '' ? this._tab() : this.selectedTab;
-        console.log(this.selectedTab);
-        this.selectedTab === 'tech'
-            ? this.hardSkillsNavigation$.subscribe((skills: INavigation[]) => {
-                  skills.find((skill) => {
-                      if (skill.id === '1') {
-                          this.currentSkills = skill.link;
-                          console.log(this.currentSkills);
-                          this.changeSkillsList(skill.link);
-                      }
-                  });
-              })
-            : null;
-        this.cdr.detectChanges();
-        this.emittedTab.emit(this.currentSkills);
+    ngOnChanges(): void {
+        console.log(this.navigationList());
+        if (this.navigationList().length) {
+            this._store$.dispatch(FirebaseActions.getHardSkillsNav());
+
+            this.selectedTab === '' ? this._tab() : this.selectedTab;
+            console.log(this.selectedTab);
+            this.selectedTab === 'tech'
+                ? this.hardSkillsNavigation$.subscribe(
+                      (skills: INavigation[]) => {
+                          skills.find((skill) => {
+                              if (skill.id === '1') {
+                                  this.currentSkills = skill.link;
+                                  console.log(this.currentSkills);
+                                  this.changeSkillsList(skill.link);
+                              }
+                          });
+                      },
+                  )
+                : null;
+            this.cdr.detectChanges();
+            this.emittedTab.emit(this.currentSkills);
+        }
     }
 }
