@@ -8,7 +8,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { FirebaseService } from '@core/service/firebase/firebase.service';
 
-import { FirebaseActions } from './firebase.actions';
+import { AuthActions } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -19,14 +19,14 @@ export class AuthEffects {
 
     loadNavigation$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(FirebaseActions.getNavigation),
+            ofType(AuthActions.getLogin),
             mergeMap(() =>
                 this.firebaseService.getNavigation().pipe(
-                    map((navigation) =>
-                        FirebaseActions.getNavigationSuccess({ navigation }),
+                    map((email, password) =>
+                        AuthActions.getLoginSuccess({ email, password }),
                     ),
                     catchError((error) =>
-                        of(FirebaseActions.getNavigationError({ error })),
+                        of(AuthActions.getLoginError({ error })),
                     ),
                 ),
             ),

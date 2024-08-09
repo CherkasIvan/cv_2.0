@@ -40,6 +40,8 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { environment } from './layout/environments/environment.development';
+import { AuthEffects } from './layout/store/auth-store/auth.effects';
+import { authReducer } from './layout/store/auth-store/auth.reducers';
 import { darkModeReducer } from './layout/store/dark-mode-store/dark-mode.reducers';
 import { FirebaseEffects } from './layout/store/firebase-store/firebase.effects';
 import { firebaseReducer } from './layout/store/firebase-store/firebase.reducers';
@@ -72,11 +74,12 @@ export const appConfig: ApplicationConfig = {
                 router: routerReducer,
             }),
             EffectsModule.forRoot({}),
-            EffectsModule.forRoot([FirebaseEffects]),
+            EffectsModule.forRoot([FirebaseEffects, AuthEffects]),
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('firebase', firebaseReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),
             StoreModule.forFeature('language', languageReducer),
+            StoreModule.forFeature('auth', authReducer),
             StoreRouterConnectingModule.forRoot(),
         ]),
         {
