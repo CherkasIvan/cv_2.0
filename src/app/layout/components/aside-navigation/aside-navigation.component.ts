@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -31,6 +32,7 @@ import { selectHardSkillsNav } from '@app/layout/store/firebase-store/firebase.s
         './aside-navigation.component.scss',
         './aside-navigation-dm/aside-navigation-dm.component.scss',
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsideNavigationComponent implements OnChanges {
     @Output() public emittedTab = new EventEmitter<string>();

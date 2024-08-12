@@ -20,14 +20,11 @@ export const authReducer = createReducer(
         error,
     })),
 
-    on(AuthActions.getLogoutSuccess, (state, { user }) => ({
+    on(AuthActions.getLogoutSuccess, (state) => ({
         ...state,
-        user,
     })),
     on(AuthActions.getLoginError, (state, { error }) => ({
         ...state,
         error,
     })),
 );
-
-export const authReducerFeatureKey = 'auth';

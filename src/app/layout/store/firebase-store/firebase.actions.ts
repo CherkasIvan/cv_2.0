@@ -14,56 +14,56 @@ export const FirebaseActions = createActionGroup({
     events: {
         getNavigation: emptyProps(),
         getNavigationSuccess: props<{ navigation: INavigation[] }>(),
-        getNavigationError: props<{ error: any }>(),
+        getNavigationError: props<{ error: unknown }>(),
 
         getSocialMedia: emptyProps(),
         getSocialMediaSuccess: props<{
             socialMediaLinks: ISocialMedia[];
         }>(),
-        getSocialMediaError: props<{ error: any }>(),
+        getSocialMediaError: props<{ error: unknown }>(),
 
         getWorkExperience: emptyProps(),
         getWorkExperienceSuccess: props<{
             workExperience: IWorkExperience[];
         }>(),
-        getWorkExperienceError: props<{ error: any }>(),
+        getWorkExperienceError: props<{ error: unknown }>(),
 
         getFrontendTech: emptyProps(),
         getFrontendTechSuccess: props<{ frontendTech: ITechnologies[] }>(),
-        getFrontendTechError: props<{ error: any }>(),
+        getFrontendTechError: props<{ error: unknown }>(),
 
         getBackendTech: emptyProps(),
         getBackendTechSuccess: props<{ backendTech: ITechnologies[] }>(),
-        getBackendTechError: props<{ error: any }>(),
+        getBackendTechError: props<{ error: unknown }>(),
 
         getOtherTech: emptyProps(),
         getOtherTechSuccess: props<{ otherTech: ITechnologies[] }>(),
-        getOtherTechError: props<{ error: any }>(),
+        getOtherTechError: props<{ error: unknown }>(),
 
         getHardSkillsNav: emptyProps(),
         getHardSkillsNavSuccess: props<{
             hardSkillsNav: INavigation[];
         }>(),
-        getHardSkillsNavError: props<{ error: any }>(),
+        getHardSkillsNavError: props<{ error: unknown }>(),
 
         getEducationPlaces: emptyProps(),
         getEducationPlacesSuccess: props<{ education: IEducation[] }>(),
-        getEducationPlacesError: props<{ error: any }>(),
+        getEducationPlacesError: props<{ error: unknown }>(),
 
         getMainPageInfo: emptyProps(),
         getMainPageInfoSuccess: props<{ mainPageInfo: IMainPageInfo }>(),
-        getMainPageInfoError: props<{ error: any }>(),
+        getMainPageInfoError: props<{ error: unknown }>(),
 
         getExperienceAside: emptyProps(),
         getExperienceAsideSuccess: props<{
             experienceAside: TExperienceAside[];
         }>(),
-        getExperienceAsideError: props<{ error: any }>(),
+        getExperienceAsideError: props<{ error: unknown }>(),
 
         getTechnologiesAside: emptyProps(),
         getTechnologiesAsideSuccess: props<{
             technologiesAside: TTechnologiesAside[];
         }>(),
-        getTechnologiesAsideError: props<{ error: any }>(),
+        getTechnologiesAsideError: props<{ error: unknown }>(),
     },
 });

@@ -17,9 +17,9 @@
                 />
             </button>
         </header>
-        <body class="modal-dialog_content">
+        <main class="modal-dialog_content">
             <form
-                action=""
+                [formGroup]="authForm"
                 method="post"
                 class="content-form"
             >
@@ -30,6 +30,7 @@
                     Е-мейл
                     <input
                         type="email"
+                        formControlName="email"
                         id="email"
                         class="content-form_input"
                     />
@@ -42,6 +43,7 @@
                     <input
                         type="password"
                         id="password"
+                        formControlName="password"
                         class="content-form_input"
                     />
                 </label>
@@ -63,6 +65,6 @@
                     </button>
                 </div>
             </form>
-        </body>
+        </main>
     </dialog>
 </div>

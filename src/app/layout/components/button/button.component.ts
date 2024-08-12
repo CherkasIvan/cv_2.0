@@ -1,7 +1,13 @@
 import { Observable } from 'rxjs';
 
 import { NgClass, NgStyle } from '@angular/common';
-import { Component, ElementRef, ViewChild, input } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    ViewChild,
+    input,
+} from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
@@ -14,6 +20,7 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
     imports: [NgClass, NgStyle],
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
     @ViewChild('generalButton') generalButton!: ElementRef;

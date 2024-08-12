@@ -1,13 +1,18 @@
 import { User } from 'firebase/auth';
 import { BehaviorSubject, catchError, from, tap } from 'rxjs';
 
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
     AngularFirestore,
     AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+
+import { Store } from '@ngrx/store';
+
+import { AuthActions } from '@layout/store/auth-store/auth.actions';
 
 import { ERoute } from '@app/core/enum/route.enum';
 import { TProfile } from '@app/layout/store/model/profile.type';
@@ -20,18 +25,23 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 export class AuthService {
     public userData: User | null = null;
     public isAuth$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    public userState = this._localStorageService.getUsersState();
+    public usersState = this._localStorageService.getUsersState();
+
+    private _isBrowser: boolean;
 
     constructor(
         private readonly _afs: AngularFirestore,
         private readonly _afAuth: AngularFireAuth,
         private readonly _router: Router,
         private readonly _localStorageService: LocalStorageService,
+        private readonly _store$: Store,
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) {
-        if (localStorage.getItem('usersState')) {
+        this._isBrowser = isPlatformBrowser(this.platformId);
+        if (this._isBrowser && localStorage.getItem('usersState')) {
             this.isAuth$.next(true);
         } else {
-            this.isAuth$.next(true);
+            this.isAuth$.next(false);
         }
     }
 
@@ -40,18 +50,18 @@ export class AuthService {
             this._afAuth.signInWithEmailAndPassword(email, password),
         ).pipe(
             tap((result) => {
-                !this.userState
-                    ? this._localStorageService.initUser(result.user)
-                    : this._localStorageService.setUser(result.user);
+                if (!this.usersState) {
+                    this._localStorageService.initUser(result.user);
+                } else {
+                    this._localStorageService.setUser(result.user);
+                }
 
                 this.setUserData(result.user);
                 if (result.user) {
                     this.isAuth$.next(true);
                     this._afAuth.authState.subscribe((user) => {
-                        if (user) {
-                            if (this.isAuth$.value) {
-                                this._router.navigate([ERoute.LAYOUT]);
-                            }
+                        if (user && this.isAuth$.value) {
+                            this._router.navigate([ERoute.LAYOUT]);
                         }
                     });
                 }
@@ -80,17 +90,10 @@ export class AuthService {
     signOut() {
         return from(this._afAuth.signOut()).pipe(
             tap(() => {
-                const removeUser = this._localStorageService.getUsersState();
-                if (removeUser) {
-                    const previousUser = removeUser.user;
-                    removeUser.previousUser = previousUser;
-                    removeUser.user = null;
-                    if (removeUser.user === null) {
-                        this._localStorageService.setNewUserState(removeUser);
-                    }
-                    this.isAuth$.next(false);
-                    this._router.navigate([ERoute.AUTH]);
-                }
+                this._localStorageService.clearUserData();
+                this._store$.dispatch(AuthActions.getLogout());
+                this.isAuth$.next(false);
+                this._router.navigate([ERoute.AUTH]);
             }),
         );
     }
