@@ -1,6 +1,7 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
 
-import { LoginModalComponent } from '@layout/components/login-modal/login-modal.component';
+import { LoginFormComponent } from '@layout/components/login-form/login-form.component';
+import { LogoutFormComponent } from '@layout/components/logout-form/logout-form.component';
 
 @Injectable({
     providedIn: 'root',
@@ -8,7 +9,11 @@ import { LoginModalComponent } from '@layout/components/login-modal/login-modal.
 export class ModalService {
     constructor(private viewContainerRef: ViewContainerRef) {}
 
-    public openLoginModal() {
-        this.viewContainerRef.createComponent(LoginModalComponent);
+    public openLoginForm() {
+        this.viewContainerRef.createComponent(LoginFormComponent);
+    }
+
+    public openLogoutForm() {
+        this.viewContainerRef.createComponent(LogoutFormComponent);
     }
 }
