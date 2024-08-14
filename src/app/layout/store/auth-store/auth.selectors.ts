@@ -1,11 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { IDarkMode } from '../model/dark-mode.interface';
+import { TAuthState } from '../model/auth-state.type';
 
-export const darkModeFeatureSelector =
-    createFeatureSelector<IDarkMode>('darkMode');
+export const selectAuthState = createFeatureSelector<TAuthState>('auth');
 
-export const darkModeSelector = createSelector(
-    darkModeFeatureSelector,
-    (state: IDarkMode) => state?.isDark ?? false,
+export const selectAuth = createSelector(
+    selectAuthState,
+    (state: TAuthState) => state.user,
 );
