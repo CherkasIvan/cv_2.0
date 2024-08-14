@@ -17,9 +17,9 @@ import { ISocialMedia } from '@core/models/social-media.interface';
 import { routeAnimations } from '@core/utils/animations/router-animations';
 
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
-import { ConnectionModalComponent } from './components/connection-modal/connection-modal.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
+import { LogoutFormComponent } from './components/logout-form/logout-form.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { darkModeSelector } from './store/dark-mode-store/dark-mode.selectors';
@@ -42,7 +42,7 @@ import { IDarkMode } from './store/model/dark-mode.interface';
         AnimationBgComponent,
         AsyncPipe,
         SpinnerComponent,
-        ConnectionModalComponent,
+        LogoutFormComponent,
         NgClass,
     ],
     templateUrl: './layout.component.html',

@@ -10,7 +10,7 @@ export const AuthActions = createActionGroup({
         getLoginError: props<{ error: unknown }>(),
 
         getLogout: emptyProps(),
-        getLogoutSuccess: props<{ user: TProfile }>(),
+        getLogoutSuccess: emptyProps(),
         getLogoutError: props<{ error: unknown }>(),
     },
 });

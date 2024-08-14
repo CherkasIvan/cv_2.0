@@ -1,9 +1,9 @@
-import { IProfile } from '@auth/model/profile.interface';
+import { TProfile } from '@layout/store/model/profile.type';
 
 export interface ILocalStorage {
-    previousUser: IProfile | null;
-    user: IProfile | null;
+    previousUser: TProfile | null;
+    user: TProfile | null;
     rout: string;
     isDarkMode: string;
-    isLanguage: string;
+    // isLanguage: string;
 }

@@ -29,10 +29,10 @@
     </main>
 
     @if (isModalDialogVisible) {
-        <cv-connection-modal
-            header="Авторизация"
+        <cv-logout-form
+            header="Выход"
             (emittedModalHide)="getModalInstance($event)"
-        ></cv-connection-modal>
+        ></cv-logout-form>
     }
 </div>
 <cv-spinner [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"></cv-spinner>

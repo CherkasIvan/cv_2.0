@@ -20,15 +20,18 @@ import {
     RouterLinkActive,
 } from '@angular/router';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
 
+import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
 import { ILanguagesSelector } from '@layout/store/model/language-selector.interface';
 
-import { ConnectionModalComponent } from '../connection-modal/connection-modal.component';
+import { LocalStorageService } from '@app/core/service/local-storage/local-storage.service';
+
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
+import { LoginFormComponent } from '../login-form/login-form.component';
 
 @Component({
     selector: 'cv-header',
@@ -39,7 +42,7 @@ import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.co
         RouterLinkActive,
         NgClass,
         DarkModeToggleComponent,
-        ConnectionModalComponent,
+        LoginFormComponent,
     ],
     templateUrl: './header.component.html',
     styleUrls: [
@@ -56,6 +59,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public isCheckedLanguage: boolean = false;
     public currentRoute: string = '';
     public isModalDialogVisible: boolean = false;
+    public displayName = '';
 
     private _routerSubscription$: Subscription = new Subscription();
     private _destroyed$: Subject<void> = new Subject();
@@ -64,9 +68,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         private readonly _router: Router,
         private _cdr: ChangeDetectorRef,
         private _store$: Store<ILanguagesSelector>,
+        private _localStorageService: LocalStorageService,
     ) {}
 
-    public showDialog() {
+    public showDialogLogout() {
         this.isModalDialogVisible = true;
         this.emittedModalShow.emit(true);
     }
@@ -86,6 +91,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
                         : null;
                 }),
         );
+        this._store$.pipe(takeUntil(this._destroyed$), select(selectAuth));
+        this.displayName =
+            this._localStorageService.checkLocalStorageUserName();
+
         this._cdr.markForCheck();
     }
 
