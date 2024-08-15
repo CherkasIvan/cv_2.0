@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { IEducation } from '@core/models/education.interface';
@@ -8,7 +7,7 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
 @Component({
     selector: 'cv-education',
     standalone: true,
-    imports: [ExperienceCardComponent, JsonPipe],
+    imports: [ExperienceCardComponent],
     templateUrl: './education.component.html',
     styleUrl: './education.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
