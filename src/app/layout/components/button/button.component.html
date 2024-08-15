@@ -25,7 +25,9 @@
             class="general-button_text-absolute"
             [ngClass]="buttonType() === 'short' ? 'connect-me' : 'watch-cv'"
         >
-            {{ buttonHoverText() }}
+            <span class="hovered-text">
+                {{ buttonHoverText() }}
+            </span>
         </div>
     </span>
 </button>
