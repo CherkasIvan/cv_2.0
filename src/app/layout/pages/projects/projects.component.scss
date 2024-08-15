@@ -1,0 +1,33 @@
+.projects {
+  padding-top: 140px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.grid-container>div {
+  background-color: lightblue;
+  padding: 20px;
+  text-align: center;
+}
+
+.item1 {
+  grid-column: span 3;
+}
+
+.item2,
+.item4 {
+  grid-column: span 2;
+}
+
+.item3,
+.item5 {
+  grid-column: span 2;
+}
+
+.item6 {
+  grid-column: span 3;
+}
