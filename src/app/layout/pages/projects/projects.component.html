@@ -1,1 +1,9 @@
-<p>projects works!</p>
+<section class="projects">
+    <div class="grid-container">
+        @for (repository of githubRepos$ | async; track repository.name; let i = $index) {
+            <div [ngClass]="getClass(i)">
+                {{ repository.name }}
+            </div>
+        }
+    </div>
+</section>
