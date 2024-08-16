@@ -1,33 +1,37 @@
 .projects {
-  padding-top: 140px;
+    padding-top: 140px;
+    padding-bottom: 170px;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .grid-container {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
 }
 
-.grid-container>div {
-  background-color: lightblue;
-  padding: 20px;
-  text-align: center;
+.grid-container > div {
+    background-color: lightblue;
+    padding: 20px;
+    height: 500px;
+    text-align: center;
 }
 
 .item1 {
-  grid-column: span 3;
+    grid-column: span 4;
 }
 
 .item2,
 .item4 {
-  grid-column: span 2;
+    grid-column: span 2;
 }
 
 .item3,
 .item5 {
-  grid-column: span 2;
+    grid-column: span 2;
 }
 
 .item6 {
-  grid-column: span 3;
+    grid-column: span 4;
 }
