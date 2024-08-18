@@ -43,9 +43,10 @@ import { environment } from './layout/environments/environment.development';
 import { AuthEffects } from './layout/store/auth-store/auth.effects';
 import { authReducer } from './layout/store/auth-store/auth.reducers';
 import { darkModeReducer } from './layout/store/dark-mode-store/dark-mode.reducers';
+import { experienceDialogReducer } from './layout/store/experience-dialog-store/experience-dialog.reducers';
 import { FirebaseEffects } from './layout/store/firebase-store/firebase.effects';
 import { firebaseReducer } from './layout/store/firebase-store/firebase.reducers';
-import { GithubResitoriesEffects } from './layout/store/github-projects-store/github-projects.effects';
+import { GithubRepositoriesEffects } from './layout/store/github-projects-store/github-projects.effects';
 import { githubRepositoriesReducer } from './layout/store/github-projects-store/github-projects.reducer';
 import { languageReducer } from './layout/store/language-selector-store/language-selector.reducers';
 import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
@@ -79,13 +80,14 @@ export const appConfig: ApplicationConfig = {
             EffectsModule.forRoot([
                 FirebaseEffects,
                 AuthEffects,
-                GithubResitoriesEffects,
+                GithubRepositoriesEffects,
             ]),
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('firebase', firebaseReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),
             StoreModule.forFeature('language', languageReducer),
             StoreModule.forFeature('github', githubRepositoriesReducer),
+            StoreModule.forFeature('experience', experienceDialogReducer),
             StoreModule.forFeature('auth', authReducer),
             StoreRouterConnectingModule.forRoot(),
         ]),

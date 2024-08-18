@@ -3,13 +3,19 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    EventEmitter,
+    Output,
     input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { IEducation } from '@core/models/education.interface';
+import { Store } from '@ngrx/store';
+
 import { IWorkExperience } from '@core/models/work-experience.interface';
 import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
+
+import { IEducationExperience } from '@app/core/models/education.interface';
+import { ExperienceActions } from '@app/layout/store/experience-dialog-store/experience-dialog.actions';
 
 @Component({
     selector: 'cv-experience-card',
@@ -25,14 +31,19 @@ import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
 })
 export class ExperienceCardComponent {
     public experienceType = input.required<string>();
-    public workDescription = input<IWorkExperience | IEducation | null>(null);
-    public experienceDescription = input<IWorkExperience | IEducation | null>(
-        null,
-    );
+    public workDescription = input<
+        IWorkExperience | IEducationExperience | null
+    >(null);
+    public experienceDescription = input<
+        IWorkExperience | IEducationExperience | null
+    >(null);
     public experienceCardImgVisibility: boolean = false;
     public theme = input<boolean | null>();
 
-    constructor(private cdr: ChangeDetectorRef) {}
+    constructor(
+        private cdr: ChangeDetectorRef,
+        private _store$: Store,
+    ) {}
 
     ngOnInit(): void {
         this.experienceType = this.experienceType || 'work';
@@ -40,5 +51,13 @@ export class ExperienceCardComponent {
         this.experienceDescription = this.experienceDescription || null;
 
         this.cdr.detectChanges();
+    }
+
+    public showDialogExperience(
+        dialogInfo: IWorkExperience | IEducationExperience | null,
+    ) {
+        this._store$.dispatch(
+            ExperienceActions.getExperienceDialogOpen({ data: dialogInfo }),
+        );
     }
 }

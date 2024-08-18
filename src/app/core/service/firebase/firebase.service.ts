@@ -14,7 +14,6 @@ import {
     query,
 } from '@angular/fire/firestore';
 
-import { IEducation } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IFileUpload } from '@core/models/file-upload.interface';
 import { IMainPageInfo } from '@core/models/main-page-info';
@@ -23,6 +22,8 @@ import { ISocialMedia } from '@core/models/social-media.interface';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
+
+import { IEducationExperience } from '@app/core/models/education.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -38,7 +39,7 @@ export class FirebaseService {
     otherTechCollection$!: Observable<ITechnologies[]>;
     navigationCollection$!: Observable<INavigation[]>;
     workExperienceCollection$!: Observable<IWorkExperience[]>;
-    educationCollection$!: Observable<IEducation[]>;
+    educationCollection$!: Observable<IEducationExperience[]>;
     socialMediaLinksCollection$!: Observable<ISocialMedia[]>;
     hardSkillsNavCollection$!: Observable<INavigation[]>;
     charts$: AngularFireList<IFileUpload> | undefined;
@@ -137,14 +138,14 @@ export class FirebaseService {
         return this.hardSkillsNavCollection$;
     }
 
-    getEducationPlaces(): Observable<IEducation[]> {
+    getEducationPlaces(): Observable<IEducationExperience[]> {
         const educationPlacesRef = collection(
             this._firestore,
             'educationExperience',
-        ) as CollectionReference<IEducation>;
+        ) as CollectionReference<IEducationExperience>;
         this.educationCollection$ = collectionData(educationPlacesRef, {
             idField: 'id',
-        }) as Observable<IEducation[]>;
+        }) as Observable<IEducationExperience[]>;
         return this.educationCollection$;
     }
 
