@@ -32,9 +32,6 @@ export class ButtonComponent {
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         select(darkModeSelector),
     );
-    private _activePosition = {
-        transform: ' translateY(-155px)',
-    };
 
     constructor(private _store$: Store<IDarkMode>) {}
 
@@ -44,13 +41,5 @@ export class ButtonComponent {
 
     onLeave() {
         this.isHovered = false;
-    }
-
-    public setActivePosition() {
-        if (this.buttonType().length > 11 && this.isHovered) {
-            return this._activePosition;
-        } else {
-            return;
-        }
     }
 }

@@ -2,6 +2,7 @@
     @case ('work') {
         <article
             class="experience-card"
+            (click)="showDialogExperience(workDescription())"
             [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
@@ -43,6 +44,7 @@
     @case ('education') {
         <article
             class="experience-card"
+            (click)="showDialogExperience(experienceDescription())"
             [ngClass]="{ activeEducation: experienceType() === 'education', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
@@ -87,6 +89,7 @@
     @default {
         <article
             class="experience-card"
+            (click)="showDialogExperience(workDescription())"
             [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
