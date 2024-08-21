@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 import { ERoute } from '@app/core/enum/route.enum';
-import { ILocalStorage } from '@app/core/models/localstorage.interface';
+import { TLocalstorageUser } from '@app/layout/store/model/localstorage-user.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -47,7 +47,7 @@ export class LocalStorageService {
         }
     }
 
-    public getUsersState(): ILocalStorage | null {
+    public getUsersState(): TLocalstorageUser | null {
         if (this.localStorageAvailable) {
             const getUser = localStorage.getItem('usersState');
             if (getUser) {
@@ -57,13 +57,18 @@ export class LocalStorageService {
         return null;
     }
 
-    public initUser(user: firebase.default.User | null): void {
+    public initUser(
+        isGuest: boolean = false,
+        user: firebase.default.User | null,
+    ): void {
         if (this.localStorageAvailable && !localStorage.getItem('usersState')) {
-            const usersState: ILocalStorage = {
-                previousUser: null,
+            const usersState: TLocalstorageUser = {
+                isFirstTime: true,
+                isGuest: isGuest,
                 user: user,
-                rout: `${ERoute.LAYOUT}`,
-                isDarkMode: 'false',
+                route: `${ERoute.LAYOUT}`,
+                isDark: false,
+                language: 'ru',
             };
             localStorage.setItem('usersState', JSON.stringify(usersState));
         }
@@ -89,7 +94,7 @@ export class LocalStorageService {
         }
     }
 
-    public setNewUserState(newUsersState: ILocalStorage): void {
+    public setNewUserState(newUsersState: TLocalstorageUser): void {
         if (this.localStorageAvailable) {
             localStorage.setItem('usersState', JSON.stringify(newUsersState));
         }
