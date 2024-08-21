@@ -5,7 +5,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
-import { IEducation } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
@@ -13,6 +12,7 @@ import { AsideNavigationComponent } from '@layout/components/aside-navigation/as
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
+import { IEducationExperience } from '@app/core/models/education.interface';
 import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
 import {
     selectEducation,
@@ -20,14 +20,14 @@ import {
     selectWorkExperience,
 } from '@app/layout/store/firebase-store/firebase.selectors';
 
-import { educationComponent } from './adduction/education.component';
+import { EducationExperienceComponent } from './education-experience/education-experience.component';
 import { WorkExperienceComponent } from './work-experience/work-experience.component';
 
 @Component({
     selector: 'cv-experience',
     standalone: true,
     imports: [
-        educationComponent,
+        EducationExperienceComponent,
         WorkExperienceComponent,
         NgSwitch,
         AsideNavigationComponent,
@@ -51,9 +51,8 @@ export class ExperienceComponent implements OnInit {
     );
     public selectedTab: string = '';
 
-    public educationPlace$: Observable<IEducation[]> = this._store$.pipe(
-        select(selectEducation),
-    );
+    public educationPlace$: Observable<IEducationExperience[]> =
+        this._store$.pipe(select(selectEducation));
 
     public switchTab($event: string) {
         this.selectedTab = $event;
@@ -61,7 +60,10 @@ export class ExperienceComponent implements OnInit {
 
     constructor(
         private _store$: Store<
-            IDarkMode | IWorkExperience | IEducation | TExperienceAside
+            | IDarkMode
+            | IWorkExperience
+            | IEducationExperience
+            | TExperienceAside
         >,
     ) {
         this.selectedTab === ''
