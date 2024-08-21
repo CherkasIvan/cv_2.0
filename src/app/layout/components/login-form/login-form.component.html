@@ -23,28 +23,43 @@
                 method="post"
                 class="content-form"
             >
+                @if (!authForm.get('guest')?.value) {
+                    <label
+                        for="email"
+                        class="content-form_label"
+                    >
+                        Е-мейл
+                        <input
+                            type="email"
+                            formControlName="email"
+                            id="email"
+                            class="content-form_input"
+                        />
+                    </label>
+                    <label
+                        for="password"
+                        class="content-form_label"
+                    >
+                        Пароль
+                        <input
+                            type="password"
+                            id="password"
+                            formControlName="password"
+                            class="content-form_input"
+                        />
+                    </label>
+                }
+
                 <label
-                    for="email"
-                    class="content-form_label"
+                    for="guest"
+                    class="content-form_guest"
                 >
-                    Е-мейл
+                    Продолжить в гостевом режиме
                     <input
-                        type="email"
-                        formControlName="email"
-                        id="email"
-                        class="content-form_input"
-                    />
-                </label>
-                <label
-                    for="password"
-                    class="content-form_label"
-                >
-                    Пароль
-                    <input
-                        type="password"
-                        id="password"
-                        formControlName="password"
-                        class="content-form_input"
+                        type="checkbox"
+                        id="guest"
+                        formControlName="guest"
+                        class="content-form_checkbox"
                     />
                 </label>
 
@@ -53,16 +68,24 @@
                         class="submit-button"
                         (click)="confirmModalDialog()"
                         type="button"
+                        [disabled]="!authForm.valid && !authForm.get('guest')?.value"
+                        [ngClass]="{ 'disabled-submit': !authForm.valid && !authForm.get('guest')?.value }"
                     >
                         Войти
                     </button>
-                    <button
-                        class="reset-button"
-                        (click)="resetModalDialog()"
-                        type="button"
-                    >
-                        Сбросить
-                    </button>
+                    @if (!authForm.get('guest')?.value) {
+                        <button
+                            class="reset-button"
+                            (click)="resetModalDialog()"
+                            type="button"
+                            [disabled]="!authForm.get('email')?.value || !authForm.get('password')?.value"
+                            [ngClass]="{
+                                'disabled-reset': !authForm.get('email')?.value || !authForm.get('password')?.value,
+                            }"
+                        >
+                            Сбросить
+                        </button>
+                    }
                 </div>
             </form>
         </main>
