@@ -26,9 +26,8 @@
   .general-button_text {
     transform: translateY(0);
     visibility: visible;
-    transition:
-      transform 1.2s ease-in-out,
-      opacity 1.2s ease-in-out;
+    z-index: 1;
+    transition: transform 1.2s ease-in-out, opacity 1.2s ease-in-out, z-index 0s 1.2s, display 1.2s ease-in-out;
 
     &.generalButtonActive {
       transform: translateY(-300%);
@@ -47,13 +46,22 @@
     background-color: color.$blue;
     line-height: 86px;
     text-align: center;
-    transition: transform 1s ease-in-out;
+    transition: transform 1s ease-in-out, z-index 0s 1s;
+    z-index: 2;
   }
 
   &:hover .general-button_text-absolute {
-    transform: translate(-50%, -62%); // Этот момент требуется отрефачить дабы в дальнейшем наш блок при всех ширинах был по центру
+    transform: translate(-50%, -50%);
     color: color.$white
   }
+}
+
+.general-button:hover .general-button_text {
+  z-index: 2;
+}
+
+.general-button:hover .general-button_text-absolute {
+  z-index: 1;
 }
 
 .dark-theme {

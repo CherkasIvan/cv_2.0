@@ -56,7 +56,7 @@
                 class="header-buttons_login"
                 (click)="showDialogLogout()"
             >
-                {{ displayName }}
+                {{ displayName || 'GUEST' }}
             </button>
         </aside>
     </nav>

@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -24,7 +25,7 @@ import { TProfile } from '@layout/store/model/profile.type';
 @Component({
     selector: 'cv-login-form',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, NgClass],
     templateUrl: './login-form.component.html',
     styleUrl: './login-form.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,6 +43,7 @@ export class LoginFormComponent implements OnInit {
 
     ngOnInit(): void {
         this._createForm();
+        this._authFormListener();
     }
 
     public onMouseMove(event: MouseEvent) {
@@ -55,7 +57,7 @@ export class LoginFormComponent implements OnInit {
 
     public confirmModalDialog() {
         this._checkAuth();
-        this.emittedModalHide.emit(false);
+        this.emittedModalHide.emit(true);
     }
 
     public onBackgroundClick(event: MouseEvent): void {
@@ -66,17 +68,21 @@ export class LoginFormComponent implements OnInit {
     }
 
     public closeModalDialog() {
-        this.emittedModalHide.emit(false);
+        this.emittedModalHide.emit(true);
     }
 
     public resetModalDialog() {
-        this.emittedModalHide.emit(false);
+        this.authForm.patchValue({
+            email: '',
+            password: '',
+        });
     }
 
     private _checkAuth() {
-        const { email, password } = this.authForm.value;
-        console.log({ email, password });
-        if (this.authForm.valid) {
+        const { email, password, guest } = this.authForm.value;
+        if (guest) {
+            this._store$.dispatch(AuthActions.getLoginGuest());
+        } else if (this.authForm.valid) {
             this._store$.dispatch(AuthActions.getLogin({ email, password }));
         } else {
             const error = new Error('Invalid form');
@@ -84,14 +90,31 @@ export class LoginFormComponent implements OnInit {
         }
     }
 
+    private _authFormListener() {
+        this.authForm.get('guest')?.valueChanges.subscribe((isGuest) => {
+            if (isGuest) {
+                this.authForm.get('email')?.disable();
+                this.authForm.get('password')?.disable();
+            } else {
+                this.authForm.get('email')?.enable();
+                this.authForm.get('password')?.enable();
+            }
+        });
+    }
+
     private _createForm(): FormGroup {
         this.authForm = new FormGroup({
             email: new FormControl('', {
-                validators: [Validators.required, Validators.email],
+                validators: [
+                    Validators.required,
+                    Validators.email,
+                    Validators.minLength(3),
+                ],
             }),
             password: new FormControl('', {
-                validators: [Validators.required],
+                validators: [Validators.required, Validators.minLength(3)],
             }),
+            guest: new FormControl(false),
         });
         return this.authForm;
     }

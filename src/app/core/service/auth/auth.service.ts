@@ -51,7 +51,7 @@ export class AuthService {
         ).pipe(
             tap((result) => {
                 if (!this.usersState) {
-                    this._localStorageService.initUser(result.user);
+                    this._localStorageService.initUser(false, result.user);
                 } else {
                     this._localStorageService.setUser(result.user);
                 }
@@ -65,6 +65,24 @@ export class AuthService {
                         }
                     });
                 }
+            }),
+            catchError((error: Error) => {
+                this.isAuth$.next(false);
+                throw error;
+            }),
+        );
+    }
+
+    signInAsGuest() {
+        return from(this._afAuth.signInAnonymously()).pipe(
+            tap((result) => {
+                if (!this.usersState) {
+                    this._localStorageService.initUser(true, null);
+                } else {
+                    this._localStorageService.setUser(null);
+                }
+                this.isAuth$.next(true);
+                this._router.navigate([ERoute.LAYOUT]);
             }),
             catchError((error: Error) => {
                 this.isAuth$.next(false);
