@@ -9,7 +9,7 @@ import { GithubService } from '@core/service/github/github.service';
 import { GithubRespositoriesActions } from './github-projects.action';
 
 @Injectable()
-export class GithubResitoriesEffects {
+export class GithubRepositoriesEffects {
     constructor(
         private _actions$: Actions,
         private _githubService: GithubService,

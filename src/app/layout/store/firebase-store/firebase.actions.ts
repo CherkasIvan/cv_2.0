@@ -1,6 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { IEducation } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IMainPageInfo } from '@core/models/main-page-info';
 import { INavigation } from '@core/models/navigation.interface';
@@ -8,6 +7,8 @@ import { ISocialMedia } from '@core/models/social-media.interface';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
+
+import { IEducationExperience } from '@app/core/models/education.interface';
 
 export const FirebaseActions = createActionGroup({
     source: 'Firebase API',
@@ -47,7 +48,9 @@ export const FirebaseActions = createActionGroup({
         getHardSkillsNavError: props<{ error: unknown }>(),
 
         getEducationPlaces: emptyProps(),
-        getEducationPlacesSuccess: props<{ education: IEducation[] }>(),
+        getEducationPlacesSuccess: props<{
+            education: IEducationExperience[];
+        }>(),
         getEducationPlacesError: props<{ error: unknown }>(),
 
         getMainPageInfo: emptyProps(),

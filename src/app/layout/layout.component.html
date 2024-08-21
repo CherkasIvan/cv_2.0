@@ -34,5 +34,9 @@
             (emittedModalHide)="getModalInstance($event)"
         ></cv-logout-form>
     }
+
+    @if (isExperienceDialogVisible$ | async) {
+        <cv-experience-dialog header="Выход"></cv-experience-dialog>
+    }
 </div>
 <cv-spinner [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"></cv-spinner>

@@ -23,12 +23,11 @@ import {
 import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
+import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
 import { ILanguagesSelector } from '@layout/store/model/language-selector.interface';
-
-import { LocalStorageService } from '@app/core/service/local-storage/local-storage.service';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
 import { LoginFormComponent } from '../login-form/login-form.component';
