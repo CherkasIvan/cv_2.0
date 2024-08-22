@@ -1,0 +1,131 @@
+@switch (experienceType()) {
+    @case ('work') {
+        <article
+            class="experience-card"
+            (click)="showDialogExperience(workDescription())"
+            [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (focus)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
+            (blur)="experienceCardImgVisibility = false"
+        >
+            @if (experienceCardImgVisibility) {
+                <div
+                    class="experience-card_picture-work"
+                    @fadeInOutCards
+                >
+                    <img
+                        class="card-img"
+                        [src]="workDescription()?.logoPath"
+                        [alt]="workDescription()?.logoPath"
+                    />
+                </div>
+            }
+
+            <div class="card-info">
+                <span class="card-info_place">место работы</span>
+                <span class="card-info_place-name">
+                    {{ workDescription()?.company }}
+                </span>
+                <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
+            </div>
+            <button class="card-button">
+                <img
+                    [src]="
+                        !theme()
+                            ? 'assets/images/white-mode/icons/arrow-wm.svg'
+                            : 'assets/images/dark-mode/icons/arrow-dm.svg'
+                    "
+                    [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
+                />
+            </button>
+        </article>
+    }
+    @case ('education') {
+        <article
+            class="experience-card"
+            (click)="showDialogExperience(experienceDescription())"
+            [ngClass]="{ activeEducation: experienceType() === 'education', 'dark-theme': theme() }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (focus)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
+            (blur)="experienceCardImgVisibility = false"
+        >
+            @if (experienceCardImgVisibility) {
+                <div
+                    class="experience-card_picture-education"
+                    @fadeInOutCards
+                >
+                    <img
+                        class="card-img"
+                        [src]="experienceDescription()?.logoPath"
+                        [alt]="experienceDescription()?.logoPath"
+                    />
+                </div>
+            }
+            <button class="card-button">
+                <img
+                    [src]="
+                        !theme()
+                            ? 'assets/images/white-mode/icons/download-wm.svg'
+                            : 'assets/images/dark-mode/icons/download-dm.svg'
+                    "
+                    [alt]="!theme() ? 'download-wm.svg' : 'download-dm.svg'"
+                />
+            </button>
+            <div class="card-info">
+                <span class="card-info_place">курс</span>
+                <span class="card-info_place-name">
+                    {{ experienceDescription()?.company }}
+                    {{ experienceDescription()?.specialization }}
+                </span>
+                <span class="card-info_time">
+                    {{ experienceDescription()?.from }} -
+                    {{ experienceDescription()?.to }}
+                </span>
+            </div>
+        </article>
+    }
+    @default {
+        <article
+            class="experience-card"
+            (click)="showDialogExperience(workDescription())"
+            [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (focus)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
+            (blur)="experienceCardImgVisibility = false"
+        >
+            @if (experienceCardImgVisibility) {
+                <div
+                    @fadeInOutCards
+                    class="experience-card_picture-work"
+                >
+                    <img
+                        class="card-img"
+                        [src]="workDescription()?.logoPath"
+                        [alt]="workDescription()?.logoPath"
+                    />
+                </div>
+            }
+
+            <div class="card-info">
+                <span class="card-info_place">место работы</span>
+                <span class="card-info_place-name">
+                    {{ workDescription()?.company }}
+                </span>
+                <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
+            </div>
+            <button class="card-button">
+                <img
+                    [src]="
+                        !theme()
+                            ? 'assets/images/white-mode/icons/arrow-wm.svg'
+                            : 'assets/images/dark-mode/icons/arrow-dm.svg'
+                    "
+                    [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
+                />
+            </button>
+        </article>
+    }
+}
