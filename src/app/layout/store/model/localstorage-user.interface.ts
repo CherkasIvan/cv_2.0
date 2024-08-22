@@ -1,4 +1,4 @@
-import { TProfile } from '@app/layout/store/model/profile.type';
+import { TProfile } from './profile.type';
 
 export type TLocalstorageUser = {
     isFirstTime: boolean;
