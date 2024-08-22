@@ -11,6 +11,6 @@ export const LocalstorageActions = createActionGroup({
         updateRoute: props<{ route: string }>(),
         updateMode: props<{ isDark: boolean }>(),
         updateLanguage: props<{ language: 'ru' | 'en' }>(),
-        clearSrorage: emptyProps(),
+        clearStorage: emptyProps(),
     },
 });

@@ -5,9 +5,13 @@ import {
     ActionReducer,
     ActionReducerMap,
     MetaReducer,
+    createReducer,
+    on,
 } from '@ngrx/store';
 
 import { TLocalstorageUser } from '@app/layout/store/model/localstorage-user.interface';
+
+import { LocalstorageActions } from './localstorage.actions';
 
 export const isFirstTimeReducer = (state: boolean = true, action: Action) => {
     switch (action.type) {
@@ -44,16 +48,13 @@ export const routeReducer = (state: string = '', action: Action) => {
     }
 };
 
-export const darkThemeReducer = (
-    state: any = { darkTheme: false },
-    action: Action,
-) => {
-    switch (action.type) {
-        // Определите ваши действия здесь
-        default:
-            return state;
-    }
-};
+export const darkThemeReducer = createReducer(
+    false, // Initial state is a boolean
+    on(LocalstorageActions.updateMode, (state, { isDark }) => {
+        localStorage.setItem('isDark', JSON.stringify(isDark));
+        return isDark;
+    }),
+);
 
 export const languageeReducer = (
     state: any = { language: 'ru' },
@@ -79,7 +80,18 @@ export function localStorageSyncReducer(
     reducer: ActionReducer<TLocalstorageUser>,
 ): ActionReducer<any> {
     return localStorageSync({
-        keys: ['isFirstTime', 'isGuest', 'user', 'route', 'isDark', 'language'],
+        keys: [
+            {
+                usersState: [
+                    'isFirstTime',
+                    'isGuest',
+                    'user',
+                    'route',
+                    'isDark',
+                    'language',
+                ],
+            },
+        ],
         rehydrate: true,
         checkStorageAvailability: true,
     })(reducer);

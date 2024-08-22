@@ -30,22 +30,13 @@ export class DarkModeToggleComponent implements OnInit {
         );
     }
 
-    constructor(
-        private _store$: Store<IDarkMode | TLocalstorageUser>,
-        private readonly _localStorageService: LocalStorageService,
-    ) {}
+    constructor(private _store$: Store<IDarkMode | TLocalstorageUser>) {}
 
     ngOnInit(): void {
         const userState = localStorage.getItem('usersState');
-        console.log(userState);
-
         if (userState !== null) {
             const parsedUserState: TLocalstorageUser = JSON.parse(userState);
             this.isChecked = parsedUserState.isDark;
-            console.log(parsedUserState);
-            this._store$.dispatch(setModeSuccess(this.isChecked));
-        } else {
-            this._store$.dispatch(setModeSuccess(this.isChecked));
             this._store$.dispatch(
                 LocalstorageActions.updateMode({ isDark: this.isChecked }),
             );
