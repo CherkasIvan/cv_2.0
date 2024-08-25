@@ -1,0 +1,53 @@
+// @mixin dm-neon-text {
+//     text-shadow:
+//         0 0 20px #bfe2ff,
+//         0 0 35px #bfe2ff,
+//         0 0 40px #bfe2ff,
+//         0 0 50px #bfe2ff,
+//         0 0 800px #bfe2ff;
+// }
+
+// @mixin dm-neon-block {
+//     box-shadow:
+//         0 0 20px #bfe2ff,
+//         0 0 35px #bfe2ff,
+//         0 0 40px #bfe2ff,
+//         0 0 50px #bfe2ff,
+//         0 0 800px #bfe2ff;
+// }
+
+// @mixin dm-neon-header {
+//   box-shadow:
+//       0 0 20px #bfe2ff,
+//       0 0 35px #bfe2ff,
+//       0 0 40px #bfe2ff,
+//       0 0 50px #bfe2ff,
+//       0 0 800px #bfe2ff;
+// }
+
+@mixin dm-neon-text {
+    text-shadow:
+        0 0 8px #bfe2ff,
+        0 0 14px #bfe2ff,
+        0 0 16px #bfe2ff,
+        0 0 20px #bfe2ff,
+        0 0 320px #bfe2ff;
+}
+
+@mixin dm-neon-block {
+    box-shadow:
+        0 0 8px #bfe2ff,
+        0 0 14px #bfe2ff,
+        0 0 16px #bfe2ff,
+        0 0 20px #bfe2ff,
+        0 0 320px #bfe2ff;
+}
+
+@mixin dm-neon-header {
+    box-shadow:
+        0 0 2px #bfe2ff,
+        0 0 3px #bfe2ff,
+        0 0 4px #bfe2ff,
+        0 0 5px #bfe2ff,
+        0 0 32px #bfe2ff;
+}

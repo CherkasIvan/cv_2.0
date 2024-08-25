@@ -1,0 +1,74 @@
+@use '../../../../assets/styles/variables' as color;
+@use '../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
+
+.footer {
+    display: flex;
+    position: fixed;
+    right: 10%;
+    bottom: 2%;
+    left: 50%;
+    column-gap: 30px;
+    justify-content: space-between;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    width: 80%;
+
+    .footer-links {
+        display: flex;
+        column-gap: calc(10.3px + 70 * (100vw / 1920));
+        align-items: center;
+        transition: background-color 0.5s ease-in-out;
+        @include glassmorphism.cards_glassmorphism;
+        padding: calc(13px + 10 * (100vw / 1920)) calc(5px + 60 * (100vh / 1920));
+
+        &_item {
+            .item-link {
+                display: flex;
+                position: relative;
+                align-items: center;
+                transition: color 0.5s ease-in-out;
+                cursor: pointer;
+                height: 100%;
+                color: color.$black;
+                font-size: calc(4px + 12 * (100vw / 1920));
+                white-space: nowrap;
+
+                &_text {
+                    text-transform: uppercase;
+                }
+            }
+
+            .item-link::before,
+            .item-link::after {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+            .item-link::before {
+                left: -10px;
+                content: '[';
+            }
+
+            .item-link::after {
+                right: -10px;
+                content: ']';
+            }
+
+            .item-link:hover::before,
+            .item-link:hover::after {
+                opacity: 1;
+            }
+
+            .item-link:hover {
+                color: color.$blue;
+            }
+        }
+    }
+
+    .footer-links:hover {
+        background-color: color.$white;
+    }
+}

@@ -1,0 +1,39 @@
+@use '../../../../../assets/styles/variables' as color;
+@use '../../../../../assets/styles/mixins/neon.mixin' as neon;
+
+.main.dark-theme {
+    color: color.$white;
+    .fullname-img {
+        .fullname {
+            @include neon.dm-neon-text;
+            color: color.$white;
+        }
+    }
+
+    .description-projects-stack {
+        .description {
+            @include neon.dm-neon-text;
+            color: color.$white;
+        }
+
+        .stack {
+            @include neon.dm-neon-text;
+            color: color.$white;
+        }
+
+        .projects-button {
+            &_link {
+            }
+
+            &_img {
+            }
+        }
+    }
+
+    .status-cv {
+        .status {
+            @include neon.dm-neon-text;
+            color: color.$white;
+        }
+    }
+}

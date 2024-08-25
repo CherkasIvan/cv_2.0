@@ -1,0 +1,44 @@
+@use '../../assets/styles/variables' as color;
+
+.layout-container {
+    background-image: url('../../assets/images/white-mode/background-main-menu.png');
+    background-size: cover;
+    padding: 40px calc(50px + (100vw - 320px) * (135 - 50) / (1920 - 320)) 60px;
+    // padding: 40px 135px 60px;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    .layout {
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100vh;
+        max-height: 100vh;
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .general {
+            height: 100%;
+        }
+
+        .footer {
+        }
+    }
+}
+
+.light-theme {
+    transition: 0.3s;
+    background-color: color.$lightGrey;
+}
+
+.dark-theme {
+    transition: 0.3s;
+    background-color: color.$black;
+}
