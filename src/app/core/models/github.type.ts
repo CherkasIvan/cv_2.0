@@ -4,4 +4,6 @@ export type TGitHub = {
     htmlUrl: string;
     forks: number | null;
     description: string | null;
+    created_at: string | null;
+    updated_at: string | null;
 };

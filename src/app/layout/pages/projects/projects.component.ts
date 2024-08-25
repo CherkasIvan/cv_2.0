@@ -1,25 +1,42 @@
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
 import { TGitHub } from '@app/core/models/github.type';
-import { GithubRespositoriesActions } from '@app/layout/store/github-projects-store/github-projects.action';
+import { ButtonComponent } from '@app/layout/components/button/button.component';
+import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
+import { GithubRepositoriesActions } from '@app/layout/store/github-projects-store/github-projects.action';
 import { selectGithubRepositories } from '@app/layout/store/github-projects-store/github-projects.selector';
+import { IDarkMode } from '@app/layout/store/model/dark-mode.interface';
+
+import { ProjectChipsComponent } from './components/project-chips/project-chips.component';
 
 @Component({
     selector: 'cv-projects',
     standalone: true,
-    imports: [AsyncPipe, NgClass],
+    imports: [
+        AsyncPipe,
+        NgClass,
+        DatePipe,
+        ProjectChipsComponent,
+        ButtonComponent,
+    ],
     templateUrl: './projects.component.html',
-    styleUrl: './projects.component.scss',
+    styleUrls: [
+        './projects.component.scss',
+        './projects-dm/projects-dm.component.scss',
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsComponent implements OnInit {
     public githubRepos$: Observable<TGitHub[]> = this._store$.pipe(
         select(selectGithubRepositories),
+    );
+    public currentTheme$: Observable<boolean> = this._store$.pipe(
+        select(darkModeSelector),
     );
 
     public getClass(index: number): string {
@@ -39,9 +56,9 @@ export class ProjectsComponent implements OnInit {
 
     private _destroyed$: Subject<void> = new Subject();
 
-    constructor(private _store$: Store<TGitHub[]>) {}
+    constructor(private _store$: Store<TGitHub[] | IDarkMode>) {}
 
     ngOnInit(): void {
-        this._store$.dispatch(GithubRespositoriesActions.getRepositories());
+        this._store$.dispatch(GithubRepositoriesActions.getRepositories());
     }
 }

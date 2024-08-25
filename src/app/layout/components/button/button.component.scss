@@ -12,7 +12,7 @@
     display: flex;
     position: relative;
     justify-content: center;
-    transition: max-width 0.5s ease-in-out;
+    transition: max-width 0.7s ease-in-out;
     cursor: pointer;
     border-radius: 50px;
     background-color: color.$black;
@@ -22,45 +22,78 @@
     font-size: calc(4px + 12 * (100vw / 1920));
     white-space: nowrap;
 
-  .general-button_text {
-    transform: translateY(0);
-    visibility: visible;
-    z-index: 1;
-    transition: transform 1.2s ease-in-out, opacity 1.2s ease-in-out, z-index 0s 1.2s, display 1.2s ease-in-out;
+    .general-button_text {
+        transform: translateY(0);
+        visibility: visible;
+        z-index: 1;
+        transition:
+            transform 1.2s ease-in-out,
+            opacity 1.2s ease-in-out,
+            z-index 0s 1.2s,
+            display 1.2s ease-in-out;
 
         &.generalButtonActive {
             transform: translateY(-300%);
-            transition: transform 0.6s ease-in-out;
+            opacity: 0; /* Добавлено для плавного исчезновения */
+            transition:
+                transform 0.6s ease-in-out,
+                opacity 0.6s ease-in-out;
         }
     }
 
-  .general-button_text-absolute {
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, 0);
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    background-color: color.$blue;
-    line-height: 86px;
-    text-align: center;
-    transition: transform 1s ease-in-out, z-index 0s 1s;
-    z-index: 2;
-  }
+    .general-button_text-absolute {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        justify-content: center;
+        align-items: center;
+        transform: translate(-50%, 0);
+        opacity: 0; /* Изначально скрыто */
+        z-index: 2;
+        transition:
+            transform 1s ease-in-out,
+            opacity 0.7s ease-in-out,
+            z-index 0s 1s;
+        border-radius: 50%;
+        background-color: color.$blue;
+        line-height: 86px;
+        text-align: center;
 
-  &:hover .general-button_text-absolute {
-    transform: translate(-50%, -50%);
-    color: color.$white
-  }
+        .hovered-text {
+            transition: opacity 0.7s ease-in-out; /* Добавлено для плавного исчезновения текста */
+        }
+    }
+
+    &:hover .general-button_text-absolute {
+        top: 50%; /* Центрирование по вертикали */
+        left: 50%;
+        transform: translate(-50%, -50%); /* Центрирование по горизонтали и вертикали */
+        opacity: 1; /* Показать элемент */
+        color: color.$white;
+    }
+
+    &:hover .general-button_text-absolute .hovered-text {
+        opacity: 1; /* Показать текст */
+    }
+
+    &:not(:hover) .general-button_text-absolute {
+        top: 100%; /* Возвращение к исходному положению */
+        transform: translate(-50%, 0); /* Возвращение к исходному положению */
+        opacity: 0; /* Скрыть элемент */
+    }
+
+    &:not(:hover) .general-button_text-absolute .hovered-text {
+        opacity: 0; /* Скрыть текст */
+    }
 }
 
 .general-button:hover .general-button_text {
-  z-index: 2;
+    z-index: 2;
 }
 
 .general-button:hover .general-button_text-absolute {
-  z-index: 1;
+    z-index: 1;
 }
 
 .dark-theme {
@@ -81,7 +114,7 @@
 
 .connect-me,
 .watch-cv {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

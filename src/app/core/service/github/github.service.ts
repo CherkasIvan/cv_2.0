@@ -3,9 +3,8 @@ import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { IGitHubRepository } from '@core/models/github-repository.interface';
 import { TGitHub } from '@core/models/github.type';
-
-import { IGitHubRepository } from '@app/core/models/github-repository.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +26,8 @@ export class GithubService {
                                 stars: repository.stargazers_count,
                                 htmlUrl: repository.html_url,
                                 forks: repository.forks,
+                                created_at: repository.created_at,
+                                updated_at: repository.updated_at,
                                 description: repository.description,
                             },
                     ),

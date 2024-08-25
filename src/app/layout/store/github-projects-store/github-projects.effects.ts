@@ -6,7 +6,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { GithubService } from '@core/service/github/github.service';
 
-import { GithubRespositoriesActions } from './github-projects.action';
+import { GithubRepositoriesActions } from './github-projects.action';
 
 @Injectable()
 export class GithubRepositoriesEffects {
@@ -17,17 +17,17 @@ export class GithubRepositoriesEffects {
 
     loadRepositories$ = createEffect(() =>
         this._actions$.pipe(
-            ofType(GithubRespositoriesActions.getRepositories),
+            ofType(GithubRepositoriesActions.getRepositories),
             mergeMap(() =>
                 this._githubService.getGithubRepos().pipe(
                     map((repositories) =>
-                        GithubRespositoriesActions.getRepositoriesSuccess({
+                        GithubRepositoriesActions.getRepositoriesSuccess({
                             repositories,
                         }),
                     ),
                     catchError((error) =>
                         of(
-                            GithubRespositoriesActions.getRepositoriesError({
+                            GithubRepositoriesActions.getRepositoriesError({
                                 error,
                             }),
                         ),
