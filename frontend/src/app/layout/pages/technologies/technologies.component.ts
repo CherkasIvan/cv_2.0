@@ -18,6 +18,7 @@ import { AsideNavigationComponent } from '@layout/components/aside-navigation/as
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
+import { ApiService } from '@app/core/service/api/api.service';
 import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
 import {
     selectBackendTech,
@@ -44,6 +45,8 @@ import { TechnologyCardComponent } from './components/technology-card/technology
 })
 export class TechnologiesComponent implements OnInit {
     public selectedTab: string = '';
+
+    data: ITechnologies[] | undefined;
 
     public technologiesAside$: Observable<TExperienceAside[]> =
         this._store$.pipe(select(selectTechnologiesAside));
@@ -110,9 +113,15 @@ export class TechnologiesComponent implements OnInit {
     constructor(
         private _cdr: ChangeDetectorRef,
         private _store$: Store<IDarkMode>,
+        private _apiService: ApiService,
     ) {}
 
     ngOnInit(): void {
+        this._apiService.getBackendTech().subscribe((response) => {
+            console.log('Data from responce:', response);
+            this.data = response;
+            console.log('Data from backend:', this.data);
+        });
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
     }
