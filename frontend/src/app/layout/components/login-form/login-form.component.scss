@@ -1,0 +1,171 @@
+@use '../../../../assets/styles/variables' as color;
+@use '../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
+@use '../../../../assets/styles/mixins/flex.mixin' as flex;
+
+.modal-background {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  @include glassmorphism.modal_background;
+
+  .modal-dialog {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+    border-radius: 40px;
+    background: color.$white;
+    padding-bottom: 10px;
+    width: calc(434px + 140 * (100vw / 1920));
+    color: color.$black;
+
+    .header-block {
+      display: flex;
+      position: relative;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      &_title {
+        margin-top: 52px;
+        margin-bottom: 10px;
+        font-weight: 600;
+        font-size: 20px;
+      }
+
+      &_close-button {
+        position: absolute;
+        top: 26px;
+        right: 26px;
+        cursor: pointer;
+        background-color: transparent;
+        color: color.$black;
+        font-size: 1.2rem;
+      }
+    }
+
+    &_content {
+      padding: 26px;
+
+      .content-form {
+        display: flex;
+        row-gap: 26px;
+        flex-direction: column;
+
+        >* {
+          display: flex;
+          row-gap: 5px;
+        }
+
+        &_label {
+          flex-direction: column;
+          color: color.$darkGray;
+          font-size: 14px;
+        }
+
+        &_input {
+          box-sizing: border-box;
+          border-radius: 10px;
+          background-color: color.$lightGrey;
+          padding: 18px 20px;
+          width: 100%;
+          font-style: 16px;
+        }
+
+        &_input:focus,
+        &_input:active {
+          border: 1px solid color.$blue;
+        }
+
+        &_submit-buttons {
+          display: flex;
+          row-gap: 26px;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+
+          >* {
+            border-radius: 50px;
+            width: calc(100% - 140 * (100vw / 1920));
+            height: 52px;
+            font-size: 16px;
+            cursor: pointer;
+          }
+
+          .submit-button {
+            background-color: color.$black;
+            color: color.$white;
+          }
+
+          .reset-button {
+            transition: transform 0.6s ease-in-out;
+            background-color: transparent;
+            color: color.$black;
+          }
+
+          .reset-button:hover {
+            color: color.$blue;
+          }
+
+          .disabled-submit {
+            background-color: color.$darkGray;
+            cursor: not-allowed;
+          }
+
+          .disabled-reset {
+            color: color.$darkGray;
+            cursor: not-allowed;
+          }
+        }
+      }
+
+      .content-form_guest {
+        align-items: center;
+        justify-content: center;
+        column-gap: 12px;
+        color: color.$darkGray;
+        font-size: 14px;
+
+        .content-form_checkbox {
+          width: 24px;
+          height: 24px;
+          appearance: none;
+          border: 2px solid color.$darkGray;
+          border-radius: 4px;
+          cursor: pointer;
+          position: relative;
+          outline: none;
+          transition: background-color 0.3s, border-color 0.3s;
+
+          &:checked {
+            background-color: color.$black;
+            border-color: color.$black;
+          }
+
+          &:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background-color: color.$white;
+            border-radius: 2px;
+            transform: translate(-50%, -50%);
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal-background:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

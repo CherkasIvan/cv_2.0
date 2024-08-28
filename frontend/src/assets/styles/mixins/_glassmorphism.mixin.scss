@@ -1,0 +1,78 @@
+@use '../variables' as color;
+
+@mixin footer_glassmorphism {
+    opacity: 0.95;
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(244, 244, 244, 0.2);
+    border-left: 1px solid rgba(244, 244, 244, 0.2);
+    border-radius: 10px 10px 0 0;
+}
+
+@mixin cards_glassmorphism {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+@mixin cards_glassmorphism-dm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(41, 41, 41, 0.8);
+    border-radius: 40px;
+    background: rgba(41, 41, 41, 0.6);
+}
+
+@mixin projects_glassmorphism {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 20px 20px 0 0;
+    background: rgba(255, 255, 255, 0.4);
+}
+
+@mixin projects_glassmorphism-dm {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(41, 41, 41, 0.8);
+    border-radius: 20px 20px 0 0;
+    background: rgba(41, 41, 41, 0.6);
+}
+
+@mixin header_glassmorphism {
+    opacity: 0.95;
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(244, 244, 244, 0.2);
+    border-left: 1px solid rgba(244, 244, 244, 0.2);
+    border-radius: 0 0 10px 10px;
+}
+
+@mixin reset_glassmorphism {
+    opacity: 1;
+    backdrop-filter: initial;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 0;
+}
+
+@mixin default_button_glassmorphism {
+    backdrop-filter: blur(10px);
+    transition: 0.5s ease;
+    box-shadow: 10px 10px 20px -10px rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    width: fit-content;
+    color: color.$white;
+    font-size: 18px;
+}
+
+@mixin modal_background {
+    backdrop-filter: blur(10px);
+    transition: 0.5s ease;
+    box-shadow: 10px 10px 20px -10px rgba(253, 253, 253, 0.2);
+    background-color: rgba(0, 0, 0, 0.8);
+}

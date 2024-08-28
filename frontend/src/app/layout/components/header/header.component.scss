@@ -1,0 +1,142 @@
+@use '../../../../assets/styles/variables' as color;
+@use '../../../../assets/styles/mixins/neon.mixin' as neon;
+
+.navigation-border {
+    position: relative;
+    z-index: 2;
+    border-radius: 60px;
+    padding: 10px;
+
+    .navigation-header {
+        display: flex;
+        position: relative;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 10;
+        z-index: 3;
+        border-radius: 50px;
+        padding: 0 50px;
+        height: 96px;
+
+        .header-logo {
+            transition: 0.3s;
+            &_link,
+            &_link > * {
+                width: calc(100px + 140 * (100vw / 1920));
+            }
+        }
+
+        .header-links {
+            display: flex;
+            column-gap: 30px;
+            height: 100%;
+            &_item {
+                .item-link {
+                    display: flex;
+                    position: relative;
+                    align-items: center;
+                    transition: color 0.5s ease-in-out;
+                    cursor: pointer;
+                    height: 100%;
+                    color: color.$black;
+                    font-size: calc(4px + 12 * (100vw / 1920));
+                    white-space: nowrap;
+
+                    &_text::first-letter {
+                        text-transform: uppercase;
+                    }
+                }
+
+                .active::before,
+                .active::after {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    opacity: 0;
+                    transition: opacity 0.3s;
+                }
+
+                .active::before {
+                    left: -15px;
+                    content: '<';
+                }
+
+                .active::after {
+                    right: -20px;
+                    content: '/>';
+                }
+
+                .active::before,
+                .active::after {
+                    opacity: 1;
+                }
+
+                .active {
+                    color: color.$blue !important;
+                }
+
+                .item-link:focus,
+                .item-link:active {
+                    color: color.$blue;
+                }
+
+                .item-link:hover {
+                    color: color.$blue;
+                }
+            }
+        }
+
+        .header-buttons {
+            display: flex;
+            column-gap: 20px;
+            justify-content: space-between;
+            align-items: center;
+
+            &_language {
+                cursor: pointer;
+                background-color: transparent;
+                padding-right: 10px;
+            }
+
+            &_login {
+                position: relative;
+                cursor: pointer;
+                background-color: transparent;
+                padding-left: 30px;
+            }
+
+            &_login:before {
+                position: absolute;
+                top: -5px;
+                left: -2px;
+                background: color.$darkGray;
+                width: 2px;
+                height: 30px;
+                content: ' ';
+            }
+        }
+    }
+
+    .light-theme {
+        background: color.$white;
+        background-image: url('../../../../assets/images/white-mode/background-main-menu.png');
+    }
+}
+
+.navigation-border.light-theme {
+    transition: 0.3s;
+    background-image: url('../../../../assets/images/white-mode/background-main-menu-dark.png');
+    background-color: color.$black;
+}
+
+.visible {
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+.visible.fade-in {
+    opacity: 1;
+}
+
+.hidden {
+    opacity: 0;
+}
