@@ -15,6 +15,13 @@ export class FirebaseController {
   // return await this.firebaseService.getFiles(numberItems);
   // }
 
+  @Get('images/:folder')
+  async getImagesByFolder(@Param('folder') folder: string) {
+    console.log(`Fetching images from folder: ${folder}`);
+    const images = await this.firebaseService.getImagesByFolder(folder);
+    return images;
+  }
+
   @Get('navigation')
   async getNavigation() {
     const navigation = await this.firebaseService.getNavigation();

@@ -122,6 +122,9 @@ export class TechnologiesComponent implements OnInit {
             this.data = response;
             console.log('Data from backend:', this.data);
         });
+        this._apiService.getImages('certificates').subscribe((response) => {
+            console.log('Data from images:', response);
+        });
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
     }

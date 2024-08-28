@@ -19,4 +19,11 @@ export class ApiService {
             `${this.baseUrl}/firebase/backend-tech`,
         );
     }
+
+    getImages(folder: string): Observable<any[]> {
+        console.log('КАРТИНКИ');
+        return this.http.get<any[]>(
+            `${this.baseUrl}/firebase/images/${folder}`,
+        );
+    }
 }
