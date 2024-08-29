@@ -1,12 +1,23 @@
-FROM node:18-alpine as build
-WORKDIR /app/src
+# Используем официальный образ Node.js в качестве базового
+FROM node:18-alpine
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем package.json и package-lock.json в рабочую директорию
 COPY package*.json ./
-RUN npm ci
-COPY . ./
+
+# Устанавливаем зависимости
+RUN npm install
+
+# Копируем все файлы в рабочую директорию
+COPY . .
+
+# Собираем приложение
 RUN npm run build
 
-FROM node:18-alpine
-WORKDIR /usr/app
-COPY --from=build /app/src/dist/cv_2.0/server ./
-CMD node server.mjs
-EXPOSE 4000
+# Указываем команду для запуска приложения
+CMD ["npm", "run", "start:prod"]
+
+# Открываем порт, на котором будет работать приложение
+EXPOSE 3000
