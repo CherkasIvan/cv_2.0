@@ -1,32 +1,32 @@
-# Используем официальный образ Node.js в качестве базового
-FROM node:18-alpine AS build
+# Используем Node.js 20.13.1-alpine3.19 для сборки
+FROM node:20.13.1-alpine3.19 as build
 
 # Устанавливаем рабочую директорию
-WORKDIR /app
+WORKDIR /app/src
 
-# Копируем package.json и package-lock.json в рабочую директорию
+# Копируем package.json и устанавливаем зависимости
 COPY package*.json ./
+RUN npm ci
 
-# Устанавливаем зависимости
-RUN npm install
+# Копируем все файлы и собираем приложение
+COPY . ./
+RUN npm run build
 
-# Копируем все файлы в рабочую директорию
-COPY . .
+# Используем Node.js 20.13.1-alpine3.19 для запуска
+FROM node:20.13.1-alpine3.19
 
-# Собираем приложение
-RUN npm run build:ssr
+# Создаем пользователя и группу
+RUN addgroup -S exampleusergroup && adduser -S exampleuser -G exampleusergroup
+USER exampleuser
 
-# Используем Nginx для сервировки приложения
-FROM nginx:alpine
+# Устанавливаем рабочую директорию
+WORKDIR /usr/app
 
-# Копируем собранные файлы из предыдущего этапа
-COPY --from=build /app/dist /usr/share/nginx/html
+# Копируем собранное приложение
+COPY --from=build /app/src/dist/cv_2.0/ ./
 
-# Копируем конфигурацию Nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+# Указываем команду для запуска приложения
+CMD ["node", "server/server.mjs"]
 
 # Открываем порт, на котором будет работать приложение
-EXPOSE 80
-
-# Запускаем Nginx
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 4000

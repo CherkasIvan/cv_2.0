@@ -6,7 +6,7 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { FirebaseService } from '@core/service/firebase/firebase.service';
+import { ApiService } from '@app/core/service/api/api.service';
 
 import { FirebaseActions } from './firebase.actions';
 
@@ -14,14 +14,14 @@ import { FirebaseActions } from './firebase.actions';
 export class FirebaseEffects {
     constructor(
         private actions$: Actions,
-        private firebaseService: FirebaseService,
+        private _apiService: ApiService,
     ) {}
 
     loadNavigation$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getNavigation),
             mergeMap(() =>
-                this.firebaseService.getNavigation().pipe(
+                this._apiService.getNavigation().pipe(
                     map((navigation) =>
                         FirebaseActions.getNavigationSuccess({ navigation }),
                     ),
@@ -37,7 +37,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getSocialMedia),
             mergeMap(() =>
-                this.firebaseService.getSocialMediaLinks().pipe(
+                this._apiService.getSocialMediaLinks().pipe(
                     map((socialMediaLinks) =>
                         FirebaseActions.getSocialMediaSuccess({
                             socialMediaLinks,
@@ -55,7 +55,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getWorkExperience),
             mergeMap(() =>
-                this.firebaseService.getWorkExperience().pipe(
+                this._apiService.getWorkExperience().pipe(
                     map((workExperience) =>
                         FirebaseActions.getWorkExperienceSuccess({
                             workExperience,
@@ -73,7 +73,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getFrontendTech),
             mergeMap(() =>
-                this.firebaseService.getFrontendTech().pipe(
+                this._apiService.getFrontendTech().pipe(
                     map((frontendTech) =>
                         FirebaseActions.getFrontendTechSuccess({
                             frontendTech,
@@ -91,7 +91,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getBackendTech),
             mergeMap(() =>
-                this.firebaseService.getBackendTech().pipe(
+                this._apiService.getBackendTech().pipe(
                     map((backendTech) =>
                         FirebaseActions.getBackendTechSuccess({ backendTech }),
                     ),
@@ -107,7 +107,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getOtherTech),
             mergeMap(() =>
-                this.firebaseService.getOtherTech().pipe(
+                this._apiService.getOtherTech().pipe(
                     map((otherTech) =>
                         FirebaseActions.getOtherTechSuccess({ otherTech }),
                     ),
@@ -123,7 +123,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getHardSkillsNav),
             mergeMap(() =>
-                this.firebaseService.getHardSkillsNav().pipe(
+                this._apiService.getHardSkillsNav().pipe(
                     map((hardSkillsNav) =>
                         FirebaseActions.getHardSkillsNavSuccess({
                             hardSkillsNav,
@@ -141,7 +141,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getEducationPlaces),
             mergeMap(() =>
-                this.firebaseService.getEducationPlaces().pipe(
+                this._apiService.getEducationPlaces().pipe(
                     map((education) =>
                         FirebaseActions.getEducationPlacesSuccess({
                             education,
@@ -159,7 +159,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getMainPageInfo),
             mergeMap(() =>
-                this.firebaseService.getMainPageInfo().pipe(
+                this._apiService.getMainPageInfo().pipe(
                     map((mainPageInfo) =>
                         FirebaseActions.getMainPageInfoSuccess({
                             mainPageInfo,
@@ -177,7 +177,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getExperienceAside),
             mergeMap(() =>
-                this.firebaseService.getExperienceAside().pipe(
+                this._apiService.getExperienceAside().pipe(
                     map((experienceAside) =>
                         FirebaseActions.getExperienceAsideSuccess({
                             experienceAside,
@@ -195,7 +195,7 @@ export class FirebaseEffects {
         this.actions$.pipe(
             ofType(FirebaseActions.getTechnologiesAside),
             mergeMap(() =>
-                this.firebaseService.getTechnologiesAside().pipe(
+                this._apiService.getTechnologiesAside().pipe(
                     map((technologiesAside) =>
                         FirebaseActions.getTechnologiesAsideSuccess({
                             technologiesAside,

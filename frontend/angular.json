@@ -28,6 +28,13 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {
+                        "allowedCommonJsDependencies": [
+                            "undici",
+                            "deepmerge",
+                            "faye-websocket",
+                            "@grpc/grpc-js",
+                            "@grpc/proto-loader"
+                        ],
                         "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
                         "browser": "src/main.ts",

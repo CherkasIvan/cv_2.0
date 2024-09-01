@@ -1,6 +1,6 @@
 {
-    "name": "cv-2.0",
-    "version": "0.0.0",
+    "name": "cv_2.0",
+    "version": "1.0.0",
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
@@ -11,8 +11,7 @@
         "coverage": "ng test --no-watch --code-coverage",
         "lint": "ng lint",
         "serve": "node server.js",
-        "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs",
-        "build:ssr": "ng build --configuration production && ng run cv_2.0:server:production"
+        "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs"
     },
     "private": true,
     "dependencies": {
@@ -76,5 +75,8 @@
     "overrides": {
         "undici": "6.19.2",
         "undici-types": "6.19.2"
+    },
+    "engines": {
+        "node": ">=18.0.0"
     }
 }

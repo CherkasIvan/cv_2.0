@@ -1,23 +1,16 @@
-# Используем официальный образ Node.js в качестве базового
-FROM node:18-alpine
+# Используем Node.js 20.13.1-alpine3.19 для сборки
+FROM node:20.13.1-alpine3.19 as build
 
 # Устанавливаем рабочую директорию
-WORKDIR /app
+WORKDIR /app/src
 
-# Копируем package.json и package-lock.json в рабочую директорию
+# Копируем package.json и устанавливаем зависимости
 COPY package*.json ./
+RUN npm ci
 
-# Устанавливаем зависимости
-RUN npm install
-
-# Копируем все файлы в рабочую директорию
-COPY . .
-
-# Собираем приложение
+# Копируем все файлы и собираем приложение
+COPY . ./
 RUN npm run build
 
-# Указываем команду для запуска приложения
-CMD ["npm", "run", "start:prod"]
-
-# Открываем порт, на котором будет работать приложение
-EXPOSE 3000
+# Используем Node.js 20.13.1-alpine3.19 для запуска
+FROM node:20.13.1-alpine3.19
