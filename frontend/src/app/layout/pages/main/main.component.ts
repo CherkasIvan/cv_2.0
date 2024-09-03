@@ -57,8 +57,9 @@ export class MainComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this._store$.dispatch(FirebaseActions.getMainPageInfo());
+        this._store$.dispatch(FirebaseActions.getMainPageInfo({ imgName: '' }));
         this.mainInfo$.pipe(takeUntil(this.destroyed$)).subscribe((info) => {
+            console.log(info);
             this.mainInfoPageData = info;
             this._cdr.markForCheck();
         });

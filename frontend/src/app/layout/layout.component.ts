@@ -91,8 +91,8 @@ export class LayoutComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this._store$.dispatch(FirebaseActions.getNavigation());
-        this._store$.dispatch(FirebaseActions.getSocialMedia());
+        this._store$.dispatch(FirebaseActions.getNavigation({ imgName: '' }));
+        this._store$.dispatch(FirebaseActions.getSocialMedia({ imgName: '' }));
 
         this.afAuth.authState.subscribe((user) => {
             if (!user) {

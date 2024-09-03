@@ -7,4 +7,6 @@ export interface IMainPageInfo {
     imgSrc: string;
     stack: string;
     status: string;
+    imgName: string;
+    images: string[];
 }
