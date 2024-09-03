@@ -81,10 +81,11 @@ export class AsideNavigationComponent implements OnChanges {
     ngOnChanges(): void {
         console.log(this.navigationList());
         if (this.navigationList().length) {
-            this._store$.dispatch(FirebaseActions.getHardSkillsNav());
+            this._store$.dispatch(
+                FirebaseActions.getHardSkillsNav({ imgName: '' }),
+            );
 
             this.selectedTab === '' ? this._tab() : this.selectedTab;
-            console.log(this.selectedTab);
             this.selectedTab === 'tech'
                 ? this.hardSkillsNavigation$.subscribe(
                       (skills: INavigation[]) => {

@@ -104,10 +104,24 @@ export class TechnologiesComponent implements OnInit {
     }
 
     private _technologiesDispatcher() {
-        this._store$.dispatch(FirebaseActions.getTechnologiesAside());
-        this._store$.dispatch(FirebaseActions.getBackendTech());
-        this._store$.dispatch(FirebaseActions.getFrontendTech());
-        this._store$.dispatch(FirebaseActions.getOtherTech());
+        this._store$.dispatch(
+            FirebaseActions.getTechnologiesAside({ imgName: '' }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getBackendTech({
+                imgName: '/technologies/backend',
+            }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getFrontendTech({
+                imgName: '/technologies/frontend',
+            }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getOtherTech({
+                imgName: '/technologies/other-skills',
+            }),
+        );
     }
 
     constructor(
@@ -121,6 +135,9 @@ export class TechnologiesComponent implements OnInit {
             console.log('Data from responce:', response);
             this.data = response;
             console.log('Data from backend:', this.data);
+        });
+        this._apiService.getImages('certificates').subscribe((response) => {
+            console.log('Data from images:', response);
         });
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
