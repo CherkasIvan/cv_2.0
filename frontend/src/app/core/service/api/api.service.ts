@@ -96,9 +96,8 @@ export class ApiService {
         );
     }
 
-    getImages(folder: string): Observable<any[]> {
-        console.log('КАРТИНКИ');
-        return this.http.get<any[]>(
+    getImages(folder: string): Observable<string[]> {
+        return this.http.get<string[]>(
             `${this.baseUrl}/firebase/images/${folder}`,
         );
     }

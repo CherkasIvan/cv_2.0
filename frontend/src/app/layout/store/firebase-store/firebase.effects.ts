@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
@@ -20,10 +20,16 @@ export class FirebaseEffects {
     loadNavigation$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getNavigation),
-            mergeMap(() =>
-                this._apiService.getNavigation().pipe(
-                    map((navigation) =>
-                        FirebaseActions.getNavigationSuccess({ navigation }),
+            mergeMap((action) =>
+                forkJoin({
+                    navigation: this._apiService.getNavigation(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ navigation, images }) =>
+                        FirebaseActions.getNavigationSuccess({
+                            navigation,
+                            images,
+                        }),
                     ),
                     catchError((error) =>
                         of(FirebaseActions.getNavigationError({ error })),
@@ -36,11 +42,15 @@ export class FirebaseEffects {
     loadSocialMediaLinks$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getSocialMedia),
-            mergeMap(() =>
-                this._apiService.getSocialMediaLinks().pipe(
-                    map((socialMediaLinks) =>
+            mergeMap((action) =>
+                forkJoin({
+                    socialMediaLinks: this._apiService.getSocialMediaLinks(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ socialMediaLinks, images }) =>
                         FirebaseActions.getSocialMediaSuccess({
                             socialMediaLinks,
+                            images,
                         }),
                     ),
                     catchError((error) =>
@@ -54,11 +64,15 @@ export class FirebaseEffects {
     loadWorkExperience$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getWorkExperience),
-            mergeMap(() =>
-                this._apiService.getWorkExperience().pipe(
-                    map((workExperience) =>
+            mergeMap((action) =>
+                forkJoin({
+                    workExperience: this._apiService.getWorkExperience(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ workExperience, images }) =>
                         FirebaseActions.getWorkExperienceSuccess({
                             workExperience,
+                            images,
                         }),
                     ),
                     catchError((error) =>
@@ -72,11 +86,18 @@ export class FirebaseEffects {
     loadFrontendTech$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getFrontendTech),
-            mergeMap(() =>
-                this._apiService.getFrontendTech().pipe(
-                    map((frontendTech) =>
+            tap((action) =>
+                console.log('Dispatching getFrontendTech:', action),
+            ),
+            mergeMap((action) =>
+                forkJoin({
+                    frontendTech: this._apiService.getFrontendTech(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ frontendTech, images }) =>
                         FirebaseActions.getFrontendTechSuccess({
                             frontendTech,
+                            images,
                         }),
                     ),
                     catchError((error) =>
@@ -90,10 +111,16 @@ export class FirebaseEffects {
     loadBackendTech$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getBackendTech),
-            mergeMap(() =>
-                this._apiService.getBackendTech().pipe(
-                    map((backendTech) =>
-                        FirebaseActions.getBackendTechSuccess({ backendTech }),
+            mergeMap((action) =>
+                forkJoin({
+                    backendTech: this._apiService.getBackendTech(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ backendTech, images }) =>
+                        FirebaseActions.getBackendTechSuccess({
+                            backendTech,
+                            images,
+                        }),
                     ),
                     catchError((error) =>
                         of(FirebaseActions.getBackendTechError({ error })),
@@ -106,10 +133,16 @@ export class FirebaseEffects {
     loadOtherTech$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getOtherTech),
-            mergeMap(() =>
-                this._apiService.getOtherTech().pipe(
-                    map((otherTech) =>
-                        FirebaseActions.getOtherTechSuccess({ otherTech }),
+            mergeMap((action) =>
+                forkJoin({
+                    otherTech: this._apiService.getOtherTech(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ otherTech, images }) =>
+                        FirebaseActions.getOtherTechSuccess({
+                            otherTech,
+                            images,
+                        }),
                     ),
                     catchError((error) =>
                         of(FirebaseActions.getOtherTechError({ error })),
@@ -122,11 +155,15 @@ export class FirebaseEffects {
     loadHardSkillsNav$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getHardSkillsNav),
-            mergeMap(() =>
-                this._apiService.getHardSkillsNav().pipe(
-                    map((hardSkillsNav) =>
+            mergeMap((action) =>
+                forkJoin({
+                    hardSkillsNav: this._apiService.getHardSkillsNav(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ hardSkillsNav, images }) =>
                         FirebaseActions.getHardSkillsNavSuccess({
                             hardSkillsNav,
+                            images,
                         }),
                     ),
                     catchError((error) =>
@@ -140,11 +177,15 @@ export class FirebaseEffects {
     loadEducationPlaces$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getEducationPlaces),
-            mergeMap(() =>
-                this._apiService.getEducationPlaces().pipe(
-                    map((education) =>
+            mergeMap((action) =>
+                forkJoin({
+                    education: this._apiService.getEducationPlaces(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ education, images }) =>
                         FirebaseActions.getEducationPlacesSuccess({
                             education,
+                            images,
                         }),
                     ),
                     catchError((error) =>
@@ -158,11 +199,15 @@ export class FirebaseEffects {
     loadMainPageInfo$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getMainPageInfo),
-            mergeMap(() =>
-                this._apiService.getMainPageInfo().pipe(
-                    map((mainPageInfo) =>
+            mergeMap((action) =>
+                forkJoin({
+                    mainPageInfo: this._apiService.getMainPageInfo(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ mainPageInfo, images }) =>
                         FirebaseActions.getMainPageInfoSuccess({
                             mainPageInfo,
+                            images,
                         }),
                     ),
                     catchError((error) =>
@@ -176,11 +221,15 @@ export class FirebaseEffects {
     loadExperienceAside$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getExperienceAside),
-            mergeMap(() =>
-                this._apiService.getExperienceAside().pipe(
-                    map((experienceAside) =>
+            mergeMap((action) =>
+                forkJoin({
+                    experienceAside: this._apiService.getExperienceAside(),
+                    images: this._apiService.getImages(action.imgName),
+                }).pipe(
+                    map(({ experienceAside, images }) =>
                         FirebaseActions.getExperienceAsideSuccess({
                             experienceAside,
+                            images,
                         }),
                     ),
                     catchError((error) =>
@@ -194,13 +243,41 @@ export class FirebaseEffects {
     loadTechnologiesAside$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getTechnologiesAside),
-            mergeMap(() =>
+            mergeMap((action) =>
                 this._apiService.getTechnologiesAside().pipe(
-                    map((technologiesAside) =>
-                        FirebaseActions.getTechnologiesAsideSuccess({
-                            technologiesAside,
-                        }),
-                    ),
+                    mergeMap((technologiesAside) => {
+                        const imageRequests = technologiesAside.map((tech) => {
+                            if (tech.imgName) {
+                                return this._apiService
+                                    .getImages(tech.imgName)
+                                    .pipe(
+                                        map((images) => ({
+                                            ...tech,
+                                            images,
+                                        })),
+                                    );
+                            } else {
+                                return of(tech);
+                            }
+                        });
+                        return forkJoin(imageRequests).pipe(
+                            map((updatedTechnologiesAside) =>
+                                FirebaseActions.getTechnologiesAsideSuccess({
+                                    technologiesAside: updatedTechnologiesAside,
+                                    images: updatedTechnologiesAside
+                                        .map((tech) => tech.images)
+                                        .flat(),
+                                }),
+                            ),
+                            catchError((error) =>
+                                of(
+                                    FirebaseActions.getTechnologiesAsideError({
+                                        error,
+                                    }),
+                                ),
+                            ),
+                        );
+                    }),
                     catchError((error) =>
                         of(
                             FirebaseActions.getTechnologiesAsideError({

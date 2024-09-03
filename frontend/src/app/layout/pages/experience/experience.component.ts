@@ -72,8 +72,14 @@ export class ExperienceComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._store$.dispatch(FirebaseActions.getExperienceAside());
-        this._store$.dispatch(FirebaseActions.getWorkExperience());
-        this._store$.dispatch(FirebaseActions.getEducationPlaces());
+        this._store$.dispatch(
+            FirebaseActions.getExperienceAside({ imgName: '' }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getWorkExperience({ imgName: '/companies-logo' }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getEducationPlaces({ imgName: '/certificates' }),
+        );
     }
 }

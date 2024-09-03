@@ -104,10 +104,24 @@ export class TechnologiesComponent implements OnInit {
     }
 
     private _technologiesDispatcher() {
-        this._store$.dispatch(FirebaseActions.getTechnologiesAside());
-        this._store$.dispatch(FirebaseActions.getBackendTech());
-        this._store$.dispatch(FirebaseActions.getFrontendTech());
-        this._store$.dispatch(FirebaseActions.getOtherTech());
+        this._store$.dispatch(
+            FirebaseActions.getTechnologiesAside({ imgName: '' }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getBackendTech({
+                imgName: '/technologies/backend',
+            }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getFrontendTech({
+                imgName: '/technologies/frontend',
+            }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getOtherTech({
+                imgName: '/technologies/other-skills',
+            }),
+        );
     }
 
     constructor(
