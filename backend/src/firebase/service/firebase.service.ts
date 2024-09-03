@@ -1,20 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../utils/firebase.config';
+import * as admin from 'firebase-admin';
 
 @Injectable()
 export class FirebaseService {
-  //   async getImages(): Promise<any> {
-  //     const querySnapshot = await getDocs(collection(db, 'путь/к/изображениям'));
-  //     return querySnapshot.docs.map((doc) => doc.data());
-  //   }
+  private bucket = admin.storage().bucket();
 
-  //   async getFiles(numberItems: number): Promise<any> {
-  //     const querySnapshot = await getDocs(
-  //       collection(db, 'your-collection-name').limit(numberItems),
-  //     );
-  //     return querySnapshot.docs.map((doc) => doc.data());
-  //   }
+  async getImagesByFolder(folder: string): Promise<string[]> {
+    console.log(`Fetching images from folder: ${folder}`);
+    const [files] = await this.bucket.getFiles({ prefix: folder });
+    const base64Images = await Promise.all(
+      files.map(async (file) => {
+        const [buffer] = await file.download();
+        return buffer.toString('base64');
+      }),
+    );
+    return base64Images;
+  }
 
   async getNavigation(): Promise<any> {
     const querySnapshot = await getDocs(collection(db, 'navigation'));

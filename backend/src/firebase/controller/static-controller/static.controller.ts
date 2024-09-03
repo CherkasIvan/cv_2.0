@@ -1,8 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { FirebaseService } from '../service/firebase.service';
+import { FirebaseService } from '../../service/firebase.service';
 
-@Controller('firebase')
-export class FirebaseController {
+@Controller('static')
+export class StaticController {
   constructor(private readonly firebaseService: FirebaseService) {}
 
   // @Get('images')
