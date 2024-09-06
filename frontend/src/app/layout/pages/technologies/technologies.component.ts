@@ -70,6 +70,7 @@ export class TechnologiesComponent implements OnInit {
     );
 
     public technologiesSwitcher(tab: string): void {
+        console.log(tab);
         switch (tab) {
             case 'other':
                 this.otherTech$.subscribe((tech) => {
@@ -83,7 +84,7 @@ export class TechnologiesComponent implements OnInit {
                 this.frontendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
-                        this.selectedTab = 'true'; // Устанавливаем selectedTab в true
+                        this.selectedTab = 'true';
                         this._cdr.markForCheck();
                     }
                 });

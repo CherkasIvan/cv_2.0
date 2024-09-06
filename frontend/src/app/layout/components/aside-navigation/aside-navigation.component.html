@@ -14,6 +14,8 @@
                         {{ navItem.title }}
                     </a>
                 </button>
+                {{ navItem.id === '1' && selectedTab === 'tech' }}
+                {{ navItem | json }}
                 @if (navItem.id === '1' && selectedTab === 'tech') {
                     <section class="skills-switcher">
                         <ul class="skills-list">
