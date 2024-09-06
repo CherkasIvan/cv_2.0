@@ -26,7 +26,7 @@
             },
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:application",
+                    "builder": "@angular-devkit/build-angular:browser",
                     "options": {
                         "allowedCommonJsDependencies": [
                             "undici",
@@ -37,7 +37,7 @@
                         ],
                         "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
-                        "browser": "src/main.ts",
+                        "main": "src/main.ts",
                         "polyfills": ["zone.js"],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
@@ -48,11 +48,7 @@
                         ],
                         "styles": ["src/styles.scss"],
                         "scripts": [],
-                        "server": "src/main.server.ts",
-                        "prerender": true,
-                        "ssr": {
-                            "entry": "server.ts"
-                        }
+                        "serviceWorker": true
                     },
                     "configurations": {
                         "production": {
@@ -69,7 +65,7 @@
                                 }
                             ],
                             "outputHashing": "all",
-                            "serviceWorker": "ngsw-config.json"
+                            "serviceWorker": true
                         },
                         "development": {
                             "optimization": false,
@@ -81,6 +77,9 @@
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "proxyConfig": "proxy.conf.json"
+                    },
                     "configurations": {
                         "production": {
                             "buildTarget": "cv_2.0:build:production"
@@ -116,6 +115,34 @@
                     "builder": "@angular-eslint/builder:lint",
                     "options": {
                         "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+                    }
+                },
+                "server": {
+                    "builder": "@angular-devkit/build-angular:server",
+                    "options": {
+                        "outputPath": "dist/cv_2.0-server",
+                        "main": "src/main.server.ts",
+                        "tsConfig": "tsconfig.server.json"
+                    },
+                    "configurations": {
+                        "production": {
+                            "outputHashing": "media",
+                            "sourceMap": false,
+                            "optimization": true
+                        },
+                        "development": {
+                            "sourceMap": true,
+                            "optimization": false
+                        }
+                    },
+                    "defaultConfiguration": "production"
+                },
+                "prerender": {
+                    "builder": "@nguniversal/builders:prerender",
+                    "options": {
+                        "browserTarget": "cv_2.0:build:production",
+                        "serverTarget": "cv_2.0:server:production",
+                        "routes": ["/"]
                     }
                 }
             }

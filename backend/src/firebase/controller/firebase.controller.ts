@@ -15,9 +15,8 @@ export class FirebaseController {
   // return await this.firebaseService.getFiles(numberItems);
   // }
 
-  @Get('images/:folder')
+  @Get('images/:folder*')
   async getImagesByFolder(@Param('folder') folder: string) {
-    console.log(`Fetching images from folder: ${folder}`);
     const images = await this.firebaseService.getImagesByFolder(folder);
     return images;
   }
@@ -40,21 +39,22 @@ export class FirebaseController {
     return workExperience;
   }
 
-  @Get('backend-tech')
+  @Get('backend')
   async getBackendTech() {
     const backendTech = await this.firebaseService.getBackendTech();
     return backendTech;
   }
 
-  @Get('other-tech')
+  @Get('other')
   async getOtherTech() {
     const otherTech = await this.firebaseService.getOtherTech();
     return otherTech;
   }
 
-  @Get('frontend-tech')
+  @Get('frontend')
   async getFrontendTech() {
     const frontendTech = await this.firebaseService.getFrontendTech();
+    console.log(frontendTech);
     return frontendTech;
   }
 

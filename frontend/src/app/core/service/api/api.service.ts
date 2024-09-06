@@ -1,4 +1,4 @@
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -16,29 +16,27 @@ import { IWorkExperience } from '@app/core/models/work-experience.interface';
     providedIn: 'root',
 })
 export class ApiService {
-    private baseUrl = 'http://localhost:3000';
+    private baseUrl = '/api';
 
     constructor(private http: HttpClient) {}
 
     getBackendTech(): Observable<ITechnologies[]> {
         console.log('СРАБОТАЛО');
         return this.http.get<ITechnologies[]>(
-            `${this.baseUrl}/firebase/backend-tech`,
+            `${this.baseUrl}/firebase/backend`,
         );
     }
 
     getFrontendTech(): Observable<ITechnologies[]> {
         console.log('СРАБОТАЛО');
         return this.http.get<ITechnologies[]>(
-            `${this.baseUrl}/firebase/frontend-tech`,
+            `${this.baseUrl}/firebase/frontend`,
         );
     }
 
     getOtherTech(): Observable<ITechnologies[]> {
         console.log('СРАБОТАЛО');
-        return this.http.get<ITechnologies[]>(
-            `${this.baseUrl}/firebase/other-tech`,
-        );
+        return this.http.get<ITechnologies[]>(`${this.baseUrl}/firebase/other`);
     }
 
     getNavigation(): Observable<INavigation[]> {
@@ -96,7 +94,11 @@ export class ApiService {
         );
     }
 
-    getImages(folder: string): Observable<string[]> {
+    getImages(folder?: string): Observable<string[] | undefined> {
+        if (!folder) {
+            return of(undefined);
+        }
+        console.log(folder);
         return this.http.get<string[]>(
             `${this.baseUrl}/firebase/images/${folder}`,
         );

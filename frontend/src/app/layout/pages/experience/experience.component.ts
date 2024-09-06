@@ -76,10 +76,10 @@ export class ExperienceComponent implements OnInit {
             FirebaseActions.getExperienceAside({ imgName: '' }),
         );
         this._store$.dispatch(
-            FirebaseActions.getWorkExperience({ imgName: '/companies-logo' }),
+            FirebaseActions.getWorkExperience({ imgName: 'companies-logo' }),
         );
         this._store$.dispatch(
-            FirebaseActions.getEducationPlaces({ imgName: '/certificates' }),
+            FirebaseActions.getEducationPlaces({ imgName: 'certificates' }),
         );
     }
 }

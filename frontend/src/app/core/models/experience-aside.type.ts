@@ -3,5 +3,5 @@ export type TExperienceAside = {
     title: string;
     value: string;
     imgName?: string;
-    images: string[];
+    images?: string[];
 };
