@@ -83,6 +83,7 @@ export class TechnologiesComponent implements OnInit {
                 this.frontendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
+                        this.selectedTab = 'true'; // Устанавливаем selectedTab в true
                         this._cdr.markForCheck();
                     }
                 });
@@ -109,17 +110,17 @@ export class TechnologiesComponent implements OnInit {
         );
         this._store$.dispatch(
             FirebaseActions.getBackendTech({
-                imgName: '/technologies/backend',
+                imgName: 'technologies/backend',
             }),
         );
         this._store$.dispatch(
             FirebaseActions.getFrontendTech({
-                imgName: '/technologies/frontend',
+                imgName: 'technologies/frontend',
             }),
         );
         this._store$.dispatch(
             FirebaseActions.getOtherTech({
-                imgName: '/technologies/other-skills',
+                imgName: 'technologies/other',
             }),
         );
     }
@@ -127,18 +128,9 @@ export class TechnologiesComponent implements OnInit {
     constructor(
         private _cdr: ChangeDetectorRef,
         private _store$: Store<IDarkMode>,
-        private _apiService: ApiService,
     ) {}
 
     ngOnInit(): void {
-        this._apiService.getBackendTech().subscribe((response) => {
-            console.log('Data from responce:', response);
-            this.data = response;
-            console.log('Data from backend:', this.data);
-        });
-        this._apiService.getImages('certificates').subscribe((response) => {
-            console.log('Data from images:', response);
-        });
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
     }

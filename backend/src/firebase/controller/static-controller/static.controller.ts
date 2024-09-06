@@ -40,19 +40,19 @@ export class StaticController {
     return workExperience;
   }
 
-  @Get('backend-tech')
+  @Get('backend')
   async getBackendTech() {
     const backendTech = await this.firebaseService.getBackendTech();
     return backendTech;
   }
 
-  @Get('other-tech')
+  @Get('other')
   async getOtherTech() {
     const otherTech = await this.firebaseService.getOtherTech();
     return otherTech;
   }
 
-  @Get('frontend-tech')
+  @Get('frontend')
   async getFrontendTech() {
     const frontendTech = await this.firebaseService.getFrontendTech();
     return frontendTech;
