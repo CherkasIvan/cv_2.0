@@ -60,8 +60,8 @@ export class StaticController {
 
   @Get('hard-skills-nav')
   async getHardSkillsNav() {
-    const hardkillsNav = await this.firebaseService.getHardSkillsNav();
-    return hardkillsNav;
+    const hardSkillsNav = await this.firebaseService.getHardSkillsNav();
+    return hardSkillsNav;
   }
 
   @Get('education-places')
