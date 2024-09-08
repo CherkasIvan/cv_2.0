@@ -4,5 +4,5 @@ export interface INavigation {
     position: number;
     value: string;
     imgName: string;
-    images: string[];
+    images?: string[];
 }

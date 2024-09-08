@@ -1,5 +1,5 @@
 export type TTechnologiesAside = {
-    images: string[];
+    images?: string[];
     id: string;
     title: string;
     value: string;

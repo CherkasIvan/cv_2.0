@@ -25,6 +25,7 @@
     "@nestjs/core": "^10.4.1",
     "@nestjs/platform-express": "^10.4.1",
     "axios": "^1.7.5",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "firebase": "^10.13.1",
     "firebase-admin": "^12.4.0",

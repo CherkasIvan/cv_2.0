@@ -9,5 +9,5 @@ export interface IWorkExperience {
     specialization: string;
     workTime?: string;
     imgName: string;
-    images: string[];
+    images?: string[];
 }

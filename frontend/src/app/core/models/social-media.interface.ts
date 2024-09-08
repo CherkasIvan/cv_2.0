@@ -1,5 +1,5 @@
 export interface ISocialMedia {
-    images: string[];
+    images?: string[];
     id: string;
     link: string;
     value: string;

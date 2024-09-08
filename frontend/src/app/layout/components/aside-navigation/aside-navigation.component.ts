@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -26,7 +26,7 @@ import { selectHardSkillsNav } from '@app/layout/store/firebase-store/firebase.s
 @Component({
     selector: 'cv-aside-navigation',
     standalone: true,
-    imports: [NgClass, RouterLinkActive, AsyncPipe],
+    imports: [NgClass, RouterLinkActive, AsyncPipe, JsonPipe],
     templateUrl: './aside-navigation.component.html',
     styleUrls: [
         './aside-navigation.component.scss',
@@ -47,7 +47,7 @@ export class AsideNavigationComponent implements OnChanges {
         TExperienceAside[]
     >([]);
     public currentSkills: string = '';
-    public selectedTab: string = '';
+    public selectedTab: string = 'tech';
 
     constructor(
         private cdr: ChangeDetectorRef,
@@ -86,19 +86,18 @@ export class AsideNavigationComponent implements OnChanges {
             );
 
             this.selectedTab === '' ? this._tab() : this.selectedTab;
-            this.selectedTab === 'tech'
-                ? this.hardSkillsNavigation$.subscribe(
-                      (skills: INavigation[]) => {
-                          skills.find((skill) => {
-                              if (skill.id === '1') {
-                                  this.currentSkills = skill.link;
-                                  console.log(this.currentSkills);
-                                  this.changeSkillsList(skill.link);
-                              }
-                          });
-                      },
-                  )
-                : null;
+            if (this.selectedTab === 'tech') {
+                this.hardSkillsNavigation$.subscribe(
+                    (skills: INavigation[]) => {
+                        const skill = skills.find((skill) => skill.id === '1');
+                        if (skill) {
+                            this.currentSkills = skill.link;
+                            console.log(this.currentSkills);
+                            this.changeSkillsList(skill.link);
+                        }
+                    },
+                );
+            }
             this.cdr.detectChanges();
             this.emittedTab.emit(this.currentSkills);
         }
