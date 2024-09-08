@@ -8,5 +8,5 @@ export interface IMainPageInfo {
     stack: string;
     status: string;
     imgName: string;
-    images: string[];
+    images?: string[];
 }

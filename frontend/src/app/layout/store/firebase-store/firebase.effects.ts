@@ -261,14 +261,23 @@ export class FirebaseEffects {
                             }
                         });
                         return forkJoin(imageRequests).pipe(
-                            map((updatedTechnologiesAside) =>
-                                FirebaseActions.getTechnologiesAsideSuccess({
-                                    technologiesAside: updatedTechnologiesAside,
-                                    images: updatedTechnologiesAside
-                                        .map((tech) => tech.images)
-                                        .flat(),
-                                }),
-                            ),
+                            map((updatedTechnologiesAside) => {
+                                const images = updatedTechnologiesAside
+                                    .map((tech) => tech.images)
+                                    .flat()
+                                    .filter(
+                                        (image): image is string =>
+                                            image !== undefined,
+                                    );
+
+                                return FirebaseActions.getTechnologiesAsideSuccess(
+                                    {
+                                        technologiesAside:
+                                            updatedTechnologiesAside,
+                                        images,
+                                    },
+                                );
+                            }),
                             catchError((error) =>
                                 of(
                                     FirebaseActions.getTechnologiesAsideError({

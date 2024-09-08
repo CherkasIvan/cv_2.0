@@ -16,77 +16,77 @@ export const FirebaseActions = createActionGroup({
         getNavigation: props<{ imgName: string }>(),
         getNavigationSuccess: props<{
             navigation: INavigation[];
-            images: string[];
+            images?: string[];
         }>(),
         getNavigationError: props<{ error: unknown }>(),
 
         getSocialMedia: props<{ imgName: string }>(),
         getSocialMediaSuccess: props<{
             socialMediaLinks: ISocialMedia[];
-            images: string[];
+            images?: string[];
         }>(),
         getSocialMediaError: props<{ error: unknown }>(),
 
         getWorkExperience: props<{ imgName: string }>(),
         getWorkExperienceSuccess: props<{
             workExperience: IWorkExperience[];
-            images: string[];
+            images?: string[];
         }>(),
         getWorkExperienceError: props<{ error: unknown }>(),
 
         getFrontendTech: props<{ imgName: string }>(),
         getFrontendTechSuccess: props<{
             frontendTech: ITechnologies[];
-            images: string[];
+            images?: string[];
         }>(),
         getFrontendTechError: props<{ error: unknown }>(),
 
         getBackendTech: props<{ imgName: string }>(),
         getBackendTechSuccess: props<{
             backendTech: ITechnologies[];
-            images: string[];
+            images?: string[];
         }>(),
         getBackendTechError: props<{ error: unknown }>(),
 
         getOtherTech: props<{ imgName: string }>(),
         getOtherTechSuccess: props<{
             otherTech: ITechnologies[];
-            images: string[];
+            images?: string[];
         }>(),
         getOtherTechError: props<{ error: unknown }>(),
 
         getHardSkillsNav: props<{ imgName: string }>(),
         getHardSkillsNavSuccess: props<{
             hardSkillsNav: INavigation[];
-            images: string[];
+            images?: string[];
         }>(),
         getHardSkillsNavError: props<{ error: unknown }>(),
 
         getEducationPlaces: props<{ imgName: string }>(),
         getEducationPlacesSuccess: props<{
             education: IEducationExperience[];
-            images: string[];
+            images?: string[];
         }>(),
         getEducationPlacesError: props<{ error: unknown }>(),
 
         getMainPageInfo: props<{ imgName: string }>(),
         getMainPageInfoSuccess: props<{
             mainPageInfo: IMainPageInfo;
-            images: string[];
+            images?: string[];
         }>(),
         getMainPageInfoError: props<{ error: unknown }>(),
 
         getExperienceAside: props<{ imgName: string }>(),
         getExperienceAsideSuccess: props<{
             experienceAside: TExperienceAside[];
-            images: string[];
+            images?: string[];
         }>(),
         getExperienceAsideError: props<{ error: unknown }>(),
 
         getTechnologiesAside: props<{ imgName: string }>(),
         getTechnologiesAsideSuccess: props<{
             technologiesAside: TTechnologiesAside[];
-            images: string[];
+            images?: string[];
         }>(),
         getTechnologiesAsideError: props<{ error: unknown }>(),
     },
