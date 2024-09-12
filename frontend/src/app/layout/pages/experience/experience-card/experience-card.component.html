@@ -29,16 +29,18 @@
                 </span>
                 <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
             </div>
-            <button class="card-button">
-                <img
-                    [src]="
-                        !theme()
-                            ? 'assets/images/white-mode/icons/arrow-wm.svg'
-                            : 'assets/images/dark-mode/icons/arrow-dm.svg'
-                    "
-                    [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
-                />
-            </button>
+            <div class="card-button__container">
+                <button class="card-button">
+                    <img
+                        [src]="
+                            !theme()
+                                ? 'assets/images/white-mode/icons/arrow-wm.svg'
+                                : 'assets/images/dark-mode/icons/arrow-dm.svg'
+                        "
+                        [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
+                    />
+                </button>
+            </div>
         </article>
     }
     @case ('education') {
@@ -63,16 +65,18 @@
                     />
                 </div>
             }
-            <button class="card-button">
-                <img
-                    [src]="
-                        !theme()
-                            ? 'assets/images/white-mode/icons/download-wm.svg'
-                            : 'assets/images/dark-mode/icons/download-dm.svg'
-                    "
-                    [alt]="!theme() ? 'download-wm.svg' : 'download-dm.svg'"
-                />
-            </button>
+            <div class="card-button__container">
+                <button class="card-button">
+                    <img
+                        [src]="
+                            !theme()
+                                ? 'assets/images/white-mode/icons/download-wm.svg'
+                                : 'assets/images/dark-mode/icons/download-dm.svg'
+                        "
+                        [alt]="!theme() ? 'download-wm.svg' : 'download-dm.svg'"
+                    />
+                </button>
+            </div>
             <div class="card-info">
                 <span class="card-info_place">курс</span>
                 <span class="card-info_place-name">
@@ -116,16 +120,18 @@
                 </span>
                 <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
             </div>
-            <button class="card-button">
-                <img
-                    [src]="
-                        !theme()
-                            ? 'assets/images/white-mode/icons/arrow-wm.svg'
-                            : 'assets/images/dark-mode/icons/arrow-dm.svg'
-                    "
-                    [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
-                />
-            </button>
+            <div class="card-button__container">
+                <button class="card-button">
+                    <img
+                        [src]="
+                            !theme()
+                                ? 'assets/images/white-mode/icons/arrow-wm.svg'
+                                : 'assets/images/dark-mode/icons/arrow-dm.svg'
+                        "
+                        [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
+                    />
+                </button>
+            </div>
         </article>
     }
 }

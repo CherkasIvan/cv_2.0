@@ -1,14 +1,18 @@
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgSwitch } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+} from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
-import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
@@ -20,6 +24,7 @@ import {
     selectWorkExperience,
 } from '@app/layout/store/firebase-store/firebase.selectors';
 
+import { AsideNavigationExperienceComponent } from '../../components/aside-navigation-experience/aside-navigation-experience.component';
 import { EducationExperienceComponent } from './education-experience/education-experience.component';
 import { WorkExperienceComponent } from './work-experience/work-experience.component';
 
@@ -30,8 +35,9 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
         EducationExperienceComponent,
         WorkExperienceComponent,
         NgSwitch,
-        AsideNavigationComponent,
+        AsideNavigationExperienceComponent,
         AsyncPipe,
+        AsideNavigationExperienceComponent,
     ],
     templateUrl: './experience.component.html',
     styleUrl: './experience.component.scss',
@@ -56,6 +62,7 @@ export class ExperienceComponent implements OnInit {
 
     public switchTab($event: string) {
         this.selectedTab = $event;
+        this._cd.detectChanges();
     }
 
     constructor(
@@ -65,13 +72,11 @@ export class ExperienceComponent implements OnInit {
             | IEducationExperience
             | TExperienceAside
         >,
-    ) {
-        this.selectedTab === ''
-            ? (this.selectedTab = 'work')
-            : this.selectedTab;
-    }
+        private _cd: ChangeDetectorRef,
+    ) {}
 
     ngOnInit(): void {
+        this.switchTab('work');
         this._store$.dispatch(
             FirebaseActions.getExperienceAside({ imgName: '' }),
         );

@@ -23,18 +23,26 @@ import { INavigation } from '@core/models/navigation.interface';
 import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@app/layout/store/firebase-store/firebase.selectors';
 
+import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-subtechnologies/aside-navigation-subtechnologies.component';
+
 @Component({
-    selector: 'cv-aside-navigation',
+    selector: 'cv-aside-navigation-technologies',
     standalone: true,
-    imports: [NgClass, RouterLinkActive, AsyncPipe, JsonPipe],
-    templateUrl: './aside-navigation.component.html',
+    imports: [
+        NgClass,
+        RouterLinkActive,
+        AsyncPipe,
+        JsonPipe,
+        AsideNavigationSubtechnologiesComponent,
+    ],
+    templateUrl: './aside-navigation-technologies.component.html',
     styleUrls: [
-        './aside-navigation.component.scss',
-        './aside-navigation-dm/aside-navigation-dm.component.scss',
+        './aside-navigation-technologies.component.scss',
+        './aside-navigation-technologies-dm/aside-navigation-technologies-dm.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AsideNavigationComponent implements OnChanges {
+export class AsideNavigationTechnologiesComponent implements OnChanges {
     @Output() public emittedTab = new EventEmitter<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
@@ -53,6 +61,10 @@ export class AsideNavigationComponent implements OnChanges {
         private cdr: ChangeDetectorRef,
         private _store$: Store<INavigation>,
     ) {}
+
+    public tabForRoute(event: any) {
+        this.emittedTab.emit(event);
+    }
 
     public changeTab(tab: string) {
         this.selectedTab = tab;
@@ -79,7 +91,6 @@ export class AsideNavigationComponent implements OnChanges {
     }
 
     ngOnChanges(): void {
-        console.log(this.navigationList());
         if (this.navigationList().length) {
             this._store$.dispatch(
                 FirebaseActions.getHardSkillsNav({ imgName: '' }),
@@ -92,7 +103,6 @@ export class AsideNavigationComponent implements OnChanges {
                         const skill = skills.find((skill) => skill.id === '1');
                         if (skill) {
                             this.currentSkills = skill.link;
-                            console.log(this.currentSkills);
                             this.changeSkillsList(skill.link);
                         }
                     },
@@ -101,5 +111,18 @@ export class AsideNavigationComponent implements OnChanges {
             this.cdr.detectChanges();
             this.emittedTab.emit(this.currentSkills);
         }
+    }
+
+    ngOnInit(): void {
+        this._store$.dispatch(
+            FirebaseActions.getHardSkillsNav({ imgName: '' }),
+        );
+        this.hardSkillsNavigation$.subscribe((skills: INavigation[]) => {
+            const skill = skills.find((skill) => skill.id === '1');
+            if (skill) {
+                this.currentSkills = skill.link;
+                this.cdr.detectChanges(); // Trigger change detection manually
+            }
+        });
     }
 }
