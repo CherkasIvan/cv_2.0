@@ -11,7 +11,8 @@
         "coverage": "ng test --no-watch --code-coverage",
         "lint": "ng lint",
         "serve": "node server.js",
-        "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs"
+        "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs",
+        "heroku-postbuild": "ng build — prod"
     },
     "private": true,
     "dependencies": {

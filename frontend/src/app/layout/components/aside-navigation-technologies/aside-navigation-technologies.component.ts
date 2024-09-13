@@ -121,7 +121,7 @@ export class AsideNavigationTechnologiesComponent implements OnChanges {
             const skill = skills.find((skill) => skill.id === '1');
             if (skill) {
                 this.currentSkills = skill.link;
-                this.cdr.detectChanges(); // Trigger change detection manually
+                this.cdr.detectChanges();
             }
         });
     }
