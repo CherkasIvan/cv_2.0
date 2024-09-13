@@ -1,10 +1,10 @@
 <div class="technologies">
     <aside class="technologies_navigation">
-        <cv-aside-navigation
+        <cv-aside-navigation-technologies
             [navigationList]="(technologiesAside$ | async) ?? []"
             [theme]="currentTheme$ | async"
             (emittedTab)="switchTab($event)"
-        ></cv-aside-navigation>
+        ></cv-aside-navigation-technologies>
     </aside>
     <section class="technologies_stack">
         @for (technology of currentTechnologiesStack; track technology.id; let i = $index) {

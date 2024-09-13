@@ -14,11 +14,10 @@ import { EvenColumnDirective } from '@core/directives/even-column.directive';
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 
-import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
-import { ApiService } from '@app/core/service/api/api.service';
+import { AsideNavigationTechnologiesComponent } from '@app/layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
 import {
     selectBackendTech,
@@ -33,7 +32,7 @@ import { TechnologyCardComponent } from './components/technology-card/technology
     selector: 'cv-technologies',
     standalone: true,
     imports: [
-        AsideNavigationComponent,
+        AsideNavigationTechnologiesComponent,
         TechnologyCardComponent,
         AsyncPipe,
         NgClass,
@@ -70,7 +69,6 @@ export class TechnologiesComponent implements OnInit {
     );
 
     public technologiesSwitcher(tab: string): void {
-        console.log(tab);
         switch (tab) {
             case 'other':
                 this.otherTech$.subscribe((tech) => {
@@ -84,7 +82,6 @@ export class TechnologiesComponent implements OnInit {
                 this.frontendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
-                        this.selectedTab = 'true';
                         this._cdr.markForCheck();
                     }
                 });
