@@ -1,0 +1,23 @@
+<section class="skills-switcher">
+    @if (hardSkillsNavigation$ | async) {
+        <ul class="skills-list">
+            @for (skillItem of hardSkillsNavigation$ | async; track skillItem.id; let i = $index) {
+                <li class="skill-item">
+                    @if (currentSkills && skillItem.link) {
+                        <a
+                            class="skill-item_link"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{
+                                exact: true,
+                            }"
+                            [ngClass]="{ 'active-link': changeRoutNavigation(skillItem.link) }"
+                            (click)="changeSkillsList(skillItem.link)"
+                        >
+                            {{ skillItem.value }}
+                        </a>
+                    }
+                </li>
+            }
+        </ul>
+    }
+</section>

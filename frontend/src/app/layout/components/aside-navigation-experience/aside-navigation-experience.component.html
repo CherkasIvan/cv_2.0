@@ -1,0 +1,22 @@
+<aside
+    class="aside-navigation"
+    [ngClass]="{ 'dark-theme': theme() }"
+>
+    <ul class="navigation-list">
+        @for (navItem of navigationList(); track navItem.id) {
+            <li class="navigation_item">
+                <button
+                    type="button"
+                    class="item-button"
+                    (click)="changeTab(navItem.value)"
+                >
+                    <a [ngClass]="{ active: selectedTab === navItem.value }">
+                        {{ navItem.title }}
+                    </a>
+                </button>
+            </li>
+        } @empty {
+            Empty list
+        }
+    </ul>
+</aside>
