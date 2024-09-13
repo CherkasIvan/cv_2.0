@@ -8,7 +8,6 @@ export class FirebaseService {
   private bucket = admin.storage().bucket();
 
   async getImagesByFolder(folder: string): Promise<string[]> {
-    console.log(`Fetching images from folder: ${folder}`);
     const [files] = await this.bucket.getFiles({ prefix: folder });
     const base64Images = await Promise.all(
       files.map(async (file) => {

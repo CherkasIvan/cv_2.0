@@ -15,7 +15,7 @@ import { IEducationExperience } from '@app/core/models/education.interface';
 })
 export class EducationExperienceComponent {
     public selectedTabEducation = input<string>('');
-    public educationExperience = input.required<
+    public educationExperience$ = input.required<
         IEducationExperience[] | null
     >();
     public theme = input<boolean | null>();
