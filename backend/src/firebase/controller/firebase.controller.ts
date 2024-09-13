@@ -54,7 +54,6 @@ export class FirebaseController {
   @Get('frontend')
   async getFrontendTech() {
     const frontendTech = await this.firebaseService.getFrontendTech();
-    console.log(frontendTech);
     return frontendTech;
   }
 

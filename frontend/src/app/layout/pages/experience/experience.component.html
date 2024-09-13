@@ -1,10 +1,10 @@
 <div class="experience">
     <aside class="experience_navigation">
-        <cv-aside-navigation
+        <cv-aside-navigation-experience
             [navigationList]="(experienceAside$ | async) ?? []"
             (emittedTab)="switchTab($event)"
             [theme]="currentTheme$ | async"
-        ></cv-aside-navigation>
+        ></cv-aside-navigation-experience>
     </aside>
     <section class="experience_places">
         @switch (selectedTab) {
@@ -18,7 +18,7 @@
             @case ('education') {
                 <cv-education-experience
                     [selectedTabEducation]="selectedTab"
-                    [educationExperience]="educationPlace$ | async"
+                    [educationExperience$]="educationPlace$ | async"
                     [theme]="currentTheme$ | async"
                 ></cv-education-experience>
             }

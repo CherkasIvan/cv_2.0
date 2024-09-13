@@ -87,7 +87,11 @@ export const appConfig: ApplicationConfig = {
                 AuthEffects,
                 GithubRepositoriesEffects,
             ]),
-            StoreModule.forRoot(localStorageSyncReducer, { metaReducers }),
+            StoreModule.forFeature(
+                'localStorageSyncReducer',
+                localStorageSyncReducer,
+                { metaReducers },
+            ),
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('firebase', firebaseReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),

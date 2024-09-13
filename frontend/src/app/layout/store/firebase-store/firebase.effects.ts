@@ -86,9 +86,6 @@ export class FirebaseEffects {
     loadFrontendTech$ = createEffect(() =>
         this.actions$.pipe(
             ofType(FirebaseActions.getFrontendTech),
-            tap((action) =>
-                console.log('Dispatching getFrontendTech:', action),
-            ),
             mergeMap((action) =>
                 forkJoin({
                     frontendTech: this._apiService.getFrontendTech(),

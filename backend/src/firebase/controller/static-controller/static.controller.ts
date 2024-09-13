@@ -17,7 +17,6 @@ export class StaticController {
 
   @Get('images/:folder')
   async getImagesByFolder(@Param('folder') folder: string) {
-    console.log(`Fetching images from folder: ${folder}`);
     const images = await this.firebaseService.getImagesByFolder(folder);
     return images;
   }
