@@ -38,10 +38,7 @@
                         "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": [
-                          "zone.js",
-                          "@angular/localize/init"
-                        ],
+                        "polyfills": ["zone.js", "@angular/localize/init"],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
                         "assets": [
@@ -103,9 +100,9 @@
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
                         "polyfills": [
-                          "zone.js",
-                          "zone.js/testing",
-                          "@angular/localize/init"
+                            "zone.js",
+                            "zone.js/testing",
+                            "@angular/localize/init"
                         ],
                         "tsConfig": "tsconfig.spec.json",
                         "inlineStyleLanguage": "scss",
@@ -130,9 +127,7 @@
                         "outputPath": "dist/cv_2.0-server",
                         "main": "src/main.server.ts",
                         "tsConfig": "tsconfig.server.json",
-                        "polyfills": [
-                          "@angular/localize/init"
-                        ]
+                        "polyfills": ["@angular/localize/init"]
                     },
                     "configurations": {
                         "production": {
