@@ -85,15 +85,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this._router.events
                 .pipe(takeUntil(this._destroyed$))
                 .subscribe((event) => {
-                    event instanceof NavigationEnd
-                        ? (this.currentRoute = event.url)
-                        : null;
+                    if (event instanceof NavigationEnd) {
+                        this.currentRoute = event.url;
+                        this._localStorageService.updateCurrentRoute(
+                            this.currentRoute,
+                        );
+                    }
                 }),
         );
         this._store$.pipe(takeUntil(this._destroyed$), select(selectAuth));
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
 
+        this._localStorageService.redirectToSavedRoute();
         this._cdr.markForCheck();
     }
 

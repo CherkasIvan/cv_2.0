@@ -6,10 +6,7 @@ import { Store } from '@ngrx/store';
 
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
 import { IDarkMode } from '@layout/store/model/dark-mode.interface';
-
-import { LocalStorageService } from '@app/core/service/local-storage/local-storage.service';
-import { LocalstorageActions } from '@app/layout/store/localstorage-store/localstorage.actions';
-import { TLocalstorageUser } from '@app/layout/store/model/localstorage-user.interface';
+import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
 
 @Component({
     selector: 'cv-dark-mode-toggle',
@@ -25,9 +22,6 @@ export class DarkModeToggleComponent implements OnInit {
     public changeView(): void {
         this.isChecked = !this.isChecked;
         this._store$.dispatch(setModeSuccess(this.isChecked));
-        this._store$.dispatch(
-            LocalstorageActions.updateMode({ isDark: this.isChecked }),
-        );
     }
 
     constructor(private _store$: Store<IDarkMode | TLocalstorageUser>) {}
@@ -37,9 +31,6 @@ export class DarkModeToggleComponent implements OnInit {
         if (userState !== null) {
             const parsedUserState: TLocalstorageUser = JSON.parse(userState);
             this.isChecked = parsedUserState.isDark;
-            this._store$.dispatch(
-                LocalstorageActions.updateMode({ isDark: this.isChecked }),
-            );
         }
     }
 }

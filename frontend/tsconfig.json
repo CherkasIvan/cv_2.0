@@ -8,7 +8,7 @@
             "@env/*": ["environments/*"],
             "@utils/*": ["utils/*"],
             "@store/*": ["app/store/*"],
-            "@app/*": ["app/*"],
+            "@*": ["app/*"],
             "@assets/*": ["assets/*"],
             "@pages/*": ["app/pages/*"],
             "@core/*": ["app/core/*"],

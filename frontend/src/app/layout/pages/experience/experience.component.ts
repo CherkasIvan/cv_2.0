@@ -10,19 +10,18 @@ import {
 
 import { Store, select } from '@ngrx/store';
 
+import { IEducationExperience } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
-
-import { IEducationExperience } from '@app/core/models/education.interface';
-import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import {
     selectEducation,
     selectExperienceAside,
     selectWorkExperience,
-} from '@app/layout/store/firebase-store/firebase.selectors';
+} from '@layout/store/firebase-store/firebase.selectors';
+import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 import { AsideNavigationExperienceComponent } from '../../components/aside-navigation-experience/aside-navigation-experience.component';
 import { EducationExperienceComponent } from './education-experience/education-experience.component';
@@ -37,7 +36,6 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
         NgSwitch,
         AsideNavigationExperienceComponent,
         AsyncPipe,
-        AsideNavigationExperienceComponent,
     ],
     templateUrl: './experience.component.html',
     styleUrl: './experience.component.scss',

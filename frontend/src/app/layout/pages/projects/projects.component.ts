@@ -5,12 +5,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
-import { TGitHub } from '@app/core/models/github.type';
-import { ButtonComponent } from '@app/layout/components/button/button.component';
-import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
-import { GithubRepositoriesActions } from '@app/layout/store/github-projects-store/github-projects.action';
-import { selectGithubRepositories } from '@app/layout/store/github-projects-store/github-projects.selector';
-import { IDarkMode } from '@app/layout/store/model/dark-mode.interface';
+import { TGitHub } from '@core/models/github.type';
+
+import { ButtonComponent } from '@layout/components/button/button.component';
+import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
+import { GithubRepositoriesActions } from '@layout/store/github-projects-store/github-projects.action';
+import { selectGithubRepositories } from '@layout/store/github-projects-store/github-projects.selector';
+import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 import { ProjectChipsComponent } from './components/project-chips/project-chips.component';
 
