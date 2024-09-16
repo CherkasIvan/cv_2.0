@@ -36,6 +36,7 @@
         "@ngrx/signals": "^18.0.2",
         "@ngrx/store": "18.0.2",
         "@ngrx/store-devtools": "18.0.2",
+        "dexie": "^4.0.8",
         "express": "^4.19.2",
         "firebase": "^10.12.5",
         "ngrx-store-localstorage": "^18.0.0",

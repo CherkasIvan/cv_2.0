@@ -8,7 +8,7 @@ import {
     OnInit,
 } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
@@ -18,6 +18,7 @@ import { routeAnimations } from '@core/utils/animations/router-animations';
 
 import { IEducationExperience } from '@app/core/models/education.interface';
 import { IWorkExperience } from '@app/core/models/work-experience.interface';
+import { IndexedDbService } from '@app/core/service/indexed-db/indexed-db.service';
 
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
 import { ExperienceDialogComponent } from './components/experience-dialog/experience-dialog.component';
@@ -84,6 +85,8 @@ export class LayoutComponent implements OnInit {
     );
 
     constructor(
+        private _indexedDb: IndexedDbService,
+        private _router: Router,
         private _store$: Store<
             IDarkMode | INavigation | ISocialMedia | { modal: ModalState }
         >,
@@ -104,6 +107,22 @@ export class LayoutComponent implements OnInit {
             select(selectIsModalOpen),
         );
         this.modalData$ = this._store$.pipe(select(selectModalData));
+        this._indexedDb.isFirstTime().subscribe((isFirstTime) => {
+            if (isFirstTime) {
+                this._router.navigate(['/layout/main']);
+            } else {
+                this._indexedDb.getRoute().subscribe((route) => {
+                    this._router.navigate([
+                        route.currentRoute || '/layout/main',
+                    ]);
+                });
+            }
+        });
+
+        this._router.events.subscribe(() => {
+            const currentRoute = this._router.url;
+            this._indexedDb.setRoute({ currentRoute }).subscribe();
+        });
     }
 
     public prepareRoute(outlet: RouterOutlet) {
