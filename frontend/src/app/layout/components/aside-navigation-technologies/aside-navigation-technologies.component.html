@@ -14,7 +14,7 @@
                         {{ navItem.title }}
                     </a>
                 </button>
-                @if (navItem.id === '1' && selectedTab === 'tech') {
+                @if (navItem.id === '1' && selectedTab === 'technologies') {
                     <cv-aside-navigation-subtechnologies
                         (emittedTab)="tabForRoute($event)"
                     ></cv-aside-navigation-subtechnologies>
