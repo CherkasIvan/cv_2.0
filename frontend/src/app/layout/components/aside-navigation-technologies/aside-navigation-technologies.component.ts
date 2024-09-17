@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
 import {
@@ -7,21 +7,21 @@ import {
     Component,
     EventEmitter,
     InputSignal,
-    OnChanges,
+    OnDestroy,
     OnInit,
     Output,
-    computed,
     input,
 } from '@angular/core';
 import { RouterLinkActive } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
-import { TExperienceAside } from '@core/models/experience-aside.type';
 import { INavigation } from '@core/models/navigation.interface';
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
+import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
-import { selectHardSkillsNav } from '@app/layout/store/firebase-store/firebase.selectors';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
 
 import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-subtechnologies/aside-navigation-subtechnologies.component';
 
@@ -42,7 +42,7 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AsideNavigationTechnologiesComponent implements OnChanges {
+export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
     @Output() public emittedTab = new EventEmitter<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
@@ -51,24 +51,24 @@ export class AsideNavigationTechnologiesComponent implements OnChanges {
 
     public theme = input<boolean | null>(false);
 
-    public navigationList: InputSignal<TExperienceAside[]> = input<
-        TExperienceAside[]
+    public navigationList: InputSignal<TTechnologiesAside[]> = input<
+        TTechnologiesAside[]
     >([]);
     public currentSkills: string = '';
-    public selectedTab: string = 'tech';
+    public selectedTab: 'technologies' | 'other' = 'technologies';
+
+    private _destroyed$: Subject<void> = new Subject();
 
     constructor(
         private cdr: ChangeDetectorRef,
         private _store$: Store<INavigation>,
+        private _localStorageService: LocalStorageService,
     ) {}
 
-    public tabForRoute(event: any) {
-        this.emittedTab.emit(event);
-    }
-
-    public changeTab(tab: string) {
+    public changeTab(tab: 'technologies' | 'other') {
         this.selectedTab = tab;
-        if (this.currentSkills && this.selectedTab === 'tech') {
+        this._localStorageService.saveSelectedTechnologiesTab(tab);
+        if (this.currentSkills && this.selectedTab === 'technologies') {
             this.emittedTab.emit(this.currentSkills);
         } else {
             this.emittedTab.emit(this.selectedTab);
@@ -76,44 +76,19 @@ export class AsideNavigationTechnologiesComponent implements OnChanges {
         this.cdr.detectChanges();
     }
 
-    private _tab = computed(() => {
-        this.navigationList().find((el: any) => {
-            if (el.id === '1') {
-                this.selectedTab = el.value;
-            }
-        });
-    });
-
     public changeSkillsList(tab: string) {
         this.currentSkills = tab;
         this.emittedTab.emit(this.currentSkills);
         this.cdr.detectChanges();
     }
 
-    ngOnChanges(): void {
-        if (this.navigationList().length) {
-            this._store$.dispatch(
-                FirebaseActions.getHardSkillsNav({ imgName: '' }),
-            );
-
-            this.selectedTab === '' ? this._tab() : this.selectedTab;
-            if (this.selectedTab === 'tech') {
-                this.hardSkillsNavigation$.subscribe(
-                    (skills: INavigation[]) => {
-                        const skill = skills.find((skill) => skill.id === '1');
-                        if (skill) {
-                            this.currentSkills = skill.link;
-                            this.changeSkillsList(skill.link);
-                        }
-                    },
-                );
-            }
-            this.cdr.detectChanges();
-            this.emittedTab.emit(this.currentSkills);
-        }
+    public tabForRoute(event: any) {
+        this.emittedTab.emit(event);
     }
 
     ngOnInit(): void {
+        this.selectedTab =
+            this._localStorageService.getSelectedTechnologiesTab();
         this._store$.dispatch(
             FirebaseActions.getHardSkillsNav({ imgName: '' }),
         );
@@ -124,5 +99,11 @@ export class AsideNavigationTechnologiesComponent implements OnChanges {
                 this.cdr.detectChanges();
             }
         });
+        this.emittedTab.emit(this.selectedTab);
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

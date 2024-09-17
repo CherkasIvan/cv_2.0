@@ -11,10 +11,10 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { TProfile } from '@layout/store/model/profile.type';
+import { AuthService } from '@core/service/auth/auth.service';
+import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { AuthService } from '@app/core/service/auth/auth.service';
-import { LocalStorageService } from '@app/core/service/local-storage/local-storage.service';
+import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
     selector: 'cv-logout-form',

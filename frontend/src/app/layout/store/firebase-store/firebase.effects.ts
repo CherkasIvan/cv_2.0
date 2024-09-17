@@ -6,7 +6,7 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { ApiService } from '@app/core/service/api/api.service';
+import { ApiService } from '@core/service/api/api.service';
 
 import { FirebaseActions } from './firebase.actions';
 

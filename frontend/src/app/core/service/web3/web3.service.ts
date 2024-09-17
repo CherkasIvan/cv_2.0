@@ -14,7 +14,6 @@ interface Window {
 export class Web3Service {
     // private web3!: Web3;
     // public window!: Window;
-
     // constructor() {
     //     if (window.ethereum) {
     //         this.web3 = new Web3(window.ethereum);
@@ -23,10 +22,8 @@ export class Web3Service {
     //         console.warn('MetaMask not detected. Please install MetaMask.');
     //     }
     // }
-
     // public async getAccounts(): Promise<string[]> {
     //     return await this.web3.eth.getAccounts();
     // }
-
     // Добавьте другие методы для взаимодействия с контрактами
 }

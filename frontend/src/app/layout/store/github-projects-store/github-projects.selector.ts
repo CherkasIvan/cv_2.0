@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { TGitHub } from '@app/core/models/github.type';
+import { TGitHub } from '@core/models/github.type';
 
 export const selectRepositoriesState =
     createFeatureSelector<TGitHub[]>('github');
