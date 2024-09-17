@@ -1,3 +1,3 @@
 export interface ILanguagesSelector {
-    isLanguage: boolean;
+    language: 'ru' | 'en';
 }

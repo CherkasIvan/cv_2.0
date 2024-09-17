@@ -193,4 +193,30 @@ export class LocalStorageService {
         }
         return 'frontend';
     }
+
+    public setDarkMode(isDark: boolean): void {
+        const usersState = this.getUsersState();
+        if (usersState) {
+            usersState.isDark = isDark;
+            this.setItem('usersState', JSON.stringify(usersState));
+        }
+    }
+
+    public getDarkMode(): boolean {
+        const usersState = this.getUsersState();
+        return usersState ? usersState.isDark : false;
+    }
+
+    public setLanguage(language: 'ru' | 'en'): void {
+        const usersState = this.getUsersState();
+        if (usersState) {
+            usersState.language = language;
+            this.setItem('usersState', JSON.stringify(usersState));
+        }
+    }
+
+    public getLanguage(): 'ru' | 'en' {
+        const usersState = this.getUsersState();
+        return usersState ? usersState.language : 'ru';
+    }
 }

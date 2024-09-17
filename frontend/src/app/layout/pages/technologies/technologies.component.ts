@@ -77,7 +77,7 @@ export class TechnologiesComponent implements OnInit {
                     }
                 });
                 break;
-            case 'front':
+            case 'frontend':
                 this.frontendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
@@ -85,7 +85,7 @@ export class TechnologiesComponent implements OnInit {
                     }
                 });
                 break;
-            case 'back':
+            case 'backend':
                 this.backendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
