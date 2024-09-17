@@ -1,6 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { TGitHub } from '@app/core/models/github.type';
+import { TGitHub } from '@core/models/github.type';
 
 export const GithubRepositoriesActions = createActionGroup({
     source: 'Repositories',

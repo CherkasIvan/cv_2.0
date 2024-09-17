@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
 import {
@@ -7,7 +7,7 @@ import {
     Component,
     EventEmitter,
     InputSignal,
-    OnChanges,
+    OnDestroy,
     OnInit,
     Output,
     computed,
@@ -19,9 +19,10 @@ import { Store, select } from '@ngrx/store';
 
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { INavigation } from '@core/models/navigation.interface';
+import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
-import { selectHardSkillsNav } from '@app/layout/store/firebase-store/firebase.selectors';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
 
 @Component({
     selector: 'cv-aside-navigation-experience',
@@ -34,7 +35,7 @@ import { selectHardSkillsNav } from '@app/layout/store/firebase-store/firebase.s
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AsideNavigationExperienceComponent implements OnChanges {
+export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
     @Output() public emittedTab = new EventEmitter<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
@@ -47,15 +48,19 @@ export class AsideNavigationExperienceComponent implements OnChanges {
         TExperienceAside[]
     >([]);
     public currentSkills: string = '';
-    public selectedTab: string = 'work';
+    public selectedTab: 'work' | 'education' = 'work';
+
+    private _destroyed$: Subject<void> = new Subject();
 
     constructor(
         private cdr: ChangeDetectorRef,
         private _store$: Store<INavigation>,
+        private _localStorageService: LocalStorageService,
     ) {}
 
-    public changeTab(tab: string) {
+    public changeTab(tab: 'education' | 'work') {
         this.selectedTab = tab;
+        this._localStorageService.saveSelectedTab(tab);
         if (this.currentSkills && this.selectedTab === 'work') {
             this.emittedTab.emit(this.currentSkills);
         } else {
@@ -64,44 +69,14 @@ export class AsideNavigationExperienceComponent implements OnChanges {
         this.cdr.detectChanges();
     }
 
-    private _tab = computed(() => {
-        this.navigationList().find((el: any) => {
-            if (el.id === '1') {
-                this.selectedTab = el.value;
-            }
-        });
-    });
-
     public changeSkillsList(tab: string) {
         this.currentSkills = tab;
         this.emittedTab.emit(this.currentSkills);
         this.cdr.detectChanges();
     }
 
-    ngOnChanges(): void {
-        if (this.navigationList().length) {
-            this._store$.dispatch(
-                FirebaseActions.getHardSkillsNav({ imgName: '' }),
-            );
-
-            this.selectedTab === '' ? this._tab() : this.selectedTab;
-            if (this.selectedTab === 'tech') {
-                this.hardSkillsNavigation$.subscribe(
-                    (skills: INavigation[]) => {
-                        const skill = skills.find((skill) => skill.id === '1');
-                        if (skill) {
-                            this.currentSkills = skill.link;
-                            this.changeSkillsList(skill.link);
-                        }
-                    },
-                );
-            }
-            this.cdr.detectChanges();
-            this.emittedTab.emit(this.currentSkills);
-        }
-    }
-
     ngOnInit(): void {
+        this.selectedTab = this._localStorageService.getSelectedTab();
         this._store$.dispatch(
             FirebaseActions.getHardSkillsNav({ imgName: '' }),
         );
@@ -109,8 +84,14 @@ export class AsideNavigationExperienceComponent implements OnChanges {
             const skill = skills.find((skill) => skill.id === '1');
             if (skill) {
                 this.currentSkills = skill.link;
-                this.cdr.detectChanges(); // Trigger change detection manually
+                this.cdr.detectChanges();
             }
         });
+        this.emittedTab.emit(this.selectedTab);
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
+import { ExperienceDialogComponent } from '@layout/components/experience-dialog/experience-dialog.component';
 import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
-
-import { ExperienceDialogComponent } from '@app/layout/components/experience-dialog/experience-dialog.component';
 
 @Component({
     selector: 'cv-work-experience',

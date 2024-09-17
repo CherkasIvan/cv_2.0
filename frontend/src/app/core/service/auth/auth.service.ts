@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import { ERoute } from '@core/enum/route.enum';
 
-import { ERoute } from '@app/core/enum/route.enum';
-import { TProfile } from '@app/layout/store/model/profile.type';
+import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import { TProfile } from '@layout/store/model/profile.type';
 
 import { LocalStorageService } from '../local-storage/local-storage.service';
 
@@ -51,7 +51,12 @@ export class AuthService {
         ).pipe(
             tap((result) => {
                 if (!this.usersState) {
-                    this._localStorageService.initUser(false, result.user);
+                    this._localStorageService.initUser(
+                        true,
+                        false,
+                        result.user,
+                        'main',
+                    );
                 } else {
                     this._localStorageService.setUser(result.user);
                 }
@@ -77,7 +82,12 @@ export class AuthService {
         return from(this._afAuth.signInAnonymously()).pipe(
             tap((result) => {
                 if (!this.usersState) {
-                    this._localStorageService.initUser(true, null);
+                    this._localStorageService.initUser(
+                        true,
+                        true,
+                        null,
+                        'main',
+                    );
                 } else {
                     this._localStorageService.setUser(null);
                 }

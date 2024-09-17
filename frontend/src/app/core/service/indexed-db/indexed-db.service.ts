@@ -3,8 +3,9 @@ import { Observable, from } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
-import { IIndexedDB } from '@app/core/models/indexed-db.interface';
-import { TProfile } from '@app/layout/store/model/profile.type';
+import { IIndexedDB } from '@core/models/indexed-db.interface';
+
+import { TProfile } from '@layout/store/model/profile.type';
 
 @Injectable({
     providedIn: 'root',

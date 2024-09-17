@@ -21,13 +21,13 @@ import {
 
 import { Store, select } from '@ngrx/store';
 
-import { AuthActions } from '@layout/store/auth-store/auth.actions';
-import { TProfile } from '@layout/store/model/profile.type';
+import { IEducationExperience } from '@core/models/education.interface';
+import { IWorkExperience } from '@core/models/work-experience.interface';
 
-import { IEducationExperience } from '@app/core/models/education.interface';
-import { IWorkExperience } from '@app/core/models/work-experience.interface';
-import { ExperienceActions } from '@app/layout/store/experience-dialog-store/experience-dialog.actions';
-import { selectModalData } from '@app/layout/store/experience-dialog-store/experience-dialog.selectors';
+import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
+import { selectModalData } from '@layout/store/experience-dialog-store/experience-dialog.selectors';
+import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
     selector: 'cv-experience-dialog',
