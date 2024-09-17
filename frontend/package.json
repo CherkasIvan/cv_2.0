@@ -12,7 +12,9 @@
         "lint": "ng lint",
         "serve": "node server.js",
         "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs",
-        "heroku-postbuild": "ng build — prod"
+        "build:ssr": "ng build && ng run cv_2.0:server",
+        "serve:ssr": "node dist/cv_2.0/server/main.js",
+        "heroku-postbuild": "npm run build:ssr"
     },
     "private": true,
     "dependencies": {
@@ -39,7 +41,6 @@
         "dexie": "^4.0.8",
         "express": "^4.19.2",
         "firebase": "^10.12.5",
-        "ngrx-store-localstorage": "^18.0.0",
         "npx": "^10.2.2",
         "prettier-plugin-css-order": "^2.1.2",
         "rxjs": "~7.8.1",
