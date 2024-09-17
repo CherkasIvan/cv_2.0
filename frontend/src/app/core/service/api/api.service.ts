@@ -3,14 +3,14 @@ import { Observable, map, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { IEducationExperience } from '@app/core/models/education.interface';
-import { TExperienceAside } from '@app/core/models/experience-aside.type';
-import { IMainPageInfo } from '@app/core/models/main-page-info';
-import { INavigation } from '@app/core/models/navigation.interface';
-import { ISocialMedia } from '@app/core/models/social-media.interface';
-import { TTechnologiesAside } from '@app/core/models/technologies-aside.type';
-import { ITechnologies } from '@app/core/models/technologies.interface';
-import { IWorkExperience } from '@app/core/models/work-experience.interface';
+import { IEducationExperience } from '@core/models/education.interface';
+import { TExperienceAside } from '@core/models/experience-aside.type';
+import { IMainPageInfo } from '@core/models/main-page-info';
+import { INavigation } from '@core/models/navigation.interface';
+import { ISocialMedia } from '@core/models/social-media.interface';
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
+import { ITechnologies } from '@core/models/technologies.interface';
+import { IWorkExperience } from '@core/models/work-experience.interface';
 
 @Injectable({
     providedIn: 'root',

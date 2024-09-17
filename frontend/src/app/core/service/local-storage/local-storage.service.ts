@@ -1,8 +1,10 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { ERoute } from '@app/core/enum/route.enum';
-import { TLocalstorageUser } from '@app/layout/store/model/localstorage-user.interface';
+import { ERoute } from '@core/enum/route.enum';
+
+import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
 
 @Injectable({
     providedIn: 'root',
@@ -10,7 +12,10 @@ import { TLocalstorageUser } from '@app/layout/store/model/localstorage-user.int
 export class LocalStorageService {
     private isBrowser: boolean;
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    constructor(
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private readonly _router: Router,
+    ) {
         this.isBrowser = isPlatformBrowser(this.platformId);
     }
 
@@ -58,15 +63,20 @@ export class LocalStorageService {
     }
 
     public initUser(
+        isFirstTime: boolean = false,
         isGuest: boolean = false,
         user: firebase.default.User | null,
+        currentRoute: string | 'main',
     ): void {
         if (this.localStorageAvailable && !localStorage.getItem('usersState')) {
             const usersState: TLocalstorageUser = {
-                isFirstTime: true,
+                isFirstTime: isFirstTime,
                 isGuest: isGuest,
                 user: user,
-                route: `${ERoute.LAYOUT}`,
+                currentRoute: `${ERoute.LAYOUT}/${currentRoute}`,
+                experienceRoute: 'work',
+                technologiesRoute: 'technologies',
+                subTechnologiesRoute: 'frontend',
                 isDark: false,
                 language: 'ru',
             };
@@ -98,5 +108,115 @@ export class LocalStorageService {
         if (this.localStorageAvailable) {
             localStorage.setItem('usersState', JSON.stringify(newUsersState));
         }
+    }
+
+    public updateCurrentRoute(route: string): void {
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState) {
+                usersState.currentRoute = route;
+                localStorage.setItem('usersState', JSON.stringify(usersState));
+            }
+        }
+    }
+
+    public redirectToSavedRoute(): void {
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState && (usersState.user || usersState.isGuest)) {
+                const route = usersState.currentRoute || '/';
+                this._router.navigate([route]);
+            }
+        }
+    }
+
+    public saveSelectedTab(selectedTab: 'work' | 'education'): void {
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState && (usersState.user || usersState.isGuest)) {
+                usersState.experienceRoute = selectedTab;
+                localStorage.setItem('usersState', JSON.stringify(usersState));
+            }
+        }
+    }
+
+    public getSelectedTab(): 'work' | 'education' {
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState && (usersState.user || usersState.isGuest)) {
+                return usersState.experienceRoute || 'work';
+            }
+        }
+        return 'work';
+    }
+
+    public saveSelectedTechnologiesTab(
+        selectedTab: 'technologies' | 'other',
+    ): void {
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState && (usersState.user || usersState.isGuest)) {
+                usersState.technologiesRoute = selectedTab;
+                localStorage.setItem('usersState', JSON.stringify(usersState));
+            }
+        }
+    }
+
+    public getSelectedTechnologiesTab(): 'technologies' | 'other' {
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState && (usersState.user || usersState.isGuest)) {
+                return usersState.technologiesRoute || 'technologies';
+            }
+        }
+        return 'technologies';
+    }
+
+    public saveSelectedSubTechnologiesTab(
+        selectedTab: 'frontend' | 'backend',
+    ): void {
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState && (usersState.user || usersState.isGuest)) {
+                usersState.subTechnologiesRoute = selectedTab;
+                localStorage.setItem('usersState', JSON.stringify(usersState));
+            }
+        }
+    }
+
+    public getSelectedSubTechnologiesTab(): 'frontend' | 'backend' {
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState && (usersState.user || usersState.isGuest)) {
+                return usersState.subTechnologiesRoute || 'frontend';
+            }
+        }
+        return 'frontend';
+    }
+
+    public setDarkMode(isDark: boolean): void {
+        const usersState = this.getUsersState();
+        if (usersState) {
+            usersState.isDark = isDark;
+            this.setItem('usersState', JSON.stringify(usersState));
+        }
+    }
+
+    public getDarkMode(): boolean {
+        const usersState = this.getUsersState();
+        return usersState ? usersState.isDark : false;
+    }
+
+    public setLanguage(language: 'ru' | 'en'): void {
+        const usersState = this.getUsersState();
+        if (usersState) {
+            usersState.language = language;
+            this.setItem('usersState', JSON.stringify(usersState));
+        }
+    }
+
+    public getLanguage(): 'ru' | 'en' {
+        const usersState = this.getUsersState();
+        return usersState ? usersState.language : 'ru';
     }
 }

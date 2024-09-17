@@ -11,11 +11,11 @@ import { RouterLink } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
+import { IEducationExperience } from '@core/models/education.interface';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
 
-import { IEducationExperience } from '@app/core/models/education.interface';
-import { ExperienceActions } from '@app/layout/store/experience-dialog-store/experience-dialog.actions';
+import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
 
 @Component({
     selector: 'cv-experience-card',

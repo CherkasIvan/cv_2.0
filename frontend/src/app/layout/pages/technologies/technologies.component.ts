@@ -12,19 +12,18 @@ import { Store, select } from '@ngrx/store';
 
 import { EvenColumnDirective } from '@core/directives/even-column.directive';
 import { TExperienceAside } from '@core/models/experience-aside.type';
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 
+import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
-
-import { AsideNavigationTechnologiesComponent } from '@app/layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
-import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import {
     selectBackendTech,
     selectFrontendTech,
     selectOtherTech,
     selectTechnologiesAside,
-} from '@app/layout/store/firebase-store/firebase.selectors';
+} from '@layout/store/firebase-store/firebase.selectors';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
 
@@ -45,9 +44,9 @@ import { TechnologyCardComponent } from './components/technology-card/technology
 export class TechnologiesComponent implements OnInit {
     public selectedTab: string = '';
 
-    data: ITechnologies[] | undefined;
+    public data: ITechnologies[] | undefined;
 
-    public technologiesAside$: Observable<TExperienceAside[]> =
+    public technologiesAside$: Observable<TTechnologiesAside[]> =
         this._store$.pipe(select(selectTechnologiesAside));
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
@@ -78,7 +77,7 @@ export class TechnologiesComponent implements OnInit {
                     }
                 });
                 break;
-            case 'front':
+            case 'frontend':
                 this.frontendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
@@ -86,7 +85,7 @@ export class TechnologiesComponent implements OnInit {
                     }
                 });
                 break;
-            case 'back':
+            case 'backend':
                 this.backendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
@@ -125,7 +124,7 @@ export class TechnologiesComponent implements OnInit {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<IDarkMode>,
+        private _store$: Store<any>,
     ) {}
 
     ngOnInit(): void {
