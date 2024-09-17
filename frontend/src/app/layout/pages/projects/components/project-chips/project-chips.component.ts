@@ -5,8 +5,8 @@ import { Component, input } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
-import { darkModeSelector } from '@app/layout/store/dark-mode-store/dark-mode.selectors';
-import { IDarkMode } from '@app/layout/store/model/dark-mode.interface';
+import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
+import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 @Component({
     selector: 'cv-project-chips',

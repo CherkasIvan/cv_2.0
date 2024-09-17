@@ -16,10 +16,9 @@ import { IMainPageInfo } from '@core/models/main-page-info';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-
-import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
-import { selectMainPageInfo } from '@app/layout/store/firebase-store/firebase.selectors';
-import { IDarkMode } from '@app/layout/store/model/dark-mode.interface';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+import { selectMainPageInfo } from '@layout/store/firebase-store/firebase.selectors';
+import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 import { ProfileLogoComponent } from '../../../layout/components/profile-logo/profile-logo.component';
 

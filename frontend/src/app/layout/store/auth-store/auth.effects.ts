@@ -7,9 +7,9 @@ import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { ERoute } from '@app/core/enum/route.enum';
-import { AuthService } from '@app/core/service/auth/auth.service';
-import { LocalStorageService } from '@app/core/service/local-storage/local-storage.service';
+import { ERoute } from '@core/enum/route.enum';
+import { AuthService } from '@core/service/auth/auth.service';
+import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { TProfile } from '../model/profile.type';
 import { AuthActions } from './auth.actions';

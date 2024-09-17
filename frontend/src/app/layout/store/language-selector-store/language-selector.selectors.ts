@@ -7,5 +7,5 @@ export const languageFeatureSelector =
 
 export const languageSelector = createSelector(
     languageFeatureSelector,
-    (state: ILanguagesSelector) => state?.isLanguage ?? false,
+    (state: ILanguagesSelector) => state?.language ?? 'ru',
 );
