@@ -3,8 +3,6 @@
     "version": "1.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
-        "build": "ng build",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "prettier": "npx prettier . --write",
@@ -14,7 +12,9 @@
         "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs",
         "build:ssr": "ng build && ng run cv_2.0:server",
         "serve:ssr": "node dist/cv_2.0/server/main.js",
-        "heroku-postbuild": "npm run build:ssr"
+        "start": "node server.js",
+        "build": "ng build",
+        "heroku-postbuild": "ng build --prod"
     },
     "private": true,
     "dependencies": {
