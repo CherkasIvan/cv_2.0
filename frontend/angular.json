@@ -13,64 +13,51 @@
             "root": "",
             "sourceRoot": "src",
             "prefix": "cv",
-            "i18n": {
-                "sourceLocale": {
-                    "code": "ru"
-                },
-                "locales": {
-                    "en": {
-                        "translation": "src/locale/messages.en.xlf",
-                        "baseHref": "/en/"
-                    }
-                }
-            },
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "allowedCommonJsDependencies": [
-                            "undici",
-                            "deepmerge",
-                            "faye-websocket",
-                            "@grpc/grpc-js",
-                            "@grpc/proto-loader"
-                        ],
                         "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets",
-                            "src/manifest.webmanifest"
-                        ],
+                        "assets": ["src/favicon.ico", "src/assets"],
                         "styles": ["src/styles.scss"],
-                        "scripts": ["zone.js", "@angular/localize/init"],
-                        "serviceWorker": true
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "namedChunks": false,
+                            "aot": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
                             "budgets": [
                                 {
                                     "type": "initial",
                                     "maximumWarning": "2mb",
                                     "maximumError": "5mb"
-                                },
-                                {
-                                    "type": "anyComponentStyle",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
                                 }
-                            ],
-                            "outputHashing": "all",
-                            "serviceWorker": true
+                            ]
                         },
                         "development": {
+                            "buildOptimizer": false,
                             "optimization": false,
+                            "vendorChunk": true,
                             "extractLicenses": false,
-                            "sourceMap": true
+                            "sourceMap": true,
+                            "namedChunks": true
                         }
                     },
                     "defaultConfiguration": "production"
@@ -78,14 +65,14 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "proxyConfig": "proxy.conf.json"
+                        "browserTarget": "cv_2.0:build"
                     },
                     "configurations": {
                         "production": {
-                            "buildTarget": "cv_2.0:build:production"
+                            "browserTarget": "cv_2.0:build:production"
                         },
                         "development": {
-                            "buildTarget": "cv_2.0:build:development"
+                            "browserTarget": "cv_2.0:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -93,24 +80,18 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "buildTarget": "cv_2.0:build"
+                        "browserTarget": "cv_2.0:build"
                     }
                 },
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
-                        "polyfills": [
-                            "zone.js",
-                            "zone.js/testing",
-                            "@angular/localize/init"
-                        ],
+                        "main": "src/test.ts",
+                        "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.spec.json",
+                        "karmaConfig": "karma.conf.js",
                         "inlineStyleLanguage": "scss",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets",
-                            "src/manifest.webmanifest"
-                        ],
+                        "assets": ["src/favicon.ico", "src/assets"],
                         "styles": ["src/styles.scss"],
                         "scripts": []
                     }
@@ -126,12 +107,16 @@
                     "options": {
                         "outputPath": "dist/cv_2.0-server",
                         "main": "src/main.server.ts",
-                        "tsConfig": "tsconfig.server.json",
-                        "polyfills": ["@angular/localize/init"]
+                        "tsConfig": "tsconfig.server.json"
                     },
                     "configurations": {
                         "production": {
-                            "outputHashing": "media",
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
                             "sourceMap": false,
                             "optimization": true
                         },
@@ -141,20 +126,11 @@
                         }
                     },
                     "defaultConfiguration": "production"
-                },
-                "prerender": {
-                    "builder": "@nguniversal/builders:prerender",
-                    "options": {
-                        "browserTarget": "cv_2.0:build:production",
-                        "serverTarget": "cv_2.0:server:production",
-                        "routes": ["/"]
-                    }
                 }
             }
         }
     },
     "cli": {
-        "analytics": false,
-        "schematicCollections": ["@angular-eslint/schematics"]
+        "analytics": false
     }
 }
