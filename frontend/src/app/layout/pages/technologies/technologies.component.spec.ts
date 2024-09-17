@@ -6,7 +6,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { FirebaseService } from '@core/service/local-storage/firebase.service';
 
-import { environment } from '@layout/environments/environment.development';
+import { environment } from '@env/environment.development';
 
 import { TechnologiesComponent } from './technologies.component';
 

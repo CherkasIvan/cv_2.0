@@ -38,8 +38,8 @@ import {
 import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
+import { environment } from '../environments/environment.development';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
-import { environment } from './layout/environments/environment.development';
 import { AuthEffects } from './layout/store/auth-store/auth.effects';
 import { authReducer } from './layout/store/auth-store/auth.reducers';
 import { darkModeReducer } from './layout/store/dark-mode-store/dark-mode.reducers';
