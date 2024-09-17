@@ -48,25 +48,32 @@ export class AsideNavigationSubtechnologiesComponent implements OnInit {
         return this.currentSkills === link;
     }
 
-    public changeSkillsList(tab: string) {
-        this.currentSkills = tab;
-        this.emittedTab.emit(this.currentSkills);
-        this._cdr.detectChanges();
-    }
-
     ngOnInit() {
         this.selectedTab =
             this._localStorageService.getSelectedSubTechnologiesTab();
+        if (
+            this._localStorageService.getSelectedTechnologiesTab() ===
+            'technologies'
+        ) {
+            this.currentSkills =
+                this._localStorageService.getSelectedSubTechnologiesTab() ||
+                'frontend';
+            this._localStorageService.saveSelectedSubTechnologiesTab(
+                this.currentSkills as 'frontend' | 'backend',
+            );
+        }
         this._store$.dispatch(
             FirebaseActions.getHardSkillsNav({ imgName: '' }),
         );
-        this.hardSkillsNavigation$.subscribe((skills: INavigation[]) => {
-            const skill = skills.find((skill) => skill.id === '1');
-            if (skill) {
-                this.currentSkills = skill.link;
-                this._cdr.detectChanges();
-            }
-        });
         this.emittedTab.emit(this.selectedTab);
+    }
+
+    public changeSkillsList(tab: string) {
+        this.currentSkills = tab;
+        this._localStorageService.saveSelectedSubTechnologiesTab(
+            tab as 'frontend' | 'backend',
+        );
+        this.emittedTab.emit(this.currentSkills);
+        this._cdr.detectChanges();
     }
 }
