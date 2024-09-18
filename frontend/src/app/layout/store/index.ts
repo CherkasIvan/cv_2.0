@@ -7,7 +7,7 @@ import { spinnerReducer } from './spinner-store/spinner.reducer';
 export interface GlobalState {
     isSpinnerOn: boolean;
     isDark: boolean;
-    isLanguage: boolean;
+    language: 'ru' | 'en';
 }
 
 export const globalSetReducersKey = 'globalSetReducers';
@@ -24,9 +24,8 @@ export function globalSetReducers(
             ? spinnerReducer({ isSpinnerOn: state?.isSpinnerOn }, action)
                   .isSpinnerOn
             : false,
-        isLanguage: state
-            ? languageReducer({ isLanguage: state.isLanguage }, action)
-                  .isLanguage
-            : false,
+        language: state
+            ? languageReducer({ language: state.language }, action).language
+            : 'ru',
     };
 }

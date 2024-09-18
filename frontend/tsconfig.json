@@ -1,6 +1,9 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
     "compileOnSave": false,
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"],
+    "extends": "./tsconfig.json",
     "compilerOptions": {
         "baseUrl": "./src",
         "paths": {
@@ -12,7 +15,8 @@
             "@assets/*": ["assets/*"],
             "@pages/*": ["app/pages/*"],
             "@core/*": ["app/core/*"],
-            "@layout/*": ["app/layout/*"]
+            "@layout/*": ["app/layout/*"],
+            "@environments/*": ["app/environments/*"]
         },
         "outDir": "./dist/out-tsc",
         "forceConsistentCasingInFileNames": true,

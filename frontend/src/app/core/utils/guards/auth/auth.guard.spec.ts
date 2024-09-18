@@ -1,17 +1,52 @@
+import { of } from 'rxjs';
+
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
+import { Router } from '@angular/router';
 
-import { authGuard } from './auth.guard';
+import { ERoute } from '@core/enum/route.enum';
+import { AuthService } from '@core/service/auth/auth.service';
 
-describe('authGuard', () => {
-    const executeGuard: CanActivateFn = (...guardParameters) =>
-        TestBed.runInInjectionContext(() => authGuard(...guardParameters));
+import { AuthGuard } from './auth.guard';
+
+describe('AuthGuard', () => {
+    let authGuard: AuthGuard;
+    let authService: jasmine.SpyObj<AuthService>;
+    let router: jasmine.SpyObj<Router>;
 
     beforeEach(() => {
-        TestBed.configureTestingModule({});
+        const authServiceSpy = jasmine.createSpyObj('AuthService', ['isAuth$']);
+        const routerSpy = jasmine.createSpyObj('Router', [
+            'navigate',
+            'parseUrl',
+        ]);
+
+        TestBed.configureTestingModule({
+            providers: [
+                AuthGuard,
+                { provide: AuthService, useValue: authServiceSpy },
+                { provide: Router, useValue: routerSpy },
+            ],
+        });
+
+        authGuard = TestBed.inject(AuthGuard);
+        authService = TestBed.inject(
+            AuthService,
+        ) as jasmine.SpyObj<AuthService>;
+        router = TestBed.inject(Router) as jasmine.SpyObj<Router>;
     });
 
     it('should be created', () => {
-        expect(executeGuard).toBeTruthy();
+        expect(authGuard).toBeTruthy();
+    });
+
+    it('should return true if the user is authenticated', () => {
+        authService.isAuth$.next(true);
+        expect(authGuard.canActivate()).toBe(true);
+    });
+
+    it('should navigate to AUTH route if the user is not authenticated', () => {
+        authService.isAuth$.next(false);
+        router.parseUrl.and.returnValue(router.parseUrl(ERoute.AUTH));
+        expect(authGuard.canActivate()).toEqual(router.parseUrl(ERoute.AUTH));
     });
 });

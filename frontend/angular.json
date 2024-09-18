@@ -46,8 +46,8 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
+                                    "maximumWarning": "5mb",
+                                    "maximumError": "8mb"
                                 }
                             ]
                         },
@@ -126,6 +126,14 @@
                         }
                     },
                     "defaultConfiguration": "production"
+                },
+                "prerender": {
+                    "builder": "@angular-devkit/build-angular:prerender",
+                    "options": {
+                        "browserTarget": "cv_2.0:build:production",
+                        "serverTarget": "cv_2.0:server:production",
+                        "routes": ["/"]
+                    }
                 }
             }
         }

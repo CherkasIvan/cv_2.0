@@ -14,10 +14,14 @@ export class AuthGuard {
         private readonly _authService: AuthService,
         private _router: Router,
     ) {}
-    canActivate(): Observable<boolean> | Promise<boolean> | UrlTree | boolean {
+
+    canActivate():
+        | Observable<boolean | UrlTree>
+        | Promise<boolean | UrlTree>
+        | boolean
+        | UrlTree {
         if (!this._authService.isAuth$.value) {
-            this._router.navigate([ERoute.AUTH]);
-            return false;
+            return this._router.parseUrl(ERoute.AUTH);
         }
         return true;
     }
