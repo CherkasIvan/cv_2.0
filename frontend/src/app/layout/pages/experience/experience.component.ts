@@ -1,25 +1,29 @@
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgSwitch } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+} from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
+import { IEducationExperience } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IWorkExperience } from '@core/models/work-experience.interface';
 
-import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
-
-import { IEducationExperience } from '@app/core/models/education.interface';
-import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import {
     selectEducation,
     selectExperienceAside,
     selectWorkExperience,
-} from '@app/layout/store/firebase-store/firebase.selectors';
+} from '@layout/store/firebase-store/firebase.selectors';
+import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
+import { AsideNavigationExperienceComponent } from '../../components/aside-navigation-experience/aside-navigation-experience.component';
 import { EducationExperienceComponent } from './education-experience/education-experience.component';
 import { WorkExperienceComponent } from './work-experience/work-experience.component';
 
@@ -30,7 +34,7 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
         EducationExperienceComponent,
         WorkExperienceComponent,
         NgSwitch,
-        AsideNavigationComponent,
+        AsideNavigationExperienceComponent,
         AsyncPipe,
     ],
     templateUrl: './experience.component.html',
@@ -56,6 +60,7 @@ export class ExperienceComponent implements OnInit {
 
     public switchTab($event: string) {
         this.selectedTab = $event;
+        this._cd.detectChanges();
     }
 
     constructor(
@@ -65,15 +70,19 @@ export class ExperienceComponent implements OnInit {
             | IEducationExperience
             | TExperienceAside
         >,
-    ) {
-        this.selectedTab === ''
-            ? (this.selectedTab = 'work')
-            : this.selectedTab;
-    }
+        private _cd: ChangeDetectorRef,
+    ) {}
 
     ngOnInit(): void {
-        this._store$.dispatch(FirebaseActions.getExperienceAside());
-        this._store$.dispatch(FirebaseActions.getWorkExperience());
-        this._store$.dispatch(FirebaseActions.getEducationPlaces());
+        this.switchTab('work');
+        this._store$.dispatch(
+            FirebaseActions.getExperienceAside({ imgName: '' }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getWorkExperience({ imgName: 'companies-logo' }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getEducationPlaces({ imgName: 'certificates' }),
+        );
     }
 }

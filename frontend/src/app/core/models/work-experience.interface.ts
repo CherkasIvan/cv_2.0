@@ -8,4 +8,6 @@ export interface IWorkExperience {
     link: string;
     specialization: string;
     workTime?: string;
+    imgName: string;
+    images?: string[];
 }

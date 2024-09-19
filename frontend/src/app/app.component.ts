@@ -32,7 +32,6 @@ export class AppComponent {
 
         inject(ApplicationRef).isStable.subscribe((stable) => {
             this.printNgZone(TaskTrackingZone, 0);
-            console.log('Is stable:', stable);
         });
 
         this.printNgZone(TaskTrackingZone, 2000);

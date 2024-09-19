@@ -3,4 +3,6 @@ export interface INavigation {
     link: string;
     position: number;
     value: string;
+    imgName: string;
+    images?: string[];
 }

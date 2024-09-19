@@ -71,14 +71,16 @@ export function app(): express.Express {
 /**
  * This function is no longer necessary, as the server will be run from the proxy
  */
-// function run(): void {
-//   const port = process.env['PORT'] || 4000;
+function run(): void {
+    const port = process.env['PORT'] || 4000;
 
-//   // Start up the Node server
-//   const server = app();
-//   server.listen(port, () => {
-//     console.log(`Node Express server listening on http://localhost:${port}`);
-//   });
-// }
+    // Start up the Node server
+    const server = app();
+    server.listen(port, () => {
+        console.log(
+            `Node Express server listening on http://localhost:${port}`,
+        );
+    });
+}
 
-// run();
+run();

@@ -27,7 +27,6 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
-import { ILanguagesSelector } from '@layout/store/model/language-selector.interface';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
 import { LoginFormComponent } from '../login-form/login-form.component';
@@ -66,7 +65,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _router: Router,
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<ILanguagesSelector>,
+        private _store$: Store<any>,
         private _localStorageService: LocalStorageService,
     ) {}
 
@@ -77,7 +76,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     public changeLanguage() {
         this.isCheckedLanguage = !this.isCheckedLanguage;
-        this._store$.dispatch(setLanguageSuccess(this.isCheckedLanguage));
+        const newLanguage = this.isCheckedLanguage ? 'en' : 'ru';
+        this._localStorageService.setLanguage(newLanguage);
+        this._store$.dispatch(setLanguageSuccess(newLanguage));
     }
 
     ngOnInit(): void {
@@ -85,15 +86,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
             this._router.events
                 .pipe(takeUntil(this._destroyed$))
                 .subscribe((event) => {
-                    event instanceof NavigationEnd
-                        ? (this.currentRoute = event.url)
-                        : null;
+                    if (event instanceof NavigationEnd) {
+                        this.currentRoute = event.url;
+                        this._localStorageService.updateCurrentRoute(
+                            this.currentRoute,
+                        );
+                    }
                 }),
         );
         this._store$.pipe(takeUntil(this._destroyed$), select(selectAuth));
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
 
+        this._localStorageService.redirectToSavedRoute();
+        this.isCheckedLanguage =
+            this._localStorageService.getLanguage() === 'en';
         this._cdr.markForCheck();
     }
 

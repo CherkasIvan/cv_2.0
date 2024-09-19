@@ -4,10 +4,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireModule } from '@angular/fire/compat';
 
 import { ITechnologies } from '@core/models/technologies.interface';
-
-import { environment } from '@layout/environments/environment.development';
-
 import { FirebaseService } from '@core/service/local-storage/firebase.service';
+
+import { environment } from '@env/environment.development';
 
 import { TechnologiesComponent } from './technologies.component';
 

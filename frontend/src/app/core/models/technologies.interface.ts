@@ -4,4 +4,6 @@ export interface ITechnologies {
     id: string;
     link: string;
     technologyName: string;
+    imgName: string;
+    images?: string[];
 }

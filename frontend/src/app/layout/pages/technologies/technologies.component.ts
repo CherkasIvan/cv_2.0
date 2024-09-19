@@ -12,20 +12,18 @@ import { Store, select } from '@ngrx/store';
 
 import { EvenColumnDirective } from '@core/directives/even-column.directive';
 import { TExperienceAside } from '@core/models/experience-aside.type';
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 
-import { AsideNavigationComponent } from '@layout/components/aside-navigation/aside-navigation.component';
+import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
-
-import { ApiService } from '@app/core/service/api/api.service';
-import { FirebaseActions } from '@app/layout/store/firebase-store/firebase.actions';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import {
     selectBackendTech,
     selectFrontendTech,
     selectOtherTech,
     selectTechnologiesAside,
-} from '@app/layout/store/firebase-store/firebase.selectors';
+} from '@layout/store/firebase-store/firebase.selectors';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
 
@@ -33,7 +31,7 @@ import { TechnologyCardComponent } from './components/technology-card/technology
     selector: 'cv-technologies',
     standalone: true,
     imports: [
-        AsideNavigationComponent,
+        AsideNavigationTechnologiesComponent,
         TechnologyCardComponent,
         AsyncPipe,
         NgClass,
@@ -46,9 +44,9 @@ import { TechnologyCardComponent } from './components/technology-card/technology
 export class TechnologiesComponent implements OnInit {
     public selectedTab: string = '';
 
-    data: ITechnologies[] | undefined;
+    public data: ITechnologies[] | undefined;
 
-    public technologiesAside$: Observable<TExperienceAside[]> =
+    public technologiesAside$: Observable<TTechnologiesAside[]> =
         this._store$.pipe(select(selectTechnologiesAside));
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
@@ -79,7 +77,7 @@ export class TechnologiesComponent implements OnInit {
                     }
                 });
                 break;
-            case 'front':
+            case 'frontend':
                 this.frontendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
@@ -87,7 +85,7 @@ export class TechnologiesComponent implements OnInit {
                     }
                 });
                 break;
-            case 'back':
+            case 'backend':
                 this.backendTech$.subscribe((tech) => {
                     if (tech) {
                         this.currentTechnologiesStack = tech;
@@ -104,24 +102,32 @@ export class TechnologiesComponent implements OnInit {
     }
 
     private _technologiesDispatcher() {
-        this._store$.dispatch(FirebaseActions.getTechnologiesAside());
-        this._store$.dispatch(FirebaseActions.getBackendTech());
-        this._store$.dispatch(FirebaseActions.getFrontendTech());
-        this._store$.dispatch(FirebaseActions.getOtherTech());
+        this._store$.dispatch(
+            FirebaseActions.getTechnologiesAside({ imgName: '' }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getBackendTech({
+                imgName: 'technologies/backend',
+            }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getFrontendTech({
+                imgName: 'technologies/frontend',
+            }),
+        );
+        this._store$.dispatch(
+            FirebaseActions.getOtherTech({
+                imgName: 'technologies/other',
+            }),
+        );
     }
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<IDarkMode>,
-        private _apiService: ApiService,
+        private _store$: Store<any>,
     ) {}
 
     ngOnInit(): void {
-        this._apiService.getBackendTech().subscribe((response) => {
-            console.log('Data from responce:', response);
-            this.data = response;
-            console.log('Data from backend:', this.data);
-        });
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
     }
