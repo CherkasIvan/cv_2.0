@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FirebaseService } from './firebase.service';
+import { IndexedDbService } from './indexed-db.service';
 
-describe('FirebaseService', () => {
-    let service: FirebaseService;
+describe('IndexedDbService', () => {
+    let service: IndexedDbService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({});
+        service = TestBed.inject(IndexedDbService);
     });
 
     it('should be created', () => {

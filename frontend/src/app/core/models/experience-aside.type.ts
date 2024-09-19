@@ -1,5 +1,7 @@
 export type TExperienceAside = {
     id: string;
     title: string;
-    value: string;
+    value: 'education' | 'work';
+    imgName?: string;
+    images?: string[];
 };

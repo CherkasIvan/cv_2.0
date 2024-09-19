@@ -12,12 +12,11 @@ import { RouterOutlet } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
+import { IEducationExperience } from '@core/models/education.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
+import { IWorkExperience } from '@core/models/work-experience.interface';
 import { routeAnimations } from '@core/utils/animations/router-animations';
-
-import { IEducationExperience } from '@app/core/models/education.interface';
-import { IWorkExperience } from '@app/core/models/work-experience.interface';
 
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
 import { ExperienceDialogComponent } from './components/experience-dialog/experience-dialog.component';
@@ -91,8 +90,8 @@ export class LayoutComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this._store$.dispatch(FirebaseActions.getNavigation());
-        this._store$.dispatch(FirebaseActions.getSocialMedia());
+        this._store$.dispatch(FirebaseActions.getNavigation({ imgName: '' }));
+        this._store$.dispatch(FirebaseActions.getSocialMedia({ imgName: '' }));
 
         this.afAuth.authState.subscribe((user) => {
             if (!user) {

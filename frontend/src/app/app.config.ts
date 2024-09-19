@@ -38,8 +38,8 @@ import {
 import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
+import { environment } from '../environments/environment.development';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
-import { environment } from './layout/environments/environment.development';
 import { AuthEffects } from './layout/store/auth-store/auth.effects';
 import { authReducer } from './layout/store/auth-store/auth.reducers';
 import { darkModeReducer } from './layout/store/dark-mode-store/dark-mode.reducers';
@@ -49,11 +49,6 @@ import { firebaseReducer } from './layout/store/firebase-store/firebase.reducers
 import { GithubRepositoriesEffects } from './layout/store/github-projects-store/github-projects.effects';
 import { githubRepositoriesReducer } from './layout/store/github-projects-store/github-projects.reducer';
 import { languageReducer } from './layout/store/language-selector-store/language-selector.reducers';
-import {
-    localStorageSyncReducer,
-    localstorageUserReducer,
-    metaReducers,
-} from './layout/store/localstorage-store/localstorage.reducers';
 import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
 
@@ -87,7 +82,6 @@ export const appConfig: ApplicationConfig = {
                 AuthEffects,
                 GithubRepositoriesEffects,
             ]),
-            StoreModule.forRoot(localStorageSyncReducer, { metaReducers }),
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('firebase', firebaseReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),

@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
+import { IEducationExperience } from '@core/models/education.interface';
+
 import { ExperienceDialogComponent } from '@layout/components/experience-dialog/experience-dialog.component';
 import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
-
-import { IEducationExperience } from '@app/core/models/education.interface';
 
 @Component({
     selector: 'cv-education-experience',
@@ -15,7 +15,7 @@ import { IEducationExperience } from '@app/core/models/education.interface';
 })
 export class EducationExperienceComponent {
     public selectedTabEducation = input<string>('');
-    public educationExperience = input.required<
+    public educationExperience$ = input.required<
         IEducationExperience[] | null
     >();
     public theme = input<boolean | null>();

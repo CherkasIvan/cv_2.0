@@ -15,6 +15,12 @@ export class FirebaseController {
   // return await this.firebaseService.getFiles(numberItems);
   // }
 
+  @Get('images/:folder*')
+  async getImagesByFolder(@Param('folder') folder: string) {
+    const images = await this.firebaseService.getImagesByFolder(folder);
+    return images;
+  }
+
   @Get('navigation')
   async getNavigation() {
     const navigation = await this.firebaseService.getNavigation();
@@ -33,19 +39,19 @@ export class FirebaseController {
     return workExperience;
   }
 
-  @Get('backend-tech')
+  @Get('backend')
   async getBackendTech() {
     const backendTech = await this.firebaseService.getBackendTech();
     return backendTech;
   }
 
-  @Get('other-tech')
+  @Get('other')
   async getOtherTech() {
     const otherTech = await this.firebaseService.getOtherTech();
     return otherTech;
   }
 
-  @Get('frontend-tech')
+  @Get('frontend')
   async getFrontendTech() {
     const frontendTech = await this.firebaseService.getFrontendTech();
     return frontendTech;
@@ -53,8 +59,8 @@ export class FirebaseController {
 
   @Get('hard-skills-nav')
   async getHardSkillsNav() {
-    const hardkillsNav = await this.firebaseService.getHardSkillsNav();
-    return hardkillsNav;
+    const hardSkillsNav = await this.firebaseService.getHardSkillsNav();
+    return hardSkillsNav;
   }
 
   @Get('education-places')

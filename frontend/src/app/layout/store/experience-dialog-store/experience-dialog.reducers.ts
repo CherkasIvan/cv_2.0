@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { IEducationExperience } from '@app/core/models/education.interface';
-import { IWorkExperience } from '@app/core/models/work-experience.interface';
+import { IEducationExperience } from '@core/models/education.interface';
+import { IWorkExperience } from '@core/models/work-experience.interface';
 
 import { ExperienceActions } from './experience-dialog.actions';
 
