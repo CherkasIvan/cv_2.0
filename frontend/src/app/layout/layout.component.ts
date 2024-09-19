@@ -20,6 +20,7 @@ import { routeAnimations } from '@core/utils/animations/router-animations';
 
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
 import { ExperienceDialogComponent } from './components/experience-dialog/experience-dialog.component';
+import { FirstTimeComponent } from './components/first-time/first-time.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LogoutFormComponent } from './components/logout-form/logout-form.component';
@@ -52,6 +53,7 @@ import { IDarkMode } from './store/model/dark-mode.interface';
         AsyncPipe,
         SpinnerComponent,
         LogoutFormComponent,
+        FirstTimeComponent,
         ExperienceDialogComponent,
         NgClass,
     ],
