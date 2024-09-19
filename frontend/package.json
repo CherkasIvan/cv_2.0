@@ -13,7 +13,7 @@
         "serve": "node server.js",
         "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs",
         "build:ssr": "ng build && ng run cv_2.0:server",
-        "serve:ssr": "node dist/cv_2.0/server/main.js",
+        "serve:ssr": "node dist/cv_2.0-server/main.js",
         "heroku-postbuild": "npm run build:ssr"
     },
     "private": true,
