@@ -37,6 +37,9 @@ export class ApiService {
     }
 
     getNavigation(): Observable<INavigation[]> {
+        console.log(
+            this.http.get<INavigation[]>(`${this.baseUrl}/firebase/navigation`),
+        );
         return this.http.get<INavigation[]>(
             `${this.baseUrl}/firebase/navigation`,
         );
