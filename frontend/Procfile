@@ -1,1 +1,1 @@
-web: node dist/cv_2.0/server/main.js
+web: node dist/cv_2.0-server/main.js
