@@ -1,23 +1,20 @@
-# # Используем Node.js 20.13.1-alpine3.19 для сборки
-# FROM node:20.13.1-alpine3.19 as build
+# Используем официальный образ Node.js
+FROM node:18
 
-# # Устанавливаем рабочую директорию
-# WORKDIR /app/src
-
-# # Копируем package.json и устанавливаем зависимости
-# COPY package*.json ./
-# RUN npm ci
-
-# # Копируем все файлы и собираем приложение
-# COPY . ./
-# RUN npm run build
-
-# # Используем Node.js 20.13.1-alpine3.19 для запуска
-# FROM node:20.13.1-alpine3.19
-
-FROM node:18-alpine
+# Устанавливаем рабочую директорию
 WORKDIR /app
-COPY backend/package*.json ./
+
+# Копируем package.json и package-lock.json
+COPY package*.json ./
+
+# Устанавливаем зависимости
 RUN npm install
-COPY backend ./
-CMD ["node", "server.js"]
+
+# Копируем остальные файлы проекта
+COPY . .
+
+# Собираем приложение
+RUN npm run build
+
+# Указываем команду для запуска приложения
+CMD ["node", "dist/main"]

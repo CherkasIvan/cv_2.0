@@ -1,72 +1,19 @@
-# version: "3.8"
-
-# services:
-#   backend:
-#     container_name: backend
-#     build:
-#       context: ./backend
-#     ports:
-#       - "3000:3000"
-
-#     environment:
-#       - NODE_ENV=production
-
-#   frontend:
-#     container_name: frontend
-#     build:
-#       context: ./frontend
-#     volumes:
-#       - ./frontend/dist:/usr/share/nginx/html
-#     ports:
-#       - "4000:4000"
-
-#     depends_on:
-#       - backend
-
-#   nginx:
-#     container_name: nginx
-#     image: nginx:latest
-#     ports:
-#       - "80:80"
-
-#     volumes:
-#       - ./nginx.conf:/etc/nginx/nginx.conf
-
-#     depends_on:
-#       - frontend
-
-#       - backend
-
-version: "3.8"
-
+version: "3"
 services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+
+    environment:
+      - NODE_ENV=production
+
   backend:
-    build:
-      context: ./backend
+    build: ./backend
     ports:
       - "3000:3000"
 
     environment:
       - NODE_ENV=production
 
-  frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "4000:80"
-
-    depends_on:
-      - backend
-
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-
-    depends_on:
-      - frontend
-
-      - backend
+      - API_URL=http://localhost:3000

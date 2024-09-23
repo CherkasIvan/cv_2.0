@@ -1,21 +1,23 @@
-# FROM node:18-alpine AS build
-# WORKDIR /app
-# COPY package*.json ./
-# RUN npm install --legacy-peer-deps
-# COPY . .
-# RUN npm run build:ssr
+# Используем официальный образ Node.js
+FROM node:18
 
-# FROM node:18-alpine
-# WORKDIR /app
-# COPY --from=build /app/dist/cv_2.0-server /app
-# CMD ["node", "main.js"]
-
-FROM node:18-alpine AS build
+# Устанавливаем рабочую директорию
 WORKDIR /app
-COPY frontend/package*.json ./
-RUN npm install --legacy-peer-deps
-COPY frontend ./
-RUN npm run build:ssr
 
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
+# Копируем package.json и package-lock.json
+COPY package*.json ./
+
+# Устанавливаем зависимости
+RUN npm install
+
+# Копируем остальные файлы проекта
+COPY . .
+
+# Собираем приложение
+RUN npm run build --prod
+
+# Устанавливаем сервер для обслуживания статических файлов
+RUN npm install -g http-server
+
+# Указываем команду для запуска приложения
+CMD ["http-server", "dist/angular-starter"]
