@@ -38,7 +38,6 @@
         "dexie": "^4.0.8",
         "express": "^4.19.2",
         "firebase": "^10.12.5",
-        "ngrx-store-localstorage": "^18.0.0",
         "npx": "^10.2.2",
         "prettier-plugin-css-order": "^2.1.2",
         "rxjs": "~7.8.1",

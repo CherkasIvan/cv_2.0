@@ -49,11 +49,6 @@ import { firebaseReducer } from './layout/store/firebase-store/firebase.reducers
 import { GithubRepositoriesEffects } from './layout/store/github-projects-store/github-projects.effects';
 import { githubRepositoriesReducer } from './layout/store/github-projects-store/github-projects.reducer';
 import { languageReducer } from './layout/store/language-selector-store/language-selector.reducers';
-import {
-    localStorageSyncReducer,
-    localstorageUserReducer,
-    metaReducers,
-} from './layout/store/localstorage-store/localstorage.reducers';
 import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
 
@@ -87,11 +82,6 @@ export const appConfig: ApplicationConfig = {
                 AuthEffects,
                 GithubRepositoriesEffects,
             ]),
-            StoreModule.forFeature(
-                'localStorageSyncReducer',
-                localStorageSyncReducer,
-                { metaReducers },
-            ),
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('firebase', firebaseReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),
