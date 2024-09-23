@@ -81,6 +81,7 @@ export class AuthService {
     signInAsGuest() {
         return from(this._afAuth.signInAnonymously()).pipe(
             tap((result) => {
+                console.log('signInAsGuest result:', result);
                 if (!this.usersState) {
                     this._localStorageService.initUser(
                         true,
@@ -92,10 +93,12 @@ export class AuthService {
                     this._localStorageService.setUser(null);
                 }
                 this.isAuth$.next(true);
+                console.log('isAuth$ after signInAsGuest:', this.isAuth$.value);
                 this._router.navigate([ERoute.LAYOUT]);
             }),
             catchError((error: Error) => {
                 this.isAuth$.next(false);
+                console.error('signInAsGuest error:', error);
                 throw error;
             }),
         );
