@@ -3,7 +3,7 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "4200:80"
+      - "4000:80"
 
     environment:
       - NODE_ENV=production
@@ -17,3 +17,16 @@ services:
       - NODE_ENV=production
 
       - API_URL=http://localhost:3000
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+
+    depends_on:
+      - frontend
+
+      - backend

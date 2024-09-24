@@ -1,23 +1,15 @@
-# Используем официальный образ Node.js
+# Dockerfile для фронтенда
 FROM node:18
 
-# Устанавливаем рабочую директорию
 WORKDIR /app
 
-# Копируем package.json и package-lock.json
 COPY package*.json ./
-
-# Устанавливаем зависимости
 RUN npm install
 
-# Копируем остальные файлы проекта
 COPY . .
 
-# Собираем приложение
-RUN npm run build --prod
+RUN npm run build:ssr
 
-# Устанавливаем сервер для обслуживания статических файлов
-RUN npm install -g http-server
+EXPOSE 4000
 
-# Указываем команду для запуска приложения
-CMD ["http-server", "dist/angular-starter"]
+CMD ["npm", "run", "serve:ssr"]
