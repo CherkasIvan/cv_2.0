@@ -1,32 +1,23 @@
-# Используем Node.js 20.13.1-alpine3.19 для сборки
-FROM node:20.13.1-alpine3.19 as build
+# Используем официальный образ Node.js
+FROM node:18
 
 # Устанавливаем рабочую директорию
-WORKDIR /app/src
+WORKDIR /app
 
-# Копируем package.json и устанавливаем зависимости
+# Копируем package.json и package-lock.json
 COPY package*.json ./
-RUN npm ci
 
-# Копируем все файлы и собираем приложение
-COPY . ./
-RUN npm run build
+# Устанавливаем зависимости
+RUN npm install
 
-# Используем Node.js 20.13.1-alpine3.19 для запуска
-FROM node:20.13.1-alpine3.19
+# Копируем остальные файлы проекта
+COPY . .
 
-# Создаем пользователя и группу
-RUN addgroup -S exampleusergroup && adduser -S exampleuser -G exampleusergroup
-USER exampleuser
+# Собираем приложение
+RUN npm run build --prod
 
-# Устанавливаем рабочую директорию
-WORKDIR /usr/app
-
-# Копируем собранное приложение
-COPY --from=build /app/src/dist/cv_2.0/ ./
+# Устанавливаем сервер для обслуживания статических файлов
+RUN npm install -g http-server
 
 # Указываем команду для запуска приложения
-CMD ["node", "server/server.mjs"]
-
-# Открываем порт, на котором будет работать приложение
-EXPOSE 4000
+CMD ["http-server", "dist/angular-starter"]

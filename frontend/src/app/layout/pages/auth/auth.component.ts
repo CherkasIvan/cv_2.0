@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { FirstTimeComponent } from '@layout/components/first-time/first-time.component';
+
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
 
 @Component({
     selector: 'cv-auth',
     standalone: true,
-    imports: [LoginFormComponent],
+    imports: [LoginFormComponent, FirstTimeComponent],
     templateUrl: './auth.component.html',
     styleUrl: './auth.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

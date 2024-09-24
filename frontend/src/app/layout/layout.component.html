@@ -1,3 +1,5 @@
+<cv-first-time></cv-first-time>
+
 <div
     class="layout-container"
     [ngClass]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
@@ -39,4 +41,5 @@
         <cv-experience-dialog header="Выход"></cv-experience-dialog>
     }
 </div>
+
 <cv-spinner [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"></cv-spinner>
