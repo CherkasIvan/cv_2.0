@@ -1,6 +1,4 @@
-import { firebaseConfig } from '../app/core/utils/firebase/firebase.config';
-
 export const environment = {
     production: true,
-    firebase: firebaseConfig,
+    apiUrl: process.env['API_URL'] || 'http://localhost:3000',
 };

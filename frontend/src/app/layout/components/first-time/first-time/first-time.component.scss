@@ -1,0 +1,16 @@
+@use '../../../../../assets/styles/variables' as color;
+
+.first-time {
+  width: 100vw;
+  height: 100vh;
+  background-color: color.$white;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+
+.fade-out {
+  &.ng-leave-active {
+    opacity: 0;
+  }
+}
