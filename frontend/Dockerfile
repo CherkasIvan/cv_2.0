@@ -21,3 +21,4 @@ RUN npm install -g http-server
 
 # Указываем команду для запуска приложения
 CMD ["http-server", "dist/cv_2.0"]
+
