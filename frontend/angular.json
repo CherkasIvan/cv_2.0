@@ -11,27 +11,23 @@
             "prefix": "cv",
             "architect": {
                 "build": {
-                    "builder": "@angular-devkit/build-angular:application",
+                    "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/cv_2.0",
+                        "outputPath": "dist/cv_2.0/browser",
                         "index": "src/index.html",
-                        "browser": "src/main.ts",
-                        "polyfills": ["zone.js"],
+                        "main": "src/main.ts",
+                        "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
                             {
                                 "glob": "**/*",
-                                "input": "public"
+                                "input": "public",
+                                "output": "/"
                             },
                             "src/assets"
                         ],
                         "styles": ["src/styles.scss"],
-                        "scripts": [],
-                        "server": "src/main.server.ts",
-                        "prerender": true,
-                        "ssr": {
-                            "entry": "server.ts"
-                        }
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {
@@ -67,13 +63,21 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "cv_2.0:build:production"
+                            "browserTarget": "cv_2.0:build:production"
                         },
                         "development": {
-                            "buildTarget": "cv_2.0:build:development"
+                            "browserTarget": "cv_2.0:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
+                },
+                "server": {
+                    "builder": "@angular-devkit/build-angular:server",
+                    "options": {
+                        "outputPath": "dist/cv_2.0/server",
+                        "main": "src/main.server.ts",
+                        "tsConfig": "tsconfig.server.json"
+                    }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -86,7 +90,8 @@
                         "assets": [
                             {
                                 "glob": "**/*",
-                                "input": "public"
+                                "input": "public",
+                                "output": "/"
                             }
                         ],
                         "styles": ["src/styles.css"],
