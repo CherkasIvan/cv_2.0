@@ -1,19 +1,46 @@
-version: "3"
+# version: "3"
+# services:
+#   frontend:
+#     build: ./frontend
+#     ports:
+#       - "4200:80"
+
+#     environment:
+#       - NODE_ENV=production
+
+#   backend:
+#     build: ./backend
+#     ports:
+#       - "3000:3000"
+
+#     environment:
+#       - NODE_ENV=production
+
+#       - API_URL=http://localhost:3000
+
+version: "3.8"
+
 services:
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "4200:80"
+      - "4000:4000"
 
     environment:
       - NODE_ENV=production
 
+    command: npm run serve:ssr
+
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
 
     environment:
       - NODE_ENV=production
 
-      - API_URL=http://localhost:3000
+    command: node dist/main
