@@ -1,0 +1,13 @@
+{
+  "name": "cv",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm run build --workspace=backend && npm run build --workspace=frontend",
+    "start:prod": "npm run start:prod --workspace=backend & npm run serve:ssr --workspace=frontend"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "private": true
+}
