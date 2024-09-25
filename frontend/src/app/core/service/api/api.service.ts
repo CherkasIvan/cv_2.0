@@ -16,7 +16,7 @@ import { IWorkExperience } from '@core/models/work-experience.interface';
     providedIn: 'root',
 })
 export class ApiService {
-    private baseUrl = '/api';
+    private baseUrl = 'http://localhost:3000';
 
     constructor(private http: HttpClient) {}
 
