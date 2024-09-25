@@ -13,7 +13,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:application",
                     "options": {
-                        "outputPath": "dist/angular-starter",
+                        "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
                         "polyfills": ["zone.js"],
@@ -67,10 +67,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "angular-starter:build:production"
+                            "buildTarget": "cv_2.0:build:production"
                         },
                         "development": {
-                            "buildTarget": "angular-starter:build:development"
+                            "buildTarget": "cv_2.0:build:development"
                         }
                     },
                     "defaultConfiguration": "development"

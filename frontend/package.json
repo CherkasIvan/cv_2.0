@@ -10,7 +10,7 @@
         "test": "ng test",
         "coverage": "ng test --no-watch --code-coverage",
         "lint": "ng lint",
-        "serve": "node dist/angular-starter/server/server.mjs",
+        "serve": "node dist/cv_2.0/server/server.mjs",
         "heroku-postbuild": "npm run build:ssr"
     },
     "private": true,

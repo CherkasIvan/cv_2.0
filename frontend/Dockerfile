@@ -20,4 +20,4 @@ RUN npm run build --prod
 RUN npm install -g http-server
 
 # Указываем команду для запуска приложения
-CMD ["http-server", "dist/angular-starter"]
+CMD ["http-server", "dist/cv_2.0"]
