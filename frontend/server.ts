@@ -20,10 +20,10 @@ export function app(): express.Express {
     server.set('views', browserDistFolder);
 
     // Example Express Rest API endpoints
-    // server.get('/api/**', (req, res) => { });
+    // server.get('/api/[**', (req, res) => { });
     // Serve static files from /browser
     server.get(
-        '**',
+        '**](https://www.bing.com/search?form=SKPBOT&q=%26apos%3B%2C%20%28req%2C%20res%29%20%3D%26gt%3B%20%7B%20%7D%29%3B%0D%0A%2F%2F%20Serve%20static%20files%20from%20%2Fbrowser%0D%0Aserver.get%28%0D%0A%26apos%3B)',
         express.static(browserDistFolder, {
             maxAge: '1y',
             index: 'index.html',
@@ -31,20 +31,32 @@ export function app(): express.Express {
     );
 
     // All regular routes use the Angular engine
-    server.get('**', (req, res, next) => {
-        const { protocol, originalUrl, baseUrl, headers } = req;
+    server.get(
+        '[**',
+        (
+            req: {
+                protocol: any;
+                originalUrl: any;
+                baseUrl: any;
+                headers: any;
+            },
+            res: { send: (arg0: string) => any },
+            next: (arg0: any) => any,
+        ) => {
+            const { protocol, originalUrl, baseUrl, headers } = req;
 
-        commonEngine
-            .render({
-                bootstrap,
-                documentFilePath: indexHtml,
-                url: `${protocol}://${headers.host}${originalUrl}`,
-                publicPath: browserDistFolder,
-                providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-            })
-            .then((html) => res.send(html))
-            .catch((err) => next(err));
-    });
+            commonEngine
+                .render({
+                    bootstrap,
+                    documentFilePath: indexHtml,
+                    url: `${protocol}://${headers.host}${originalUrl}`,
+                    publicPath: browserDistFolder,
+                    providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+                })
+                .then((html) => res.send(html))
+                .catch((err) => next(err));
+        },
+    );
 
     return server;
 }
