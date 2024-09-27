@@ -54,33 +54,15 @@
     "typescript": "~5.3.3"
   },
   "pathMappings": {
-    "@angular/*": [
-      "./node_modules/@angular/*"
-    ],
-    "@env/*": [
-      "environments/*"
-    ],
-    "@utils/*": [
-      "utils/*"
-    ],
-    "@store/*": [
-      "app/store/*"
-    ],
-    "@app/*": [
-      "app/*"
-    ],
-    "@assets/*": [
-      "assets/*"
-    ],
-    "@pages/*": [
-      "app/pages/*"
-    ],
-    "@core/*": [
-      "app/core/*"
-    ],
-    "@layout/*": [
-      "app/layout/*"
-    ]
+    "@angular/*": ["./node_modules/@angular/*"],
+    "@env/*": ["environments/*"],
+    "@utils/*": ["utils/*"],
+    "@store/*": ["app/store/*"],
+    "@app/*": ["app/*"],
+    "@assets/*": ["assets/*"],
+    "@pages/*": ["app/pages/*"],
+    "@core/*": ["app/core/*"],
+    "@layout/*": ["app/layout/*"]
   },
   "nxJsonPlugins": [],
   "fileMap": {
@@ -651,7 +633,7 @@
         "hash": "13750206537034624321"
       },
       {
-        "file": "src/app/layout/store/model/dark-mode.interface.ts",
+        "file": "src/app/layout/store/model/dark-mode.type.ts",
         "hash": "4241724802195936148"
       },
       {
