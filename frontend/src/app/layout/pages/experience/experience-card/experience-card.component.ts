@@ -3,8 +3,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    EventEmitter,
-    Output,
+    OnInit,
     input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -29,7 +28,7 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
     animations: [fadeInOutCards],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExperienceCardComponent {
+export class ExperienceCardComponent implements OnInit {
     public experienceType = input.required<string>();
     public workDescription = input<
         IWorkExperience | IEducationExperience | null
@@ -41,8 +40,8 @@ export class ExperienceCardComponent {
     public theme = input<boolean | null>();
 
     constructor(
-        private cdr: ChangeDetectorRef,
-        private _store$: Store,
+        private _cdr: ChangeDetectorRef,
+        private _store$: Store<IEducationExperience>,
     ) {}
 
     ngOnInit(): void {
@@ -50,7 +49,7 @@ export class ExperienceCardComponent {
         this.workDescription = this.workDescription || null;
         this.experienceDescription = this.experienceDescription || null;
 
-        this.cdr.detectChanges();
+        this._cdr.detectChanges();
     }
 
     public showDialogExperience(

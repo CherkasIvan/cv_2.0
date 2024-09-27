@@ -11,7 +11,7 @@ import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { GithubRepositoriesActions } from '@layout/store/github-projects-store/github-projects.action';
 import { selectGithubRepositories } from '@layout/store/github-projects-store/github-projects.selector';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+import { TDarkMode } from '@layout/store/model/dark-mode.type';
 
 import { ProjectChipsComponent } from './components/project-chips/project-chips.component';
 
@@ -57,7 +57,7 @@ export class ProjectsComponent implements OnInit {
 
     private _destroyed$: Subject<void> = new Subject();
 
-    constructor(private _store$: Store<TGitHub[] | IDarkMode>) {}
+    constructor(private _store$: Store<TGitHub[] | TDarkMode>) {}
 
     ngOnInit(): void {
         this._store$.dispatch(GithubRepositoriesActions.getRepositories());

@@ -1,4 +1,4 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { createActionGroup, props } from '@ngrx/store';
 
 import { IEducationExperience } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
@@ -17,76 +17,76 @@ export const FirebaseActions = createActionGroup({
             navigation: INavigation[];
             images?: string[];
         }>(),
-        getNavigationError: props<{ error: unknown }>(),
+        getNavigationError: props<{ error: Error | null }>(),
 
         getSocialMedia: props<{ imgName: string }>(),
         getSocialMediaSuccess: props<{
             socialMediaLinks: ISocialMedia[];
             images?: string[];
         }>(),
-        getSocialMediaError: props<{ error: unknown }>(),
+        getSocialMediaError: props<{ error: Error | null }>(),
 
         getWorkExperience: props<{ imgName: string }>(),
         getWorkExperienceSuccess: props<{
             workExperience: IWorkExperience[];
             images?: string[];
         }>(),
-        getWorkExperienceError: props<{ error: unknown }>(),
+        getWorkExperienceError: props<{ error: Error | null }>(),
 
         getFrontendTech: props<{ imgName: string }>(),
         getFrontendTechSuccess: props<{
             frontendTech: ITechnologies[];
             images?: string[];
         }>(),
-        getFrontendTechError: props<{ error: unknown }>(),
+        getFrontendTechError: props<{ error: Error | null }>(),
 
         getBackendTech: props<{ imgName: string }>(),
         getBackendTechSuccess: props<{
             backendTech: ITechnologies[];
             images?: string[];
         }>(),
-        getBackendTechError: props<{ error: unknown }>(),
+        getBackendTechError: props<{ error: Error | null }>(),
 
         getOtherTech: props<{ imgName: string }>(),
         getOtherTechSuccess: props<{
             otherTech: ITechnologies[];
             images?: string[];
         }>(),
-        getOtherTechError: props<{ error: unknown }>(),
+        getOtherTechError: props<{ error: Error | null }>(),
 
         getHardSkillsNav: props<{ imgName: string }>(),
         getHardSkillsNavSuccess: props<{
             hardSkillsNav: INavigation[];
             images?: string[];
         }>(),
-        getHardSkillsNavError: props<{ error: unknown }>(),
+        getHardSkillsNavError: props<{ error: Error | null }>(),
 
         getEducationPlaces: props<{ imgName: string }>(),
         getEducationPlacesSuccess: props<{
             education: IEducationExperience[];
             images?: string[];
         }>(),
-        getEducationPlacesError: props<{ error: unknown }>(),
+        getEducationPlacesError: props<{ error: Error | null }>(),
 
         getMainPageInfo: props<{ imgName: string }>(),
         getMainPageInfoSuccess: props<{
             mainPageInfo: IMainPageInfo;
             images?: string[];
         }>(),
-        getMainPageInfoError: props<{ error: unknown }>(),
+        getMainPageInfoError: props<{ error: Error | null }>(),
 
         getExperienceAside: props<{ imgName: string }>(),
         getExperienceAsideSuccess: props<{
             experienceAside: TExperienceAside[];
             images?: string[];
         }>(),
-        getExperienceAsideError: props<{ error: unknown }>(),
+        getExperienceAsideError: props<{ error: Error | null }>(),
 
         getTechnologiesAside: props<{ imgName: string }>(),
         getTechnologiesAsideSuccess: props<{
             technologiesAside: TTechnologiesAside[];
             images?: string[];
         }>(),
-        getTechnologiesAsideError: props<{ error: unknown }>(),
+        getTechnologiesAsideError: props<{ error: Error | null }>(),
     },
 });

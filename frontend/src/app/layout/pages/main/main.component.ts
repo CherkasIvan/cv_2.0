@@ -18,7 +18,7 @@ import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectMainPageInfo } from '@layout/store/firebase-store/firebase.selectors';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+import { TDarkMode } from '@layout/store/model/dark-mode.type';
 
 import { ProfileLogoComponent } from '../../../layout/components/profile-logo/profile-logo.component';
 
@@ -52,7 +52,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<IDarkMode | IMainPageInfo>,
+        private _store$: Store<TDarkMode | IMainPageInfo>,
     ) {}
 
     ngOnInit(): void {

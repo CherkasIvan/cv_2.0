@@ -6,11 +6,11 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
+    Inject,
     InputSignal,
     OnDestroy,
     OnInit,
     Output,
-    computed,
     input,
 } from '@angular/core';
 import { RouterLinkActive } from '@angular/router';
@@ -54,7 +54,7 @@ export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
 
     constructor(
         private cdr: ChangeDetectorRef,
-        private _store$: Store<INavigation>,
+        @Inject(Store) private _store$: Store<INavigation[]>,
         private _localStorageService: LocalStorageService,
     ) {}
 

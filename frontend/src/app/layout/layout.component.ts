@@ -41,7 +41,7 @@ import {
     selectNavigation,
     selectSocialMediaLinks,
 } from './store/firebase-store/firebase.selectors';
-import { IDarkMode } from './store/model/dark-mode.interface';
+import { TDarkMode } from './store/model/dark-mode.type';
 
 @Component({
     selector: 'cv-layout',
@@ -90,7 +90,7 @@ export class LayoutComponent implements OnInit {
 
     constructor(
         private _store$: Store<
-            IDarkMode | INavigation | ISocialMedia | { modal: ModalState }
+            TDarkMode | INavigation | ISocialMedia | { modal: ModalState }
         >,
         @Inject(AngularFireAuth) public afAuth: AngularFireAuth,
         private _localStorageService: LocalStorageService,

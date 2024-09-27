@@ -5,15 +5,16 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Inject,
     OnInit,
 } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
 import { EvenColumnDirective } from '@core/directives/even-column.directive';
-import { TExperienceAside } from '@core/models/experience-aside.type';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
+import { TTechnologies } from '@core/models/tecnologies.type';
 
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
@@ -124,7 +125,7 @@ export class TechnologiesComponent implements OnInit {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<any>,
+        @Inject(Store) private _store$: Store<TTechnologies>,
     ) {}
 
     ngOnInit(): void {

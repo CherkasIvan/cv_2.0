@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+import { TDarkMode } from '@layout/store/model/dark-mode.type';
 import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
 
 @Component({
@@ -21,7 +21,7 @@ export class DarkModeToggleComponent implements OnInit {
     public isChecked: boolean = false;
 
     constructor(
-        private _store$: Store<IDarkMode | TLocalstorageUser>,
+        private _store$: Store<TDarkMode | TLocalstorageUser>,
         private _localStorageService: LocalStorageService,
     ) {}
 

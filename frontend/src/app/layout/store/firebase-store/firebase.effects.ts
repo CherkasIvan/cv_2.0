@@ -2,9 +2,10 @@ import { forkJoin, of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 
 import { ApiService } from '@core/service/api/api.service';
 
@@ -13,12 +14,12 @@ import { FirebaseActions } from './firebase.actions';
 @Injectable()
 export class FirebaseEffects {
     constructor(
-        private actions$: Actions,
+        private _actions$: Actions<Action<string>>,
         private _apiService: ApiService,
     ) {}
 
     loadNavigation$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getNavigation),
             mergeMap((action) =>
                 forkJoin({
@@ -40,7 +41,7 @@ export class FirebaseEffects {
     );
 
     loadSocialMediaLinks$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getSocialMedia),
             mergeMap((action) =>
                 forkJoin({
@@ -62,7 +63,7 @@ export class FirebaseEffects {
     );
 
     loadWorkExperience$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getWorkExperience),
             mergeMap((action) =>
                 forkJoin({
@@ -84,7 +85,7 @@ export class FirebaseEffects {
     );
 
     loadFrontendTech$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getFrontendTech),
             mergeMap((action) =>
                 forkJoin({
@@ -106,7 +107,7 @@ export class FirebaseEffects {
     );
 
     loadBackendTech$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getBackendTech),
             mergeMap((action) =>
                 forkJoin({
@@ -128,7 +129,7 @@ export class FirebaseEffects {
     );
 
     loadOtherTech$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getOtherTech),
             mergeMap((action) =>
                 forkJoin({
@@ -150,7 +151,7 @@ export class FirebaseEffects {
     );
 
     loadHardSkillsNav$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getHardSkillsNav),
             mergeMap((action) =>
                 forkJoin({
@@ -172,7 +173,7 @@ export class FirebaseEffects {
     );
 
     loadEducationPlaces$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getEducationPlaces),
             mergeMap((action) =>
                 forkJoin({
@@ -194,7 +195,7 @@ export class FirebaseEffects {
     );
 
     loadMainPageInfo$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getMainPageInfo),
             mergeMap((action) =>
                 forkJoin({
@@ -216,7 +217,7 @@ export class FirebaseEffects {
     );
 
     loadExperienceAside$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getExperienceAside),
             mergeMap((action) =>
                 forkJoin({
@@ -238,9 +239,9 @@ export class FirebaseEffects {
     );
 
     loadTechnologiesAside$ = createEffect(() =>
-        this.actions$.pipe(
+        this._actions$.pipe(
             ofType(FirebaseActions.getTechnologiesAside),
-            mergeMap((action) =>
+            mergeMap(() =>
                 this._apiService.getTechnologiesAside().pipe(
                     mergeMap((technologiesAside) => {
                         const imageRequests = technologiesAside.map((tech) => {

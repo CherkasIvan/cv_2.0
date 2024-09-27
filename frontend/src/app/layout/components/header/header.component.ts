@@ -1,4 +1,4 @@
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { NgClass, NgFor } from '@angular/common';
 import {
@@ -6,11 +6,11 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
+    Inject,
     Input,
     OnDestroy,
     OnInit,
     Output,
-    computed,
     input,
 } from '@angular/core';
 import {
@@ -27,6 +27,7 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
+import { TLanguages } from '@layout/store/model/languages.type';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
 import { LoginFormComponent } from '../login-form/login-form.component';
@@ -59,13 +60,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public isModalDialogVisible: boolean = false;
     public displayName = '';
 
-    private _routerSubscription$: Subscription = new Subscription();
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(
         private readonly _router: Router,
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<any>,
+        @Inject(Store) private _store$: Store<TLanguages>,
         private _localStorageService: LocalStorageService,
     ) {}
 
@@ -82,19 +82,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this._routerSubscription$.add(
-            this._router.events
-                .pipe(takeUntil(this._destroyed$))
-                .subscribe((event) => {
-                    if (event instanceof NavigationEnd) {
-                        this.currentRoute = event.url;
-                        this._localStorageService.updateCurrentRoute(
-                            this.currentRoute,
-                        );
-                    }
-                }),
-        );
-        this._store$.pipe(takeUntil(this._destroyed$), select(selectAuth));
+        this._router.events
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((event) => {
+                if (event instanceof NavigationEnd) {
+                    this.currentRoute = event.url;
+                    this._localStorageService.updateCurrentRoute(
+                        this.currentRoute,
+                    );
+                }
+            }),
+            this._store$.pipe(takeUntil(this._destroyed$), select(selectAuth));
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
 
