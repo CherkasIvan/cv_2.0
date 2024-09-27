@@ -82,7 +82,7 @@ export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
     }
 
-    public tabForRoute(event: any) {
+    public tabForRoute(event: string) {
         this.emittedTab.emit(event);
     }
 

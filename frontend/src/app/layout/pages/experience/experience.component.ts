@@ -21,7 +21,7 @@ import {
     selectExperienceAside,
     selectWorkExperience,
 } from '@layout/store/firebase-store/firebase.selectors';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+import { TDarkMode } from '@layout/store/model/dark-mode.type';
 
 import { AsideNavigationExperienceComponent } from '../../components/aside-navigation-experience/aside-navigation-experience.component';
 import { EducationExperienceComponent } from './education-experience/education-experience.component';
@@ -65,7 +65,7 @@ export class ExperienceComponent implements OnInit {
 
     constructor(
         private _store$: Store<
-            | IDarkMode
+            | TDarkMode
             | IWorkExperience
             | IEducationExperience
             | TExperienceAside

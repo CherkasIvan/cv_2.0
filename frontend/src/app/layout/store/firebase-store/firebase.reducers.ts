@@ -23,7 +23,7 @@ export interface FirebaseState {
     mainPageInfo: IMainPageInfo | null;
     experienceAside: TExperienceAside[];
     technologiesAside: TTechnologiesAside[];
-    error: any;
+    error: Error | null;
 }
 
 export const initialFirebaseState: FirebaseState = {
