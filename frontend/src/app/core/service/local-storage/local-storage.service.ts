@@ -219,4 +219,23 @@ export class LocalStorageService {
         const usersState = this.getUsersState();
         return usersState ? usersState.language : 'ru';
     }
+
+    public setUsersState(usersState: TLocalstorageUser): void {
+        if (this.localStorageAvailable) {
+            localStorage.setItem('usersState', JSON.stringify(usersState));
+        }
+    }
+
+    public getIsFirstTime(): boolean {
+        const usersState = this.getUsersState();
+        return usersState ? usersState.isFirstTime : true;
+    }
+
+    public setIsFirstTime(isFirstTime: boolean): void {
+        const usersState = this.getUsersState();
+        if (usersState) {
+            usersState.isFirstTime = isFirstTime;
+            this.setUsersState(usersState);
+        }
+    }
 }
