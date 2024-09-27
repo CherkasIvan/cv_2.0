@@ -1,45 +1,48 @@
-<cv-first-time></cv-first-time>
+@if (isFirstTime) {
+    <cv-first-time @startCardFadeOut></cv-first-time>
+}
+@if (!isFirstTime) {
+    <div
+        @startCardFadeIn
+        class="layout-container"
+        [ngClass]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
+    >
+        <main class="layout">
+            <header class="header">
+                <cv-header
+                    [theme]="currentTheme$ | async"
+                    [navigationLinks]="navigation$ | async"
+                    (emittedModalShow)="getModalInstance($event)"
+                ></cv-header>
+            </header>
 
-<div
-    class="layout-container"
-    [ngClass]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
->
-    <main class="layout">
-        <header class="header">
-            <cv-header
-                [theme]="currentTheme$ | async"
-                [navigationLinks]="navigation$ | async"
-                (emittedModalShow)="getModalInstance($event)"
-            ></cv-header>
-        </header>
+            <cv-animation-bg [navigationLinks]="navigation$ | async"></cv-animation-bg>
 
-        <cv-animation-bg [navigationLinks]="navigation$ | async"></cv-animation-bg>
+            <main
+                class="general"
+                [@routeAnimations]="prepareRoute(outlet)"
+            >
+                <router-outlet #outlet="outlet"></router-outlet>
+            </main>
 
-        <main
-            class="general"
-            [@routeAnimations]="prepareRoute(outlet)"
-        >
-            <router-outlet #outlet="outlet"></router-outlet>
+            <footer class="footer">
+                <cv-footer
+                    [theme]="currentTheme$ | async"
+                    [socialLinks$]="social$ | async"
+                ></cv-footer>
+            </footer>
         </main>
 
-        <footer class="footer">
-            <cv-footer
-                [theme]="currentTheme$ | async"
-                [socialLinks$]="social$ | async"
-            ></cv-footer>
-        </footer>
-    </main>
+        @if (isModalDialogVisible) {
+            <cv-logout-form
+                header="Выход"
+                (emittedModalHide)="getModalInstance($event)"
+            ></cv-logout-form>
+        }
 
-    @if (isModalDialogVisible) {
-        <cv-logout-form
-            header="Выход"
-            (emittedModalHide)="getModalInstance($event)"
-        ></cv-logout-form>
-    }
-
-    @if (isExperienceDialogVisible$ | async) {
-        <cv-experience-dialog header="Выход"></cv-experience-dialog>
-    }
-</div>
-
+        @if (isExperienceDialogVisible$ | async) {
+            <cv-experience-dialog header="Выход"></cv-experience-dialog>
+        }
+    </div>
+}
 <cv-spinner [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"></cv-spinner>
