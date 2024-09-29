@@ -3,14 +3,13 @@ import { Observable, map, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { IEducationExperience } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
+import { IExperience } from '@core/models/experience.interface';
 import { IMainPageInfo } from '@core/models/main-page-info';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
-import { IWorkExperience } from '@core/models/work-experience.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -54,8 +53,8 @@ export class ApiService {
         );
     }
 
-    getWorkExperience(): Observable<IWorkExperience[]> {
-        return this.http.get<IWorkExperience[]>(
+    getWorkExperience(): Observable<IExperience[]> {
+        return this.http.get<IExperience[]>(
             `${this.baseUrl}/firebase/work-experience`,
         );
     }
@@ -66,8 +65,8 @@ export class ApiService {
             .pipe(map((data) => data[0]));
     }
 
-    getEducationPlaces(): Observable<IEducationExperience[]> {
-        return this.http.get<IEducationExperience[]>(
+    getEducationPlaces(): Observable<IExperience[]> {
+        return this.http.get<IExperience[]>(
             `${this.baseUrl}/firebase/education-places`,
         );
     }

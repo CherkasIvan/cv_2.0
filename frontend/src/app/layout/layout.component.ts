@@ -13,10 +13,10 @@ import { RouterOutlet } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
-import { IEducationExperience } from '@core/models/education.interface';
+import { IExperience } from '@core/models/experience.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
-import { IWorkExperience } from '@core/models/work-experience.interface';
+import { AuthService } from '@core/service/auth/auth.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 import { routeAnimations } from '@core/utils/animations/router-animations';
 import { startCardFadeIn } from '@core/utils/animations/start-cart-fade-in';
@@ -65,12 +65,11 @@ import { TDarkMode } from './store/model/dark-mode.type';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-    public isFirstTime!: boolean;
+    public isFirstTime!: boolean; //TODO
+    public isAuth: boolean = false;
     public isModalDialogVisible: boolean = false;
     public isExperienceDialogVisible$!: Observable<boolean>;
-    public modalData$!: Observable<
-        IWorkExperience | IEducationExperience | null
-    >;
+    public modalData$!: Observable<IExperience | null>;
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         select(darkModeSelector),
@@ -93,6 +92,7 @@ export class LayoutComponent implements OnInit {
             TDarkMode | INavigation | ISocialMedia | { modal: ModalState }
         >,
         @Inject(AngularFireAuth) public afAuth: AngularFireAuth,
+        private _authService: AuthService,
         private _localStorageService: LocalStorageService,
         private _cdr: ChangeDetectorRef,
     ) {

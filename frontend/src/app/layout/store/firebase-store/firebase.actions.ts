@@ -1,13 +1,12 @@
 import { createActionGroup, props } from '@ngrx/store';
 
-import { IEducationExperience } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
+import { IExperience } from '@core/models/experience.interface';
 import { IMainPageInfo } from '@core/models/main-page-info';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
-import { IWorkExperience } from '@core/models/work-experience.interface';
 
 export const FirebaseActions = createActionGroup({
     source: 'Firebase API',
@@ -28,7 +27,7 @@ export const FirebaseActions = createActionGroup({
 
         getWorkExperience: props<{ imgName: string }>(),
         getWorkExperienceSuccess: props<{
-            workExperience: IWorkExperience[];
+            workExperience: IExperience[];
             images?: string[];
         }>(),
         getWorkExperienceError: props<{ error: Error | null }>(),
@@ -63,7 +62,7 @@ export const FirebaseActions = createActionGroup({
 
         getEducationPlaces: props<{ imgName: string }>(),
         getEducationPlacesSuccess: props<{
-            education: IEducationExperience[];
+            education: IExperience[];
             images?: string[];
         }>(),
         getEducationPlacesError: props<{ error: Error | null }>(),
