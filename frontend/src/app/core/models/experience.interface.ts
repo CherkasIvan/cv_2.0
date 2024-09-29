@@ -1,4 +1,4 @@
-export interface IWorkExperience {
+export interface IExperience {
     id: string;
     logoPath: string;
     company: string;

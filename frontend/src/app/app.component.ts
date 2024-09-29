@@ -30,7 +30,7 @@ export class AppComponent {
             return;
         }
 
-        inject(ApplicationRef).isStable.subscribe((stable) => {
+        inject(ApplicationRef).isStable.subscribe(() => {
             this.printNgZone(TaskTrackingZone, 0);
         });
 

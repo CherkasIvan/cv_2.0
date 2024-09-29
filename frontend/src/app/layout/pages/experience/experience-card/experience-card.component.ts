@@ -10,8 +10,7 @@ import { RouterLink } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { IEducationExperience } from '@core/models/education.interface';
-import { IWorkExperience } from '@core/models/work-experience.interface';
+import { IExperience } from '@core/models/experience.interface';
 import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
 
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
@@ -30,18 +29,14 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
 })
 export class ExperienceCardComponent implements OnInit {
     public experienceType = input.required<string>();
-    public workDescription = input<
-        IWorkExperience | IEducationExperience | null
-    >(null);
-    public experienceDescription = input<
-        IWorkExperience | IEducationExperience | null
-    >(null);
+    public workDescription = input<IExperience | null>(null);
+    public experienceDescription = input<IExperience | null>(null);
     public experienceCardImgVisibility: boolean = false;
     public theme = input<boolean | null>();
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<IEducationExperience>,
+        private _store$: Store<IExperience>,
     ) {}
 
     ngOnInit(): void {
@@ -52,9 +47,7 @@ export class ExperienceCardComponent implements OnInit {
         this._cdr.detectChanges();
     }
 
-    public showDialogExperience(
-        dialogInfo: IWorkExperience | IEducationExperience | null,
-    ) {
+    public showDialogExperience(dialogInfo: IExperience | IExperience | null) {
         this._store$.dispatch(
             ExperienceActions.getExperienceDialogOpen({ data: dialogInfo }),
         );
