@@ -1,8 +1,6 @@
 build:
-docker:
-web: Dockerfile
-backend: Dockerfile.backend
+  docker:
+    web: Dockerfile
 
 run:
-web: npm run serve:ssr
-backend: npm run start:prod
+  web: npm run serve:ssr
