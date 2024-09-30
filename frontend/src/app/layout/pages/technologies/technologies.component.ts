@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
@@ -47,6 +47,7 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
     public selectedTab: string = '';
 
     public data: ITechnologies[] | undefined;
+    private _destroyed$: Subject<void> = new Subject();
 
     public technologiesAside$: Observable<TTechnologiesAside[]> =
         this._store$.pipe(select(selectTechnologiesAside));
@@ -135,7 +136,7 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-      this._destroyed$.next();
-      this._destroyed$.complete();
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }
