@@ -1,3 +1,5 @@
+import { Subject, takeUntil } from 'rxjs';
+
 import {
     ChangeDetectionStrategy,
     Component,
@@ -33,6 +35,8 @@ export class LogoutFormComponent implements OnInit {
     public user: TProfile | null = null;
     public displayName = '';
 
+    private _destroyed$: Subject<void> = new Subject();
+
     constructor(
         private _authService: AuthService,
         private _localStorageService: LocalStorageService,
@@ -53,8 +57,12 @@ export class LogoutFormComponent implements OnInit {
     }
 
     public confirmLogout() {
-        this._authService.signOut();
-        this.emittedModalHide.emit(false);
+        this._authService
+            .signOut()
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe(() => {
+                this.emittedModalHide.emit(false);
+            });
     }
 
     public onBackgroundClick(event: MouseEvent): void {
@@ -70,5 +78,10 @@ export class LogoutFormComponent implements OnInit {
 
     public resetModalDialog() {
         this.emittedModalHide.emit(false);
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

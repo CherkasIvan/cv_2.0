@@ -11,6 +11,25 @@ import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
 })
 export class LocalStorageService {
     private isBrowser: boolean;
+    private readonly USER_STATE_KEY = 'usersState';
+
+    getUsersState(): any {
+        const state = localStorage.getItem(this.USER_STATE_KEY);
+        return state ? JSON.parse(state) : null;
+    }
+
+    setUsersState(state: any): void {
+        localStorage.setItem(this.USER_STATE_KEY, JSON.stringify(state));
+    }
+
+    clearUserData(): void {
+        localStorage.removeItem(this.USER_STATE_KEY);
+    }
+
+    checkLocalStorageUserName(): string {
+        const state = this.getUsersState();
+        return state && state.user ? state.user.displayName : '';
+    }
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: Object,
@@ -30,15 +49,15 @@ export class LocalStorageService {
         return null;
     }
 
-    public checkLocalStorageUserName() {
-        const userState = localStorage.getItem('usersState');
-        if (userState) {
-            const parsedUserState = JSON.parse(userState);
-            if (parsedUserState.user && parsedUserState.user.email) {
-                return parsedUserState.user.email.split('@')[0];
-            }
-        }
-    }
+    // public checkLocalStorageUserName() {
+    //     const userState = localStorage.getItem('usersState');
+    //     if (userState) {
+    //         const parsedUserState = JSON.parse(userState);
+    //         if (parsedUserState.user && parsedUserState.user.email) {
+    //             return parsedUserState.user.email.split('@')[0];
+    //         }
+    //     }
+    // }
 
     public setItem(key: string, value: string): void {
         if (this.localStorageAvailable) {
@@ -52,15 +71,15 @@ export class LocalStorageService {
         }
     }
 
-    public getUsersState(): TLocalstorageUser | null {
-        if (this.localStorageAvailable) {
-            const getUser = localStorage.getItem('usersState');
-            if (getUser) {
-                return JSON.parse(getUser);
-            }
-        }
-        return null;
-    }
+    // public getUsersState(): TLocalstorageUser | null {
+    //     if (this.localStorageAvailable) {
+    //         const getUser = localStorage.getItem('usersState');
+    //         if (getUser) {
+    //             return JSON.parse(getUser);
+    //         }
+    //     }
+    //     return null;
+    // }
 
     public initUser(
         isFirstTime: boolean = false,
@@ -68,7 +87,10 @@ export class LocalStorageService {
         user: firebase.default.User | null,
         currentRoute: string | 'main',
     ): void {
-        if (this.localStorageAvailable && !localStorage.getItem('usersState')) {
+        if (
+            this.localStorageAvailable &&
+            !localStorage.getItem(this.USER_STATE_KEY)
+        ) {
             const usersState: TLocalstorageUser = {
                 isFirstTime: isFirstTime,
                 isGuest: isGuest,
@@ -80,7 +102,11 @@ export class LocalStorageService {
                 isDark: false,
                 language: 'ru',
             };
-            localStorage.setItem('usersState', JSON.stringify(usersState));
+            console.log('Initializing user state:', usersState); // Добавьте это для отладки
+            localStorage.setItem(
+                this.USER_STATE_KEY,
+                JSON.stringify(usersState),
+            );
         }
     }
 
@@ -89,20 +115,24 @@ export class LocalStorageService {
             const usersState = this.getUsersState();
             if (usersState) {
                 usersState.user = userData;
-                localStorage.setItem('usersState', JSON.stringify(usersState));
+                console.log('Setting user data:', usersState); // Добавьте это для отладки
+                localStorage.setItem(
+                    this.USER_STATE_KEY,
+                    JSON.stringify(usersState),
+                );
             }
         }
     }
 
-    public clearUserData(): void {
-        if (this.localStorageAvailable) {
-            const usersState = this.getUsersState();
-            if (usersState) {
-                usersState.user = null;
-                localStorage.setItem('usersState', JSON.stringify(usersState));
-            }
-        }
-    }
+    // public clearUserData(): void {
+    //     if (this.localStorageAvailable) {
+    //         const usersState = this.getUsersState();
+    //         if (usersState) {
+    //             usersState.user = null;
+    //             localStorage.setItem('usersState', JSON.stringify(usersState));
+    //         }
+    //     }
+    // }
 
     public setNewUserState(newUsersState: TLocalstorageUser): void {
         if (this.localStorageAvailable) {
@@ -220,11 +250,11 @@ export class LocalStorageService {
         return usersState ? usersState.language : 'ru';
     }
 
-    public setUsersState(usersState: TLocalstorageUser): void {
-        if (this.localStorageAvailable) {
-            localStorage.setItem('usersState', JSON.stringify(usersState));
-        }
-    }
+    // public setUsersState(usersState: TLocalstorageUser): void {
+    //     if (this.localStorageAvailable) {
+    //         localStorage.setItem('usersState', JSON.stringify(usersState));
+    //     }
+    // }
 
     public getIsFirstTime(): boolean {
         const usersState = this.getUsersState();
