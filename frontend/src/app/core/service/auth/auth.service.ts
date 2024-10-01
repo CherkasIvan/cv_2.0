@@ -1,8 +1,15 @@
 import { User } from 'firebase/auth';
-import { BehaviorSubject, catchError, from, tap } from 'rxjs';
+import {
+    BehaviorSubject,
+    Subject,
+    catchError,
+    from,
+    takeUntil,
+    tap,
+} from 'rxjs';
 
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {
     AngularFirestore,
@@ -22,11 +29,12 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 @Injectable({
     providedIn: 'root',
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
     public userData: User | null = null;
     public isAuth$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     public usersState = this._localStorageService.getUsersState();
 
+    private _destroyed$: Subject<void> = new Subject();
     private _isBrowser: boolean;
 
     constructor(
@@ -58,17 +66,20 @@ export class AuthService {
                         'main',
                     );
                 } else {
+                    console.log('Setting user in signIn:', result.user); // Добавьте это для отладки
                     this._localStorageService.setUser(result.user);
                 }
 
                 this.setUserData(result.user);
                 if (result.user) {
                     this.isAuth$.next(true);
-                    this._afAuth.authState.subscribe((user) => {
-                        if (user && this.isAuth$.value) {
-                            this._router.navigate([ERoute.LAYOUT]);
-                        }
-                    });
+                    this._afAuth.authState
+                        .pipe(takeUntil(this._destroyed$))
+                        .subscribe((user) => {
+                            if (user && this.isAuth$.value) {
+                                this._router.navigate([ERoute.LAYOUT]);
+                            }
+                        });
                 }
             }),
             catchError((error: Error) => {
@@ -121,11 +132,29 @@ export class AuthService {
     signOut() {
         return from(this._afAuth.signOut()).pipe(
             tap(() => {
+                const usersState = this._localStorageService.getUsersState();
+
+                if (usersState?.isGuest) {
+                    usersState.isGuest = false;
+                }
+                if (usersState?.user) {
+                    usersState.user = null;
+                }
+
+                if (usersState) {
+                    this._localStorageService.setUsersState(usersState);
+                }
+
                 this._localStorageService.clearUserData();
                 this._store$.dispatch(AuthActions.getLogout());
                 this.isAuth$.next(false);
                 this._router.navigate([ERoute.AUTH]);
             }),
         );
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

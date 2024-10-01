@@ -3,16 +3,14 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    EventEmitter,
-    Output,
+    OnInit,
     input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
-import { IEducationExperience } from '@core/models/education.interface';
-import { IWorkExperience } from '@core/models/work-experience.interface';
+import { IExperience } from '@core/models/experience.interface';
 import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
 
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
@@ -29,20 +27,16 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
     animations: [fadeInOutCards],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExperienceCardComponent {
+export class ExperienceCardComponent implements OnInit {
     public experienceType = input.required<string>();
-    public workDescription = input<
-        IWorkExperience | IEducationExperience | null
-    >(null);
-    public experienceDescription = input<
-        IWorkExperience | IEducationExperience | null
-    >(null);
+    public workDescription = input<IExperience | null>(null);
+    public experienceDescription = input<IExperience | null>(null);
     public experienceCardImgVisibility: boolean = false;
     public theme = input<boolean | null>();
 
     constructor(
-        private cdr: ChangeDetectorRef,
-        private _store$: Store,
+        private _cdr: ChangeDetectorRef,
+        private _store$: Store<IExperience>,
     ) {}
 
     ngOnInit(): void {
@@ -50,12 +44,10 @@ export class ExperienceCardComponent {
         this.workDescription = this.workDescription || null;
         this.experienceDescription = this.experienceDescription || null;
 
-        this.cdr.detectChanges();
+        this._cdr.detectChanges();
     }
 
-    public showDialogExperience(
-        dialogInfo: IWorkExperience | IEducationExperience | null,
-    ) {
+    public showDialogExperience(dialogInfo: IExperience | IExperience | null) {
         this._store$.dispatch(
             ExperienceActions.getExperienceDialogOpen({ data: dialogInfo }),
         );

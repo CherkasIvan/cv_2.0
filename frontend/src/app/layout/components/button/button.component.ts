@@ -12,7 +12,7 @@ import {
 import { Store, select } from '@ngrx/store';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+import { TDarkMode } from '@layout/store/model/dark-mode.type';
 
 @Component({
     selector: 'cv-button',
@@ -33,7 +33,7 @@ export class ButtonComponent {
         select(darkModeSelector),
     );
 
-    constructor(private _store$: Store<IDarkMode>) {}
+    constructor(private _store$: Store<TDarkMode>) {}
 
     onHover() {
         this.isHovered = true;

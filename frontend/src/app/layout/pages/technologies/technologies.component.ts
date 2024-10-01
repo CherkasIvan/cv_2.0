@@ -1,19 +1,20 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Inject,
     OnInit,
 } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
 import { EvenColumnDirective } from '@core/directives/even-column.directive';
-import { TExperienceAside } from '@core/models/experience-aside.type';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
+import { TTechnologies } from '@core/models/tecnologies.type';
 
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
@@ -67,31 +68,39 @@ export class TechnologiesComponent implements OnInit {
         select(selectFrontendTech),
     );
 
+    private _destroyed$: Subject<void> = new Subject();
+
     public technologiesSwitcher(tab: string): void {
         switch (tab) {
             case 'other':
-                this.otherTech$.subscribe((tech) => {
-                    if (tech) {
-                        this.currentTechnologiesStack = tech;
-                        this._cdr.markForCheck();
-                    }
-                });
+                this.otherTech$
+                    .pipe(takeUntil(this._destroyed$))
+                    .subscribe((tech) => {
+                        if (tech) {
+                            this.currentTechnologiesStack = tech;
+                            this._cdr.markForCheck();
+                        }
+                    });
                 break;
             case 'frontend':
-                this.frontendTech$.subscribe((tech) => {
-                    if (tech) {
-                        this.currentTechnologiesStack = tech;
-                        this._cdr.markForCheck();
-                    }
-                });
+                this.frontendTech$
+                    .pipe(takeUntil(this._destroyed$))
+                    .subscribe((tech) => {
+                        if (tech) {
+                            this.currentTechnologiesStack = tech;
+                            this._cdr.markForCheck();
+                        }
+                    });
                 break;
             case 'backend':
-                this.backendTech$.subscribe((tech) => {
-                    if (tech) {
-                        this.currentTechnologiesStack = tech;
-                        this._cdr.markForCheck();
-                    }
-                });
+                this.backendTech$
+                    .pipe(takeUntil(this._destroyed$))
+                    .subscribe((tech) => {
+                        if (tech) {
+                            this.currentTechnologiesStack = tech;
+                            this._cdr.markForCheck();
+                        }
+                    });
                 break;
         }
     }
@@ -124,11 +133,16 @@ export class TechnologiesComponent implements OnInit {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<any>,
+        @Inject(Store) private _store$: Store<TTechnologies>,
     ) {}
 
     ngOnInit(): void {
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

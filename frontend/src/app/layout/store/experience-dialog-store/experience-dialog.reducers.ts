@@ -1,13 +1,12 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { IEducationExperience } from '@core/models/education.interface';
-import { IWorkExperience } from '@core/models/work-experience.interface';
+import { IExperience } from '@core/models/experience.interface';
 
 import { ExperienceActions } from './experience-dialog.actions';
 
 export interface ModalState {
     isOpen: boolean;
-    data: IWorkExperience | IEducationExperience | null;
+    data: IExperience | null;
 }
 
 export const initialState: ModalState = {

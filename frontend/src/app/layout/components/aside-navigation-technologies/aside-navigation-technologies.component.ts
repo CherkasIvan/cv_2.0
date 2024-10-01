@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
 import {
@@ -82,7 +82,7 @@ export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
         this.cdr.detectChanges();
     }
 
-    public tabForRoute(event: any) {
+    public tabForRoute(event: string) {
         this.emittedTab.emit(event);
     }
 
@@ -92,13 +92,15 @@ export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
         this._store$.dispatch(
             FirebaseActions.getHardSkillsNav({ imgName: '' }),
         );
-        this.hardSkillsNavigation$.subscribe((skills: INavigation[]) => {
-            const skill = skills.find((skill) => skill.id === '1');
-            if (skill) {
-                this.currentSkills = skill.link;
-                this.cdr.detectChanges();
-            }
-        });
+        this.hardSkillsNavigation$
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((skills: INavigation[]) => {
+                const skill = skills.find((skill) => skill.id === '1');
+                if (skill) {
+                    this.currentSkills = skill.link;
+                    this.cdr.detectChanges();
+                }
+            });
         this.emittedTab.emit(this.selectedTab);
     }
 

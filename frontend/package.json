@@ -37,15 +37,12 @@
         "@ngrx/signals": "^18.0.2",
         "@ngrx/store": "18.0.2",
         "@ngrx/store-devtools": "18.0.2",
-        "dexie": "^4.0.8",
         "express": "^4.19.2",
         "firebase": "^10.12.5",
         "npx": "^10.2.2",
         "prettier-plugin-css-order": "^2.1.2",
         "rxjs": "~7.8.1",
         "tslib": "^2.6.3",
-        "web3": "^4.11.1",
-        "web3modal": "^1.9.12",
         "zone.js": "~0.14.10"
     },
     "devDependencies": {
