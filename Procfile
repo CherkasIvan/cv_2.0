@@ -1,2 +1,2 @@
-web: npm run serve:ssr
-worker: npm run start:prod
+# web: npm run serve:ssr
+# worker: npm run start:prod
