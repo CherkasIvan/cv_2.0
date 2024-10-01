@@ -1,1 +1,1 @@
-web: npm run serve:ssr
+web: docker-compose up
