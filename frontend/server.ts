@@ -18,7 +18,10 @@ export function app(): express.Express {
     const lang = basename(serverDistFolder);
 
     const langPath = `/${lang}`;
-    const browserDistFolder = resolve(serverDistFolder, `../browser/${lang}`);
+    const browserDistFolder = resolve(
+        serverDistFolder,
+        `../../browser/${lang}`,
+    );
 
     const commonEngine = new CommonEngine();
 
@@ -56,7 +59,7 @@ export function app(): express.Express {
                     bootstrap,
                     documentFilePath: indexHtml,
                     url: `${protocol}://${headers.host}${originalUrl}`,
-                    publicPath: resolve(serverDistFolder, `../browser/`),
+                    publicPath: resolve(serverDistFolder, `../../browser/`),
                     providers: [
                         { provide: APP_BASE_HREF, useValue: langPath },
                         { provide: LOCALE_ID, useValue: lang },
