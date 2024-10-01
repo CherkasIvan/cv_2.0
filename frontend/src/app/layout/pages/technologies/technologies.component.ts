@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
@@ -68,31 +68,39 @@ export class TechnologiesComponent implements OnInit {
         select(selectFrontendTech),
     );
 
+    private _destroyed$: Subject<void> = new Subject();
+
     public technologiesSwitcher(tab: string): void {
         switch (tab) {
             case 'other':
-                this.otherTech$.subscribe((tech) => {
-                    if (tech) {
-                        this.currentTechnologiesStack = tech;
-                        this._cdr.markForCheck();
-                    }
-                });
+                this.otherTech$
+                    .pipe(takeUntil(this._destroyed$))
+                    .subscribe((tech) => {
+                        if (tech) {
+                            this.currentTechnologiesStack = tech;
+                            this._cdr.markForCheck();
+                        }
+                    });
                 break;
             case 'frontend':
-                this.frontendTech$.subscribe((tech) => {
-                    if (tech) {
-                        this.currentTechnologiesStack = tech;
-                        this._cdr.markForCheck();
-                    }
-                });
+                this.frontendTech$
+                    .pipe(takeUntil(this._destroyed$))
+                    .subscribe((tech) => {
+                        if (tech) {
+                            this.currentTechnologiesStack = tech;
+                            this._cdr.markForCheck();
+                        }
+                    });
                 break;
             case 'backend':
-                this.backendTech$.subscribe((tech) => {
-                    if (tech) {
-                        this.currentTechnologiesStack = tech;
-                        this._cdr.markForCheck();
-                    }
-                });
+                this.backendTech$
+                    .pipe(takeUntil(this._destroyed$))
+                    .subscribe((tech) => {
+                        if (tech) {
+                            this.currentTechnologiesStack = tech;
+                            this._cdr.markForCheck();
+                        }
+                    });
                 break;
         }
     }
@@ -131,5 +139,10 @@ export class TechnologiesComponent implements OnInit {
     ngOnInit(): void {
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

@@ -9,6 +9,21 @@
             "root": "",
             "sourceRoot": "src",
             "prefix": "cv",
+            "i18n": {
+                "sourceLocale": {
+                    "code": "ru"
+                },
+                "locales": {
+                    "ru": {
+                        "translation": "src/locale/messages.ru.xlf",
+                        "baseHref": "/ru/"
+                    },
+                    "en": {
+                        "translation": "src/locale/messages.en.xlf",
+                        "baseHref": "/en/"
+                    }
+                }
+            },
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
@@ -16,7 +31,10 @@
                         "outputPath": "dist/cv_2.0/browser",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": "src/polyfills.ts",
+                        "polyfills": [
+                            "src/polyfills.ts",
+                            "@angular/localize/init"
+                        ],
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
                             {
@@ -87,7 +105,11 @@
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
-                        "polyfills": ["zone.js", "zone.js/testing"],
+                        "polyfills": [
+                            "zone.js",
+                            "zone.js/testing",
+                            "@angular/localize/init"
+                        ],
                         "tsConfig": "tsconfig.spec.json",
                         "assets": [
                             {
