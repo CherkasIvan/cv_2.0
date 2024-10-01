@@ -14,10 +14,6 @@
                     "code": "ru"
                 },
                 "locales": {
-                    "ru": {
-                        "translation": "src/locale/messages.ru.xlf",
-                        "baseHref": "/ru/"
-                    },
                     "en": {
                         "translation": "src/locale/messages.en.xlf",
                         "baseHref": "/en/"
