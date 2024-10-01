@@ -7,7 +7,6 @@ import {
     EventEmitter,
     OnInit,
     Output,
-    input,
 } from '@angular/core';
 import { RouterLinkActive } from '@angular/router';
 

@@ -14,7 +14,7 @@ import { INavigation } from '@core/models/navigation.interface';
 import { blobFloat } from '@core/utils/animations/bg-layout.animation';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { IDarkMode } from '@layout/store/model/dark-mode.interface';
+import { TDarkMode } from '@layout/store/model/dark-mode.type';
 
 @Component({
     selector: 'cv-animation-bg',
@@ -34,7 +34,7 @@ export class AnimationBgComponent implements OnInit {
         select(darkModeSelector),
     );
 
-    constructor(private _store$: Store<IDarkMode>) {}
+    constructor(private _store$: Store<TDarkMode>) {}
 
     public animationBlobs: any[] = [
         {

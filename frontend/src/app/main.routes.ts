@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 import { ERoute } from './core/enum/route.enum';
 import { AuthGuard } from './core/utils/guards/auth/auth.guard';
 import { LayoutComponent } from './layout/layout.component';
-import { AuthComponent } from './layout/pages/auth/auth.component';
 
 export const MAIN_ROUTES: Routes = [
     { path: '', pathMatch: 'full', redirectTo: `/${ERoute.AUTH}` },
