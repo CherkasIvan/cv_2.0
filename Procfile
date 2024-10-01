@@ -1,2 +1,1 @@
-web: npm run serve:ssr
-backend: npm run start:prod
+web: docker-compose up
