@@ -4,3 +4,29 @@ build:
 
   run:
     web: npm run serve:ssr
+
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+    environment:
+      - NODE_ENV=production
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:80"
+
+    depends_on:
+      - backend
+
+    environment:
+      - NODE_ENV=production
