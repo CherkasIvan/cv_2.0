@@ -10,9 +10,8 @@ import {
 
 import { Store, select } from '@ngrx/store';
 
-import { IEducationExperience } from '@core/models/education.interface';
 import { TExperienceAside } from '@core/models/experience-aside.type';
-import { IWorkExperience } from '@core/models/work-experience.interface';
+import { IExperience } from '@core/models/experience.interface';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
@@ -50,13 +49,14 @@ export class ExperienceComponent implements OnInit {
         select(darkModeSelector),
     );
 
-    public workPlace$: Observable<IWorkExperience[]> = this._store$.pipe(
+    public workPlace$: Observable<IExperience[]> = this._store$.pipe(
         select(selectWorkExperience),
     );
     public selectedTab: string = '';
 
-    public educationPlace$: Observable<IEducationExperience[]> =
-        this._store$.pipe(select(selectEducation));
+    public educationPlace$: Observable<IExperience[]> = this._store$.pipe(
+        select(selectEducation),
+    );
 
     public switchTab($event: string) {
         this.selectedTab = $event;
@@ -65,10 +65,7 @@ export class ExperienceComponent implements OnInit {
 
     constructor(
         private _store$: Store<
-            | TDarkMode
-            | IWorkExperience
-            | IEducationExperience
-            | TExperienceAside
+            TDarkMode | IExperience | IExperience | TExperienceAside
         >,
         private _cd: ChangeDetectorRef,
     ) {}

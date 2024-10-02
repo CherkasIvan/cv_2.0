@@ -1,8 +1,10 @@
 import express from 'express';
-import { dirname, join, resolve } from 'node:path';
+import { REQUEST, RESPONSE } from 'express.tokens';
+import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { APP_BASE_HREF } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
 import { CommonEngine } from '@angular/ssr';
 
 import bootstrap from './src/main.server';
@@ -11,8 +13,15 @@ import bootstrap from './src/main.server';
 export function app(): express.Express {
     const server = express();
     const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-    const browserDistFolder = resolve(serverDistFolder, '../browser');
     const indexHtml = join(serverDistFolder, 'index.server.html');
+
+    const lang = basename(serverDistFolder);
+
+    const langPath = `/${lang}`;
+    const browserDistFolder = resolve(
+        serverDistFolder,
+        `../../browser/${lang}`,
+    );
 
     const commonEngine = new CommonEngine();
 
@@ -23,7 +32,7 @@ export function app(): express.Express {
     // server.get('/api/[**', (req, res) => { });
     // Serve static files from /browser
     server.get(
-        '**](https://www.bing.com/search?form=SKPBOT&q=%26apos%3B%2C%20%28req%2C%20res%29%20%3D%26gt%3B%20%7B%20%7D%29%3B%0D%0A%2F%2F%20Serve%20static%20files%20from%20%2Fbrowser%0D%0Aserver.get%28%0D%0A%26apos%3B)',
+        '*.*',
         express.static(browserDistFolder, {
             maxAge: '1y',
             index: 'index.html',
@@ -32,7 +41,7 @@ export function app(): express.Express {
 
     // All regular routes use the Angular engine
     server.get(
-        '[**',
+        '*',
         (
             req: {
                 protocol: any;
@@ -50,8 +59,13 @@ export function app(): express.Express {
                     bootstrap,
                     documentFilePath: indexHtml,
                     url: `${protocol}://${headers.host}${originalUrl}`,
-                    publicPath: browserDistFolder,
-                    providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+                    publicPath: resolve(serverDistFolder, `../../browser/`),
+                    providers: [
+                        { provide: APP_BASE_HREF, useValue: langPath },
+                        { provide: LOCALE_ID, useValue: lang },
+                        { provide: RESPONSE, useValue: res },
+                        { provide: REQUEST, useValue: req },
+                    ],
                 })
                 .then((html) => res.send(html))
                 .catch((err) => next(err));

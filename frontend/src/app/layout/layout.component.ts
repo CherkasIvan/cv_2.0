@@ -1,4 +1,4 @@
-import { Observable, timer } from 'rxjs';
+import { Observable, Subject, takeUntil, timer } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
@@ -6,6 +6,7 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
+    OnDestroy,
     OnInit,
 } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -13,10 +14,10 @@ import { RouterOutlet } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
-import { IEducationExperience } from '@core/models/education.interface';
+import { IExperience } from '@core/models/experience.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
-import { IWorkExperience } from '@core/models/work-experience.interface';
+import { AuthService } from '@core/service/auth/auth.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 import { routeAnimations } from '@core/utils/animations/router-animations';
 import { startCardFadeIn } from '@core/utils/animations/start-cart-fade-in';
@@ -64,13 +65,14 @@ import { TDarkMode } from './store/model/dark-mode.type';
     styleUrl: './layout.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent implements OnInit {
-    public isFirstTime!: boolean;
+export class LayoutComponent implements OnInit, OnDestroy {
+    public isFirstTime!: boolean; //TODO
+    public isAuth: boolean = false;
     public isModalDialogVisible: boolean = false;
     public isExperienceDialogVisible$!: Observable<boolean>;
-    public modalData$!: Observable<
-        IWorkExperience | IEducationExperience | null
-    >;
+    public modalData$!: Observable<IExperience | null>;
+
+    private _destroyed$: Subject<void> = new Subject();
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         select(darkModeSelector),
@@ -103,23 +105,31 @@ export class LayoutComponent implements OnInit {
         this._store$.dispatch(FirebaseActions.getNavigation({ imgName: '' }));
         this._store$.dispatch(FirebaseActions.getSocialMedia({ imgName: '' }));
 
-        this.afAuth.authState.subscribe((user) => {
-            if (!user) {
-                this.isModalDialogVisible = true;
-            }
-        });
+        this.afAuth.authState
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((user) => {
+                if (!user) {
+                    this.isModalDialogVisible = true;
+                }
+            });
 
         this.isExperienceDialogVisible$ = this._store$.pipe(
             select(selectIsModalOpen),
+            takeUntil(this._destroyed$),
         );
-        this.modalData$ = this._store$.pipe(select(selectModalData));
+        this.modalData$ = this._store$.pipe(
+            select(selectModalData),
+            takeUntil(this._destroyed$),
+        );
 
         if (this.isFirstTime) {
-            timer(5000).subscribe(() => {
-                this.isFirstTime = false;
-                this._localStorageService.setIsFirstTime(false);
-                this._cdr.markForCheck();
-            });
+            timer(5000)
+                .pipe(takeUntil(this._destroyed$))
+                .subscribe(() => {
+                    this.isFirstTime = false;
+                    this._localStorageService.setIsFirstTime(false);
+                    this._cdr.markForCheck();
+                });
         }
     }
 
@@ -133,5 +143,10 @@ export class LayoutComponent implements OnInit {
 
     public closeModal() {
         this.isModalDialogVisible = false;
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }
