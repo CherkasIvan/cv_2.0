@@ -15,8 +15,8 @@ FROM nginx:alpine
 COPY --from=build /app/dist/cv_2.0/browser /usr/share/nginx/html
 COPY --from=build /app/dist/cv_2.0/server /usr/share/nginx/html/server
 
-COPY conf.d/default.conf /etc/nginx/conf.d/default.conf
+COPY conf.d/default.conf.template /etc/nginx/conf.d/default.conf.template
 
 EXPOSE 8080
 
-CMD ["/bin/sh", "-c", "envsubst /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "envsubst '\$BACKEND_HOST' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
