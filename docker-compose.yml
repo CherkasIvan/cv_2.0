@@ -11,12 +11,15 @@ services:
     environment:
       - NODE_ENV=production
 
+    networks:
+      - cv2
+
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
     ports:
-      - "4000:80"
+      - "4000:8080"
 
     depends_on:
       - backend
@@ -25,8 +28,6 @@ services:
       - NODE_ENV=production
 
     networks:
-      - my-network
+      - cv2
 
-networks:
-  my-network:
-    driver: bridge
+    privileged: true
