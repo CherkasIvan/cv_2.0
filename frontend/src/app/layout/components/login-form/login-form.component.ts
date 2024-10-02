@@ -1,3 +1,5 @@
+import { Subject, takeUntil } from 'rxjs';
+
 import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
@@ -38,6 +40,8 @@ export class LoginFormComponent implements OnInit {
     public header = input.required<string>();
     public authForm!: FormGroup;
     public user: TProfile | null = null;
+
+    private _destroyed$: Subject<void> = new Subject();
 
     constructor(private _store$: Store) {}
 
@@ -91,15 +95,18 @@ export class LoginFormComponent implements OnInit {
     }
 
     private _authFormListener() {
-        this.authForm.get('guest')?.valueChanges.subscribe((isGuest) => {
-            if (isGuest) {
-                this.authForm.get('email')?.disable();
-                this.authForm.get('password')?.disable();
-            } else {
-                this.authForm.get('email')?.enable();
-                this.authForm.get('password')?.enable();
-            }
-        });
+        this.authForm
+            .get('guest')
+            ?.valueChanges.pipe(takeUntil(this._destroyed$))
+            .subscribe((isGuest) => {
+                if (isGuest) {
+                    this.authForm.get('email')?.disable();
+                    this.authForm.get('password')?.disable();
+                } else {
+                    this.authForm.get('email')?.enable();
+                    this.authForm.get('password')?.enable();
+                }
+            });
     }
 
     private _createForm(): FormGroup {
@@ -117,5 +124,10 @@ export class LoginFormComponent implements OnInit {
             guest: new FormControl(false),
         });
         return this.authForm;
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

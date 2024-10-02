@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { IWorkExperience } from '@core/models/work-experience.interface';
+import { IExperience } from '@core/models/experience.interface';
 
 import { ExperienceDialogComponent } from '@layout/components/experience-dialog/experience-dialog.component';
 import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
@@ -15,6 +15,6 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
 })
 export class WorkExperienceComponent {
     public selectedTabWork = input.required<string>();
-    public workExperience$ = input.required<IWorkExperience[] | null>();
+    public workExperience$ = input.required<IExperience[] | null>();
     public theme = input<boolean | null>();
 }

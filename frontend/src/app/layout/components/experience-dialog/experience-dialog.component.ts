@@ -15,8 +15,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Store, select } from '@ngrx/store';
 
-import { IEducationExperience } from '@core/models/education.interface';
-import { IWorkExperience } from '@core/models/work-experience.interface';
+import { IExperience } from '@core/models/experience.interface';
 
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
 import { selectModalData } from '@layout/store/experience-dialog-store/experience-dialog.selectors';
@@ -34,16 +33,14 @@ export class ExperienceDialogComponent implements OnInit {
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
     @HostListener('document:mousemove', ['$event'])
-    public modalData$!: Observable<
-        IWorkExperience | IEducationExperience | null
-    >;
+    public modalData$!: Observable<IExperience | null>;
     public header = input.required<string>();
     public authForm!: FormGroup;
     public user: TProfile | null = null;
 
     constructor(
         @Inject(Store)
-        private _store$: Store<IWorkExperience | IEducationExperience>,
+        private _store$: Store<IExperience | IExperience>,
     ) {}
 
     ngOnInit(): void {
