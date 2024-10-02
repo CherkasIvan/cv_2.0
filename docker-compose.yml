@@ -23,3 +23,10 @@ services:
 
     environment:
       - NODE_ENV=production
+
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
