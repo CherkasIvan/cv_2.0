@@ -12,6 +12,9 @@ RUN npm run build:ssr --prod
 # Stage 2: Serve the app with Nginx
 FROM nginx:alpine
 
+# Установка sh
+RUN apk add --no-cache bash
+
 COPY --from=build /app/dist/cv_2.0/browser /usr/share/nginx/html
 COPY --from=build /app/dist/cv_2.0/server /usr/share/nginx/html/server
 
