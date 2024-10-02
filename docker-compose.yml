@@ -31,3 +31,6 @@ services:
       - cv2
 
     privileged: true
+
+networks:
+  cv2:
