@@ -11,7 +11,7 @@
         "coverage": "ng test --no-watch --code-coverage",
         "lint": "ng lint",
         "serve": "node dist/cv_2.0/server/server.mjs",
-        "build:ssr": "ng build && ng run cv_2.0:server",
+        "build:ssr": "ng build  && ng run cv_2.0:server",
         "serve:ssr": "node dist/cv_2.0/server/main.js",
         "heroku-postbuild": "npm run build:ssr"
     },
