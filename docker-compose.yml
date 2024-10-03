@@ -1,15 +1,6 @@
 version: "3.8"
 
 services:
-  web:
-    image: nginx
-
-    environment:
-      - BACKEND_HOST=backend
-
-    networks:
-      - cv2
-
   backend:
     build:
       context: ./backend
