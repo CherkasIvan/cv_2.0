@@ -104,7 +104,7 @@
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
                         "browserTarget": "cv_2.0:build",
-                        "format": "xlf2",
+                        "format": "xlf",
                         "outputPath": "src/locale"
                     }
                 },
