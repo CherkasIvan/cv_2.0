@@ -11,15 +11,12 @@ services:
     environment:
       - NODE_ENV=production
 
-    networks:
-      - cv2
-
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
     ports:
-      - "4000:8080"
+      - "4000:4000"
 
     depends_on:
       - backend
@@ -27,12 +24,13 @@ services:
     environment:
       - NODE_ENV=production
 
-      - BACKEND_HOST=backend
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
 
-    networks:
-      - cv2
-
-    privileged: true
-
-networks:
-  cv2:
+    depends_on:
+      - frontend
+      - backend
