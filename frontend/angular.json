@@ -43,7 +43,10 @@
                         "styles": ["src/styles.scss"],
                         "scripts": [],
                         "serviceWorker": true,
-                        "ngswConfigPath": "ngsw-config.json"
+                        "ngswConfigPath": "ngsw-config.json",
+                        "localize": true,
+                        "i18nMissingTranslation": "warning",
+                        "i18nDuplicateTranslation": "warning"
                     },
                     "configurations": {
                         "production": {
@@ -70,7 +73,9 @@
                                     "replace": "src/environments/environment.ts",
                                     "with": "src/environments/environment.development.ts"
                                 }
-                            ]
+                            ],
+                            "localize": ["ru"],
+                            "baseHref": "/ru/"
                         }
                     },
                     "defaultConfiguration": "production"
@@ -96,7 +101,12 @@
                     }
                 },
                 "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n"
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "cv_2.0:build",
+                        "format": "xlf2",
+                        "outputPath": "src/locale"
+                    }
                 },
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
