@@ -17,6 +17,10 @@
                     "en": {
                         "translation": "src/locale/messages.en.xlf",
                         "baseHref": "/en/"
+                    },
+                    "ru": {
+                        "translation": "src/locale/messages.ru.xlf",
+                        "baseHref": "/ru/"
                     }
                 }
             },
@@ -101,11 +105,12 @@
                     }
                 },
                 "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "builder": "ng-extract-i18n-merge:ng-extract-i18n-merge",
                     "options": {
-                        "browserTarget": "cv_2.0:build",
+                        "buildTarget": "cv_2.0:build",
                         "format": "xlf",
-                        "outputPath": "src/locale"
+                        "outputPath": "src/locale",
+                        "targetFiles": ["messages.en.xlf"]
                     }
                 },
                 "test": {
