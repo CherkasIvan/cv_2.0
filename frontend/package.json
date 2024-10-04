@@ -5,7 +5,7 @@
         "ng": "ng",
         "dev": "ng serve --port 4200",
         "start": "ng serve --port 4200",
-        "build": "ng build && node copy-proxy-server.js --locolize",
+        "build": "ng build && node copy-proxy-server.js --localize",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "coverage": "ng test --no-watch --code-coverage",
