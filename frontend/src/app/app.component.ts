@@ -11,6 +11,8 @@ import {
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { TranslationService } from '@core/service/translation/translation.service';
+
 @Component({
     selector: 'cv-root',
     standalone: true,
@@ -22,40 +24,22 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent implements OnDestroy {
     title = 'cv_2.0';
 
-    private ngZone = inject(NgZone);
     private _destroyed$: Subject<void> = new Subject();
 
-    constructor() {
-        const ngZone = ɵglobal.Zone;
-        const TaskTrackingZone =
-            ngZone.current._parent?._properties?.TaskTrackingZone;
+    constructor(private translationService: TranslationService) {}
 
-        if (!TaskTrackingZone) {
-            return;
-        }
+    ngOnInit(): void {
+        this.loadTranslations('en');
+    }
 
-        inject(ApplicationRef)
-            .isStable.pipe(takeUntil(this._destroyed$))
-            .subscribe(() => {
-                this.printNgZone(TaskTrackingZone, 0);
+    loadTranslations(language: string): void {
+        this.translationService
+            .loadTranslations(language)
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((translations) => {
+                this.translationService.setTranslations(language, translations);
             });
-
-        this.printNgZone(TaskTrackingZone, 2000);
     }
-
-    private printNgZone(zone: any, delay: number): void {
-        this.ngZone.runOutsideAngular(() => {
-            setTimeout(() => {
-                console.debug('👀 Pending tasks in NgZone: 👀');
-                console.debug({
-                    microTasks: zone.getTasksFor('microTask'),
-                    macroTasks: zone.getTasksFor('macroTask'),
-                    eventTasks: zone.getTasksFor('eventTask'),
-                });
-            }, delay);
-        });
-    }
-
     ngOnDestroy(): void {
         this._destroyed$.next();
         this._destroyed$.complete();
