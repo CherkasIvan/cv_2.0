@@ -12,8 +12,7 @@ export class TranslationService {
     constructor(private http: HttpClient) {}
 
     public loadTranslations(language: string): Observable<any> {
-        console.log(language);
-        return this.http.get(`/assets/i18n/${language}.json`);
+        return this.http.get(`src/assets/i18n/${language}.json`);
     }
 
     public setTranslations(language: string, translations: any): void {
