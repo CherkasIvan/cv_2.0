@@ -85,3 +85,4 @@ function run(): void {
 }
 
 run();
+console.log(run());
