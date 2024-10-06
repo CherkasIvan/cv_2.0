@@ -1,6 +1,4 @@
 build:
   docker:
-    web: Dockerfile
-
-  run:
-    web: npm run serve:ssr
+    web: frontend/Dockerfile.frontend
+    worker: backend/Dockerfile.backend
