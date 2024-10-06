@@ -90,6 +90,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     );
 
     constructor(
+        @Inject(Store)
         private _store$: Store<
             TDarkMode | INavigation | ISocialMedia | { modal: ModalState }
         >,

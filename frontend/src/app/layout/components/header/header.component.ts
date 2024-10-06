@@ -63,9 +63,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(
-        private readonly _router: Router,
-        private _cdr: ChangeDetectorRef,
+        @Inject(Router) private readonly _router: Router,
         @Inject(Store) private _store$: Store<TLanguages>,
+        private _cdr: ChangeDetectorRef,
         private _localStorageService: LocalStorageService,
     ) {}
 
@@ -91,11 +91,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
                         this.currentRoute,
                     );
                 }
-            }),
-            this._store$.pipe(takeUntil(this._destroyed$), select(selectAuth));
+            });
+
+        this._store$
+            .pipe(takeUntil(this._destroyed$), select(selectAuth))
+            .subscribe();
+
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
-
         this._localStorageService.redirectToSavedRoute();
         this.isCheckedLanguage =
             this._localStorageService.getLanguage() === 'en';

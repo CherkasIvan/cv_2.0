@@ -7,6 +7,7 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
+    Inject,
     OnDestroy,
     OnInit,
     Output,
@@ -23,6 +24,7 @@ import {
 import { Store } from '@ngrx/store';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import { TAuthUser } from '@layout/store/model/auth-user.type';
 import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
@@ -44,7 +46,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
     private _destroyed$: Subject<void> = new Subject();
 
-    constructor(private _store$: Store) {}
+    constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
 
     ngOnInit(): void {
         this._createForm();

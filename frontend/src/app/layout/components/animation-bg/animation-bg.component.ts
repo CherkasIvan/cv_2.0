@@ -1,7 +1,12 @@
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    Input,
+} from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
@@ -29,7 +34,7 @@ export class AnimationBgComponent {
         select(darkModeSelector),
     );
 
-    constructor(private _store$: Store<TDarkMode>) {}
+    constructor(@Inject(Store) private _store$: Store<TDarkMode>) {}
 
     public animationBlobs: any[] = [
         {
