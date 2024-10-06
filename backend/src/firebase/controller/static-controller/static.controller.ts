@@ -5,16 +5,6 @@ import { FirebaseService } from '../../service/firebase.service';
 export class StaticController {
   constructor(private readonly firebaseService: FirebaseService) {}
 
-  // @Get('images')
-  // async getImages() {
-  // return await this.firebaseService.getImages();
-  // }
-
-  // @Get('files/:numberItems')
-  // async getFiles(@Param('numberItems') numberItems: number) {
-  // return await this.firebaseService.getFiles(numberItems);
-  // }
-
   @Get('images/:folder')
   async getImagesByFolder(@Param('folder') folder: string) {
     const images = await this.firebaseService.getImagesByFolder(folder);
