@@ -14,7 +14,13 @@ RUN npm install
 COPY . .
 
 # Собираем приложение
-RUN npm run build
+RUN npm run build --prod
+
+# Устанавливаем сервер для обслуживания статических файлов
+RUN npm install -g http-server
+
+# Expose container to listen on a desired port
+EXPOSE 4000
 
 # Указываем команду для запуска приложения
-CMD ["node", "dist/main"]
+CMD ["http-server", "dist/cv_2.0"]
