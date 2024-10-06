@@ -26,6 +26,7 @@ services:
 
     depends_on:
       - backend
+      - nginx
 
     environment:
       - NODE_ENV=production
