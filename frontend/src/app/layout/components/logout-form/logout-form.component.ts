@@ -66,7 +66,7 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
             });
     }
 
-    public onBackgroundClick(event: MouseEvent): void {
+    public onBackgroundClick(event: Event): void {
         const target = event.target as HTMLElement;
         if (target.classList.contains(this.modal.nativeElement.classList)) {
             this.closeLogoutDialog();
