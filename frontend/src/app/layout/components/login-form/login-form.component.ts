@@ -7,6 +7,7 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
+    OnDestroy,
     OnInit,
     Output,
     ViewChild,
@@ -32,7 +33,7 @@ import { TProfile } from '@layout/store/model/profile.type';
     styleUrl: './login-form.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent implements OnInit {
+export class LoginFormComponent implements OnInit, OnDestroy {
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
     @Output() public emittedModalHide = new EventEmitter<boolean>();

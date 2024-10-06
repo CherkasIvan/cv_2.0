@@ -1,12 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
@@ -28,7 +23,7 @@ import { TDarkMode } from '@layout/store/model/dark-mode.type';
     animations: [blobFloat],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimationBgComponent implements OnInit {
+export class AnimationBgComponent {
     @Input() public navigationLinks: INavigation[] | null = [];
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         select(darkModeSelector),
@@ -73,8 +68,4 @@ export class AnimationBgComponent implements OnInit {
             'animation-duration': '3s',
         },
     ];
-
-    ngOnInit(): void {
-        // this._startInfiniteAnimation();
-    }
 }

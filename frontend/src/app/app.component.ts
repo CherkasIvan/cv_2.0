@@ -1,4 +1,5 @@
 import { Subject, takeUntil } from 'rxjs';
+import 'zone.js/dist/zone-task-tracking';
 
 import {
     ApplicationRef,
@@ -16,7 +17,7 @@ import { RouterOutlet } from '@angular/router';
     standalone: true,
     imports: [RouterOutlet],
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss',
+    styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnDestroy {
@@ -27,8 +28,7 @@ export class AppComponent implements OnDestroy {
 
     constructor() {
         const ngZone = ɵglobal.Zone;
-        const TaskTrackingZone =
-            ngZone.current._parent?._properties?.TaskTrackingZone;
+        const TaskTrackingZone = ngZone.current.get('TaskTrackingZone');
 
         if (!TaskTrackingZone) {
             return;
@@ -46,11 +46,11 @@ export class AppComponent implements OnDestroy {
     private printNgZone(zone: any, delay: number): void {
         this.ngZone.runOutsideAngular(() => {
             setTimeout(() => {
-                console.debug('👀 Pending tasks in NgZone: 👀');
+                console.debug(' Pending tasks in NgZone: ');
                 console.debug({
-                    microTasks: zone.getTasksFor('microTask'),
-                    macroTasks: zone.getTasksFor('macroTask'),
-                    eventTasks: zone.getTasksFor('eventTask'),
+                    microTasks: zone.microTasks,
+                    macroTasks: zone.macroTasks,
+                    eventTasks: zone.eventTasks,
                 });
             }, delay);
         });

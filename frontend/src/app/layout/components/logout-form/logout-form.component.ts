@@ -6,6 +6,7 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
+    OnDestroy,
     OnInit,
     Output,
     ViewChild,
@@ -26,7 +27,7 @@ import { TProfile } from '@layout/store/model/profile.type';
     styleUrl: './logout-form.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoutFormComponent implements OnInit {
+export class LogoutFormComponent implements OnInit, OnDestroy {
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
     @Output() public emittedModalHide = new EventEmitter<boolean>();
