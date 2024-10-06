@@ -1,11 +1,21 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { FirebaseService } from '../../service/firebase.service';
 
-@Controller('static')
-export class StaticController {
+@Controller('firebase')
+export class FirebaseController {
   constructor(private readonly firebaseService: FirebaseService) {}
 
-  @Get('images/:folder')
+  // @Get('images')
+  // async getImages() {
+  // return await this.firebaseService.getImages();
+  // }
+
+  // @Get('files/:numberItems')
+  // async getFiles(@Param('numberItems') numberItems: number) {
+  // return await this.firebaseService.getFiles(numberItems);
+  // }
+
+  @Get('images/:folder*')
   async getImagesByFolder(@Param('folder') folder: string) {
     const images = await this.firebaseService.getImagesByFolder(folder);
     return images;
