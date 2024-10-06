@@ -2,6 +2,8 @@
     class="modal-background"
     #modal
     (click)="onBackgroundClick($event)"
+    (keyup.enter)="onBackgroundClick($event)"
+    tabindex="0"
 >
     <dialog class="modal-dialog">
         <header class="header-block">
@@ -9,6 +11,8 @@
             <button
                 class="header-block_close-button"
                 (click)="closeLogoutDialog()"
+                (keyup.enter)="closeLogoutDialog()"
+                tabindex="0"
             >
                 <img
                     aria-hidden="true"
@@ -24,14 +28,18 @@
                 <button
                     class="submit-button"
                     (click)="confirmLogout()"
+                    (keyup.enter)="confirmLogout()"
                     type="button"
+                    tabindex="0"
                 >
                     Выйти
                 </button>
                 <button
                     class="reset-button"
                     (click)="closeLogoutDialog()"
+                    (keyup.enter)="closeLogoutDialog()"
                     type="button"
+                    tabindex="0"
                 >
                     Отменить
                 </button>
