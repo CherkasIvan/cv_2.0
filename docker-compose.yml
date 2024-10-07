@@ -24,10 +24,6 @@ services:
     ports:
       - "4000:4000"
 
-    depends_on:
-      - backend
-      - nginx
-
     environment:
       - NODE_ENV=production
 
@@ -38,6 +34,8 @@ services:
     ports:
       - "80:80"
 
-    depends_on:
-      backend:
-        condition: service_healthy
+  depends_on:
+    backend:
+      condition: service_healthy
+    frontend:
+      condition: service_started

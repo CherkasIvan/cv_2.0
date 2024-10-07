@@ -19,7 +19,7 @@ RUN npm run build --prod
 # Устанавливаем сервер для обслуживания статических файлов
 RUN npm install -g http-server
 
-# Expose container to listen on a desired port
+# Открываем порт 4000
 EXPOSE 4000
 
 # Указываем команду для запуска приложения
