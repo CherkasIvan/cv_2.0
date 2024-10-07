@@ -1,7 +1,12 @@
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    OnInit,
+} from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
@@ -55,9 +60,7 @@ export class ProjectsComponent implements OnInit {
         return '';
     }
 
-    private _destroyed$: Subject<void> = new Subject();
-
-    constructor(private _store$: Store<TGitHub[] | TDarkMode>) {}
+    constructor(@Inject(Store) private _store$: Store<TGitHub[] | TDarkMode>) {}
 
     ngOnInit(): void {
         this._store$.dispatch(GithubRepositoriesActions.getRepositories());

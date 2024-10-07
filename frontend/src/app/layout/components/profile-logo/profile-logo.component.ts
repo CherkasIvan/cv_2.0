@@ -22,7 +22,7 @@ export class ProfileLogoComponent {
 
     constructor(
         @Inject(DOCUMENT) private document: Document,
-        private _store$: Store,
+        @Inject(Store) private _store$: Store,
     ) {}
 
     githubNavigation() {

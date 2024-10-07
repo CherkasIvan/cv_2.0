@@ -43,7 +43,7 @@ export class AuthService implements OnDestroy {
         private readonly _router: Router,
         private readonly _localStorageService: LocalStorageService,
         private readonly _store$: Store,
-        @Inject(PLATFORM_ID) private platformId: Object,
+        @Inject(PLATFORM_ID) private platformId: string,
     ) {
         this._isBrowser = isPlatformBrowser(this.platformId);
         if (this._isBrowser && localStorage.getItem('usersState')) {

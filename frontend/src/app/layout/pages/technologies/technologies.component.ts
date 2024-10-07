@@ -6,6 +6,7 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
+    OnDestroy,
     OnInit,
 } from '@angular/core';
 
@@ -42,7 +43,7 @@ import { TechnologyCardComponent } from './components/technology-card/technology
     styleUrl: './technologies.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechnologiesComponent implements OnInit {
+export class TechnologiesComponent implements OnInit, OnDestroy {
     public selectedTab: string = '';
 
     public data: ITechnologies[] | undefined;

@@ -51,8 +51,8 @@ export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(
-        private cdr: ChangeDetectorRef,
-        @Inject(Store) private _store$: Store<INavigation[]>,
+        private _cdr: ChangeDetectorRef,
+        @Inject(Store) private _store$: Store<INavigation>,
         private _localStorageService: LocalStorageService,
     ) {}
 
@@ -64,13 +64,13 @@ export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
         } else {
             this.emittedTab.emit(this.selectedTab);
         }
-        this.cdr.detectChanges();
+        this._cdr.detectChanges();
     }
 
     public changeSkillsList(tab: string) {
         this.currentSkills = tab;
         this.emittedTab.emit(this.currentSkills);
-        this.cdr.detectChanges();
+        this._cdr.detectChanges();
     }
 
     ngOnInit(): void {
@@ -84,7 +84,7 @@ export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
                 const skill = skills.find((skill) => skill.id === '1');
                 if (skill) {
                     this.currentSkills = skill.link;
-                    this.cdr.detectChanges();
+                    this._cdr.detectChanges();
                 }
             });
         this.emittedTab.emit(this.selectedTab);

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { FirebaseService } from './service/firebase.service';
-import { FirebaseController } from './controller/firebase.controller';
+import { FirebaseController } from './controller/firebase-controller/firebase.controller';
 import * as admin from 'firebase-admin';
 import * as dotenv from 'dotenv';
 import * as path from 'path';

@@ -10,13 +10,14 @@
             "sourceRoot": "src",
             "prefix": "cv",
             "i18n": {
-                "sourceLocale": {
-                    "code": "ru"
-                },
                 "locales": {
                     "en": {
                         "translation": "src/locale/messages.en.xlf",
-                        "baseHref": "/en/"
+                        "baseHref": "en"
+                    },
+                    "ru": {
+                        "translation": "src/locale/messages.ru.xlf",
+                        "baseHref": "ru"
                     }
                 }
             },
@@ -60,6 +61,12 @@
                                 }
                             ],
                             "outputHashing": "all"
+                        },
+                        "en": {
+                            "localize": ["en"]
+                        },
+                        "ru": {
+                            "localize": ["ru"]
                         },
                         "development": {
                             "optimization": false,
