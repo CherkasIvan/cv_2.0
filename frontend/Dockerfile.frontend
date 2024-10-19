@@ -23,4 +23,4 @@ RUN npm install -g http-server
 EXPOSE 4000
 
 # Указываем команду для запуска приложения
-CMD ["http-server", "dist/cv_2.0"]
+CMD ["http-server", "dist/cv_2.0/server/main.js"]
