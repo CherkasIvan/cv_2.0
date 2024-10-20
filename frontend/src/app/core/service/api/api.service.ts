@@ -15,7 +15,7 @@ import { ITechnologies } from '@core/models/technologies.interface';
     providedIn: 'root',
 })
 export class ApiService {
-    private baseUrl = process.env['API_BASE_URL'] || 'http://localhost:3000';
+    private baseUrl = 'http://localhost:3013';
 
     constructor(private http: HttpClient) {}
 

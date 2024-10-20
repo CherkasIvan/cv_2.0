@@ -13,14 +13,11 @@ RUN npm install
 # Копируем остальные файлы проекта
 COPY . .
 
-# Собираем приложение
-RUN npm run build --prod
-
-# Устанавливаем сервер для обслуживания статических файлов
-RUN npm install -g http-server
+# Собираем приложение с серверным рендерингом
+RUN npm run build:ssr
 
 # Открываем порт 4000
 EXPOSE 4000
 
 # Указываем команду для запуска приложения
-CMD ["http-server", "dist/cv_2.0/server/main.js"]
+CMD ["node", "dist/cv_2.0/server/main.js"]

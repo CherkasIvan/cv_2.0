@@ -107,10 +107,11 @@ export const appConfig: ApplicationConfig = {
         provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
         provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000',
-        }), provideServiceWorker('ngsw-worker.js', {
+            registrationStrategy: 'registerWhenStable:30130',
+        }),
+        provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          }),
+            registrationStrategy: 'registerWhenStable:30130',
+        }),
     ],
 };
