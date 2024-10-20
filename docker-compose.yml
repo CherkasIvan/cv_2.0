@@ -9,7 +9,13 @@ services:
       - "3013:3013"
 
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
+
+    env_file:
+      - .env
+
+    networks:
+      - ${NETWORK_NAME}
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3013"]
@@ -22,10 +28,18 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.frontend
     ports:
-      - "4000:4000"
+      - "${PORT}:4000"
 
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
+
+      - PORT=${PORT}
+
+    env_file:
+      - .env
+
+    networks:
+      - ${NETWORK_NAME}
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4000"]
@@ -41,8 +55,21 @@ services:
     ports:
       - "80:80"
 
+    environment:
+      - NODE_ENV=${NODE_ENV}
+
+    env_file:
+      - .env
+
+    networks:
+      - ${NETWORK_NAME}
+
     depends_on:
       backend:
         condition: service_healthy
       frontend:
-        condition: service_started
+        condition: service_healthy
+
+networks:
+  cv_2.0_network:
+    driver: bridge
