@@ -1,5 +1,5 @@
-# Используем официальный образ Node.js
-FROM node:18
+# Используем официальный образ Node.js для стадии сборки
+FROM node:latest as build
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
@@ -7,17 +7,26 @@ WORKDIR /app
 # Копируем package.json и package-lock.json
 COPY package*.json ./
 
-# Устанавливаем зависимости
-RUN npm install
+# Устанавливаем глобальные зависимости
+RUN npm install -g http-server
 
 # Копируем остальные файлы проекта
 COPY . .
 
 # Собираем приложение с серверным рендерингом
-RUN npm run build:ssr
+RUN npm run build:ssr --configuration=production
+
+# Используем легковесный образ для стадии выполнения
+FROM node:alpine
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем результат сборки из стадии сборки
+COPY --from=build /app/dist/cv_2.0 /app
 
 # Открываем порт 4000
 EXPOSE 4000
 
 # Указываем команду для запуска приложения
-CMD ["node", "dist/cv_2.0/server/main.js"]
+CMD ["npm", "run", "serve:ssr"]

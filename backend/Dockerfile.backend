@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Собираем приложение
-RUN npm run build
+RUN npm run build --prod
 
 # Указываем команду для запуска приложения
 CMD ["node", "dist/main"]
