@@ -6,16 +6,16 @@ build:
 
 run:
   frontend:
-    image: registry.heroku.com/cv2/frontend
+    image: node:18
     command:
       - sh -c 'cd /app && npm run serve:ssr'
 
   backend:
-    image: registry.heroku.com/cv2/backend
+    image: node:18
     command:
       - sh -c 'cd /app && npm run start:prod'
 
   nginx:
-    image: registry.heroku.com/cv2/nginx
+    image: nginx:latest
     command:
       - sh -c 'nginx -g "daemon off;"'
