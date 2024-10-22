@@ -1,7 +1,9 @@
-# build:
-#   frontend: ./frontend/Dockerfile.frontend
-#   backend: ./backend/Dockerfile.backend
-#   nginx: ./nginx/Dockerfile.nginx
+build:
+  docker:
+    frontend: ./frontend/Dockerfile.frontend
+    backend: ./backend/Dockerfile.backend
+    nginx: ./nginx/Dockerfile.nginx
+
 run:
   frontend:
     image: registry.heroku.com/cv2/frontend
