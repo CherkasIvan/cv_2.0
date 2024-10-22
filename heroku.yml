@@ -5,16 +5,17 @@ build:
     nginx: ./nginx/Dockerfile.nginx
 
 run:
-frontend:
-image: registry.heroku.com/cv2/frontend
-command: 
-- sh -c 'cd /app && npm run serve:ssr'
+  frontend:
+    image: registry.heroku.com/cv2/frontend
+    command:
+      - sh -c 'cd /app && npm run serve:ssr'
 
-backend:
-image: registry.heroku.com/cv2/backend
-command: 
-- sh -c 'cd /app && npm run start:prod'
+  backend:
+    image: registry.heroku.com/cv2/backend
+    command:
+      - sh -c 'cd /app && npm run start:prod'
 
-nginx:
-image: registry.heroku.com/cv2/nginx
-- command: sh -c 'nginx -g "daemon off;"'
+  nginx:
+    image: registry.heroku.com/cv2/nginx
+    command:
+      - sh -c 'nginx -g "daemon off;"'
