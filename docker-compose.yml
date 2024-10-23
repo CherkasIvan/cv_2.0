@@ -4,12 +4,22 @@ services:
   backend:
     build:
       context: ./backend
+      volumes:
+        - /app/node_modules
+        - /backend:/app
+      restart: always
       dockerfile: Dockerfile.backend
     ports:
       - "3000:3000"
 
     environment:
       - NODE_ENV=production
+
+      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
+
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+
+      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
@@ -20,9 +30,13 @@ services:
   frontend:
     build:
       context: ./frontend
+      volumes:
+        - /app/node_modules
+        - /frontend:/app
+      restart: always
       dockerfile: Dockerfile.frontend
-    ports:
-      - "4000:4000"
+      ports:
+        - "4000:4000"
 
     environment:
       - NODE_ENV=production
@@ -44,4 +58,4 @@ services:
       backend:
         condition: service_healthy
       frontend:
-        condition: service_started
+        condition: service_healthy
