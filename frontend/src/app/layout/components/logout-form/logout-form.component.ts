@@ -9,7 +9,6 @@ import {
     OnInit,
     Output,
     ViewChild,
-    computed,
     input,
     signal,
 } from '@angular/core';
@@ -44,11 +43,7 @@ export class LogoutFormComponent implements OnInit {
     fly = true;
     logo = '${this.baseUrl}/angular.svg';
     toggle = signal(false);
-    toggleAriaLabel = computed(() => {
-        return this.toggle()
-            ? $localize`:Toggle Button|A button to toggle status:Show`
-            : $localize`:Toggle Button|A button to toggle status:Hide`;
-    });
+
     inc(i: number) {
         this.minutes = Math.min(5, Math.max(0, this.minutes + i));
     }

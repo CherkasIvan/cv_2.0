@@ -30,10 +30,7 @@
             >
                 Toggle
             </button>
-            <div
-                i18n
-                [attr.aria-label]="toggleAriaLabel()"
-            >
+            <div>
                 {{ toggle() }}
             </div>
             <div class="content_submit-buttons">
@@ -41,7 +38,6 @@
                     class="submit-button"
                     (click)="confirmLogout()"
                     type="button"
-                    i18n="@@exit"
                 >
                     Выйти
                 </button>
