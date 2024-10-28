@@ -2,13 +2,10 @@ version: "3.8"
 
 services:
   backend:
-    build:
-      context: ./backend
-      volumes:
-        - /app/node_modules
-        - /backend:/app
-      restart: always
-      dockerfile: Dockerfile.backend
+    build: ./backend
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
     ports:
       - "3000:3000"
 
@@ -21,41 +18,36 @@ services:
 
       - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
 
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3000"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
 
   frontend:
-    build:
-      context: ./frontend
-      volumes:
-        - /app/node_modules
-        - /frontend:/app
-      restart: always
-      dockerfile: Dockerfile.frontend
-      ports:
-        - "4000:4000"
+    build: ./frontend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    ports:
+      - "4000:4000"
 
     environment:
       - NODE_ENV=production
 
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:4000"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
 
   nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.nginx
+    build: ./nginx
     ports:
       - "80:80"
 
-    depends_on:
-      backend:
-        condition: service_healthy
-      frontend:
-        condition: service_healthy
+    # depends_on:
+    #   backend:
+    #     condition: service_healthy
+    #   frontend:
+    #     condition: service_healthy
