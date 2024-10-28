@@ -5,7 +5,7 @@ import * as admin from 'firebase-admin';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 @Module({
   controllers: [FirebaseController],
@@ -17,6 +17,9 @@ export class FirebaseModule {
     if (!privateKey) {
       throw new Error('FIREBASE_PRIVATE_KEY is not defined');
     }
+    console.log('FIREBASE_PRIVATE_KEY:', process.env.FIREBASE_PRIVATE_KEY);
+    console.log('FIREBASE_PROJECT_ID:', process.env.FIREBASE_PROJECT_ID);
+    console.log('FIREBASE_CLIENT_EMAIL:', process.env.FIREBASE_CLIENT_EMAIL);
 
     admin.initializeApp({
       credential: admin.credential.cert({
