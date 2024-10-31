@@ -1,45 +1,55 @@
+import cors from 'cors';
 import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { APP_BASE_HREF } from '@angular/common';
-import { LOCALE_ID } from '@angular/core';
 import { CommonEngine } from '@angular/ssr';
 
-import { REQUEST, RESPONSE } from './src/express.tokens';
 import bootstrap from './src/main.server';
 
+// The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
     const server = express();
     const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+    const browserDistFolder = resolve(serverDistFolder, '../browser');
     const indexHtml = join(serverDistFolder, 'index.server.html');
 
     const commonEngine = new CommonEngine();
 
     server.set('view engine', 'html');
-    server.set('views', serverDistFolder);
+    server.set('views', browserDistFolder);
 
+    // Enable CORS for all routes
+    server.use(
+        cors({
+            origin: 'http://localhost:4000', // Обновите этот URL, чтобы он соответствовал вашему frontend
+            optionsSuccessStatus: 200,
+        }),
+    );
+
+    // Example Express Rest API endpoints
+    // server.get('/api/[**', (req, res) => { });
+    // Serve static files from /browser
     server.get(
-        '*.*',
-        express.static(resolve(serverDistFolder, 'browser'), {
+        '**](https://www.bing.com/search?form=SKPBOT&q=%26apos%3B%2C%20%28req%2C%20res%29%20%3D%26gt%3B%20%7B%20%7D%29%3B%0D%0A%2F%2F%20Serve%20static%20files%20from%20%2Fbrowser%0D%0Aserver.get%28%0D%0A%26apos%3B)',
+        express.static(browserDistFolder, {
             maxAge: '1y',
             index: 'index.html',
         }),
     );
 
-    server.get('*', (req, res, next) => {
+    // All regular routes use the Angular engine
+    server.get('**', (req, res, next) => {
+        const { protocol, originalUrl, baseUrl, headers } = req;
+
         commonEngine
             .render({
                 bootstrap,
                 documentFilePath: indexHtml,
-                url: req.originalUrl,
-                publicPath: resolve(serverDistFolder, 'browser'),
-                providers: [
-                    { provide: APP_BASE_HREF, useValue: '/' },
-                    { provide: LOCALE_ID, useValue: 'en' }, // Default language
-                    { provide: RESPONSE, useValue: res },
-                    { provide: REQUEST, useValue: req },
-                ],
+                url: `${protocol}://${headers.host}${originalUrl}`,
+                publicPath: browserDistFolder,
+                providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
             })
             .then((html) => res.send(html))
             .catch((err) => next(err));
@@ -49,8 +59,10 @@ export function app(): express.Express {
 }
 
 function run(): void {
-    const server = app();
     const port = process.env['PORT'] || 4000;
+
+    // Start up the Node server
+    const server = app();
     server.listen(port, () => {
         console.log(
             `Node Express server listening on http://localhost:${port}`,

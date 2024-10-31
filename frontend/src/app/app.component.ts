@@ -29,17 +29,17 @@ export class AppComponent implements OnDestroy {
     constructor(private translationService: TranslationService) {}
 
     ngOnInit(): void {
-        this.loadTranslations('en');
+        // this.loadTranslations('en');
     }
 
-    loadTranslations(language: string): void {
-        this.translationService
-            .loadTranslations(language)
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe((translations) => {
-                this.translationService.setTranslations(language, translations);
-            });
-    }
+    // loadTranslations(language: string): void {
+    //     this.translationService
+    //         .loadTranslations(language)
+    //         .pipe(takeUntil(this._destroyed$))
+    //         .subscribe((translations) => {
+    //             this.translationService.setTranslations(language, translations);
+    //         });
+    // }
     ngOnDestroy(): void {
         this._destroyed$.next();
         this._destroyed$.complete();
