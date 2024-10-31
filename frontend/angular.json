@@ -5,22 +5,14 @@
     "projects": {
         "cv_2.0": {
             "projectType": "application",
-            "schematics": {},
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
+                }
+            },
             "root": "",
             "sourceRoot": "src",
             "prefix": "cv",
-            "i18n": {
-                "locales": {
-                    "en": {
-                        "translation": "src/locale/messages.en.xlf",
-                        "baseHref": "en"
-                    },
-                    "ru": {
-                        "translation": "src/locale/messages.ru.xlf",
-                        "baseHref": "ru"
-                    }
-                }
-            },
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
@@ -28,10 +20,7 @@
                         "outputPath": "dist/cv_2.0/browser",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": [
-                            "src/polyfills.ts",
-                            "@angular/localize/init"
-                        ],
+                        "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
                             {
@@ -42,42 +31,28 @@
                             "src/assets"
                         ],
                         "styles": ["src/styles.scss"],
-                        "scripts": [],
-                        "serviceWorker": true,
-                        "ngswConfigPath": "ngsw-config.json"
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
+                                    "maximumWarning": "1MB",
+                                    "maximumError": "2MB"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "1mb"
+                                    "maximumWarning": "4kB",
+                                    "maximumError": "8kB"
                                 }
                             ],
                             "outputHashing": "all"
                         },
-                        "en": {
-                            "localize": ["en"]
-                        },
-                        "ru": {
-                            "localize": ["ru"]
-                        },
                         "development": {
                             "optimization": false,
                             "extractLicenses": false,
-                            "sourceMap": true,
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.development.ts"
-                                }
-                            ]
+                            "sourceMap": true
                         }
                     },
                     "defaultConfiguration": "production"
@@ -86,10 +61,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "cv_2.0:build:production"
+                            "browserTarget": "cv_2.0:build:production"
                         },
                         "development": {
-                            "buildTarget": "cv_2.0:build:development"
+                            "browserTarget": "cv_2.0:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -99,43 +74,21 @@
                     "options": {
                         "outputPath": "dist/cv_2.0/server",
                         "main": "src/main.server.ts",
-                        "tsConfig": "tsconfig.server.json"
+                        "tsConfig": "tsconfig.app.json"
                     }
                 },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n"
-                },
-                "test": {
-                    "builder": "@angular-devkit/build-angular:karma",
+                "prerender": {
+                    "builder": "@nguniversal/builders:prerender",
                     "options": {
-                        "polyfills": [
-                            "zone.js",
-                            "zone.js/testing",
-                            "@angular/localize/init"
-                        ],
-                        "tsConfig": "tsconfig.spec.json",
-                        "assets": [
-                            {
-                                "glob": "**/*",
-                                "input": "public",
-                                "output": "/"
-                            }
-                        ],
-                        "styles": ["src/styles.css"],
-                        "scripts": []
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-eslint/builder:lint",
-                    "options": {
-                        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+                        "browserTarget": "cv_2.0:build:production",
+                        "serverTarget": "cv_2.0:server:production",
+                        "routes": ["/"]
                     }
                 }
             }
         }
     },
     "cli": {
-        "schematicCollections": ["@angular-eslint/schematics"],
         "analytics": false
     }
 }

@@ -116,21 +116,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this._localStorageService.redirectToSavedRoute();
         this.isCheckedLanguage =
             this._localStorageService.getLanguage() === 'en';
-        this.loadTranslations(this.isCheckedLanguage ? 'en' : 'ru');
+        // this.loadTranslations(this.isCheckedLanguage ? 'en' : 'ru');
         this._cdr.markForCheck();
     }
 
-    private loadTranslations(language: string): void {
-        this._translationService
-            .loadTranslations(language)
-            .subscribe((translations) => {
-                this._translationService.setTranslations(
-                    language,
-                    translations,
-                );
-                this.translateNavigationLinks(language);
-            });
-    }
+    // private loadTranslations(language: string): void {
+    //     this._translationService
+    //         .loadTranslations(language)
+    //         .subscribe((translations) => {
+    //             this._translationService.setTranslations(
+    //                 language,
+    //                 translations,
+    //             );
+    //             this.translateNavigationLinks(language);
+    //         });
+    // }
 
     ngOnDestroy(): void {
         this._destroyed$.next();

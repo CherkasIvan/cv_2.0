@@ -32,7 +32,7 @@ import { LocalStorageService } from '../local-storage/local-storage.service';
 export class AuthService implements OnDestroy {
     public userData: User | null = null;
     public isAuth$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    public usersState = this._localStorageService.getUsersState();
+    public usersState: any;
 
     private _destroyed$: Subject<void> = new Subject();
     private _isBrowser: boolean;
@@ -46,8 +46,13 @@ export class AuthService implements OnDestroy {
         @Inject(PLATFORM_ID) private platformId: Object,
     ) {
         this._isBrowser = isPlatformBrowser(this.platformId);
-        if (this._isBrowser && localStorage.getItem('usersState')) {
-            this.isAuth$.next(true);
+        if (this._isBrowser) {
+            this.usersState = this._localStorageService.getUsersState();
+            if (localStorage.getItem('usersState')) {
+                this.isAuth$.next(true);
+            } else {
+                this.isAuth$.next(false);
+            }
         } else {
             this.isAuth$.next(false);
         }
@@ -58,28 +63,30 @@ export class AuthService implements OnDestroy {
             this._afAuth.signInWithEmailAndPassword(email, password),
         ).pipe(
             tap((result) => {
-                if (!this.usersState) {
-                    this._localStorageService.initUser(
-                        true,
-                        false,
-                        result.user,
-                        'main',
-                    );
-                } else {
-                    console.log('Setting user in signIn:', result.user); // Добавьте это для отладки
-                    this._localStorageService.setUser(result.user);
-                }
+                if (this._isBrowser) {
+                    if (!this.usersState) {
+                        this._localStorageService.initUser(
+                            true,
+                            false,
+                            result.user,
+                            'main',
+                        );
+                    } else {
+                        console.log('Setting user in signIn:', result.user); // Добавьте это для отладки
+                        this._localStorageService.setUser(result.user);
+                    }
 
-                this.setUserData(result.user);
-                if (result.user) {
-                    this.isAuth$.next(true);
-                    this._afAuth.authState
-                        .pipe(takeUntil(this._destroyed$))
-                        .subscribe((user) => {
-                            if (user && this.isAuth$.value) {
-                                this._router.navigate([ERoute.LAYOUT]);
-                            }
-                        });
+                    this.setUserData(result.user);
+                    if (result.user) {
+                        this.isAuth$.next(true);
+                        this._afAuth.authState
+                            .pipe(takeUntil(this._destroyed$))
+                            .subscribe((user) => {
+                                if (user && this.isAuth$.value) {
+                                    this._router.navigate([ERoute.LAYOUT]);
+                                }
+                            });
+                    }
                 }
             }),
             catchError((error: Error) => {
@@ -92,20 +99,25 @@ export class AuthService implements OnDestroy {
     signInAsGuest() {
         return from(this._afAuth.signInAnonymously()).pipe(
             tap((result) => {
-                console.log('signInAsGuest result:', result);
-                if (!this.usersState) {
-                    this._localStorageService.initUser(
-                        true,
-                        true,
-                        null,
-                        'main',
+                if (this._isBrowser) {
+                    console.log('signInAsGuest result:', result);
+                    if (!this.usersState) {
+                        this._localStorageService.initUser(
+                            true,
+                            true,
+                            null,
+                            'main',
+                        );
+                    } else {
+                        this._localStorageService.setUser(null);
+                    }
+                    this.isAuth$.next(true);
+                    console.log(
+                        'isAuth$ after signInAsGuest:',
+                        this.isAuth$.value,
                     );
-                } else {
-                    this._localStorageService.setUser(null);
+                    this._router.navigate([ERoute.LAYOUT]);
                 }
-                this.isAuth$.next(true);
-                console.log('isAuth$ after signInAsGuest:', this.isAuth$.value);
-                this._router.navigate([ERoute.LAYOUT]);
             }),
             catchError((error: Error) => {
                 this.isAuth$.next(false);
@@ -132,23 +144,26 @@ export class AuthService implements OnDestroy {
     signOut() {
         return from(this._afAuth.signOut()).pipe(
             tap(() => {
-                const usersState = this._localStorageService.getUsersState();
+                if (this._isBrowser) {
+                    const usersState =
+                        this._localStorageService.getUsersState();
 
-                if (usersState?.isGuest) {
-                    usersState.isGuest = false;
-                }
-                if (usersState?.user) {
-                    usersState.user = null;
-                }
+                    if (usersState?.isGuest) {
+                        usersState.isGuest = false;
+                    }
+                    if (usersState?.user) {
+                        usersState.user = null;
+                    }
 
-                if (usersState) {
-                    this._localStorageService.setUsersState(usersState);
-                }
+                    if (usersState) {
+                        this._localStorageService.setUsersState(usersState);
+                    }
 
-                this._localStorageService.clearUserData();
-                this._store$.dispatch(AuthActions.getLogout());
-                this.isAuth$.next(false);
-                this._router.navigate([ERoute.AUTH]);
+                    this._localStorageService.clearUserData();
+                    this._store$.dispatch(AuthActions.getLogout());
+                    this.isAuth$.next(false);
+                    this._router.navigate([ERoute.AUTH]);
+                }
             }),
         );
     }
