@@ -5,6 +5,6 @@ COPY angular.json ./
 RUN npm install
 COPY . .
 RUN apt-get update && apt-get install -y iproute2
-RUN npm run build
+RUN npm run build:ssr
 EXPOSE 4000
-CMD [ "npm", "run", "serve:dev", "--verbose"]
+CMD ["npm", "run", "serve:ssr", "--verbose"]

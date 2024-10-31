@@ -1,12 +1,12 @@
 build:
   docker:
-    frontend: ./frontend/Dockerfile.frontend
-    backend: ./backend/Dockerfile.backend
-    nginx: ./nginx/Dockerfile.nginx
+    frontend: ./frontend/Dockerfile
+    backend: ./backend/Dockerfile
+    nginx: ./nginx/Dockerfile
 
 run:
   frontend:
-    command: sh -c 'cd /app && npm run serve:ssr'
+    command: sh -c 'cd /app && npm run serve:dev'
   backend:
     command: sh -c 'cd /app && npm run start:prod'
   nginx:
