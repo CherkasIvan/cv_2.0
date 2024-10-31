@@ -10,13 +10,16 @@ export class FirebaseService {
 
   async getImagesByFolder(folder: string): Promise<string[]> {
     const [files] = await this.bucket.getFiles({ prefix: folder });
-    const base64Images = await Promise.all(
+    const urls = await Promise.all(
       files.map(async (file) => {
-        const [buffer] = await file.download();
-        return buffer.toString('base64');
+        const [url] = await file.getSignedUrl({
+          action: 'read',
+          expires: '03-01-2500',
+        });
+        return url;
       }),
     );
-    return base64Images;
+    return urls;
   }
 
   async getNavigation(): Promise<TNavigation[]> {

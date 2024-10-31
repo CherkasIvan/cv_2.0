@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, Inject, input } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
@@ -21,5 +21,5 @@ export class ProjectChipsComponent {
         select(darkModeSelector),
     );
 
-    constructor(private _store$: Store<TDarkMode>) {}
+    constructor(@Inject(Store) private _store$: Store<TDarkMode>) {}
 }
