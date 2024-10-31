@@ -1,5 +1,6 @@
 build:
   docker:
+<<<<<<< HEAD
     frontend: ./frontend/Dockerfile
     backend: ./backend/Dockerfile
     nginx: ./nginx/Dockerfile
@@ -11,3 +12,7 @@ run:
     command: sh -c 'cd /app && npm run start:prod'
   nginx:
     command: sh -c 'nginx -g "daemon off;"'
+=======
+    web: frontend/Dockerfile.frontend
+    worker: backend/Dockerfile.backend
+>>>>>>> 599a91e803d896674351583ef7ee4a9d7895f0ce

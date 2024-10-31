@@ -64,9 +64,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(
-        private readonly _router: Router,
-        private _cdr: ChangeDetectorRef,
+        @Inject(Router) private readonly _router: Router,
         @Inject(Store) private _store$: Store<TLanguages>,
+        private _cdr: ChangeDetectorRef,
         private _localStorageService: LocalStorageService,
         private _translationService: TranslationService,
     ) {}

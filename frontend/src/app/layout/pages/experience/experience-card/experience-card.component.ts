@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Inject,
     OnInit,
     input,
 } from '@angular/core';
@@ -36,7 +37,7 @@ export class ExperienceCardComponent implements OnInit {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<IExperience>,
+        @Inject(Store) private _store$: Store<IExperience>,
     ) {}
 
     ngOnInit(): void {
