@@ -1,6 +1,36 @@
 version: "3.8"
 
 services:
+  frontend:
+    build: ./frontend
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
+    ports:
+      - "4000:4000"
+
+    environment:
+      - NODE_ENV=production
+
+      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
+
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+
+      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
+
+    networks:
+      - cv-network
+
+    depends_on:
+      - backend
+
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   backend:
     build: ./backend
     volumes:
@@ -21,19 +51,12 @@ services:
     networks:
       - cv-network
 
-  frontend:
-    build: ./frontend
-    volumes:
-      - /app/node_modules
-      - ./frontend:/app
-    ports:
-      - "4000:4000"
-
-    environment:
-      - NODE_ENV=production
-
-    networks:
-      - cv-network
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   nginx:
     build: ./nginx
