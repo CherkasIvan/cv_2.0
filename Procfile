@@ -1,3 +1,3 @@
-web: sh -c 'cd /app && npm run serve:dev'
-worker: sh -c 'cd /app && npm run start:prod'
-worker: - sh -c 'nginx -g "daemon off;"'
+frontend: sh -c 'cd /app && npm run serve:dev'
+backend: sh -c 'cd /app && npm run start:prod'
+nginx: - sh -c 'nginx -g "daemon off;"'
