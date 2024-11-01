@@ -3,19 +3,18 @@ build:
     frontend: ./frontend/Dockerfile
     backend: ./backend/Dockerfile
     nginx: ./nginx/Dockerfile
+# run:
+#   frontend:
+#     image: frontend
+#     command:
+#       - sh -c 'cd /app && npm run serve:dev'
 
-run:
-  frontend:
-    image: frontend
-    command:
-      - sh -c 'cd /app && npm run serve:dev'
+#   backend:
+#     image: backend
+#     command:
+#       - sh -c 'cd /app && npm run start:prod'
 
-  backend:
-    image: backend
-    command:
-      - sh -c 'cd /app && npm run start:prod'
-
-  nginx:
-    image: nginx
-    command:
-      - sh -c 'nginx -g "daemon off;"'
+#   nginx:
+#     image: nginx
+#     command:
+#       - sh -c 'nginx -g "daemon off;"'
