@@ -1,6 +1,6 @@
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -27,7 +27,7 @@ import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selec
 @Component({
     selector: 'cv-aside-navigation-experience',
     standalone: true,
-    imports: [NgClass, RouterLinkActive, AsyncPipe, JsonPipe],
+    imports: [NgClass, RouterLinkActive, AsyncPipe],
     templateUrl: './aside-navigation-experience.component.html',
     styleUrls: [
         './aside-navigation-experience.component.scss',
