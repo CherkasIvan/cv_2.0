@@ -123,7 +123,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         );
 
         if (this.isFirstTime) {
-            timer(5000)
+            timer(12000)
                 .pipe(takeUntil(this._destroyed$))
                 .subscribe(() => {
                     this.isFirstTime = false;
