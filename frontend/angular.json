@@ -1,141 +1,96 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "version": 1,
-    "newProjectRoot": "projects",
     "projects": {
         "cv_2.0": {
-            "projectType": "application",
-            "schematics": {},
             "root": "",
             "sourceRoot": "src",
-            "prefix": "cv",
-            "i18n": {
-                "locales": {
-                    "en": {
-                        "translation": "src/locale/messages.en.xlf",
-                        "baseHref": "en"
-                    },
-                    "ru": {
-                        "translation": "src/locale/messages.ru.xlf",
-                        "baseHref": "ru"
-                    }
-                }
-            },
+            "projectType": "application",
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/cv_2.0/browser",
+                        "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": [
-                            "src/polyfills.ts",
-                            "@angular/localize/init"
-                        ],
+                        "polyfills": ["zone.js"],
                         "tsConfig": "tsconfig.app.json",
-                        "assets": [
-                            {
-                                "glob": "**/*",
-                                "input": "public",
-                                "output": "/"
-                            },
-                            "src/assets"
-                        ],
+                        "assets": ["src/favicon.ico", "src/assets"],
                         "styles": ["src/styles.scss"],
-                        "scripts": [],
-                        "serviceWorker": true,
-                        "ngswConfigPath": "ngsw-config.json"
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {
-                            "budgets": [
-                                {
-                                    "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
-                                },
-                                {
-                                    "type": "anyComponentStyle",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "1mb"
-                                }
-                            ],
-                            "outputHashing": "all"
-                        },
-                        "en": {
-                            "localize": ["en"]
-                        },
-                        "ru": {
-                            "localize": ["ru"]
-                        },
-                        "development": {
-                            "optimization": false,
-                            "extractLicenses": false,
-                            "sourceMap": true,
                             "fileReplacements": [
                                 {
                                     "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.development.ts"
+                                    "with": "src/environments/environment.prod.ts"
                                 }
-                            ]
+                            ],
+                            "optimization": {
+                                "scripts": true,
+                                "styles": {
+                                    "minify": true,
+                                    "inlineCritical": true
+                                }
+                            },
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "namedChunks": false,
+                            "aot": true,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true
+                        },
+                        "development": {
+                            "optimization": false,
+                            "sourceMap": true,
+                            "extractLicenses": false,
+                            "namedChunks": true,
+                            "aot": false,
+                            "vendorChunk": true
                         }
-                    },
-                    "defaultConfiguration": "production"
+                    }
                 },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "browserTarget": "cv_2.0:build:development"
+                    },
                     "configurations": {
                         "production": {
-                            "buildTarget": "cv_2.0:build:production"
-                        },
-                        "development": {
-                            "buildTarget": "cv_2.0:build:development"
+                            "browserTarget": "cv_2.0:build:production"
                         }
-                    },
-                    "defaultConfiguration": "development"
-                },
-                "server": {
-                    "builder": "@angular-devkit/build-angular:server",
-                    "options": {
-                        "outputPath": "dist/cv_2.0/server",
-                        "main": "src/main.server.ts",
-                        "tsConfig": "tsconfig.server.json"
                     }
                 },
                 "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n"
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "cv_2.0:build"
+                    }
                 },
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
-                        "polyfills": [
-                            "zone.js",
-                            "zone.js/testing",
-                            "@angular/localize/init"
-                        ],
+                        "main": "src/test.ts",
+                        "polyfills": ["zone.js"],
                         "tsConfig": "tsconfig.spec.json",
-                        "assets": [
-                            {
-                                "glob": "**/*",
-                                "input": "public",
-                                "output": "/"
-                            }
-                        ],
-                        "styles": ["src/styles.css"],
+                        "karmaConfig": "karma.conf.js",
+                        "assets": ["src/favicon.ico", "src/assets"],
+                        "styles": ["src/styles.scss"],
                         "scripts": []
                     }
                 },
                 "lint": {
-                    "builder": "@angular-eslint/builder:lint",
+                    "builder": "@angular-devkit/build-angular:tslint",
                     "options": {
-                        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+                        "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
+                        "exclude": [
+                            "[**/node_modules/**](https://www.bing.com/search?form=SKPBOT&q=%2Fnode_modules%2F)"
+                        ]
                     }
                 }
             }
         }
-    },
-    "cli": {
-        "schematicCollections": ["@angular-eslint/schematics"],
-        "analytics": false
     }
 }

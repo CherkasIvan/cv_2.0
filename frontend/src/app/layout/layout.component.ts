@@ -17,7 +17,6 @@ import { Store, select } from '@ngrx/store';
 import { IExperience } from '@core/models/experience.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
-import { AuthService } from '@core/service/auth/auth.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 import { routeAnimations } from '@core/utils/animations/router-animations';
 import { startCardFadeIn } from '@core/utils/animations/start-cart-fade-in';
@@ -91,6 +90,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     );
 
     constructor(
+        @Inject(Store)
         private _store$: Store<
             TDarkMode | INavigation | ISocialMedia | { modal: ModalState }
         >,
@@ -123,7 +123,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
         );
 
         if (this.isFirstTime) {
-            timer(5000)
+            timer(12000)
                 .pipe(takeUntil(this._destroyed$))
                 .subscribe(() => {
                     this.isFirstTime = false;

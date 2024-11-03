@@ -6,10 +6,12 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
+    OnDestroy,
     OnInit,
     Output,
     ViewChild,
     input,
+    signal,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -26,7 +28,7 @@ import { TProfile } from '@layout/store/model/profile.type';
     styleUrl: './logout-form.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoutFormComponent implements OnInit {
+export class LogoutFormComponent implements OnInit, OnDestroy {
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
     @Output() public emittedModalHide = new EventEmitter<boolean>();
@@ -36,6 +38,28 @@ export class LogoutFormComponent implements OnInit {
     public displayName = '';
 
     private _destroyed$: Subject<void> = new Subject();
+
+    minutes = 0;
+    gender = 'female';
+    fly = true;
+    logo = '${this.baseUrl}/angular.svg';
+    toggle = signal(false);
+
+    inc(i: number) {
+        this.minutes = Math.min(5, Math.max(0, this.minutes + i));
+    }
+    male() {
+        this.gender = 'male';
+    }
+    female() {
+        this.gender = 'female';
+    }
+    other() {
+        this.gender = 'other';
+    }
+    toggleDisplay() {
+        this.toggle.update((toggle) => !toggle);
+    }
 
     constructor(
         private _authService: AuthService,
@@ -65,7 +89,7 @@ export class LogoutFormComponent implements OnInit {
             });
     }
 
-    public onBackgroundClick(event: MouseEvent): void {
+    public onBackgroundClick(event: Event): void {
         const target = event.target as HTMLElement;
         if (target.classList.contains(this.modal.nativeElement.classList)) {
             this.closeLogoutDialog();
