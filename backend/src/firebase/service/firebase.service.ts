@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../utils/firebase.config';
 import * as admin from 'firebase-admin';
+import { TNavigation } from 'src/models/navigation.type';
 
 @Injectable()
 export class FirebaseService {
@@ -9,18 +10,30 @@ export class FirebaseService {
 
   async getImagesByFolder(folder: string): Promise<string[]> {
     const [files] = await this.bucket.getFiles({ prefix: folder });
-    const base64Images = await Promise.all(
+    const urls = await Promise.all(
       files.map(async (file) => {
-        const [buffer] = await file.download();
-        return buffer.toString('base64');
+        const [url] = await file.getSignedUrl({
+          action: 'read',
+          expires: '03-01-2500',
+        });
+        return url;
       }),
     );
-    return base64Images;
+    return urls;
   }
 
-  async getNavigation(): Promise<any> {
+  async getNavigation(): Promise<TNavigation[]> {
     const querySnapshot = await getDocs(collection(db, 'navigation'));
-    return querySnapshot.docs.map((doc) => doc.data());
+    return querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        link: data.link,
+        position: data.position,
+        value: data.value,
+        imgName: data.imgName,
+      } as TNavigation;
+    });
   }
 
   async getSocialMediaLinks(): Promise<any> {

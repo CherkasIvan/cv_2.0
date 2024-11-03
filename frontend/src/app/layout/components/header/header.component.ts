@@ -24,6 +24,7 @@ import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
+import { TranslationService } from '@core/service/translation/translation.service';
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
@@ -63,10 +64,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(
-        private readonly _router: Router,
-        private _cdr: ChangeDetectorRef,
+        @Inject(Router) private readonly _router: Router,
         @Inject(Store) private _store$: Store<TLanguages>,
+        private _cdr: ChangeDetectorRef,
         private _localStorageService: LocalStorageService,
+        private _translationService: TranslationService,
     ) {}
 
     public showDialogLogout() {
@@ -79,6 +81,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
         const newLanguage = this.isCheckedLanguage ? 'en' : 'ru';
         this._localStorageService.setLanguage(newLanguage);
         this._store$.dispatch(setLanguageSuccess(newLanguage));
+        this.translateNavigationLinks(newLanguage);
+    }
+
+    private translateNavigationLinks(language: string): void {
+        if (this.navigationLinks) {
+            this.navigationLinks = this.navigationLinks.map((link) => ({
+                ...link,
+                value: this._translationService.getTranslation(
+                    link.value,
+                    language,
+                ),
+            }));
+        }
     }
 
     ngOnInit(): void {
@@ -91,16 +106,31 @@ export class HeaderComponent implements OnInit, OnDestroy {
                         this.currentRoute,
                     );
                 }
-            }),
-            this._store$.pipe(takeUntil(this._destroyed$), select(selectAuth));
+            });
+
+        this._store$
+            .pipe(takeUntil(this._destroyed$), select(selectAuth))
+            .subscribe();
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
-
         this._localStorageService.redirectToSavedRoute();
         this.isCheckedLanguage =
             this._localStorageService.getLanguage() === 'en';
+        // this.loadTranslations(this.isCheckedLanguage ? 'en' : 'ru');
         this._cdr.markForCheck();
     }
+
+    // private loadTranslations(language: string): void {
+    //     this._translationService
+    //         .loadTranslations(language)
+    //         .subscribe((translations) => {
+    //             this._translationService.setTranslations(
+    //                 language,
+    //                 translations,
+    //             );
+    //             this.translateNavigationLinks(language);
+    //         });
+    // }
 
     ngOnDestroy(): void {
         this._destroyed$.next();

@@ -5,6 +5,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    Inject,
     OnDestroy,
     OnInit,
 } from '@angular/core';
@@ -52,7 +53,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store<TDarkMode | IMainPageInfo>,
+        @Inject(Store) private _store$: Store<TDarkMode | IMainPageInfo>,
     ) {}
 
     ngOnInit(): void {

@@ -5,6 +5,7 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
+    Inject,
     OnInit,
     Output,
 } from '@angular/core';
@@ -39,7 +40,7 @@ export class AsideNavigationSubtechnologiesComponent implements OnInit {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        private _store$: Store,
+        @Inject(Store) private _store$: Store<INavigation[]>,
         private _localStorageService: LocalStorageService,
     ) {}
 
