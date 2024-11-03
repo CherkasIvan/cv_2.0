@@ -46,21 +46,6 @@ export class FirebaseService {
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getBackendTech(): Promise<any> {
-    const querySnapshot = await getDocs(collection(db, 'backendTech'));
-    return querySnapshot.docs.map((doc) => doc.data());
-  }
-
-  async getOtherTech(): Promise<any> {
-    const querySnapshot = await getDocs(collection(db, 'otherTech'));
-    return querySnapshot.docs.map((doc) => doc.data());
-  }
-
-  async getFrontendTech(): Promise<any> {
-    const querySnapshot = await getDocs(collection(db, 'frontendTech'));
-    return querySnapshot.docs.map((doc) => doc.data());
-  }
-
   async getHardSkillsNav(): Promise<any> {
     const querySnapshot = await getDocs(collection(db, 'hardSkillsNav'));
     return querySnapshot.docs.map((doc) => doc.data());
@@ -84,5 +69,47 @@ export class FirebaseService {
   async getExperienceAside(): Promise<any> {
     const querySnapshot = await getDocs(collection(db, 'experienceAside'));
     return querySnapshot.docs.map((doc) => doc.data());
+  }
+
+  async getBackendTech(): Promise<any> {
+    const querySnapshot = await getDocs(collection(db, 'backendTech'));
+    return querySnapshot.docs.map((doc) => doc.data());
+  }
+
+  async getOtherTech(): Promise<any> {
+    const querySnapshot = await getDocs(collection(db, 'otherTech'));
+    return querySnapshot.docs.map((doc) => doc.data());
+  }
+
+  async getFrontendTech(): Promise<any> {
+    const querySnapshot = await getDocs(collection(db, 'frontendTech'));
+    return querySnapshot.docs.map((doc) => doc.data());
+  }
+
+  async getBackendTechWithImages(): Promise<any> {
+    const backendTech = await this.getBackendTech();
+    const images = await this.getImagesByFolder('technologies/backend');
+    return backendTech.map((tech) => ({
+      ...tech,
+      iconPath: images.find((url) => url.includes(tech.alt)) || '',
+    }));
+  }
+
+  async getOtherTechWithImages(): Promise<any> {
+    const otherTech = await this.getOtherTech();
+    const images = await this.getImagesByFolder('technologies/other');
+    return otherTech.map((tech) => ({
+      ...tech,
+      iconPath: images.find((url) => url.includes(tech.alt)) || '',
+    }));
+  }
+
+  async getFrontendTechWithImages(): Promise<any> {
+    const frontendTech = await this.getFrontendTech();
+    const images = await this.getImagesByFolder('technologies/frontend');
+    return frontendTech.map((tech) => ({
+      ...tech,
+      iconPath: images.find((url) => url.includes(tech.alt)) || '',
+    }));
   }
 }

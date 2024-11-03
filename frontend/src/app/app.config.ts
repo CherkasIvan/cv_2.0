@@ -39,6 +39,9 @@ import {
 import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
+import { LogoEffects } from '@layout/store/images-store/images.effects';
+import { logoReducer } from '@layout/store/images-store/images.reducers';
+
 import {
     TranslateLoader,
     TranslateModule,
@@ -78,7 +81,6 @@ export const appConfig: ApplicationConfig = {
         provideDatabase(() => getDatabase()),
         provideStorage(() => getStorage()),
         provideAuth(() => getAuth()),
-        provideEffects(),
         provideStore(),
         provideHttpClient(),
         {
@@ -99,8 +101,12 @@ export const appConfig: ApplicationConfig = {
             EffectsModule.forRoot([
                 FirebaseEffects,
                 AuthEffects,
+                FirebaseEffects,
+                AuthEffects,
                 GithubRepositoriesEffects,
+                LogoEffects,
             ]),
+            StoreModule.forFeature('logo', logoReducer),
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('firebase', firebaseReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),

@@ -5,16 +5,6 @@ import { FirebaseService } from '../../service/firebase.service';
 export class FirebaseController {
   constructor(private readonly firebaseService: FirebaseService) {}
 
-  // @Get('images')
-  // async getImages() {
-  // return await this.firebaseService.getImages();
-  // }
-
-  // @Get('files/:numberItems')
-  // async getFiles(@Param('numberItems') numberItems: number) {
-  // return await this.firebaseService.getFiles(numberItems);
-  // }
-
   @Get('images/:folder*')
   async getImagesByFolder(@Param('folder') folder: string) {
     const images = await this.firebaseService.getImagesByFolder(folder);
@@ -41,19 +31,19 @@ export class FirebaseController {
 
   @Get('backend')
   async getBackendTech() {
-    const backendTech = await this.firebaseService.getBackendTech();
+    const backendTech = await this.firebaseService.getBackendTechWithImages();
     return backendTech;
   }
 
   @Get('other')
   async getOtherTech() {
-    const otherTech = await this.firebaseService.getOtherTech();
+    const otherTech = await this.firebaseService.getOtherTechWithImages();
     return otherTech;
   }
 
   @Get('frontend')
   async getFrontendTech() {
-    const frontendTech = await this.firebaseService.getFrontendTech();
+    const frontendTech = await this.firebaseService.getFrontendTechWithImages();
     return frontendTech;
   }
 
