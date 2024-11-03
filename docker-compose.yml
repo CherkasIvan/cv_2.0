@@ -51,20 +51,22 @@ services:
     networks:
       - cv-network
 
-    # restart: always
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:3000"]
-    #   interval: 30s
-    #   timeout: 10s
-    #   retries: 5
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   nginx:
     build: ./nginx
     ports:
       - "80:80"
     depends_on:
-      - backend
-      - frontend
+      frontend:
+        condition: service_healthy
+      backend:
+        condition: service_healthy
     networks:
       - cv-network
 
