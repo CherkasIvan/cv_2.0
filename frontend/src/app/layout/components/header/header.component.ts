@@ -27,6 +27,8 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 import { TranslationService } from '@core/service/translation/translation.service';
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
+import { ImagesActions } from '@layout/store/images-store/images.actions';
+import { selectImageUrl } from '@layout/store/images-store/images.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
 import { TLanguages } from '@layout/store/model/languages.type';
 
@@ -60,6 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public currentRoute: string = '';
     public isModalDialogVisible: boolean = false;
     public displayName = '';
+    public imageUrl: string = '';
 
     private _destroyed$: Subject<void> = new Subject();
 
@@ -116,21 +119,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this._localStorageService.redirectToSavedRoute();
         this.isCheckedLanguage =
             this._localStorageService.getLanguage() === 'en';
-        // this.loadTranslations(this.isCheckedLanguage ? 'en' : 'ru');
-        this._cdr.markForCheck();
+
+        this._store$
+            .pipe(takeUntil(this._destroyed$), select(selectImageUrl))
+            .subscribe((imageUrl: string) => {
+                this.imageUrl = imageUrl;
+                this._cdr.markForCheck();
+            });
+
+        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme() }));
     }
 
-    // private loadTranslations(language: string): void {
-    //     this._translationService
-    //         .loadTranslations(language)
-    //         .subscribe((translations) => {
-    //             this._translationService.setTranslations(
-    //                 language,
-    //                 translations,
-    //             );
-    //             this.translateNavigationLinks(language);
-    //         });
-    // }
+    ngOnChanges(): void {
+        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme() }));
+    }
 
     ngOnDestroy(): void {
         this._destroyed$.next();
