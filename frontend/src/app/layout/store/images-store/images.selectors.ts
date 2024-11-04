@@ -9,6 +9,11 @@ export const selectImageUrl = createSelector(
     (state: LogoState) => state.imageUrl,
 );
 
+export const selectProfileImageUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.profileImageUrl,
+);
+
 export const selectLogoError = createSelector(
     selectLogoState,
     (state: LogoState) => state.error,

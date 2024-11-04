@@ -38,4 +38,28 @@ export class LogoEffects {
             ),
         ),
     );
+
+    getProfileImg$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ImagesActions.getProfileImg),
+            mergeMap((action) =>
+                this.apiService
+                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .pipe(
+                        map((data) => {
+                            const imageUrl =
+                                data?.find((url: string) =>
+                                    url.includes('profile-i.cherkas'),
+                                ) || '';
+                            return ImagesActions.getProfileImgSuccess({
+                                imageUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(ImagesActions.getProfileImgFailure({ error })),
+                        ),
+                    ),
+            ),
+        ),
+    );
 }

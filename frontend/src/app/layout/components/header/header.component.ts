@@ -11,7 +11,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    input,
+    SimpleChanges,
 } from '@angular/core';
 import {
     NavigationEnd,
@@ -29,7 +29,7 @@ import { TranslationService } from '@core/service/translation/translation.servic
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { selectImageUrl } from '@layout/store/images-store/images.selectors';
-import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
+import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
 import { TLanguages } from '@layout/store/model/languages.type';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
@@ -54,10 +54,10 @@ import { LoginFormComponent } from '../login-form/login-form.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-    @Input() public navigationLinks: INavigation[] | null = [];
+    @Input() public navigationLinks: INavigation[] | null = null;
+    @Input() public theme: boolean | null = null;
     @Output() public emittedModalShow = new EventEmitter<boolean>();
-    public theme = input<boolean | null>();
-    public currentLanguage = input<string>('EN');
+    public currentLanguage: string = 'EN';
     public isCheckedLanguage: boolean = false;
     public currentRoute: string = '';
     public isModalDialogVisible: boolean = false;
@@ -127,15 +127,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
                 this._cdr.markForCheck();
             });
 
-        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme() }));
+        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme }));
     }
 
-    ngOnChanges(): void {
-        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme() }));
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['navigationLinks'] && this.navigationLinks) {
+            this.navigationLinks = [...this.navigationLinks].sort(
+                (a, b) => a.position - b.position,
+            );
+        }
+        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme }));
     }
 
     ngOnDestroy(): void {
         this._destroyed$.next();
         this._destroyed$.complete();
+    }
+
+    trackByPosition(index: number, item: INavigation): number {
+        return item.position;
     }
 }
