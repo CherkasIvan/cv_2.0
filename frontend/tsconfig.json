@@ -1,6 +1,10 @@
 {
-    "compileOnSave": false,
     "compilerOptions": {
+        "target": "ES2022",
+        "module": "ES2022",
+        "lib": ["ES2022", "dom"],
+        "outDir": "./out-tsc/app",
+        "types": ["node", "jest"],
         "baseUrl": "./src",
         "paths": {
             "@angular/*": ["./node_modules/@angular/*"],
@@ -13,7 +17,6 @@
             "@core/*": ["app/core/*"],
             "@layout/*": ["app/layout/*"]
         },
-        "outDir": "node_modules/dist/out-tsc",
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitOverride": true,
@@ -27,12 +30,15 @@
         "experimentalDecorators": true,
         "moduleResolution": "node",
         "importHelpers": true,
-        "target": "ES2022",
-        "module": "ES2022",
-        "useDefineForClassFields": false,
-        "lib": ["ES2022", "dom"]
+        "useDefineForClassFields": false
     },
-    "include": ["src/**/*.ts"],
+    "include": [
+        "src/**/*.ts",
+        "server.ts",
+        "src/app/app.config.server.ts",
+        "src/main.server.ts",
+        "src/polyfills.ts"
+    ],
     "exclude": ["node_modules"],
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,

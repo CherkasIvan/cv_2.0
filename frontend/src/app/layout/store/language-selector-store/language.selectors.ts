@@ -1,11 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { TLanguages } from '../model/languages.type';
+import { LanguageState } from '../model/language-state.interface';
 
 export const languageFeatureSelector =
-    createFeatureSelector<TLanguages>('language');
-
+    createFeatureSelector<LanguageState>('language');
 export const languageSelector = createSelector(
     languageFeatureSelector,
-    (state: TLanguages) => state?.language ?? 'ru',
+    (state: LanguageState) => state.language ?? 'ru',
 );
