@@ -3,6 +3,7 @@ version: "3.8"
 services:
   frontend:
     build: ./frontend
+    hostname: frontend
     volumes:
       - /app/node_modules
       - ./frontend:/app
@@ -33,6 +34,7 @@ services:
 
   backend:
     build: ./backend
+    hostname: backend
     volumes:
       - /app/node_modules
       - ./backend:/app
