@@ -65,10 +65,8 @@ services:
     ports:
       - "80:80"
     depends_on:
-      frontend:
-        condition: service_healthy
-      backend:
-        condition: service_healthy
+      - frontend
+      - backend
     networks:
       - cv-network
 

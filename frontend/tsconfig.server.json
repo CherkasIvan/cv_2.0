@@ -5,6 +5,7 @@
         "types": []
     },
     "files": ["src/main.server.ts"],
+    "include": ["server.ts", "src/app/app.config.server.ts"],
     "angularCompilerOptions": {
         "entryModule": "src/app/app.server.module#AppServerModule"
     }
