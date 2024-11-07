@@ -15,7 +15,7 @@
         "build:browser": "ng build --configuration production",
         "build:server": "ng run cv_2.0:server:production",
         "build:ssr": "ng build --configuration production && ng run cv_2.0:server:production",
-        "serve:ssr": "node dist/cv_2.0/server/main.js && echo 'SSR Server started' || echo 'Failed to start SSR server'",
+        "serve:ssr": "node dist/cv_2.0/server/server.mjs && echo 'SSR Server started' || echo 'Failed to start SSR server'",
         "heroku-postbuild": "npm run build:ssr"
     },
     "private": true,
@@ -77,8 +77,8 @@
         "madge": "^8.0.0",
         "ng-extract-i18n-merge": "^2.12.0",
         "prettier": "^3.3.3",
-        "typescript": "~5.5.4",
-        "ts-node": "^10.9.2"
+        "ts-node": "^10.9.2",
+        "typescript": "~5.5.4"
     },
     "overrides": {
         "undici": "6.19.2",

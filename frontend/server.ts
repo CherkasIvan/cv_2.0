@@ -1,4 +1,3 @@
-import cors from 'cors';
 import express from 'express';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,6 +19,13 @@ export function app(): express.Express {
     server.set('view engine', 'html');
     server.set('views', browserDistFolder);
 
+    // Example Express Rest API endpoints
+    // server.get('/api/**', (req, res) => { });
+    // Serve static files from /browser
+
+    server.set('view engine', 'html');
+    server.set('views', browserDistFolder);
+
     // Enable CORS for all routes
     server.use(
         cors({
@@ -27,15 +33,10 @@ export function app(): express.Express {
             optionsSuccessStatus: 200,
         }),
     );
-
-    // Example Express Rest API endpoints
-    // server.get('/api/**', (req, res) => { });
-    // Serve static files from /browser
     server.get(
-        '*',
+        '*.*',
         express.static(browserDistFolder, {
             maxAge: '1y',
-            index: 'index.html',
         }),
     );
 
@@ -71,3 +72,6 @@ function run(): void {
 }
 
 run();
+function cors(arg0: { origin: string; optionsSuccessStatus: number }): any {
+    throw new Error('Function not implemented.');
+}

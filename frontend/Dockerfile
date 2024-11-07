@@ -3,6 +3,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build:ssr
+RUN npm run build
 EXPOSE 4000
 CMD ["npm", "run", "serve:ssr", "--verbose"]
