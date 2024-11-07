@@ -23,16 +23,16 @@ export function app(): express.Express {
     // Enable CORS for all routes
     server.use(
         cors({
-            origin: 'http://localhost:4000', // Обновите этот URL, чтобы он соответствовал вашему frontend
+            origin: 'http://localhost:4000',
             optionsSuccessStatus: 200,
         }),
     );
 
     // Example Express Rest API endpoints
-    // server.get('/api/[**', (req, res) => { });
+    // server.get('/api/**', (req, res) => { });
     // Serve static files from /browser
     server.get(
-        '**](https://www.bing.com/search?form=SKPBOT&q=%26apos%3B%2C%20%28req%2C%20res%29%20%3D%26gt%3B%20%7B%20%7D%29%3B%0D%0A%2F%2F%20Serve%20static%20files%20from%20%2Fbrowser%0D%0Aserver.get%28%0D%0A%26apos%3B)',
+        '*',
         express.static(browserDistFolder, {
             maxAge: '1y',
             index: 'index.html',
@@ -40,7 +40,7 @@ export function app(): express.Express {
     );
 
     // All regular routes use the Angular engine
-    server.get('**', (req, res, next) => {
+    server.get('*', (req, res, next) => {
         const { protocol, originalUrl, baseUrl, headers } = req;
 
         commonEngine
@@ -71,4 +71,3 @@ function run(): void {
 }
 
 run();
-console.log(run());

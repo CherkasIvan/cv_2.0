@@ -1,9 +1,17 @@
 version: "3.8"
 
 services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    networks:
+      - cv-network
+
   frontend:
     build: ./frontend
     hostname: frontend
+    command: npm run serve:ssr
     volumes:
       - /app/node_modules
       - ./frontend:/app
@@ -59,16 +67,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
-  nginx:
-    build: ./nginx
-    ports:
-      - "80:80"
-    depends_on:
-      - frontend
-      - backend
-    networks:
-      - cv-network
 
 networks:
   cv-network:
