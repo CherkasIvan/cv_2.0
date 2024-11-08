@@ -1,77 +1,53 @@
 import express from 'express';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { existsSync } from 'fs';
+import { join } from 'path';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
 
 import bootstrap from './src/main.server';
 
-// The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
-    const server = express();
-    const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-    const browserDistFolder = resolve(serverDistFolder, '../browser');
-    const indexHtml = join(serverDistFolder, 'index.server.html');
+const DIST_FOLDER = join(process.cwd(), 'dist/cv_2.0/browser');
+const app = express();
 
-    const commonEngine = new CommonEngine();
+const engine = new CommonEngine();
 
-    server.set('view engine', 'html');
-    server.set('views', browserDistFolder);
-
-    // Example Express Rest API endpoints
-    // server.get('/api/**', (req, res) => { });
-    // Serve static files from /browser
-
-    server.set('view engine', 'html');
-    server.set('views', browserDistFolder);
-
-    // Enable CORS for all routes
-    server.use(
-        cors({
-            origin: 'http://localhost:4000',
-            optionsSuccessStatus: 200,
-        }),
-    );
-    server.get(
-        '*.*',
-        express.static(browserDistFolder, {
-            maxAge: '1y',
-        }),
-    );
-
-    // All regular routes use the Angular engine
-    server.get('*', (req, res, next) => {
-        const { protocol, originalUrl, baseUrl, headers } = req;
-
-        commonEngine
+app.engine(
+    'html',
+    (
+        filePath: string,
+        options: any,
+        callback: (err?: Error | null, html?: string) => void,
+    ) => {
+        engine
             .render({
                 bootstrap,
-                documentFilePath: indexHtml,
-                url: `${protocol}://${headers.host}${originalUrl}`,
-                publicPath: browserDistFolder,
-                providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+                documentFilePath: join(DIST_FOLDER, 'index.html'),
+                url: options.req.url,
+                providers: [
+                    { provide: APP_BASE_HREF, useValue: options.req.baseUrl },
+                ],
             })
-            .then((html) => res.send(html))
-            .catch((err) => next(err));
-    });
+            .then((html) => callback(null, html))
+            .catch((err) => callback(err));
+    },
+);
 
-    return server;
-}
+app.set('view engine', 'html');
+app.set('views', DIST_FOLDER);
 
-function run(): void {
-    const port = process.env['PORT'] || 4000;
+app.get(
+    '*.*',
+    express.static(DIST_FOLDER, {
+        maxAge: '1y',
+    }),
+);
 
-    // Start up the Node server
-    const server = app();
-    server.listen(port, () => {
-        console.log(
-            `Node Express server listening on http://localhost:${port}`,
-        );
-    });
-}
+app.get('/*', (req, res) => {
+    res.render('index', { req });
+});
 
-run();
-function cors(arg0: { origin: string; optionsSuccessStatus: number }): any {
-    throw new Error('Function not implemented.');
-}
+const PORT = process.env['PORT'] || 4000;
+app.listen(PORT, () => {
+    console.log(`Node Express server listening on http://localhost:${PORT}`);
+});

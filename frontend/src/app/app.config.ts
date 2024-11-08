@@ -73,6 +73,21 @@ if (environment.production) {
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+        },
+        TranslateService,
+        importProvidersFrom([
+            TranslateModule.forRoot({
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: HttpLoaderFactory,
+                    deps: [HttpClient],
+                },
+            }),
+        ]),
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
         provideAnimations(),
         provideRouter(MAIN_ROUTES, withViewTransitions()),
@@ -83,12 +98,6 @@ export const appConfig: ApplicationConfig = {
         provideAuth(() => getAuth()),
         provideStore(),
         provideHttpClient(),
-        {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-        },
-        TranslateService,
         importProvidersFrom([
             AngularFireModule.initializeApp(environment.firebase),
             AngularFireDatabaseModule,
@@ -137,9 +146,10 @@ export const appConfig: ApplicationConfig = {
         provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000',
-        }), provideServiceWorker('ngsw-worker.js', {
+        }),
+        provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          }),
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
     ],
 };

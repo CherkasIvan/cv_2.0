@@ -4,7 +4,8 @@
         "module": "ES2022",
         "lib": ["ES2022", "dom"],
         "outDir": "./out-tsc/app",
-        "types": ["node", "express"],
+        "typeRoots": ["node_modules/@types"],
+        "types": ["node", "jest"],
         "baseUrl": "./src",
         "paths": {
             "@angular/*": ["./node_modules/@angular/*"],
@@ -32,14 +33,8 @@
         "importHelpers": true,
         "useDefineForClassFields": false
     },
-    "include": [
-        "src/**/*.ts",
-        "server.ts",
-        "src/app/app.config.server.ts",
-        "src/main.server.ts",
-        "src/polyfills.ts"
-    ],
-    "exclude": ["node_modules"],
+    "files": ["src/main.server.ts", "server.ts"],
+    "include": ["src/**/*.ts"],
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
