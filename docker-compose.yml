@@ -11,7 +11,6 @@ services:
   frontend:
     build: ./frontend
     hostname: frontend
-    command: npm run serve:ssr
     volumes:
       - /app/node_modules
       - ./frontend:/app
@@ -34,11 +33,11 @@ services:
       - backend
 
     restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:4000"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
 
   backend:
     build: ./backend
@@ -62,11 +61,11 @@ services:
       - cv-network
 
     restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:3000"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
 
 networks:
   cv-network:
