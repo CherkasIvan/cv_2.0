@@ -1,75 +1,54 @@
-version: "3.8"
+version: "3.4"
 
 services:
-  frontend:
-    build: ./frontend
-    volumes:
-      - /app/node_modules
-      - ./frontend:/app
+  angular:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
     ports:
       - "4000:4000"
-
     environment:
-      - NODE_ENV=production
-
-      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
-
-      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
-
-      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
-
+      - PORT=4000
     networks:
-      - cv-network
-
-    depends_on:
       - backend
-
-    restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
-  backend:
-    build: ./backend
-    volumes:
-      - /app/node_modules
-      - ./backend:/app
-    ports:
-      - "3000:3000"
-
-    environment:
-      - NODE_ENV=production
-
-      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
-
-      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
-
-      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
-
-    networks:
-      - cv-network
-
-    restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
+    logging:
+      options:
+        max-size: "88m"
+        max-file: "4"
   nginx:
-    build: ./nginx
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
     ports:
       - "80:80"
-    depends_on:
-      frontend:
-        condition: service_healthy
-      backend:
-        condition: service_healthy
     networks:
-      - cv-network
+      - backend
+    depends_on:
+      - angular
+    volumes: // Just link to your SSL file
+      - /data/ssl:/ssl
+    logging:
+      options:
+        max-size: "88m"
+        max-file: "4"
+  backend:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+    networks:
+      - backend
+    logging:
+      options:
+        max-size: "88m"
+        max-file: "4"
 
 networks:
-  cv-network:
+  backend:
     driver: bridge
