@@ -4,7 +4,7 @@
         "module": "ES2022",
         "lib": ["ES2022", "dom"],
         "outDir": "./out-tsc/app",
-        "types": ["node", "jest"],
+        "types": ["jest", "node"],
         "baseUrl": "./src",
         "paths": {
             "@angular/*": ["./node_modules/@angular/*"],
@@ -32,12 +32,11 @@
         "importHelpers": true,
         "useDefineForClassFields": false
     },
-    "include": [
-        "src/**/*.ts",
+    "include": ["src/**/*.ts", "src/polyfills.ts"],
+    "files": [
         "server.ts",
         "src/app/app.config.server.ts",
-        "src/main.server.ts",
-        "src/polyfills.ts"
+        "src/main.server.ts"
     ],
     "exclude": ["node_modules"],
     "angularCompilerOptions": {

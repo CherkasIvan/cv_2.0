@@ -4,6 +4,7 @@
 .navigation-border {
     position: relative;
     z-index: 2;
+    backdrop-filter: blur(10px);
     border-radius: 60px;
     padding: 10px;
 
