@@ -1,11 +1,18 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "version": 1,
+    "newProjectRoot": "projects",
     "projects": {
         "cv_2.0": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:component": {
+                    "style": "scss"
+                }
+            },
             "root": "",
             "sourceRoot": "src",
-            "projectType": "application",
+            "prefix": "cv",
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:application",
@@ -13,10 +20,15 @@
                         "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
-                        "polyfills": ["zone.js"],
+                        "polyfills": ["zone.js", "@angular/localize/init"],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",
-                        "assets": ["src/favicon.ico", "src/assets"],
+                        "assets": [
+                            {
+                                "glob": "**/*",
+                                "input": "public"
+                            }
+                        ],
                         "styles": ["src/styles.scss"],
                         "scripts": [],
                         "server": "src/main.server.ts",
@@ -30,13 +42,13 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "1mb",
-                                    "maximumError": "2mb"
+                                    "maximumWarning": "2MB",
+                                    "maximumError": "4MB"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "8kb",
-                                    "maximumError": "16kb"
+                                    "maximumWarning": "2MB",
+                                    "maximumError": "4MB"
                                 }
                             ],
                             "outputHashing": "all"
@@ -49,22 +61,39 @@
                     },
                     "defaultConfiguration": "production"
                 },
-                "server": {
-                    "builder": "@angular-devkit/build-angular:server",
-                    "options": {
-                        "outputPath": "dist/cv_2.0/server",
-                        "main": "src/main.server.ts",
-                        "tsConfig": "tsconfig.server.json"
-                    },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.prod.ts"
-                                }
-                            ]
+                            "buildTarget": "cv_2.0:build:production"
+                        },
+                        "development": {
+                            "buildTarget": "cv_2.0:build:development"
                         }
+                    },
+                    "defaultConfiguration": "development"
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n"
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "polyfills": [
+                            "zone.js",
+                            "zone.js/testing",
+                            "@angular/localize/init"
+                        ],
+                        "tsConfig": "tsconfig.spec.json",
+                        "inlineStyleLanguage": "scss",
+                        "assets": [
+                            {
+                                "glob": "**/*",
+                                "input": "public"
+                            }
+                        ],
+                        "styles": ["src/styles.scss"],
+                        "scripts": []
                     }
                 }
             }

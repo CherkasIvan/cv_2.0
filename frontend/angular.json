@@ -13,83 +13,36 @@
                         "outputPath": "dist/cv_2.0/browser",
                         "index": "src/index.html",
                         "main": "src/main.ts",
-                        "polyfills": "src/polyfills.ts",
+                        "polyfills": ["zone.js", "@angular/localize/init"],
                         "tsConfig": "tsconfig.app.json",
+                        "inlineStyleLanguage": "scss",
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": ["src/styles.scss"],
                         "scripts": []
                     },
                     "configurations": {
                         "production": {
-                            "fileReplacements": [
+                            "budgets": [
                                 {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.prod.ts"
+                                    "type": "initial",
+                                    "maximumWarning": "1.5mb",
+                                    "maximumError": "2.5mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "1.5mb",
+                                    "maximumError": "2.5mb"
                                 }
                             ],
-                            "optimization": {
-                                "scripts": true,
-                                "styles": {
-                                    "minify": true,
-                                    "inlineCritical": true
-                                }
-                            },
-                            "outputHashing": "all",
-                            "sourceMap": false,
-                            "namedChunks": false,
-                            "aot": true,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": true
+                            "outputHashing": "all"
                         },
                         "development": {
                             "optimization": false,
-                            "sourceMap": true,
                             "extractLicenses": false,
-                            "namedChunks": true,
-                            "aot": true,
-                            "vendorChunk": true,
-                            "buildOptimizer": false
+                            "sourceMap": true
                         }
-                    }
-                },
-                "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
-                    "options": {
-                        "buildTarget": "cv_2.0:build:development"
                     },
-                    "configurations": {
-                        "production": {
-                            "buildTarget": "cv_2.0:build:production"
-                        }
-                    }
-                },
-                "extract-i18n": {
-                    "builder": "@angular-devkit/build-angular:extract-i18n",
-                    "options": {
-                        "buildTarget": "cv_2.0:build"
-                    }
-                },
-                "test": {
-                    "builder": "@angular-builders/jest:run",
-                    "options": {
-                        "main": "src/test.ts",
-                        "polyfills": "src/polyfills.ts",
-                        "tsConfig": "tsconfig.spec.json",
-                        "karmaConfig": "karma.conf.js",
-                        "assets": ["src/favicon.ico", "src/assets"],
-                        "styles": ["src/styles.scss"],
-                        "scripts": []
-                    }
-                },
-                "lint": {
-                    "builder": "@angular-devkit/build-angular:tslint",
-                    "options": {
-                        "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
-                        "exclude": [
-                            "[**/node_modules/**](https://www.bing.com/search?form=SKPBOT&q=%2Fnode_modules%2F)"
-                        ]
-                    }
+                    "defaultConfiguration": "production"
                 },
                 "server": {
                     "builder": "@angular-devkit/build-angular:server",
@@ -105,9 +58,31 @@
                                     "replace": "src/environments/environment.ts",
                                     "with": "src/environments/environment.prod.ts"
                                 }
-                            ],
-                            "sourceMap": false,
-                            "optimization": true
+                            ]
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "browserTarget": "cv_2.0:build"
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "cv_2.0:build:production"
+                        }
+                    }
+                },
+                "serve-ssr": {
+                    "builder": "@angular/ssr:dev-server",
+                    "options": {
+                        "browserTarget": "cv_2.0:build",
+                        "serverTarget": "cv_2.0:server"
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "cv_2.0:build:production",
+                            "serverTarget": "cv_2.0:server:production"
                         }
                     }
                 }

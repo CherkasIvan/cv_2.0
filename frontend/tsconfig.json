@@ -32,13 +32,12 @@
         "importHelpers": true,
         "useDefineForClassFields": false
     },
-    "include": ["src/**/*.ts", "src/polyfills.ts"],
-    "files": [
-        "server.ts",
+    "include": ["src/main.ts", "src/polyfills.ts", "src/**/*.d.ts"],
+    "exclude": [
+        "node_modules",
         "src/app/app.config.server.ts",
         "src/main.server.ts"
     ],
-    "exclude": ["node_modules"],
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,

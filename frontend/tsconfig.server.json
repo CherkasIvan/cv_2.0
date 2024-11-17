@@ -1,9 +1,12 @@
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "outDir": "./out-tsc/app",
+        "outDir": "./out-tsc/app-server",
+        "target": "es2022",
         "types": ["node"]
     },
-    "files": ["src/main.server.ts", "server.ts"],
-    "include": ["src/**/*.d.ts", "src/app/app.config.server.ts"]
+    "files": ["src/main.server.ts"],
+    "angularCompilerOptions": {
+        "entryModule": "./src/app/app.server.module#AppServerModule"
+    }
 }
