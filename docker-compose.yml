@@ -1,7 +1,6 @@
-version: "3.8"
-
 services:
   backend:
+    hostname: backend
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -12,14 +11,12 @@ services:
       - NODE_ENV=production
 
   frontend:
+    hostname: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
       - "4000:80"
-
-    depends_on:
-      - backend
 
     environment:
       - NODE_ENV=production
