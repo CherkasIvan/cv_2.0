@@ -7,16 +7,18 @@ services:
     ports:
       - "3000:3000"
 
-    environment:
-      - NODE_ENV=production
-
   frontend:
     hostname: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "4000:80"
+      - "4000:4000"
 
-    environment:
-      - NODE_ENV=production
+  nginx:
+    hostname: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
