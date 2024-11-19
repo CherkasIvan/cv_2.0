@@ -1,11 +1,6 @@
-build:
-  docker:
-    backend:
-      dockerfile: Dockerfile.backend
-    frontend:
-      dockerfile: Dockerfile.frontend
-    nginx:
-      dockerfile: Dockerfile.nginx
+./backend: Dockerfile.backend
+./frontend: Dockerfile.frontend
+./nginx: Dockerfile.nginx
 
 run:
   web: docker-compose up -d
