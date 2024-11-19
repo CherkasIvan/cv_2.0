@@ -6,6 +6,7 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
+    OnDestroy,
     OnInit,
 } from '@angular/core';
 
@@ -15,6 +16,7 @@ import { EvenColumnDirective } from '@core/directives/even-column.directive';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { TTechnologies } from '@core/models/tecnologies.type';
+import { ApiService } from '@core/service/api/api.service';
 
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
@@ -42,7 +44,7 @@ import { TechnologyCardComponent } from './components/technology-card/technology
     styleUrl: './technologies.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechnologiesComponent implements OnInit {
+export class TechnologiesComponent implements OnInit, OnDestroy {
     public selectedTab: string = '';
 
     public data: ITechnologies[] | undefined;
@@ -111,28 +113,32 @@ export class TechnologiesComponent implements OnInit {
     }
 
     private _technologiesDispatcher() {
+        this._apiService.getBackendTech().subscribe((backendTech) => {
+            this._store$.dispatch(
+                FirebaseActions.getBackendTechSuccess({ backendTech }),
+            );
+        });
+
+        this._apiService.getFrontendTech().subscribe((frontendTech) => {
+            this._store$.dispatch(
+                FirebaseActions.getFrontendTechSuccess({ frontendTech }),
+            );
+        });
+
+        this._apiService.getOtherTech().subscribe((otherTech) => {
+            this._store$.dispatch(
+                FirebaseActions.getOtherTechSuccess({ otherTech }),
+            );
+        });
+
         this._store$.dispatch(
             FirebaseActions.getTechnologiesAside({ imgName: '' }),
-        );
-        this._store$.dispatch(
-            FirebaseActions.getBackendTech({
-                imgName: 'technologies/backend',
-            }),
-        );
-        this._store$.dispatch(
-            FirebaseActions.getFrontendTech({
-                imgName: 'technologies/frontend',
-            }),
-        );
-        this._store$.dispatch(
-            FirebaseActions.getOtherTech({
-                imgName: 'technologies/other',
-            }),
         );
     }
 
     constructor(
         private _cdr: ChangeDetectorRef,
+        private _apiService: ApiService,
         @Inject(Store) private _store$: Store<TTechnologies>,
     ) {}
 

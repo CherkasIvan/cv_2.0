@@ -3,13 +3,13 @@
     [ngClass]="{
         'visible fade-in': navigationLinks && navigationLinks.length > 0,
         hidden: !(navigationLinks && navigationLinks.length > 0),
-        'dark-theme': theme(),
-        'light-theme': !theme(),
+        'dark-theme': theme,
+        'light-theme': !theme,
     }"
 >
     <nav
         class="navigation-header"
-        [ngClass]="theme() ? 'dark-theme' : 'light-theme'"
+        [ngClass]="theme ? 'dark-theme' : 'light-theme'"
     >
         <article class="header-logo">
             <a
@@ -18,31 +18,26 @@
             >
                 <img
                     class="header-logo_link-img"
-                    [src]="
-                        !theme()
-                            ? 'assets/images/white-mode/profile-logo/logo-i.cherkas-wm.svg'
-                            : 'assets/images/dark-mode/profile-logo/logo-i.cherkas-dm.svg'
-                    "
+                    [src]="imageUrl"
                     alt="logo-i.cherkas.svg"
                 />
             </a>
         </article>
         <ul class="header-links">
-            @for (itemLink of navigationLinks; track itemLink.position; let i = $index) {
-                <li
-                    class="header-links_item"
-                    [tabindex]="i"
+            <li
+                *ngFor="let itemLink of navigationLinks; trackBy: trackByPosition"
+                class="header-links_item"
+                [tabindex]="itemLink.position"
+            >
+                <a
+                    routerLink="{{ itemLink.link }}"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{ exact: true }"
+                    class="item-link"
                 >
-                    <a
-                        routerLink="{{ itemLink.link }}"
-                        routerLinkActive="active"
-                        [routerLinkActiveOptions]="{ exact: true }"
-                        class="item-link"
-                    >
-                        <span class="item-link_text">{{ itemLink.value }}</span>
-                    </a>
-                </li>
-            }
+                    <span class="item-link_text">{{ itemLink.value }}</span>
+                </a>
+            </li>
         </ul>
         <aside class="header-buttons">
             <cv-dark-mode-toggle></cv-dark-mode-toggle>

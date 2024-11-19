@@ -1,12 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { setLanguageSuccess } from './language-selector.actions';
+import { LanguageState } from '../model/language-state.interface';
+import { setLanguageSuccess } from './language.actions';
 
-export interface languageState {
-    language: 'ru' | 'en';
-}
-
-export const initialLanguageState: languageState = {
+export const initialLanguageState: LanguageState = {
     language: 'ru',
 };
 

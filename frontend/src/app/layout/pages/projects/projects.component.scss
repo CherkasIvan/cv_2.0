@@ -71,20 +71,20 @@
     opacity: 1;
 }
 
-.item1 {
-    grid-column: span 4;
-}
-
 .item2,
-.item4 {
-    grid-column: span 2;
-}
-
+.item4,
 .item3,
 .item5 {
     grid-column: span 2;
+
+    .repository-aside {
+        row-gap: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
+.item1,
 .item6 {
     grid-column: span 4;
 }

@@ -1,21 +1,14 @@
 build:
-  docker:
-    frontend: ./frontend/Dockerfile.frontend
-    backend: ./backend/Dockerfile.backend
-    nginx: ./nginx/Dockerfile.nginx
+docker:
+backend:
+  dockerfile: Dockerfile.backend
+  context: ./backend
+frontend:
+  dockerfile: Dockerfile.frontend
+  context: ./frontend
+nginx:
+  dockerfile: Dockerfile.nginx
+  context: ./nginx
 
 run:
-  frontend:
-    image: node:18
-    command:
-      - sh -c 'cd /app && npm run serve:ssr'
-
-  backend:
-    image: node:18
-    command:
-      - sh -c 'cd /app && npm run start:prod'
-
-  nginx:
-    image: nginx:latest
-    command:
-      - sh -c 'nginx -g "daemon off;"'
+  web: docker-compose up -d
