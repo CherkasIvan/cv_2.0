@@ -3,6 +3,8 @@
         <article
             class="experience-card"
             (click)="showDialogExperience(workDescription())"
+            (keyup.enter)="showDialogExperience(workDescription())"
+            tabindex="0"
             [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
@@ -47,6 +49,8 @@
         <article
             class="experience-card"
             (click)="showDialogExperience(experienceDescription())"
+            (keyup.enter)="showDialogExperience(experienceDescription())"
+            tabindex="0"
             [ngClass]="{ activeEducation: experienceType() === 'education', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"
@@ -94,6 +98,8 @@
         <article
             class="experience-card"
             (click)="showDialogExperience(workDescription())"
+            (keyup.enter)="showDialogExperience(workDescription())"
+            tabindex="0"
             [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
             (mouseover)="experienceCardImgVisibility = true"
             (focus)="experienceCardImgVisibility = true"

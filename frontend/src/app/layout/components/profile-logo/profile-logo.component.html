@@ -1,6 +1,8 @@
 <div
     class="profile-logo"
     (click)="githubNavigation()"
+    (keyup.enter)="githubNavigation()"
+    tabindex="0"
 >
     <div
         class="profile-logo_circle"
@@ -16,11 +18,7 @@
     ></div>
     <img
         class="profile-logo_img"
-        [src]="
-            (currentTheme$ | async)
-                ? 'assets/images/dark-mode/profile-logo/profile-i.cherkas-dm.jpg'
-                : 'assets/images/white-mode/profile-logo/profile-i.cherkas-wm.jpg'
-        "
+        [src]="profileImageUrl$ | async"
         alt="logo.jpg"
     />
 </div>

@@ -1,5 +1,6 @@
 import {
     HTTP_INTERCEPTORS,
+    HttpClient,
     provideHttpClient,
     withFetch,
     withInterceptorsFromDi,
@@ -38,6 +39,16 @@ import {
 import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
+import { LogoEffects } from '@layout/store/images-store/images.effects';
+import { logoReducer } from '@layout/store/images-store/images.reducers';
+
+import {
+    TranslateLoader,
+    TranslateModule,
+    TranslateService,
+} from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 import { environment } from '../environments/environment.development';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 import { AuthEffects } from './layout/store/auth-store/auth.effects';
@@ -48,9 +59,13 @@ import { FirebaseEffects } from './layout/store/firebase-store/firebase.effects'
 import { firebaseReducer } from './layout/store/firebase-store/firebase.reducers';
 import { GithubRepositoriesEffects } from './layout/store/github-projects-store/github-projects.effects';
 import { githubRepositoriesReducer } from './layout/store/github-projects-store/github-projects.reducer';
-import { languageReducer } from './layout/store/language-selector-store/language-selector.reducers';
+import { languageReducer } from './layout/store/language-selector-store/language.reducers';
 import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
+
+export function HttpLoaderFactory(http: HttpClient) {
+    return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+}
 
 if (environment.production) {
     enableProdMode();
@@ -66,8 +81,14 @@ export const appConfig: ApplicationConfig = {
         provideDatabase(() => getDatabase()),
         provideStorage(() => getStorage()),
         provideAuth(() => getAuth()),
-        provideEffects(),
         provideStore(),
+        provideHttpClient(),
+        {
+            provide: TranslateLoader,
+            useFactory: HttpLoaderFactory,
+            deps: [HttpClient],
+        },
+        TranslateService,
         importProvidersFrom([
             AngularFireModule.initializeApp(environment.firebase),
             AngularFireDatabaseModule,
@@ -80,8 +101,12 @@ export const appConfig: ApplicationConfig = {
             EffectsModule.forRoot([
                 FirebaseEffects,
                 AuthEffects,
+                FirebaseEffects,
+                AuthEffects,
                 GithubRepositoriesEffects,
+                LogoEffects,
             ]),
+            StoreModule.forFeature('logo', logoReducer),
             StoreModule.forFeature('spinner', spinnerReducer),
             StoreModule.forFeature('firebase', firebaseReducer),
             StoreModule.forFeature('darkMode', darkModeReducer),
@@ -108,9 +133,10 @@ export const appConfig: ApplicationConfig = {
         provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000',
-        }), provideServiceWorker('ngsw-worker.js', {
+        }),
+        provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          }),
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
     ],
 };

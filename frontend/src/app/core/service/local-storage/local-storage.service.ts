@@ -13,27 +13,9 @@ export class LocalStorageService {
     private isBrowser: boolean;
     private readonly USER_STATE_KEY = 'usersState';
 
-    getUsersState(): any {
-        const state = localStorage.getItem(this.USER_STATE_KEY);
-        return state ? JSON.parse(state) : null;
-    }
-
-    setUsersState(state: any): void {
-        localStorage.setItem(this.USER_STATE_KEY, JSON.stringify(state));
-    }
-
-    clearUserData(): void {
-        localStorage.removeItem(this.USER_STATE_KEY);
-    }
-
-    checkLocalStorageUserName(): string {
-        const state = this.getUsersState();
-        return state && state.user ? state.user.displayName : '';
-    }
-
     constructor(
         @Inject(PLATFORM_ID) private platformId: Object,
-        private readonly _router: Router,
+        @Inject(Router) private readonly _router: Router,
     ) {
         this.isBrowser = isPlatformBrowser(this.platformId);
     }
@@ -42,22 +24,37 @@ export class LocalStorageService {
         return this.isBrowser && typeof localStorage !== 'undefined';
     }
 
-    public getItem(key: string): string | null {
+    getUsersState(): any {
         if (this.localStorageAvailable) {
-            return localStorage.getItem(key);
+            const state = localStorage.getItem(this.USER_STATE_KEY);
+            return state ? JSON.parse(state) : null;
         }
         return null;
     }
 
-    // public checkLocalStorageUserName() {
-    //     const userState = localStorage.getItem('usersState');
-    //     if (userState) {
-    //         const parsedUserState = JSON.parse(userState);
-    //         if (parsedUserState.user && parsedUserState.user.email) {
-    //             return parsedUserState.user.email.split('@')[0];
-    //         }
-    //     }
-    // }
+    setUsersState(state: any): void {
+        if (this.localStorageAvailable) {
+            localStorage.setItem(this.USER_STATE_KEY, JSON.stringify(state));
+        }
+    }
+
+    clearUserData(): void {
+        if (this.localStorageAvailable) {
+            localStorage.removeItem(this.USER_STATE_KEY);
+        }
+    }
+
+    checkLocalStorageUserName(): string {
+        const state = this.getUsersState();
+        return state && state.user ? state.user.displayName : '';
+    }
+
+    public getItem(key: string): string | null {
+        if (this.localStorageAvailable) {
+            return localStorage['getItemkey'];
+        }
+        return null;
+    }
 
     public setItem(key: string, value: string): void {
         if (this.localStorageAvailable) {
@@ -67,19 +64,9 @@ export class LocalStorageService {
 
     public removeItem(key: string): void {
         if (this.localStorageAvailable) {
-            localStorage.removeItem(key);
+            localStorage['removeItemKey'];
         }
     }
-
-    // public getUsersState(): TLocalstorageUser | null {
-    //     if (this.localStorageAvailable) {
-    //         const getUser = localStorage.getItem('usersState');
-    //         if (getUser) {
-    //             return JSON.parse(getUser);
-    //         }
-    //     }
-    //     return null;
-    // }
 
     public initUser(
         isFirstTime: boolean = false,
@@ -124,19 +111,12 @@ export class LocalStorageService {
         }
     }
 
-    // public clearUserData(): void {
-    //     if (this.localStorageAvailable) {
-    //         const usersState = this.getUsersState();
-    //         if (usersState) {
-    //             usersState.user = null;
-    //             localStorage.setItem('usersState', JSON.stringify(usersState));
-    //         }
-    //     }
-    // }
-
     public setNewUserState(newUsersState: TLocalstorageUser): void {
         if (this.localStorageAvailable) {
-            localStorage.setItem('usersState', JSON.stringify(newUsersState));
+            localStorage.setItem(
+                this.USER_STATE_KEY,
+                JSON.stringify(newUsersState),
+            );
         }
     }
 
@@ -145,7 +125,10 @@ export class LocalStorageService {
             const usersState = this.getUsersState();
             if (usersState) {
                 usersState.currentRoute = route;
-                localStorage.setItem('usersState', JSON.stringify(usersState));
+                localStorage.setItem(
+                    this.USER_STATE_KEY,
+                    JSON.stringify(usersState),
+                );
             }
         }
     }
@@ -165,7 +148,10 @@ export class LocalStorageService {
             const usersState = this.getUsersState();
             if (usersState && (usersState.user || usersState.isGuest)) {
                 usersState.experienceRoute = selectedTab;
-                localStorage.setItem('usersState', JSON.stringify(usersState));
+                localStorage.setItem(
+                    this.USER_STATE_KEY,
+                    JSON.stringify(usersState),
+                );
             }
         }
     }
@@ -187,7 +173,10 @@ export class LocalStorageService {
             const usersState = this.getUsersState();
             if (usersState && (usersState.user || usersState.isGuest)) {
                 usersState.technologiesRoute = selectedTab;
-                localStorage.setItem('usersState', JSON.stringify(usersState));
+                localStorage.setItem(
+                    this.USER_STATE_KEY,
+                    JSON.stringify(usersState),
+                );
             }
         }
     }
@@ -209,7 +198,10 @@ export class LocalStorageService {
             const usersState = this.getUsersState();
             if (usersState && (usersState.user || usersState.isGuest)) {
                 usersState.subTechnologiesRoute = selectedTab;
-                localStorage.setItem('usersState', JSON.stringify(usersState));
+                localStorage.setItem(
+                    this.USER_STATE_KEY,
+                    JSON.stringify(usersState),
+                );
             }
         }
     }
@@ -225,47 +217,56 @@ export class LocalStorageService {
     }
 
     public setDarkMode(isDark: boolean): void {
-        const usersState = this.getUsersState();
-        if (usersState) {
-            usersState.isDark = isDark;
-            this.setItem('usersState', JSON.stringify(usersState));
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState) {
+                usersState.isDark = isDark;
+                this.setItem(this.USER_STATE_KEY, JSON.stringify(usersState));
+            }
         }
     }
 
     public getDarkMode(): boolean {
-        const usersState = this.getUsersState();
-        return usersState ? usersState.isDark : false;
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            return usersState ? usersState.isDark : false;
+        }
+        return false;
     }
 
     public setLanguage(language: 'ru' | 'en'): void {
-        const usersState = this.getUsersState();
-        if (usersState) {
-            usersState.language = language;
-            this.setItem('usersState', JSON.stringify(usersState));
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState) {
+                usersState.language = language;
+                this.setItem(this.USER_STATE_KEY, JSON.stringify(usersState));
+            }
         }
     }
 
     public getLanguage(): 'ru' | 'en' {
-        const usersState = this.getUsersState();
-        return usersState ? usersState.language : 'ru';
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            return usersState ? usersState.language : 'ru';
+        }
+        return 'ru';
     }
 
-    // public setUsersState(usersState: TLocalstorageUser): void {
-    //     if (this.localStorageAvailable) {
-    //         localStorage.setItem('usersState', JSON.stringify(usersState));
-    //     }
-    // }
-
     public getIsFirstTime(): boolean {
-        const usersState = this.getUsersState();
-        return usersState ? usersState.isFirstTime : true;
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            return usersState ? usersState.isFirstTime : true;
+        }
+        return true;
     }
 
     public setIsFirstTime(isFirstTime: boolean): void {
-        const usersState = this.getUsersState();
-        if (usersState) {
-            usersState.isFirstTime = isFirstTime;
-            this.setUsersState(usersState);
+        if (this.localStorageAvailable) {
+            const usersState = this.getUsersState();
+            if (usersState) {
+                usersState.isFirstTime = isFirstTime;
+                this.setUsersState(usersState);
+            }
         }
     }
 }
