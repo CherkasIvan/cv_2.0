@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   frontend:
     build: ./frontend
@@ -32,44 +30,37 @@ services:
       retries: 5
 
   backend:
-    build: ./backend
-    volumes:
-      - /app/node_modules
-      - ./backend:/app
+    hostname: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
     ports:
       - "3000:3000"
 
-    environment:
-      - NODE_ENV=production
-
-      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
-
-      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
-
-      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
-
-    networks:
-      - cv-network
-
-    restart: always
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
       timeout: 10s
-      retries: 5
+      retries: 3
+
+  frontend:
+    hostname: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "4000:4000"
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   nginx:
-    build: ./nginx
+    hostname: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
     ports:
       - "80:80"
-    depends_on:
-      frontend:
-        condition: service_healthy
-      backend:
-        condition: service_healthy
-    networks:
-      - cv-network
-
-networks:
-  cv-network:
-    driver: bridge
