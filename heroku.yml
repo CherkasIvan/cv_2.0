@@ -1,8 +1,8 @@
 build:
   docker:
     backend:
-      dockerfile: Dockerfile.backend
+      docker: Dockerfile.backend
     frontend:
-      dockerfile: Dockerfile.frontend
+      docker: Dockerfile.frontend
     nginx:
-      dockerfile: Dockerfile.nginx
+      docker: Dockerfile.nginx
