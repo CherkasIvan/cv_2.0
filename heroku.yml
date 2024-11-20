@@ -1,8 +1,8 @@
 build:
   docker:
-    web: Dockerfile.frontend
-    backend: Dockerfile.backend
-    nginx: Dockerfile.nginx
+    web: frontend/Dockerfile.frontend
+    backend: backend/Dockerfile.backend
+    nginx: nginx/Dockerfile.nginx
 
 run:
   web: npm run serve:ssr
