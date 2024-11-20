@@ -45,7 +45,6 @@ import { IDarkMode } from './store/model/dark-mode.interface';
 
 @Component({
     selector: 'cv-layout',
-    standalone: true,
     animations: [routeAnimations, startCardFadeOut, startCardFadeIn],
     imports: [
         FooterComponent,
@@ -62,7 +61,7 @@ import { IDarkMode } from './store/model/dark-mode.interface';
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LayoutComponent implements OnInit {
     public isFirstTime!: boolean;

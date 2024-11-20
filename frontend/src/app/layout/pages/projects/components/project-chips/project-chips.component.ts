@@ -10,10 +10,9 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 @Component({
     selector: 'cv-project-chips',
-    standalone: true,
     imports: [NgClass, AsyncPipe],
     templateUrl: './project-chips.component.html',
-    styleUrl: './project-chips.component.scss',
+    styleUrl: './project-chips.component.scss'
 })
 export class ProjectChipsComponent {
     public projectChipsText = input.required<string>();

@@ -9,6 +9,8 @@ import {
     enableProdMode,
     importProvidersFrom,
     isDevMode,
+    provideExperimentalZonelessChangeDetection,
+    provideZoneChangeDetection,
 } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
@@ -61,6 +63,9 @@ export const appConfig: ApplicationConfig = {
     providers: [
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
         provideAnimations(),
+        provideZoneChangeDetection({
+            ignoreChangesOutsideZone: true,
+        }),
         provideRouter(MAIN_ROUTES, withViewTransitions()),
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideFirestore(() => getFirestore()),
@@ -107,6 +112,10 @@ export const appConfig: ApplicationConfig = {
         provideEffects(),
         provideRouterStore(),
         provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+        provideServiceWorker('ngsw-worker.js', {
+            enabled: !isDevMode(),
+            registrationStrategy: 'registerWhenStable:30000',
+        }),
         provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000',

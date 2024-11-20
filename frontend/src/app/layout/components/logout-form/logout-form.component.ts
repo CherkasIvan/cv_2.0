@@ -18,11 +18,10 @@ import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
     selector: 'cv-logout-form',
-    standalone: true,
     imports: [ReactiveFormsModule],
     templateUrl: './logout-form.component.html',
     styleUrl: './logout-form.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogoutFormComponent implements OnInit {
     @ViewChild('modal', { static: false })

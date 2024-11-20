@@ -28,7 +28,6 @@
     "prettier-plugin-css-order": "^2.0.1",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
-    "zone.js": "~0.14.4",
     "@angular-devkit/build-angular": "^17.2.2",
     "@angular-eslint/builder": "17.3.0",
     "@angular-eslint/eslint-plugin": "17.3.0",
@@ -54,33 +53,15 @@
     "typescript": "~5.3.3"
   },
   "pathMappings": {
-    "@angular/*": [
-      "./node_modules/@angular/*"
-    ],
-    "@env/*": [
-      "environments/*"
-    ],
-    "@utils/*": [
-      "utils/*"
-    ],
-    "@store/*": [
-      "app/store/*"
-    ],
-    "@app/*": [
-      "app/*"
-    ],
-    "@assets/*": [
-      "assets/*"
-    ],
-    "@pages/*": [
-      "app/pages/*"
-    ],
-    "@core/*": [
-      "app/core/*"
-    ],
-    "@layout/*": [
-      "app/layout/*"
-    ]
+    "@angular/*": ["./node_modules/@angular/*"],
+    "@env/*": ["environments/*"],
+    "@utils/*": ["utils/*"],
+    "@store/*": ["app/store/*"],
+    "@app/*": ["app/*"],
+    "@assets/*": ["assets/*"],
+    "@pages/*": ["app/pages/*"],
+    "@core/*": ["app/core/*"],
+    "@layout/*": ["app/layout/*"]
   },
   "nxJsonPlugins": [],
   "fileMap": {

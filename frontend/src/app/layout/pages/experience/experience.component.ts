@@ -29,7 +29,6 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
 
 @Component({
     selector: 'cv-experience',
-    standalone: true,
     imports: [
         EducationExperienceComponent,
         WorkExperienceComponent,
@@ -39,7 +38,7 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
     ],
     templateUrl: './experience.component.html',
     styleUrl: './experience.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExperienceComponent implements OnInit {
     public experienceAside$: Observable<TExperienceAside[]> = this._store$.pipe(

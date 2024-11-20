@@ -18,7 +18,6 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 @Component({
     selector: 'cv-animation-bg',
-    standalone: true,
     imports: [NgStyle, NgClass, AsyncPipe],
     templateUrl: './animation-bg.component.html',
     styleUrls: [
@@ -26,7 +25,7 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
         './animation-bg-dark-mode/animation-bg-dark-mode.component.scss',
     ],
     animations: [blobFloat],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnimationBgComponent implements OnInit {
     @Input() public navigationLinks: INavigation[] | null = [];

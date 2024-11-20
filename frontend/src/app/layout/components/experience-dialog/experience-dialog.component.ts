@@ -31,11 +31,10 @@ import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
     selector: 'cv-experience-dialog',
-    standalone: true,
     imports: [ReactiveFormsModule, AsyncPipe, NgIf],
     templateUrl: './experience-dialog.component.html',
     styleUrl: './experience-dialog.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExperienceDialogComponent implements OnInit {
     @ViewChild('modal', { static: false })

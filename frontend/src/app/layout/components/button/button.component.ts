@@ -16,11 +16,10 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 @Component({
     selector: 'cv-button',
-    standalone: true,
     imports: [NgClass, NgStyle],
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ButtonComponent {
     @ViewChild('generalButton') generalButton!: ElementRef;

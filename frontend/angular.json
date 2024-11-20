@@ -22,20 +22,20 @@
                         "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
-                        "polyfills": [
-                            "zone.js",
-                            "zone.js/testing",
-                            "@angular/localize/init"
-                        ],
+                        "polyfills": ["src/polyfills.ts"],
                         "tsConfig": "tsconfig.app.json",
-                        "assets": [
-                            {
-                                "glob": "**/*",
-                                "input": "public"
-                            },
-                            "src/assets"
-                        ],
-                        "styles": [],
+                          "assets": [
+                          "src/favicon.ico",
+                          "src/assets",
+                          {
+                          "glob": "**/*",
+                          "input": "src/assets/fonts",
+                          "output": "/assets/fonts"
+                          }
+                          ],
+                          "styles": [
+                          "src/styles.scss"
+                          ],
                         "scripts": [],
                         "server": "src/main.server.ts",
                         "prerender": true,
@@ -57,7 +57,8 @@
                                     "maximumError": "3MB"
                                 }
                             ],
-                            "outputHashing": "all"
+                            "outputHashing": "all",
+                            "serviceWorker": "ngsw-config.json"
                         },
                         "development": {
                             "optimization": false,
@@ -99,7 +100,16 @@
                                 "input": "public"
                             }
                         ],
-                        "styles": ["src/styles.scss"],
+                        "styles": [
+                            "src/assets/styles/_global.scss",
+                            "src/assets/styles/_material.scss",
+                            "src/assets/styles/_reset.scss",
+                            "src/assets/styles/_variables.scss",
+                            "src/assets/styles/mixins/_flex.mixin.scss",
+                            "src/assets/styles/mixins/_glassmorphism.mixin.scss",
+                            "src/assets/styles/mixins/_layout.mixin.scss",
+                            "src/assets/styles/mixins/_neon.mixin.scss"
+                        ],
                         "scripts": []
                     }
                 },

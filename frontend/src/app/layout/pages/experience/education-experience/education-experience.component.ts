@@ -7,11 +7,10 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
 
 @Component({
     selector: 'cv-education-experience',
-    standalone: true,
     imports: [ExperienceCardComponent, ExperienceDialogComponent],
     templateUrl: './education-experience.component.html',
     styleUrl: './education-experience.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EducationExperienceComponent {
     public selectedTabEducation = input<string>('');

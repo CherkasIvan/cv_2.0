@@ -9,11 +9,10 @@ import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.select
 
 @Component({
     selector: 'cv-profile-logo',
-    standalone: true,
     imports: [AsyncPipe, NgClass],
     templateUrl: './profile-logo.component.html',
     styleUrl: './profile-logo.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileLogoComponent {
     public currentTheme$: Observable<boolean> = this._store$.pipe(

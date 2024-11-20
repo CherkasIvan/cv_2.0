@@ -24,7 +24,6 @@ import { ProfileLogoComponent } from '../../../layout/components/profile-logo/pr
 
 @Component({
     selector: 'cv-main',
-    standalone: true,
     imports: [
         ButtonComponent,
         ProfileLogoComponent,
@@ -37,7 +36,7 @@ import { ProfileLogoComponent } from '../../../layout/components/profile-logo/pr
         './main.component.scss',
         './main-dark-mode/main-dark-mode.component.scss',
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainComponent implements OnInit, OnDestroy {
     public mainInfo$: Observable<IMainPageInfo | null> = this._store$.pipe(

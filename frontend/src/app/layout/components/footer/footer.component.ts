@@ -8,14 +8,13 @@ import { ButtonComponent } from '../button/button.component';
 
 @Component({
     selector: 'cv-footer',
-    standalone: true,
     imports: [RouterLink, NgFor, RouterLinkActive, ButtonComponent, NgClass],
     templateUrl: './footer.component.html',
     styleUrls: [
         './footer.component.scss',
         './footer-dm/footer-dm.component.scss',
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {
     public socialLinks$ = input.required<ISocialMedia[] | null>();

@@ -17,7 +17,6 @@ import { ProjectChipsComponent } from './components/project-chips/project-chips.
 
 @Component({
     selector: 'cv-projects',
-    standalone: true,
     imports: [
         AsyncPipe,
         NgClass,
@@ -30,7 +29,7 @@ import { ProjectChipsComponent } from './components/project-chips/project-chips.
         './projects.component.scss',
         './projects-dm/projects-dm.component.scss',
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProjectsComponent implements OnInit {
     public githubRepos$: Observable<TGitHub[]> = this._store$.pipe(

@@ -6,11 +6,10 @@ import { LoginFormComponent } from '../../components/login-form/login-form.compo
 
 @Component({
     selector: 'cv-auth',
-    standalone: true,
     imports: [LoginFormComponent, FirstTimeComponent],
     templateUrl: './auth.component.html',
     styleUrl: './auth.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthComponent {
     public isModalDialogVisible: boolean = false;

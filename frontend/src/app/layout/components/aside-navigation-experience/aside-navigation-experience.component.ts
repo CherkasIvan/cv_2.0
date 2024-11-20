@@ -26,7 +26,6 @@ import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selec
 
 @Component({
     selector: 'cv-aside-navigation-experience',
-    standalone: true,
     imports: [NgClass, RouterLinkActive, AsyncPipe, JsonPipe],
     templateUrl: './aside-navigation-experience.component.html',
     styleUrls: [

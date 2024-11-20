@@ -11,11 +11,10 @@ import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
 
 @Component({
     selector: 'cv-dark-mode-toggle',
-    standalone: true,
     imports: [NgClass],
     templateUrl: './dark-mode-toggle.component.html',
     styleUrl: './dark-mode-toggle.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DarkModeToggleComponent implements OnInit {
     public isChecked: boolean = false;

@@ -10,11 +10,10 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'cv-root',
-    standalone: true,
     imports: [RouterOutlet],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
     title = 'cv_2.0';

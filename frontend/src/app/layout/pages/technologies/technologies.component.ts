@@ -29,7 +29,6 @@ import { TechnologyCardComponent } from './components/technology-card/technology
 
 @Component({
     selector: 'cv-technologies',
-    standalone: true,
     imports: [
         AsideNavigationTechnologiesComponent,
         TechnologyCardComponent,
@@ -37,6 +36,7 @@ import { TechnologyCardComponent } from './components/technology-card/technology
         NgClass,
         EvenColumnDirective,
     ],
+    standalone: true,
     templateUrl: './technologies.component.html',
     styleUrl: './technologies.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

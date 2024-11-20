@@ -13058,15 +13058,6 @@
         "packageName": "xhr2",
         "hash": "sha512-sID0rrVCqkVNUn8t6xuv9+6FViXjUVXq8H5rWOH2rz9fDNQEd4g0EA2XlcEdJXRz5BMEn4O1pJFdT+z4YHhoWw=="
       }
-    },
-    "npm:zone.js": {
-      "type": "npm",
-      "name": "npm:zone.js",
-      "data": {
-        "version": "0.14.4",
-        "packageName": "zone.js",
-        "hash": "sha512-NtTUvIlNELez7Q1DzKVIFZBzNb646boQMgpATo9z3Ftuu/gWvzxCW7jdjcUDoRGxRikrhVHB/zLXh1hxeJawvw=="
-      }
     }
   },
   "dependencies": [
@@ -13867,7 +13858,6 @@
     },
     {
       "source": "npm:@angular/core",
-      "target": "npm:zone.js",
       "type": "static"
     },
     {
@@ -28986,7 +28976,6 @@
       "type": "static"
     },
     {
-      "source": "npm:zone.js",
       "target": "npm:tslib",
       "type": "static"
     }

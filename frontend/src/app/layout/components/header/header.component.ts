@@ -33,7 +33,6 @@ import { LoginFormComponent } from '../login-form/login-form.component';
 
 @Component({
     selector: 'cv-header',
-    standalone: true,
     imports: [
         RouterLink,
         NgFor,
@@ -47,7 +46,7 @@ import { LoginFormComponent } from '../login-form/login-form.component';
         './header.component.scss',
         './header-dark-mode/header.component.dm.scss',
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     @Input() public navigationLinks: INavigation[] | null = [];

@@ -27,7 +27,6 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
 
 @Component({
     selector: 'cv-aside-navigation-technologies',
-    standalone: true,
     imports: [
         NgClass,
         RouterLinkActive,
@@ -40,7 +39,7 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
         './aside-navigation-technologies.component.scss',
         './aside-navigation-technologies-dm/aside-navigation-technologies-dm.component.scss',
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
     @Output() public emittedTab = new EventEmitter<string>();

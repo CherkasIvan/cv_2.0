@@ -13,7 +13,6 @@ import { spinnerSelector } from '@layout/store/spinner-store/spinner.selector';
 
 @Component({
     selector: 'cv-spinner',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './spinner.component.html',
     styleUrls: ['./spinner.component.scss'],
@@ -24,7 +23,7 @@ import { spinnerSelector } from '@layout/store/spinner-store/spinner.selector';
             useClass: LoadingInterceptor,
             multi: true,
         },
-    ],
+    ]
 })
 export class SpinnerComponent {
     public spinnerStyle = input<string>('');

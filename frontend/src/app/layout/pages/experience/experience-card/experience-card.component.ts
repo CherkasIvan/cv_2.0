@@ -19,7 +19,6 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
 
 @Component({
     selector: 'cv-experience-card',
-    standalone: true,
     imports: [NgSwitch, NgClass, RouterLink],
     templateUrl: './experience-card.component.html',
     styleUrls: [
@@ -27,7 +26,7 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
         './experience-card-dm/experience-card-dm.component.scss',
     ],
     animations: [fadeInOutCards],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ExperienceCardComponent {
     public experienceType = input.required<string>();

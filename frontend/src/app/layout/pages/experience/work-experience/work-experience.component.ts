@@ -7,11 +7,10 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
 
 @Component({
     selector: 'cv-work-experience',
-    standalone: true,
     imports: [ExperienceCardComponent, ExperienceDialogComponent],
     templateUrl: './work-experience.component.html',
     styleUrl: './work-experience.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkExperienceComponent {
     public selectedTabWork = input.required<string>();

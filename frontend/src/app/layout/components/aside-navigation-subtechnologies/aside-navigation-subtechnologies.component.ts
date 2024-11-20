@@ -21,13 +21,12 @@ import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selec
 
 @Component({
     selector: 'cv-aside-navigation-subtechnologies',
-    standalone: true,
     imports: [NgClass, RouterLinkActive, AsyncPipe],
     templateUrl: './aside-navigation-subtechnologies.component.html',
     styleUrls: [
         './aside-navigation-subtechnologies.component.scss',
         './aside-navigation-subtechnologies-dm/aside-navigation-subtechnologies-dm.component.scss',
-    ],
+    ]
 })
 export class AsideNavigationSubtechnologiesComponent implements OnInit {
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(

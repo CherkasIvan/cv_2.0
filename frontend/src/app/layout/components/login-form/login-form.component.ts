@@ -24,11 +24,10 @@ import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
     selector: 'cv-login-form',
-    standalone: true,
     imports: [ReactiveFormsModule, NgClass],
     templateUrl: './login-form.component.html',
     styleUrl: './login-form.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginFormComponent implements OnInit {
     @ViewChild('modal', { static: false })
