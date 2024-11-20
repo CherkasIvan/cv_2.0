@@ -21,6 +21,7 @@ import {
     BrowserModule,
     provideClientHydration,
     withHttpTransferCacheOptions,
+    withI18nSupport,
 } from '@angular/platform-browser';
 import {
     BrowserAnimationsModule,
@@ -98,6 +99,7 @@ export const appConfig: ApplicationConfig = {
         },
         provideClientHydration(
             withHttpTransferCacheOptions({ includePostRequests: true }),
+            withI18nSupport(),
         ),
         provideStore({
             router: routerReducer,
