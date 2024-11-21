@@ -1,11 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { ILanguagesSelector } from '../model/language-selector.interface';
+import { LanguageState } from './language-selector.reducers';
 
 export const languageFeatureSelector =
-    createFeatureSelector<ILanguagesSelector>('language');
+    createFeatureSelector<LanguageState>('language');
 
 export const languageSelector = createSelector(
     languageFeatureSelector,
-    (state: ILanguagesSelector) => state?.language ?? 'ru',
+    (state: LanguageState) => state.language,
 );

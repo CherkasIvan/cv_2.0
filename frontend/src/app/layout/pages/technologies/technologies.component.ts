@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -33,7 +33,6 @@ import { TechnologyCardComponent } from './components/technology-card/technology
         AsideNavigationTechnologiesComponent,
         TechnologyCardComponent,
         AsyncPipe,
-        NgClass,
         EvenColumnDirective,
     ],
     standalone: true,

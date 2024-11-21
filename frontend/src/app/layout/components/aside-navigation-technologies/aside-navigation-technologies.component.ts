@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 
-import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -12,7 +12,6 @@ import {
     Output,
     input,
 } from '@angular/core';
-import { RouterLinkActive } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
@@ -27,19 +26,13 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
 
 @Component({
     selector: 'cv-aside-navigation-technologies',
-    imports: [
-        NgClass,
-        RouterLinkActive,
-        AsyncPipe,
-        JsonPipe,
-        AsideNavigationSubtechnologiesComponent,
-    ],
+    imports: [NgClass, AsideNavigationSubtechnologiesComponent],
     templateUrl: './aside-navigation-technologies.component.html',
     styleUrls: [
         './aside-navigation-technologies.component.scss',
         './aside-navigation-technologies-dm/aside-navigation-technologies-dm.component.scss',
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
     @Output() public emittedTab = new EventEmitter<string>();

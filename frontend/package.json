@@ -3,15 +3,15 @@
     "version": "1.0.0",
     "scripts": {
         "ng": "ng",
-        "dev": "ng serve --port 4200",
-        "start": "ng serve --port 4200",
-        "build:ssr": "ng build",
+        "dev": "ng serve",
+        "start": "ng serve",
+        "build:ssr": "ng build --localize",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "coverage": "ng test --no-watch --code-coverage",
         "lint": "ng lint",
-        "serve:ssr": "node dist/cv_2.0/server/server.mjs",
-        "heroku-postbuild": "npm run build:ssr"
+        "heroku-postbuild": "npm run build:ssr --localize",
+        "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs"
     },
     "private": true,
     "dependencies": {
@@ -35,13 +35,15 @@
         "@ngrx/signals": "^18.0.2",
         "@ngrx/store": "^18.0.2",
         "@ngrx/store-devtools": "^18.0.2",
+        "@ngx-translate/core": "^16.0.3",
+        "@ngx-translate/http-loader": "^16.0.0",
         "dexie": "^4.0.8",
-        "express": "^4.19.2",
+        "express": "^4.18.2",
         "firebase": "^10.12.5",
         "npx": "^10.2.2",
         "prettier-plugin-css-order": "^2.1.2",
         "rxjs": "^7.8.1",
-        "tslib": "^2.6.3",
+        "tslib": "^2.8.1",
         "zone.js": "~0.15.0"
     },
     "devDependencies": {
@@ -55,7 +57,7 @@
         "@angular/compiler-cli": "^19.0.0",
         "@angular/localize": "^19.0.0",
         "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-        "@types/express": "^4.17.21",
+        "@types/express": "^4.17.17",
         "@types/jasmine": "^5.1.4",
         "@types/node": "^22.1.0",
         "@typescript-eslint/eslint-plugin": "^8.0.1",

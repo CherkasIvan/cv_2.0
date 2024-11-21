@@ -50,7 +50,6 @@ import { IDarkMode } from './store/model/dark-mode.interface';
         FooterComponent,
         HeaderComponent,
         RouterOutlet,
-        AuthComponent,
         AnimationBgComponent,
         AsyncPipe,
         SpinnerComponent,
@@ -61,7 +60,7 @@ import { IDarkMode } from './store/model/dark-mode.interface';
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
     public isFirstTime!: boolean;

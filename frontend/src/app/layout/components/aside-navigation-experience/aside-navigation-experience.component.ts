@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 
-import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -10,10 +10,8 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    computed,
     input,
 } from '@angular/core';
-import { RouterLinkActive } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
@@ -26,7 +24,7 @@ import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selec
 
 @Component({
     selector: 'cv-aside-navigation-experience',
-    imports: [NgClass, RouterLinkActive, AsyncPipe, JsonPipe],
+    imports: [NgClass],
     templateUrl: './aside-navigation-experience.component.html',
     styleUrls: [
         './aside-navigation-experience.component.scss',

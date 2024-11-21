@@ -1,5 +1,6 @@
 import {
     HTTP_INTERCEPTORS,
+    HttpClient,
     provideHttpClient,
     withFetch,
     withInterceptorsFromDi,
@@ -24,6 +25,7 @@ import {
     provideClientHydration,
     withHttpTransferCacheOptions,
     withI18nSupport,
+    withIncrementalHydration,
 } from '@angular/platform-browser';
 import {
     BrowserAnimationsModule,
@@ -40,6 +42,9 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { environment } from '../environments/environment.development';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
@@ -59,6 +64,11 @@ if (environment.production) {
     enableProdMode();
 }
 
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+    return new TranslateHttpLoader(http);
+}
+
 export const appConfig: ApplicationConfig = {
     providers: [
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
@@ -71,6 +81,7 @@ export const appConfig: ApplicationConfig = {
         provideFirestore(() => getFirestore()),
         provideDatabase(() => getDatabase()),
         provideStorage(() => getStorage()),
+
         provideAuth(() => getAuth()),
         provideEffects(),
         provideStore(),
@@ -96,6 +107,13 @@ export const appConfig: ApplicationConfig = {
             StoreModule.forFeature('experience', experienceDialogReducer),
             StoreModule.forFeature('auth', authReducer),
             StoreRouterConnectingModule.forRoot(),
+            TranslateModule.forRoot({
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: HttpLoaderFactory,
+                    deps: [HttpClient],
+                },
+            }),
         ]),
         {
             provide: HTTP_INTERCEPTORS,
@@ -104,6 +122,7 @@ export const appConfig: ApplicationConfig = {
         },
         provideClientHydration(
             withHttpTransferCacheOptions({ includePostRequests: true }),
+            withIncrementalHydration(),
             withI18nSupport(),
         ),
         provideStore({

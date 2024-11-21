@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgSwitch } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -32,13 +32,12 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
     imports: [
         EducationExperienceComponent,
         WorkExperienceComponent,
-        NgSwitch,
         AsideNavigationExperienceComponent,
         AsyncPipe,
     ],
     templateUrl: './experience.component.html',
     styleUrl: './experience.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceComponent implements OnInit {
     public experienceAside$: Observable<TExperienceAside[]> = this._store$.pipe(

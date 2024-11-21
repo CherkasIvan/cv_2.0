@@ -24,24 +24,22 @@
                         "browser": "src/main.ts",
                         "polyfills": ["src/polyfills.ts"],
                         "tsConfig": "tsconfig.app.json",
-                          "assets": [
-                          "src/favicon.ico",
-                          "src/assets",
-                          {
-                          "glob": "**/*",
-                          "input": "src/assets/fonts",
-                          "output": "/assets/fonts"
-                          }
-                          ],
-                          "styles": [
-                          "src/styles.scss"
-                          ],
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets",
+                            {
+                                "glob": "**/*",
+                                "input": "src/assets/fonts",
+                                "output": "/assets/fonts"
+                            }
+                        ],
+                        "styles": ["src/styles.scss"],
                         "scripts": [],
                         "server": "src/main.server.ts",
-                        "prerender": true,
                         "ssr": {
-                            "entry": "server.ts"
-                        }
+                            "entry": "src/server.ts"
+                        },
+                        "outputMode": "server"
                     },
                     "configurations": {
                         "production": {

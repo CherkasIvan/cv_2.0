@@ -5,7 +5,7 @@ import * as admin from 'firebase-admin';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 @Module({
   controllers: [FirebaseController],
@@ -13,7 +13,7 @@ dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 })
 export class FirebaseModule {
   constructor() {
-    const privateKey = process.env.FIREBASE_PRIVATE_KEY;
+    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
     if (!privateKey) {
       throw new Error('FIREBASE_PRIVATE_KEY is not defined');
     }
@@ -21,7 +21,7 @@ export class FirebaseModule {
     admin.initializeApp({
       credential: admin.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
-        privateKey: privateKey.replace(/\\n/g, '\n'),
+        privateKey: privateKey,
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
       }),
       storageBucket: 'gs://cv-cherkas-db.appspot.com',

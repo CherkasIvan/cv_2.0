@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -16,10 +16,10 @@ import { IDarkMode } from '@layout/store/model/dark-mode.interface';
 
 @Component({
     selector: 'cv-button',
-    imports: [NgClass, NgStyle],
+    imports: [NgClass],
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
     @ViewChild('generalButton') generalButton!: ElementRef;

@@ -14,7 +14,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Build the Angular app with SSR
-RUN npm run build:ssr
+RUN npm run build:ssr --localize
 
 # Expose the port the app runs on
 EXPOSE 4000

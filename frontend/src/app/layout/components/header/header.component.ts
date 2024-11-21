@@ -1,6 +1,6 @@
 import { Subject, Subscription, takeUntil } from 'rxjs';
 
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -29,24 +29,16 @@ import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language-selector.actions';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
-import { LoginFormComponent } from '../login-form/login-form.component';
 
 @Component({
     selector: 'cv-header',
-    imports: [
-        RouterLink,
-        NgFor,
-        RouterLinkActive,
-        NgClass,
-        DarkModeToggleComponent,
-        LoginFormComponent,
-    ],
+    imports: [RouterLink, RouterLinkActive, NgClass, DarkModeToggleComponent],
     templateUrl: './header.component.html',
     styleUrls: [
         './header.component.scss',
         './header-dark-mode/header.component.dm.scss',
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
     @Input() public navigationLinks: INavigation[] | null = [];
