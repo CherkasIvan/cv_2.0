@@ -22,23 +22,20 @@
                         "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
                         "browser": "src/main.ts",
-                        "polyfills": [
-                            "zone.js",
-                            "zone.js/testing",
-                            "@angular/localize/init"
-                        ],
+                        "polyfills": ["zone.js", "@angular/localize/init"],
                         "tsConfig": "tsconfig.app.json",
                         "assets": [
+                            "src/favicon.ico",
+                            "src/assets",
                             {
                                 "glob": "**/*",
-                                "input": "public"
-                            },
-                            "src/assets"
+                                "input": "src/assets/fonts",
+                                "output": "/assets/fonts"
+                            }
                         ],
-                        "styles": [],
+                        "styles": ["src/styles.scss"],
                         "scripts": [],
                         "server": "src/main.server.ts",
-                        "prerender": true,
                         "ssr": {
                             "entry": "server.ts"
                         }
@@ -57,7 +54,8 @@
                                     "maximumError": "3MB"
                                 }
                             ],
-                            "outputHashing": "all"
+                            "outputHashing": "all",
+                            "serviceWorker": "ngsw-config.json"
                         },
                         "development": {
                             "optimization": false,
@@ -91,7 +89,7 @@
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
-                        "polyfills": "src/polyfills.ts",
+                        "polyfills": ["zone.js", "@angular/localize/init"],
                         "tsConfig": "tsconfig.spec.json",
                         "assets": [
                             {
@@ -99,7 +97,16 @@
                                 "input": "public"
                             }
                         ],
-                        "styles": ["src/styles.scss"],
+                        "styles": [
+                            "src/assets/styles/_global.scss",
+                            "src/assets/styles/_material.scss",
+                            "src/assets/styles/_reset.scss",
+                            "src/assets/styles/_variables.scss",
+                            "src/assets/styles/mixins/_flex.mixin.scss",
+                            "src/assets/styles/mixins/_glassmorphism.mixin.scss",
+                            "src/assets/styles/mixins/_layout.mixin.scss",
+                            "src/assets/styles/mixins/_neon.mixin.scss"
+                        ],
                         "scripts": []
                     }
                 },

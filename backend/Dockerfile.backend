@@ -15,5 +15,8 @@ COPY . .
 # Собираем приложение
 RUN npm run build
 
+# Expose the port the app runs on
+EXPOSE 3000
+
 # Указываем команду для запуска приложения
 CMD ["node", "dist/main"]
