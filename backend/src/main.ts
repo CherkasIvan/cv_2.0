@@ -11,6 +11,7 @@ async function bootstrap() {
       'http://localhost:4200',
       'http://localhost:4000',
       'http://localhost',
+      'https://cv2-0963057afb5c.herokuapp.com',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
