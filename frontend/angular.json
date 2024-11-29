@@ -29,11 +29,19 @@
                             "src/assets",
                             {
                                 "glob": "**/*",
-                                "input": "src/assets/fonts",
-                                "output": "/assets/fonts"
+                                "input": "public"
                             }
                         ],
-                        "styles": ["src/styles.scss"],
+                        "styles": [                            
+                            "src/assets/styles/_global.scss",
+                            "src/assets/styles/_material.scss",
+                            "src/assets/styles/_reset.scss",
+                            "src/assets/styles/_variables.scss",
+                            "src/assets/styles/mixins/_flex.mixin.scss",
+                            "src/assets/styles/mixins/_glassmorphism.mixin.scss",
+                            "src/assets/styles/mixins/_layout.mixin.scss",
+                            "src/assets/styles/mixins/_neon.mixin.scss"
+                        ],
                         "scripts": [],
                         "server": "src/main.server.ts",
                         "ssr": {
