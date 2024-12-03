@@ -5,6 +5,15 @@ build:
     nginx: Dockerfile.nginx
 
 run:
-  web: sh -c 'nginx -g "daemon off;"'
-  frontend: sh -c 'cd /app && npm run serve:ssr'
-  backend: sh -c 'cd /app && npm run start:prod'
+  web: 
+    image: nginx:latest
+    command:
+      - sh -c 'nginx -g "daemon off;"'
+
+  frontend: 
+    command:
+      - sh -c 'cd /app && npm run serve:ssr'
+
+  backend: 
+    command:
+      - sh -c 'cd /app && npm run start:prod'
