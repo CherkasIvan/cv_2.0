@@ -33,6 +33,7 @@
                             }
                         ],
                         "styles": [
+                            "src/styles.scss",
                             "src/assets/styles/_variables.scss",
                             "src/assets/styles/_reset.scss",
                             "src/assets/styles/_global.scss",
@@ -106,6 +107,7 @@
                             }
                         ],
                         "styles": [
+                            "src/styles.scss",
                             "src/assets/styles/_variables.scss",
                             "src/assets/styles/_reset.scss",
                             "src/assets/styles/_global.scss",
