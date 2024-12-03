@@ -1,11 +1,11 @@
 build:
   docker:
     web: 
-      worker: nginx/Dockerfile.nginx
+      dockerfile: ./nginx/Dockerfile.nginx
     frontend:
-      dockerfile: frontend/Dockerfile.frontend
+      dockerfile: ./frontend/Dockerfile.frontend
     backend:
-      dockerfile: backend/Dockerfile.backend
+      dockerfile: ./backend/Dockerfile.backend
 
 
 run:
