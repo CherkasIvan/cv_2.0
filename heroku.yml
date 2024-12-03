@@ -1,8 +1,11 @@
 build:
   docker:
-    backend: Dockerfile.backend
-    frontend: Dockerfile.frontend
-    nginx: Dockerfile.nginx
+    backend:
+      dockerfile: ./backend/Dockerfile.backend
+    frontend:
+      dockerfile: ./frontend/Dockerfile.frontend
+    nginx:
+      dockerfile: ./nginx/Dockerfile.nginx
 
 run:
   web: 
