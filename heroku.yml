@@ -6,20 +6,3 @@ build:
       dockerfile: ./frontend/Dockerfile.frontend
     backend:
       dockerfile: ./backend/Dockerfile.backend
-
-
-run:
-  web: 
-    image: nginx:latest
-    command:
-      - sh -c 'nginx -g "daemon off;"'
-
-  frontend:
-    image: node:18
-    command:
-      - sh -c 'cd /app && npm run serve:ssr'
-
-  backend:
-    image: node:18
-    command:
-      - sh -c 'cd /app && npm run start:prod'
