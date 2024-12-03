@@ -13,10 +13,12 @@ run:
     command:
       - sh -c 'nginx -g "daemon off;"'
 
-  frontend: 
+  frontend:
+    image: node:18
     command:
       - sh -c 'cd /app && npm run serve:ssr'
 
-  backend: 
+  backend:
+    image: node:18
     command:
       - sh -c 'cd /app && npm run start:prod'
