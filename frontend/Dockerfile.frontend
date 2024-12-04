@@ -12,6 +12,7 @@ RUN npm install --legacy-peer-deps
 
 # Copy the rest of the application code
 COPY . .
+COPY src/assets/ /app/src/assвets/styles/
 
 # Build the Angular app with SSR
 RUN npm run build:ssr --prod
