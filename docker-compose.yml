@@ -11,11 +11,11 @@ services:
     depends_on:
       - frontend
       - backend
-    environment:
-      - FRONTEND_HOST=${FRONTEND_HOST}
-      - FRONTEND_PORT=${FRONTEND_PORT}
-      - BACKEND_HOST=${BACKEND_HOST}
-      - BACKEND_PORT=${BACKEND_PORT}
+    # environment:
+    #   - FRONTEND_HOST=${FRONTEND_HOST}
+    #   - FRONTEND_PORT=${FRONTEND_PORT}
+    #   - BACKEND_HOST=${BACKEND_HOST}
+    #   - BACKEND_PORT=${BACKEND_PORT}
 
   backend:
     hostname: backend
