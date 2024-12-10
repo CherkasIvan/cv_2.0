@@ -37,7 +37,6 @@ import { TechnologyCardComponent } from './components/technology-card/technology
         AsideNavigationTechnologiesComponent,
         TechnologyCardComponent,
         AsyncPipe,
-        NgClass,
         EvenColumnDirective,
     ],
     templateUrl: './technologies.component.html',
@@ -132,7 +131,9 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
         });
 
         this._store$.dispatch(
-            FirebaseActions.getTechnologiesAside({ imgName: '' }),
+            FirebaseActions.getTechnologiesAside({
+                imgName: '/icons/white-mode',
+            }),
         );
     }
 

@@ -1,6 +1,6 @@
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -21,18 +21,21 @@ import {
     Validators,
 } from '@angular/forms';
 
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+import { ImagesActions } from '@layout/store/images-store/images.actions';
+import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
 import { TAuthUser } from '@layout/store/model/auth-user.type';
 import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
     selector: 'cv-login-form',
     standalone: true,
-    imports: [ReactiveFormsModule, NgClass],
+    imports: [ReactiveFormsModule, NgClass, AsyncPipe],
     templateUrl: './login-form.component.html',
-    styleUrl: './login-form.component.scss',
+    styleUrls: ['./login-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
@@ -43,6 +46,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     public header = input.required<string>();
     public authForm!: FormGroup;
     public user: TProfile | null = null;
+    public closeImageUrl$!: Observable<string | undefined>;
 
     private _destroyed$: Subject<void> = new Subject();
 
@@ -51,6 +55,12 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._createForm();
         this._authFormListener();
+        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
+        this.closeImageUrl$ = this._store$.pipe(select(selectCloseImageUrl));
+
+        this._store$.dispatch(
+            FirebaseActions.getTechnologiesAside({ imgName: '' }),
+        );
     }
 
     public onMouseMove(event: MouseEvent) {

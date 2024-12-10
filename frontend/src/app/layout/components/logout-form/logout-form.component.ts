@@ -1,5 +1,6 @@
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, catchError, map, mergeMap, of, takeUntil } from 'rxjs';
 
+import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -15,17 +16,21 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import { ApiService } from '@core/service/api/api.service';
 import { AuthService } from '@core/service/auth/auth.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
+import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
     selector: 'cv-logout-form',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, AsyncPipe],
     templateUrl: './logout-form.component.html',
-    styleUrl: './logout-form.component.scss',
+    styleUrls: ['./logout-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoutFormComponent implements OnInit, OnDestroy {
@@ -64,6 +69,8 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     constructor(
         private _authService: AuthService,
         private _localStorageService: LocalStorageService,
+        private _apiService: ApiService,
+        private _actions$: Actions,
     ) {}
 
     public onMouseMove(event: MouseEvent) {
@@ -103,6 +110,26 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     public resetModalDialog() {
         this.emittedModalHide.emit(false);
     }
+
+    getClose$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(ImagesActions.getCloseImg),
+            mergeMap(() =>
+                this._apiService.getImages('icons/white-mode').pipe(
+                    map((data) => {
+                        const imageUrl =
+                            data?.find((url: string) =>
+                                url.includes('close.svg'),
+                            ) || '';
+                        return ImagesActions.getCloseImgSuccess({ imageUrl });
+                    }),
+                    catchError((error) =>
+                        of(ImagesActions.getCloseImgFailure({ error })),
+                    ),
+                ),
+            ),
+        ),
+    );
 
     ngOnDestroy(): void {
         this._destroyed$.next();

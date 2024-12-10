@@ -1,6 +1,7 @@
 <section class="education-cards">
     @for (educationPlace of educationExperience$(); track educationPlace.id; let i = $index) {
         <cv-experience-card
+            [ngClass]="{ activeEducation: $index === 0, 'dark-theme': theme }"
             [experienceType]="selectedTabEducation()"
             [experienceDescription]="educationPlace"
             [theme]="theme()"

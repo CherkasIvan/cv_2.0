@@ -10,5 +10,9 @@ export const ImagesActions = createActionGroup({
         getProfileImg: props<{ mode: boolean }>(),
         getProfileImgSuccess: props<{ imageUrl: string }>(),
         getProfileImgFailure: props<{ error: any }>(),
+
+        getCloseImg: props<{ mode: boolean }>(),
+        getCloseImgSuccess: props<{ imageUrl: string }>(),
+        getCloseImgFailure: props<{ error: any }>(),
     },
 });

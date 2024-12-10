@@ -112,4 +112,22 @@ export class FirebaseService {
       iconPath: images.find((url) => url.includes(tech.alt)) || '',
     }));
   }
+
+  async getIconsWhiteMode(): Promise<any> {
+    const frontendTech = await this.getFrontendTech();
+    const images = await this.getImagesByFolder('icons/white-mode');
+    return frontendTech.map((tech) => ({
+      ...tech,
+      iconPath: images.find((url) => url.includes(tech.alt)) || '',
+    }));
+  }
+
+  async getIconsDarkMode(): Promise<any> {
+    const frontendTech = await this.getFrontendTech();
+    const images = await this.getImagesByFolder('icons/dark-mode');
+    return frontendTech.map((tech) => ({
+      ...tech,
+      iconPath: images.find((url) => url.includes(tech.alt)) || '',
+    }));
+  }
 }

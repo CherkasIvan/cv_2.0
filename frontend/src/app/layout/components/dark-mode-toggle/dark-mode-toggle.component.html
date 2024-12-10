@@ -17,7 +17,7 @@
         [ngClass]="{ active: !isChecked }"
     >
         <img
-            src="assets/images/white-mode/icons/moon.svg"
+            [src]="closeImageUrl$ | async"
             alt="moon.svg"
         />
     </span>
@@ -26,7 +26,7 @@
         [ngClass]="{ active: isChecked }"
     >
         <img
-            src="assets/images/dark-mode/icons/sun.svg"
+            [src]="closeImageUrl$ | async"
             alt="sun.svg"
         />
     </span>

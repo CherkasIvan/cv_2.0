@@ -32,7 +32,6 @@ import { WorkExperienceComponent } from './work-experience/work-experience.compo
     imports: [
         EducationExperienceComponent,
         WorkExperienceComponent,
-        NgSwitch,
         AsideNavigationExperienceComponent,
         AsyncPipe,
     ],
