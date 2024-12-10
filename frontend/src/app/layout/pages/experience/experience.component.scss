@@ -13,5 +13,43 @@
         width: 100%;
         height: 100%;
         overflow: scroll;
+
+        .first-item {
+            animation: moveDown 0.5s forwards;
+        }
+
+        .other-items {
+            animation: moveUp 0.5s forwards;
+        }
+    }
+}
+
+.experience-card {
+    transition: transform 0.3s ease;
+
+    &.first-item:hover {
+        transform: translateY(20px); // Настройте значение по вашему усмотрению
+    }
+
+    &.other-items:hover {
+        transform: translateY(-20px); // Настройте значение по вашему усмотрению
+    }
+}
+
+@keyframes moveDown {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(100px); // Настройте значение по вашему усмотрению
+    }
+}
+
+@keyframes moveUp {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-100px); // Настройте значение по вашему усмотрению
     }
 }

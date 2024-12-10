@@ -87,5 +87,12 @@ export const FirebaseActions = createActionGroup({
             images?: string[];
         }>(),
         getTechnologiesAsideError: props<{ error: Error | null }>(),
+
+        getClose: props<{ imgName: string }>(),
+        getCloseSuccess: props<{
+            close: any;
+            images?: string[];
+        }>(),
+        getCloseError: props<{ error: Error | null }>(),
     },
 });

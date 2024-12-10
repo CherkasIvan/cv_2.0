@@ -4,7 +4,9 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
+    Input,
     OnInit,
+    Type,
     input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -19,7 +21,7 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
 @Component({
     selector: 'cv-experience-card',
     standalone: true,
-    imports: [NgSwitch, NgClass, RouterLink],
+    imports: [NgClass],
     templateUrl: './experience-card.component.html',
     styleUrls: [
         './experience-card.component.scss',
@@ -29,6 +31,7 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceCardComponent implements OnInit {
+    @Input() experience: any;
     public experienceType = input.required<string>();
     public workDescription = input<IExperience | null>(null);
     public experienceDescription = input<IExperience | null>(null);
