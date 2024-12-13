@@ -76,4 +76,11 @@ export class FirebaseController {
     const experienceAside = await this.firebaseService.getExperienceAside();
     return experienceAside;
   }
+
+  @Get('themeless-pictures')
+  async getThemelessPicturesImages() {
+    const themelessPictures =
+      await this.firebaseService.getThemelessPicturesImages();
+    return themelessPictures;
+  }
 }

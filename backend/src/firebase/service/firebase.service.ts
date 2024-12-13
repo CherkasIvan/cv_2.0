@@ -76,6 +76,11 @@ export class FirebaseService {
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
+  async getThemelessPictures(): Promise<any> {
+    const querySnapshot = await getDocs(collection(db, 'themelessPictures'));
+    return querySnapshot.docs.map((doc) => doc.data());
+  }
+
   async getOtherTech(): Promise<any> {
     const querySnapshot = await getDocs(collection(db, 'otherTech'));
     return querySnapshot.docs.map((doc) => doc.data());
@@ -89,6 +94,7 @@ export class FirebaseService {
   async getBackendTechWithImages(): Promise<any> {
     const backendTech = await this.getBackendTech();
     const images = await this.getImagesByFolder('technologies/backend');
+    console.log(images);
     return backendTech.map((tech) => ({
       ...tech,
       iconPath: images.find((url) => url.includes(tech.alt)) || '',
@@ -113,21 +119,35 @@ export class FirebaseService {
     }));
   }
 
-  async getIconsWhiteMode(): Promise<any> {
-    const frontendTech = await this.getFrontendTech();
-    const images = await this.getImagesByFolder('icons/white-mode');
-    return frontendTech.map((tech) => ({
-      ...tech,
-      iconPath: images.find((url) => url.includes(tech.alt)) || '',
-    }));
+  async getThemelessPicturesImages(): Promise<any> {
+    const [darkModeImages, whiteModeImages] = await Promise.all([
+      this.getImagesByFolder('icons/dark-mode'),
+      this.getImagesByFolder('icons/white-mode'),
+    ]);
+
+    return {
+      darkModeImages: darkModeImages.map((url) => ({ darkModeIconPath: url })),
+      whiteModeImages: whiteModeImages.map((url) => ({
+        whiteModeIconPath: url,
+      })),
+    };
   }
 
-  async getIconsDarkMode(): Promise<any> {
-    const frontendTech = await this.getFrontendTech();
-    const images = await this.getImagesByFolder('icons/dark-mode');
-    return frontendTech.map((tech) => ({
-      ...tech,
-      iconPath: images.find((url) => url.includes(tech.alt)) || '',
-    }));
-  }
+  // async getIconsWhiteMode(): Promise<any> {
+  //   const frontendTech = await this.getFrontendTech();
+  //   const images = await this.getImagesByFolder('icons/white-mode');
+  //   return frontendTech.map((tech) => ({
+  //     ...tech,
+  //     iconPath: images.find((url) => url.includes(tech.alt)) || '',
+  //   }));
+  // }
+
+  // async getIconsDarkMode(): Promise<any> {
+  //   const frontendTech = await this.getFrontendTech();
+  //   const images = await this.getImagesByFolder('icons/dark-mode');
+  //   return frontendTech.map((tech) => ({
+  //     ...tech,
+  //     iconPath: images.find((url) => url.includes(tech.alt)) || '',
+  //   }));
+  // }
 }

@@ -76,9 +76,16 @@ export class ApiService {
             `${this.baseUrl}/firebase/technologies-aside`,
         );
     }
+
     getExperienceAside(): Observable<TExperienceAside[]> {
         return this.http.get<TExperienceAside[]>(
             `${this.baseUrl}/firebase/experience-aside`,
+        );
+    }
+
+    getThemelessPicturesImages(): Observable<any> {
+        return this.http.get<any[]>(
+            `${this.baseUrl}/firebase/themeless-pictures`,
         );
     }
 
