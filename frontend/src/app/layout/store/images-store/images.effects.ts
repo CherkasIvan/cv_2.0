@@ -61,20 +61,23 @@ export class LogoEffects {
         ),
     );
 
-    getClose$ = createEffect(() =>
+    loadThemelessPicturesImages$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(ImagesActions.getCloseImg),
+            ofType(ImagesActions.loadThemelessPicturesImages),
             mergeMap(() =>
-                this.apiService.getImages('icons/white-mode').pipe(
-                    map((data) => {
-                        const imageUrl =
-                            data?.find((url: string) =>
-                                url.includes('close.svg'),
-                            ) || '';
-                        return ImagesActions.getCloseImgSuccess({ imageUrl });
-                    }),
+                this.apiService.getThemelessPicturesImages().pipe(
+                    map((data) =>
+                        ImagesActions.loadThemelessPicturesImagesSuccess({
+                            darkModeImages: data.darkModeImages,
+                            whiteModeImages: data.whiteModeImages,
+                        }),
+                    ),
                     catchError((error) =>
-                        of(ImagesActions.getCloseImgFailure({ error })),
+                        of(
+                            ImagesActions.loadThemelessPicturesImagesFailure({
+                                error,
+                            }),
+                        ),
                     ),
                 ),
             ),

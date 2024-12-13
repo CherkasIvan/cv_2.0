@@ -6,6 +6,8 @@ export interface LogoState {
     imageUrl: string;
     profileImageUrl: string;
     closeImageUrl: string;
+    darkModeImages: string[];
+    whiteModeImages: string[];
     error: any;
 }
 
@@ -13,6 +15,8 @@ export const initialState: LogoState = {
     imageUrl: '',
     profileImageUrl: '',
     closeImageUrl: '',
+    darkModeImages: [],
+    whiteModeImages: [],
     error: null,
 };
 
@@ -45,4 +49,20 @@ export const logoReducer = createReducer(
         ...state,
         error,
     })),
+    on(
+        ImagesActions.loadThemelessPicturesImagesSuccess,
+        (state, { darkModeImages, whiteModeImages }) => ({
+            ...state,
+            darkModeImages,
+            whiteModeImages,
+            error: null,
+        }),
+    ),
+    on(
+        ImagesActions.loadThemelessPicturesImagesFailure,
+        (state, { error }) => ({
+            ...state,
+            error,
+        }),
+    ),
 );

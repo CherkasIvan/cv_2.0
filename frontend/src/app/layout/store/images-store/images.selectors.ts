@@ -1,5 +1,23 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
+export interface LogoState {
+    imageUrl: string;
+    profileImageUrl: string;
+    closeImageUrl: string;
+    darkModeImages: string[];
+    whiteModeImages: string[];
+    error: any;
+}
+
+export const initialState: LogoState = {
+    imageUrl: '',
+    profileImageUrl: '',
+    closeImageUrl: '',
+    darkModeImages: [],
+    whiteModeImages: [],
+    error: null,
+};
+
 export const selectLogoState = createFeatureSelector<LogoState>('logo');
 
 export const selectImageUrl = createSelector(
@@ -22,9 +40,12 @@ export const selectCloseImageUrl = createSelector(
     (state: LogoState) => state.closeImageUrl,
 );
 
-export interface LogoState {
-    imageUrl: string;
-    profileImageUrl: string;
-    closeImageUrl: string;
-    error: any;
-}
+export const selectDarkModeImages = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.darkModeImages,
+);
+
+export const selectWhiteModeImages = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.whiteModeImages,
+);

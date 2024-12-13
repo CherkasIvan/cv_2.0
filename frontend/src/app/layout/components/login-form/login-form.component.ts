@@ -21,12 +21,18 @@ import {
     Validators,
 } from '@angular/forms';
 
+import { map } from 'rxjs/operators';
+
 import { Store, select } from '@ngrx/store';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
+import {
+    selectCloseImageUrl,
+    selectDarkModeImages,
+    selectWhiteModeImages,
+} from '@layout/store/images-store/images.selectors';
 import { TAuthUser } from '@layout/store/model/auth-user.type';
 import { TProfile } from '@layout/store/model/profile.type';
 
@@ -46,7 +52,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     public header = input.required<string>();
     public authForm!: FormGroup;
     public user: TProfile | null = null;
-    public closeImageUrl$!: Observable<string | undefined>;
+    public whiteModeImages$!: Observable<string[]>;
+    public closeImageUrl$!: Observable<string>;
 
     private _destroyed$: Subject<void> = new Subject();
 
@@ -56,11 +63,27 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         this._createForm();
         this._authFormListener();
         this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
-        this.closeImageUrl$ = this._store$.pipe(select(selectCloseImageUrl));
 
         this._store$.dispatch(
             FirebaseActions.getTechnologiesAside({ imgName: '' }),
         );
+
+        this.whiteModeImages$ = this._store$.select(selectWhiteModeImages);
+
+        this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
+
+        this.closeImageUrl$ = this.whiteModeImages$.pipe(
+            map(
+                (images) =>
+                    images.find(
+                        (url) =>
+                            typeof url === 'string' &&
+                            url.includes('close.svg'),
+                    ) || '',
+            ),
+        );
+
+        this.closeImageUrl$.subscribe((el) => console.log(el));
     }
 
     public onMouseMove(event: MouseEvent) {
