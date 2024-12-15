@@ -43,28 +43,8 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     public displayName = '';
 
     private _destroyed$: Subject<void> = new Subject();
-
-    minutes = 0;
-    gender = 'female';
-    fly = true;
-    logo = '${this.baseUrl}/angular.svg';
-    toggle = signal(false);
-
-    inc(i: number) {
-        this.minutes = Math.min(5, Math.max(0, this.minutes + i));
-    }
-    male() {
-        this.gender = 'male';
-    }
-    female() {
-        this.gender = 'female';
-    }
-    other() {
-        this.gender = 'other';
-    }
-    toggleDisplay() {
-        this.toggle.update((toggle) => !toggle);
-    }
+    actions$: any;
+    apiService: any;
 
     constructor(
         private _authService: AuthService,
@@ -110,23 +90,39 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     public resetModalDialog() {
         this.emittedModalHide.emit(false);
     }
-
     getClose$ = createEffect(() =>
-        this._actions$.pipe(
+        this.actions$.pipe(
             ofType(ImagesActions.getCloseImg),
-            mergeMap(() =>
-                this._apiService.getImages('icons/white-mode').pipe(
-                    map((data) => {
-                        const imageUrl =
-                            data?.find((url: string) =>
-                                url.includes('close.svg'),
-                            ) || '';
-                        return ImagesActions.getCloseImgSuccess({ imageUrl });
-                    }),
-                    catchError((error) =>
-                        of(ImagesActions.getCloseImgFailure({ error })),
+            mergeMap((action: any) =>
+                this.apiService
+                    .getImages(
+                        action.mode ? 'white-mode' : 'dark-mode',
+                        'close',
+                    ) // Добавлен параметр 'close'
+                    .pipe(
+                        map((data) => {
+                            if (Array.isArray(data)) {
+                                const imageUrl =
+                                    data.find((url: string) =>
+                                        url.includes('close'),
+                                    ) || '';
+                                return ImagesActions.getCloseImgSuccess({
+                                    imageUrl,
+                                });
+                            } else {
+                                console.error(
+                                    'Expected an array but got:',
+                                    data,
+                                );
+                                return ImagesActions.getCloseImgFailure({
+                                    error: 'Invalid data format',
+                                });
+                            }
+                        }),
+                        catchError((error) =>
+                            of(ImagesActions.getCloseImgFailure({ error })),
+                        ),
                     ),
-                ),
             ),
         ),
     );

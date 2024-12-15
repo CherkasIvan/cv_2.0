@@ -1,22 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-export interface LogoState {
-    imageUrl: string;
-    profileImageUrl: string;
-    closeImageUrl: string;
-    darkModeImages: string[];
-    whiteModeImages: string[];
-    error: any;
-}
-
-export const initialState: LogoState = {
-    imageUrl: '',
-    profileImageUrl: '',
-    closeImageUrl: '',
-    darkModeImages: [],
-    whiteModeImages: [],
-    error: null,
-};
+import { LogoState } from './images.reducers';
 
 export const selectLogoState = createFeatureSelector<LogoState>('logo');
 

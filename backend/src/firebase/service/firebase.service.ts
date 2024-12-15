@@ -94,7 +94,6 @@ export class FirebaseService {
   async getBackendTechWithImages(): Promise<any> {
     const backendTech = await this.getBackendTech();
     const images = await this.getImagesByFolder('technologies/backend');
-    console.log(images);
     return backendTech.map((tech) => ({
       ...tech,
       iconPath: images.find((url) => url.includes(tech.alt)) || '',
@@ -113,23 +112,34 @@ export class FirebaseService {
   async getFrontendTechWithImages(): Promise<any> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('technologies/frontend');
-    return frontendTech.map((tech) => ({
-      ...tech,
-      iconPath: images.find((url) => url.includes(tech.alt)) || '',
-    }));
+    return frontendTech.map((tech) => {
+      const regex = new RegExp(`/${tech.alt}($|/)`);
+      const iconPath = images.find((url) => regex.test(url)) || '';
+      return {
+        ...tech,
+        iconPath,
+      };
+    });
   }
 
-  async getThemelessPicturesImages(): Promise<any> {
+  async getThemelessPicturesImages(searchParam: string): Promise<any> {
     const [darkModeImages, whiteModeImages] = await Promise.all([
-      this.getImagesByFolder('icons/dark-mode'),
-      this.getImagesByFolder('icons/white-mode'),
+      this.getImagesByFolder('icons/dark-mode/'),
+      this.getImagesByFolder('icons/white-mode/'),
     ]);
 
+    const darkModeImage = darkModeImages.find((url) =>
+      url.includes(searchParam),
+    );
+    const whiteModeImage = whiteModeImages.find((url) =>
+      url.includes(searchParam),
+    );
+
     return {
-      darkModeImages: darkModeImages.map((url) => ({ darkModeIconPath: url })),
-      whiteModeImages: whiteModeImages.map((url) => ({
-        whiteModeIconPath: url,
-      })),
+      darkModeImage: darkModeImage ? { darkModeIconPath: darkModeImage } : null,
+      whiteModeImage: whiteModeImage
+        ? { whiteModeIconPath: whiteModeImage }
+        : null,
     };
   }
 

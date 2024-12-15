@@ -9,7 +9,7 @@ import { ApiService } from '@core/service/api/api.service';
 import { ImagesActions } from './images.actions';
 
 @Injectable()
-export class LogoEffects {
+export class ImagesEffects {
     constructor(
         private actions$: Actions,
         private apiService: ApiService,
@@ -84,26 +84,26 @@ export class LogoEffects {
         ),
     );
 
-    getToggle$ = createEffect(() =>
+    getCloseImg$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ImagesActions.getCloseImg),
             mergeMap((action) =>
-                this.apiService.getImages('icons/white-mode').pipe(
-                    map((data) => {
-                        console.log('data:', data);
-                        const imageUrl =
-                            data?.find((url: string) =>
-                                url.includes('close'),
-                            ) || '';
-                        console.log(imageUrl);
-                        return ImagesActions.getCloseImgSuccess({
-                            imageUrl,
-                        });
-                    }),
-                    catchError((error) =>
-                        of(ImagesActions.getCloseImgFailure({ error })),
+                this.apiService
+                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .pipe(
+                        map((data) => {
+                            const imageUrl =
+                                data?.find((url: string) =>
+                                    url.includes('close'),
+                                ) || '';
+                            return ImagesActions.getCloseImgSuccess({
+                                imageUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(ImagesActions.getCloseImgFailure({ error })),
+                        ),
                     ),
-                ),
             ),
         ),
     );

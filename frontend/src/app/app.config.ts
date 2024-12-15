@@ -39,7 +39,7 @@ import {
 import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
-import { LogoEffects } from '@layout/store/images-store/images.effects';
+import { ImagesEffects } from '@layout/store/images-store/images.effects';
 import { logoReducer } from '@layout/store/images-store/images.reducers';
 
 import {
@@ -104,7 +104,7 @@ export const appConfig: ApplicationConfig = {
                 FirebaseEffects,
                 AuthEffects,
                 GithubRepositoriesEffects,
-                LogoEffects,
+                ImagesEffects,
             ]),
             StoreModule.forFeature('logo', logoReducer),
             StoreModule.forFeature('spinner', spinnerReducer),

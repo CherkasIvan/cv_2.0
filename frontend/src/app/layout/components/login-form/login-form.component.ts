@@ -25,6 +25,8 @@ import { map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
+import { ApiService } from '@core/service/api/api.service';
+
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
@@ -54,6 +56,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     public user: TProfile | null = null;
     public whiteModeImages$!: Observable<string[]>;
     public closeImageUrl$!: Observable<string>;
+    public imageUrl$!: any;
+    public url!: any;
 
     private _destroyed$: Subject<void> = new Subject();
 
@@ -62,28 +66,46 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._createForm();
         this._authFormListener();
-        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
-
-        this._store$.dispatch(
-            FirebaseActions.getTechnologiesAside({ imgName: '' }),
-        );
-
-        this.whiteModeImages$ = this._store$.select(selectWhiteModeImages);
-
         this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
 
-        this.closeImageUrl$ = this.whiteModeImages$.pipe(
-            map(
-                (images) =>
-                    images.find(
-                        (url) =>
-                            typeof url === 'string' &&
-                            url.includes('close.svg'),
-                    ) || '',
-            ),
+        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
+            map((urls: any) => {
+                console.log('Close Image URLs:', urls);
+                if (typeof urls === 'string') {
+                    try {
+                        if (urls.trim().length > 0) {
+                            urls = JSON.parse(urls);
+                        } else {
+                            console.error('Empty string received');
+                            return null;
+                        }
+                    } catch (e) {
+                        console.error('Failed to parse URLs:', e);
+                        return null;
+                    }
+                }
+                if (Array.isArray(urls)) {
+                    return urls.find(
+                        (url: { whiteModeIconPath: string | string[] }) =>
+                            url.whiteModeIconPath.includes('close'),
+                    );
+                } else {
+                    console.error('Expected an array but got:', urls);
+                    return null;
+                }
+            }),
+            map((urlObj: any) => (urlObj ? urlObj.whiteModeIconPath : null)),
         );
 
-        this.closeImageUrl$.subscribe((el) => console.log(el));
+        this.closeImageUrl$.subscribe((closeImageUrl) => {
+            if (closeImageUrl) {
+                console.log('Found URL containing "close":', closeImageUrl);
+                // Сохраните или выполните необходимые действия с найденным элементом
+            }
+        });
+
+        this.imageUrl$ = this.closeImageUrl$;
+        this.imageUrl$.subscribe((el: any) => console.log(el));
     }
 
     public onMouseMove(event: MouseEvent) {
