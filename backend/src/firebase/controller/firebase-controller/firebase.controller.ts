@@ -78,7 +78,7 @@ export class FirebaseController {
   }
 
   @Get('themeless-pictures')
-  async getThemelessPicturesImages() {
+  async getThemelessPicturesImages(serch) {
     const themelessPictures =
       await this.firebaseService.getThemelessPicturesImages();
     return themelessPictures;

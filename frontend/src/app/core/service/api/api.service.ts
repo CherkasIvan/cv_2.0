@@ -89,12 +89,23 @@ export class ApiService {
         );
     }
 
-    getImages(folder?: string): Observable<string[] | undefined> {
+    getImages(
+        folder?: string,
+        searchParam?: string,
+    ): Observable<string[] | undefined> {
         if (!folder) {
             return of(undefined);
         }
-        return this.http.get<string[]>(
-            `${this.baseUrl}/firebase/images/${folder}`,
-        );
+        console.log(`${this.baseUrl}/firebase/images/${folder}`);
+        return this.http
+            .get<string[]>(`${this.baseUrl}/firebase/images/${folder}`)
+            .pipe(
+                map((urls: string[]) => {
+                    if (searchParam) {
+                        return urls.filter((url) => url.includes(searchParam));
+                    }
+                    return urls;
+                }),
+            );
     }
 }
