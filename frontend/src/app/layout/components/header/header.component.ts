@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import {
     NavigationEnd,
+    Event as NavigationEvent,
     Router,
     RouterLink,
     RouterLinkActive,
@@ -33,7 +34,6 @@ import { setLanguageSuccess } from '@layout/store/language-selector-store/langua
 import { TLanguages } from '@layout/store/model/languages.type';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
-import { LoginFormComponent } from '../login-form/login-form.component';
 
 @Component({
     selector: 'cv-header',
@@ -44,7 +44,6 @@ import { LoginFormComponent } from '../login-form/login-form.component';
         RouterLinkActive,
         NgClass,
         DarkModeToggleComponent,
-        LoginFormComponent,
     ],
     templateUrl: './header.component.html',
     styleUrls: [
@@ -102,7 +101,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._router.events
             .pipe(takeUntil(this._destroyed$))
-            .subscribe((event) => {
+            .subscribe((event: NavigationEvent) => {
                 if (event instanceof NavigationEnd) {
                     this.currentRoute = event.url;
                     this._localStorageService.updateCurrentRoute(

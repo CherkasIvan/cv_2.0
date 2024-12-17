@@ -1,4 +1,12 @@
-import { Subject, catchError, map, mergeMap, of, takeUntil } from 'rxjs';
+import {
+    Observable,
+    Subject,
+    catchError,
+    map,
+    mergeMap,
+    of,
+    takeUntil,
+} from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
 import {
@@ -12,17 +20,17 @@ import {
     Output,
     ViewChild,
     input,
-    signal,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { createEffect, ofType } from '@ngrx/effects';
+import { Store } from '@ngrx/store';
 
-import { ApiService } from '@core/service/api/api.service';
 import { AuthService } from '@core/service/auth/auth.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { ImagesActions } from '@layout/store/images-store/images.actions';
+import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
 import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
@@ -41,6 +49,7 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     public header = input.required<string>();
     public user: TProfile | null = null;
     public displayName = '';
+    public closeImageUrl$!: Observable<string>;
 
     private _destroyed$: Subject<void> = new Subject();
     actions$: any;
@@ -49,8 +58,7 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     constructor(
         private _authService: AuthService,
         private _localStorageService: LocalStorageService,
-        private _apiService: ApiService,
-        private _actions$: Actions,
+        private _store$: Store,
     ) {}
 
     public onMouseMove(event: MouseEvent) {
@@ -65,6 +73,14 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
+
+        this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
+
+        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
+            map((response: any) => {
+                return response;
+            }),
+        );
     }
 
     public confirmLogout() {

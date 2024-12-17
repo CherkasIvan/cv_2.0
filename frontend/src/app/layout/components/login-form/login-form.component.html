@@ -8,12 +8,12 @@
             <h3 class="header-block_title">{{ header() }}</h3>
             <button
                 class="header-block_close-button"
-                (click)="closeModalDialog()"
+                (click)="resetModalDialog()"
             >
                 <img
                     aria-hidden="true"
-                    [src]="imageUrl$ | async"
-                    alt="close.svg"
+                    [src]="closeImageUrl$ | async"
+                    [alt]="closeImageUrl$ | async"
                 />
             </button>
         </header>

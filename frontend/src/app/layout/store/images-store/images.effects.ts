@@ -89,11 +89,13 @@ export class ImagesEffects {
             ofType(ImagesActions.getCloseImg),
             mergeMap((action) =>
                 this.apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'icons/white-mode' : 'icons/dark-mode',
+                    )
                     .pipe(
-                        map((data) => {
+                        map((data: any) => {
                             const imageUrl =
-                                data?.find((url: string) =>
+                                data.find((url: string) =>
                                     url.includes('close'),
                                 ) || '';
                             return ImagesActions.getCloseImgSuccess({
@@ -104,6 +106,46 @@ export class ImagesEffects {
                             of(ImagesActions.getCloseImgFailure({ error })),
                         ),
                     ),
+            ),
+        ),
+    );
+
+    setWhiteModeIconImg$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ImagesActions.getCloseImg),
+            mergeMap((action) =>
+                this.apiService.getImages('icons/white-mode').pipe(
+                    map((data: any) => {
+                        console.log(data);
+                        const imageUrl =
+                            data.find((url: string) => url.includes('moon')) ||
+                            '';
+                        return ImagesActions.getCloseImgSuccess({ imageUrl });
+                    }),
+                    catchError((error) =>
+                        of(ImagesActions.getCloseImgFailure({ error })),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    setDarkModeIconImg$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(ImagesActions.getCloseImg),
+            mergeMap((action) =>
+                this.apiService.getImages('icons/dark-mode').pipe(
+                    map((data: any) => {
+                        console.log(data);
+                        const imageUrl =
+                            data.find((url: string) => url.includes('sun')) ||
+                            '';
+                        return ImagesActions.getCloseImgSuccess({ imageUrl });
+                    }),
+                    catchError((error) =>
+                        of(ImagesActions.getCloseImgFailure({ error })),
+                    ),
+                ),
             ),
         ),
     );

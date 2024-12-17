@@ -29,7 +29,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LogoutFormComponent } from './components/logout-form/logout-form.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { AuthComponent } from './pages/auth/auth.component';
 import { darkModeSelector } from './store/dark-mode-store/dark-mode.selectors';
 import { ModalState } from './store/experience-dialog-store/experience-dialog.reducers';
 import {
@@ -51,7 +50,6 @@ import { TDarkMode } from './store/model/dark-mode.type';
         FooterComponent,
         HeaderComponent,
         RouterOutlet,
-        AuthComponent,
         AnimationBgComponent,
         AsyncPipe,
         SpinnerComponent,
@@ -79,6 +77,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     public getModalInstance($event: boolean) {
         this.isModalDialogVisible = $event;
+        console.log(this.isModalDialogVisible);
     }
 
     public navigation$: Observable<INavigation[]> = this._store$.pipe(
