@@ -8,6 +8,7 @@ import {
     EventEmitter,
     HostListener,
     Inject,
+    Input,
     OnDestroy,
     OnInit,
     Output,
@@ -21,7 +22,7 @@ import {
     Validators,
 } from '@angular/forms';
 
-import { map } from 'rxjs/operators';
+import { filter, find, map } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
@@ -52,61 +53,12 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     @Output() public emittedModalHide = new EventEmitter<boolean>();
     @HostListener('document:mousemove', ['$event'])
     public header = input.required<string>();
+    public imageUrl$!: any;
+    public url!: any;
     public authForm!: FormGroup;
     public user: TProfile | null = null;
     public whiteModeImages$!: Observable<string[]>;
     public closeImageUrl$!: Observable<string>;
-    public imageUrl$!: any;
-    public url!: any;
-
-    private _destroyed$: Subject<void> = new Subject();
-
-    constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
-
-    ngOnInit(): void {
-        this._createForm();
-        this._authFormListener();
-        this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
-
-        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
-            map((urls: any) => {
-                console.log('Close Image URLs:', urls);
-                if (typeof urls === 'string') {
-                    try {
-                        if (urls.trim().length > 0) {
-                            urls = JSON.parse(urls);
-                        } else {
-                            console.error('Empty string received');
-                            return null;
-                        }
-                    } catch (e) {
-                        console.error('Failed to parse URLs:', e);
-                        return null;
-                    }
-                }
-                if (Array.isArray(urls)) {
-                    return urls.find(
-                        (url: { whiteModeIconPath: string | string[] }) =>
-                            url.whiteModeIconPath.includes('close'),
-                    );
-                } else {
-                    console.error('Expected an array but got:', urls);
-                    return null;
-                }
-            }),
-            map((urlObj: any) => (urlObj ? urlObj.whiteModeIconPath : null)),
-        );
-
-        this.closeImageUrl$.subscribe((closeImageUrl) => {
-            if (closeImageUrl) {
-                console.log('Found URL containing "close":', closeImageUrl);
-                // Сохраните или выполните необходимые действия с найденным элементом
-            }
-        });
-
-        this.imageUrl$ = this.closeImageUrl$;
-        this.imageUrl$.subscribe((el: any) => console.log(el));
-    }
 
     public onMouseMove(event: MouseEvent) {
         const target = event.target as HTMLElement;
@@ -115,6 +67,34 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         } else {
             this.modal.nativeElement.classList.remove('dimmed');
         }
+    }
+
+    private _destroyed$: Subject<void> = new Subject();
+
+    constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
+
+    ngOnInit(): void {
+        const isWhiteMode = true; // Set this based on your application's logic
+        this._store$.dispatch(ImagesActions.getCloseImg({ mode: isWhiteMode }));
+
+        this._createForm();
+        this._authFormListener();
+        this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
+        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
+            map((response: any) => {
+                console.log(response); // Log the response to see its structure
+                if (Array.isArray(response)) {
+                    const url = response.find((url: string) =>
+                        url.includes('close'),
+                    );
+                    console.log(url); // Log the found URL
+                    return url;
+                } else {
+                    console.error('Response is not an array:', response);
+                    return null;
+                }
+            }),
+        );
     }
 
     public confirmModalDialog() {

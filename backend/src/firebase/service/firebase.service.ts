@@ -122,42 +122,30 @@ export class FirebaseService {
     });
   }
 
-  async getThemelessPicturesImages(searchParam: string): Promise<any> {
+  async getThemelessPicturesImages(): Promise<any> {
     const [darkModeImages, whiteModeImages] = await Promise.all([
       this.getImagesByFolder('icons/dark-mode/'),
       this.getImagesByFolder('icons/white-mode/'),
     ]);
 
-    const darkModeImage = darkModeImages.find((url) =>
-      url.includes(searchParam),
-    );
-    const whiteModeImage = whiteModeImages.find((url) =>
-      url.includes(searchParam),
-    );
-
-    return {
-      darkModeImage: darkModeImage ? { darkModeIconPath: darkModeImage } : null,
-      whiteModeImage: whiteModeImage
-        ? { whiteModeIconPath: whiteModeImage }
-        : null,
-    };
+    return [darkModeImages, whiteModeImages];
   }
 
-  // async getIconsWhiteMode(): Promise<any> {
-  //   const frontendTech = await this.getFrontendTech();
-  //   const images = await this.getImagesByFolder('icons/white-mode');
-  //   return frontendTech.map((tech) => ({
-  //     ...tech,
-  //     iconPath: images.find((url) => url.includes(tech.alt)) || '',
-  //   }));
-  // }
+  async getIconsWhiteMode(): Promise<any> {
+    const frontendTech = await this.getFrontendTech();
+    const images = await this.getImagesByFolder('icons/white-mode');
+    return frontendTech.map((tech) => ({
+      ...tech,
+      iconPath: images.find((url) => url.includes(tech.alt)) || '',
+    }));
+  }
 
-  // async getIconsDarkMode(): Promise<any> {
-  //   const frontendTech = await this.getFrontendTech();
-  //   const images = await this.getImagesByFolder('icons/dark-mode');
-  //   return frontendTech.map((tech) => ({
-  //     ...tech,
-  //     iconPath: images.find((url) => url.includes(tech.alt)) || '',
-  //   }));
-  // }
+  async getIconsDarkMode(): Promise<any> {
+    const frontendTech = await this.getFrontendTech();
+    const images = await this.getImagesByFolder('icons/dark-mode');
+    return frontendTech.map((tech) => ({
+      ...tech,
+      iconPath: images.find((url) => url.includes(tech.alt)) || '',
+    }));
+  }
 }

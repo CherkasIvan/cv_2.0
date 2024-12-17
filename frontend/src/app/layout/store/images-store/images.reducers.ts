@@ -65,4 +65,12 @@ export const logoReducer = createReducer(
             error,
         }),
     ),
+    on(ImagesActions.setDarkModeImages, (state, { images }) => ({
+        ...state,
+        darkModeImages: images,
+    })),
+    on(ImagesActions.setWhiteModeImages, (state, { images }) => ({
+        ...state,
+        whiteModeImages: images,
+    })),
 );
