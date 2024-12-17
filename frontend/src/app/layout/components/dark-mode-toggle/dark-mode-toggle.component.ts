@@ -1,4 +1,4 @@
-import { Observable, map, tap } from 'rxjs';
+import { Observable, Subject, map, takeUntil, tap } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
@@ -21,13 +21,15 @@ import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
     standalone: true,
     imports: [NgClass, AsyncPipe],
     templateUrl: './dark-mode-toggle.component.html',
-    styleUrl: './dark-mode-toggle.component.scss',
+    styleUrls: ['./dark-mode-toggle.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DarkModeToggleComponent implements OnInit {
     public isChecked: boolean = false;
     public darkModeImages$!: Observable<string[]>;
     public whiteModeImages$!: Observable<string[]>;
+
+    private _destroyed$: Subject<void> = new Subject();
 
     constructor(
         private _store$: Store<TDarkMode | TLocalstorageUser>,
@@ -38,28 +40,23 @@ export class DarkModeToggleComponent implements OnInit {
         this.isChecked = !this.isChecked;
         this._localStorageService.setDarkMode(this.isChecked);
         this._store$.dispatch(setModeSuccess(this.isChecked));
-
-        console.log('Dispatching loadThemelessPicturesImages action');
         this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
     }
 
     ngOnInit(): void {
         this.isChecked = this._localStorageService.getDarkMode() || false;
         this._store$.dispatch(setModeSuccess(this.isChecked));
-
-        // Dispatch the action to load themeless pictures images
         this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
 
-        // Select the images from the store
         this.darkModeImages$ = this._store$.pipe(
+            takeUntil(this._destroyed$),
             select(selectDarkModeImages),
-            tap((el) => console.log('moon', el)),
             map((response: any) => response),
         );
 
         this.whiteModeImages$ = this._store$.pipe(
+            takeUntil(this._destroyed$),
             select(selectWhiteModeImages),
-            tap((el) => console.log('sun', el)),
             map((response: any) => response),
         );
     }
