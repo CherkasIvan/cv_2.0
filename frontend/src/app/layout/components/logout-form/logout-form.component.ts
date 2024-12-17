@@ -77,6 +77,7 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
         this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
 
         this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
+            takeUntil(this._destroyed$),
             map((response: any) => {
                 return response;
             }),
@@ -108,6 +109,7 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     }
     getClose$ = createEffect(() =>
         this.actions$.pipe(
+            takeUntil(this._destroyed$),
             ofType(ImagesActions.getCloseImg),
             mergeMap((action: any) =>
                 this.apiService
@@ -116,6 +118,7 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
                         'close',
                     ) // Добавлен параметр 'close'
                     .pipe(
+                        takeUntil(this._destroyed$),
                         map((data) => {
                             if (Array.isArray(data)) {
                                 const imageUrl =

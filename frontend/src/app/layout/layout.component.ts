@@ -72,6 +72,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private _destroyed$: Subject<void> = new Subject();
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
+        takeUntil(this._destroyed$),
         select(darkModeSelector),
     );
 
@@ -81,10 +82,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     public navigation$: Observable<INavigation[]> = this._store$.pipe(
+        takeUntil(this._destroyed$),
         select(selectNavigation),
     );
 
     public social$: Observable<ISocialMedia[]> = this._store$.pipe(
+        takeUntil(this._destroyed$),
         select(selectSocialMediaLinks),
     );
 
@@ -113,12 +116,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
             });
 
         this.isExperienceDialogVisible$ = this._store$.pipe(
-            select(selectIsModalOpen),
             takeUntil(this._destroyed$),
+            select(selectIsModalOpen),
         );
         this.modalData$ = this._store$.pipe(
-            select(selectModalData),
             takeUntil(this._destroyed$),
+            select(selectModalData),
         );
 
         if (this.isFirstTime) {

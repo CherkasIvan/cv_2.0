@@ -80,21 +80,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         this._createForm();
         this._authFormListener();
         this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
-        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
-            map((response: any) => {
-                console.log(response); // Log the response to see its structure
-                if (Array.isArray(response)) {
-                    const url = response.find((url: string) =>
-                        url.includes('close'),
-                    );
-                    console.log(url); // Log the found URL
-                    return url;
-                } else {
-                    console.error('Response is not an array:', response);
-                    return null;
-                }
-            }),
-        );
+        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl);
     }
 
     public confirmModalDialog() {
