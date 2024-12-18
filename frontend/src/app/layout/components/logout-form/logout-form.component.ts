@@ -15,6 +15,7 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
+    Input,
     OnDestroy,
     OnInit,
     Output,
@@ -46,21 +47,6 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     public modal!: ElementRef;
     @Output() public emittedModalHide = new EventEmitter<boolean>();
     @HostListener('document:mousemove', ['$event'])
-    public header = input.required<string>();
-    public user: TProfile | null = null;
-    public displayName = '';
-    public closeImageUrl$!: Observable<string>;
-
-    private _destroyed$: Subject<void> = new Subject();
-    actions$: any;
-    apiService: any;
-
-    constructor(
-        private _authService: AuthService,
-        private _localStorageService: LocalStorageService,
-        private _store$: Store,
-    ) {}
-
     public onMouseMove(event: MouseEvent) {
         const target = event.target as HTMLElement;
         if (!this.modal.nativeElement.contains(target)) {
@@ -69,6 +55,19 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
             this.modal.nativeElement.classList.remove('dimmed');
         }
     }
+
+    public closeImageUrl$!: Observable<string>;
+    public header = input.required<string>();
+    public user: TProfile | null = null;
+    public displayName = '';
+
+    private _destroyed$: Subject<void> = new Subject();
+
+    constructor(
+        private _authService: AuthService,
+        private _localStorageService: LocalStorageService,
+        private _store$: Store,
+    ) {}
 
     ngOnInit(): void {
         this.displayName =
@@ -107,44 +106,6 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     public resetModalDialog() {
         this.emittedModalHide.emit(false);
     }
-    getClose$ = createEffect(() =>
-        this.actions$.pipe(
-            takeUntil(this._destroyed$),
-            ofType(ImagesActions.getCloseImg),
-            mergeMap((action: any) =>
-                this.apiService
-                    .getImages(
-                        action.mode ? 'white-mode' : 'dark-mode',
-                        'close',
-                    ) // Добавлен параметр 'close'
-                    .pipe(
-                        takeUntil(this._destroyed$),
-                        map((data) => {
-                            if (Array.isArray(data)) {
-                                const imageUrl =
-                                    data.find((url: string) =>
-                                        url.includes('close'),
-                                    ) || '';
-                                return ImagesActions.getCloseImgSuccess({
-                                    imageUrl,
-                                });
-                            } else {
-                                console.error(
-                                    'Expected an array but got:',
-                                    data,
-                                );
-                                return ImagesActions.getCloseImgFailure({
-                                    error: 'Invalid data format',
-                                });
-                            }
-                        }),
-                        catchError((error) =>
-                            of(ImagesActions.getCloseImgFailure({ error })),
-                        ),
-                    ),
-            ),
-        ),
-    );
 
     ngOnDestroy(): void {
         this._destroyed$.next();
