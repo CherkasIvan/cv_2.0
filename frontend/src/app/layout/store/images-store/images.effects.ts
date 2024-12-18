@@ -89,7 +89,6 @@ export class ImagesEffects {
             ),
         ),
     );
-
     setWhiteModeIconImg$ = createEffect(() =>
         this.actions$.pipe(
             takeUntil(this._destroyed$),
