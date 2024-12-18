@@ -18,7 +18,10 @@ import { Store, select } from '@ngrx/store';
 import { IExperience } from '@core/models/experience.interface';
 
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
+import { ModalState } from '@layout/store/experience-dialog-store/experience-dialog.reducers';
 import { selectModalData } from '@layout/store/experience-dialog-store/experience-dialog.selectors';
+import { ImagesActions } from '@layout/store/images-store/images.actions';
+import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
 import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
@@ -26,27 +29,14 @@ import { TProfile } from '@layout/store/model/profile.type';
     standalone: true,
     imports: [ReactiveFormsModule, AsyncPipe, NgIf],
     templateUrl: './experience-dialog.component.html',
-    styleUrl: './experience-dialog.component.scss',
+    styleUrls: ['./experience-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceDialogComponent implements OnInit {
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
+    public closeImageUrl$!: Observable<string>;
     @HostListener('document:mousemove', ['$event'])
-    public modalData$!: Observable<IExperience | null>;
-    public header = input.required<string>();
-    public authForm!: FormGroup;
-    public user: TProfile | null = null;
-
-    constructor(
-        @Inject(Store)
-        private _store$: Store<IExperience | IExperience>,
-    ) {}
-
-    ngOnInit(): void {
-        this.modalData$ = this._store$.pipe(select(selectModalData));
-    }
-
     public onMouseMove(event: MouseEvent) {
         const target = event.target as HTMLElement;
         if (!this.modal.nativeElement.contains(target)) {
@@ -54,6 +44,23 @@ export class ExperienceDialogComponent implements OnInit {
         } else {
             this.modal.nativeElement.classList.remove('dimmed');
         }
+    }
+
+    public modalData$!: Observable<IExperience | null>;
+    public header = input.required<string>();
+    public authForm!: FormGroup;
+    public user: TProfile | null = null;
+
+    constructor(
+        @Inject(Store)
+        private _store$: Store<{ experience: ModalState }>,
+    ) {}
+
+    ngOnInit(): void {
+        this.modalData$ = this._store$.pipe(select(selectModalData));
+        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
+        this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
+        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl);
     }
 
     public onBackgroundClick(event: MouseEvent): void {

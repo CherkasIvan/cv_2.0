@@ -64,8 +64,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
 
     ngOnInit(): void {
-        const isWhiteMode = true;
-        this._store$.dispatch(ImagesActions.getCloseImg({ mode: isWhiteMode }));
+        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
 
         this._createForm();
         this._authFormListener();
