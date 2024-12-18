@@ -51,13 +51,30 @@ export class DarkModeToggleComponent implements OnInit {
         this.darkModeImages$ = this._store$.pipe(
             takeUntil(this._destroyed$),
             select(selectDarkModeImages),
+            tap((el) => {
+                console.log('Dark Mode Images:', el);
+                if (!el) {
+                    console.error('No dark mode images found');
+                }
+            }),
             map((response: any) => response),
         );
 
         this.whiteModeImages$ = this._store$.pipe(
             takeUntil(this._destroyed$),
             select(selectWhiteModeImages),
+            tap((el) => {
+                console.log('White Mode Images:', el);
+                if (!el) {
+                    console.error('No white mode images found');
+                }
+            }),
             map((response: any) => response),
         );
+    }
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
     }
 }

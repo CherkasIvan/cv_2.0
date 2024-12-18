@@ -8,7 +8,6 @@ import {
     EventEmitter,
     HostListener,
     Inject,
-    Input,
     OnDestroy,
     OnInit,
     Output,
@@ -22,20 +21,11 @@ import {
     Validators,
 } from '@angular/forms';
 
-import { filter, find, map } from 'rxjs/operators';
-
-import { Store, select } from '@ngrx/store';
-
-import { ApiService } from '@core/service/api/api.service';
+import { Store } from '@ngrx/store';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
-import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
-import {
-    selectCloseImageUrl,
-    selectDarkModeImages,
-    selectWhiteModeImages,
-} from '@layout/store/images-store/images.selectors';
+import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
 import { TAuthUser } from '@layout/store/model/auth-user.type';
 import { TProfile } from '@layout/store/model/profile.type';
 
@@ -74,7 +64,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
 
     ngOnInit(): void {
-        const isWhiteMode = true; // Set this based on your application's logic
+        const isWhiteMode = true;
         this._store$.dispatch(ImagesActions.getCloseImg({ mode: isWhiteMode }));
 
         this._createForm();
