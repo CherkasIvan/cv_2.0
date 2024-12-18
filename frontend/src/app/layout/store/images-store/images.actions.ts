@@ -23,6 +23,11 @@ export const ImagesActions = createActionGroup({
         'Load Themeless Pictures Images Failure': props<{ error: any }>(),
 
         'Set Dark Mode Images': props<{ images: string[] }>(),
+        'Set Dark Mode Images Success': props<{ images: string[] }>(),
+        'Set Dark Mode Images Failure': props<{ error: any }>(),
+
         'Set White Mode Images': props<{ images: string[] }>(),
+        'Set White Mode Images Success': props<{ images: string[] }>(),
+        'Set White Mode Images Failure': props<{ error: any }>(),
     },
 });

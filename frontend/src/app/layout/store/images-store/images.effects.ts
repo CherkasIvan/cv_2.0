@@ -1,4 +1,4 @@
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { Subject, catchError, map, mergeMap, of, takeUntil } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
@@ -10,6 +10,8 @@ import { ImagesActions } from './images.actions';
 
 @Injectable()
 export class ImagesEffects {
+    private _destroyed$: Subject<void> = new Subject();
+
     constructor(
         private actions$: Actions,
         private apiService: ApiService,
@@ -22,6 +24,7 @@ export class ImagesEffects {
                 this.apiService
                     .getImages(action.mode ? 'white-mode' : 'dark-mode')
                     .pipe(
+                        takeUntil(this._destroyed$),
                         map((data) => {
                             const imageUrl =
                                 data?.find((url: string) =>
@@ -39,11 +42,13 @@ export class ImagesEffects {
 
     getProfileImg$ = createEffect(() =>
         this.actions$.pipe(
+            takeUntil(this._destroyed$),
             ofType(ImagesActions.getProfileImg),
             mergeMap((action) =>
                 this.apiService
                     .getImages(action.mode ? 'white-mode' : 'dark-mode')
                     .pipe(
+                        takeUntil(this._destroyed$),
                         map((data) => {
                             const imageUrl =
                                 data?.find((url: string) =>
@@ -63,6 +68,7 @@ export class ImagesEffects {
 
     loadThemelessPicturesImages$ = createEffect(() =>
         this.actions$.pipe(
+            takeUntil(this._destroyed$),
             ofType(ImagesActions.loadThemelessPicturesImages),
             mergeMap(() =>
                 this.apiService.getThemelessPicturesImages().pipe(
@@ -86,17 +92,20 @@ export class ImagesEffects {
 
     setWhiteModeIconImg$ = createEffect(() =>
         this.actions$.pipe(
+            takeUntil(this._destroyed$),
             ofType(ImagesActions.getCloseImg),
             mergeMap((action) =>
-                this.apiService.getImages('icons/white-mode').pipe(
+                this.apiService.getImages('white-mode').pipe(
                     map((data: any) => {
-                        const imageUrl =
+                        const images =
                             data.find((url: string) => url.includes('moon')) ||
                             '';
-                        return ImagesActions.getCloseImgSuccess({ imageUrl });
+                        return ImagesActions.setWhiteModeImagesSuccess({
+                            images,
+                        });
                     }),
                     catchError((error) =>
-                        of(ImagesActions.getCloseImgFailure({ error })),
+                        of(ImagesActions.setWhiteModeImagesFailure({ error })),
                     ),
                 ),
             ),
@@ -105,17 +114,22 @@ export class ImagesEffects {
 
     setDarkModeIconImg$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(ImagesActions.getCloseImg),
+            takeUntil(this._destroyed$),
+            ofType(ImagesActions.setDarkModeImagesSuccess),
             mergeMap((action) =>
-                this.apiService.getImages('icons/dark-mode').pipe(
+                this.apiService.getImages('dark-mode').pipe(
+                    takeUntil(this._destroyed$),
                     map((data: any) => {
-                        const imageUrl =
+                        console.log(data);
+                        const images =
                             data.find((url: string) => url.includes('sun')) ||
                             '';
-                        return ImagesActions.getCloseImgSuccess({ imageUrl });
+                        return ImagesActions.setDarkModeImagesSuccess({
+                            images,
+                        });
                     }),
                     catchError((error) =>
-                        of(ImagesActions.getCloseImgFailure({ error })),
+                        of(ImagesActions.setDarkModeImagesFailure({ error })),
                     ),
                 ),
             ),
@@ -124,6 +138,7 @@ export class ImagesEffects {
 
     getCloseImg$ = createEffect(() =>
         this.actions$.pipe(
+            takeUntil(this._destroyed$),
             ofType(ImagesActions.getCloseImg),
             mergeMap((action) =>
                 this.apiService.getImages('icons/white-mode').pipe(
@@ -143,4 +158,9 @@ export class ImagesEffects {
             ),
         ),
     );
+
+    ngOnDestroy(): void {
+        this._destroyed$.next();
+        this._destroyed$.complete();
+    }
 }

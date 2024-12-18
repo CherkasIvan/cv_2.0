@@ -1,4 +1,4 @@
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, catchError, finalize, of, tap, throwError } from 'rxjs';
 
 import {
     HttpEvent,
@@ -8,8 +8,6 @@ import {
     HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { catchError, finalize, tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 

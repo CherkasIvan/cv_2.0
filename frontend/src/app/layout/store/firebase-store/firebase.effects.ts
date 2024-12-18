@@ -1,8 +1,6 @@
-import { forkJoin, of } from 'rxjs';
+import { catchError, forkJoin, map, mergeMap, of } from 'rxjs';
 
 import { Injectable } from '@angular/core';
-
-import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
