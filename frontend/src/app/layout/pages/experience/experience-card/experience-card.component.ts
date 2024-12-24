@@ -18,10 +18,12 @@ import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
 
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
     selector: 'cv-experience-card',
     standalone: true,
-    imports: [NgClass],
+    imports: [NgClass, TranslateModule],
     templateUrl: './experience-card.component.html',
     styleUrls: [
         './experience-card.component.scss',

@@ -24,10 +24,12 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
     selector: 'cv-aside-navigation-experience',
     standalone: true,
-    imports: [NgClass, RouterLinkActive, AsyncPipe],
+    imports: [NgClass, TranslateModule],
     templateUrl: './aside-navigation-experience.component.html',
     styleUrls: [
         './aside-navigation-experience.component.scss',

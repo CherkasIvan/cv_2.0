@@ -18,6 +18,8 @@ import { GithubRepositoriesActions } from '@layout/store/github-projects-store/g
 import { selectGithubRepositories } from '@layout/store/github-projects-store/github-projects.selector';
 import { TDarkMode } from '@layout/store/model/dark-mode.type';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { ProjectChipsComponent } from './components/project-chips/project-chips.component';
 
 @Component({
@@ -29,6 +31,7 @@ import { ProjectChipsComponent } from './components/project-chips/project-chips.
         DatePipe,
         ProjectChipsComponent,
         ButtonComponent,
+        TranslateModule,
     ],
     templateUrl: './projects.component.html',
     styleUrls: [

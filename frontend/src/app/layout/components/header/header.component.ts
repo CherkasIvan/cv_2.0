@@ -1,4 +1,4 @@
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { NgClass, NgFor } from '@angular/common';
 import {
@@ -21,6 +21,8 @@ import {
     RouterLinkActive,
 } from '@angular/router';
 
+import { takeUntil } from 'rxjs/operators';
+
 import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
@@ -33,6 +35,8 @@ import { selectImageUrl } from '@layout/store/images-store/images.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
 import { TLanguages } from '@layout/store/model/languages.type';
 
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
 
 @Component({
@@ -40,10 +44,11 @@ import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.co
     standalone: true,
     imports: [
         RouterLink,
-        NgFor,
         RouterLinkActive,
         NgClass,
+        NgFor,
         DarkModeToggleComponent,
+        TranslateModule,
     ],
     templateUrl: './header.component.html',
     styleUrls: [
@@ -64,10 +69,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public imageUrl: string = '';
 
     private _destroyed$: Subject<void> = new Subject();
+    protected readonly _locales = ['en', 'ru'];
+    protected isCollapsed = true;
 
     constructor(
         @Inject(Router) private readonly _router: Router,
         @Inject(Store) private _store$: Store<TLanguages>,
+        @Inject(TranslateService)
+        private readonly _translateService: TranslateService,
         private _cdr: ChangeDetectorRef,
         private _localStorageService: LocalStorageService,
         private _translationService: TranslationService,
@@ -81,9 +90,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public changeLanguage() {
         this.isCheckedLanguage = !this.isCheckedLanguage;
         const newLanguage = this.isCheckedLanguage ? 'en' : 'ru';
-        this._localStorageService.setLanguage(newLanguage);
-        this._store$.dispatch(setLanguageSuccess(newLanguage));
-        this.translateNavigationLinks(newLanguage);
+        console.log(`Changing language to: ${newLanguage}`);
+        this._translateService.use(newLanguage).subscribe(() => {
+            console.log(`Language changed to: ${newLanguage}`);
+            this._localStorageService.setLanguage(newLanguage);
+            this._store$.dispatch(setLanguageSuccess(newLanguage));
+            this.translateNavigationLinks(newLanguage);
+        });
     }
 
     private translateNavigationLinks(language: string): void {

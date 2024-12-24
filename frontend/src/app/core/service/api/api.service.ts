@@ -89,6 +89,14 @@ export class ApiService {
         );
     }
 
+    getIconsWhiteMode(): Observable<string[]> {
+        return this.http.get<string[]>('/firebase/wm-pictures');
+    }
+
+    getIconsDarkMode(): Observable<string[]> {
+        return this.http.get<string[]>('/firebase/dm-pictures');
+    }
+
     getImages(
         folder?: string,
         searchParam?: string,

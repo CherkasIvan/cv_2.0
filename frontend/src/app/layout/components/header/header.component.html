@@ -18,8 +18,8 @@
             >
                 <img
                     class="header-logo_link-img"
-                    [src]="[imageUrl]"
-                    alt="logo-i.cherkas.svg"
+                    [src]="imageUrl"
+                    [alt]="imageUrl"
                 />
             </a>
         </article>
@@ -35,7 +35,7 @@
                     [routerLinkActiveOptions]="{ exact: true }"
                     class="item-link"
                 >
-                    <span class="item-link_text">{{ itemLink.value }}</span>
+                    <span class="item-link_text">{{ 'HEADER.' + itemLink.link.toUpperCase() | translate }}</span>
                 </a>
             </li>
         </ul>
@@ -51,7 +51,7 @@
                 class="header-buttons_login"
                 (click)="showDialogLogout()"
             >
-                {{ displayName || 'GUEST' }}
+                {{ 'HEADER.' + (displayName || 'GUEST') | translate }}
             </button>
         </aside>
     </nav>
