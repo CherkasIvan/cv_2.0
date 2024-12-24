@@ -7,7 +7,9 @@ export class FirebaseController {
 
   @Get('images/:folder*')
   async getImagesByFolder(@Param('folder') folder: string) {
+    console.log(`Request to get images from folder: ${folder}`);
     const images = await this.firebaseService.getImagesByFolder(folder);
+    console.log(`Images fetched: ${images.length}`);
     return images;
   }
 
@@ -75,5 +77,17 @@ export class FirebaseController {
   async getExperienceAside() {
     const experienceAside = await this.firebaseService.getExperienceAside();
     return experienceAside;
+  }
+
+  @Get('wm-pictures')
+  async getIconsWhiteMode() {
+    const themelessPictures = await this.firebaseService.getIconsWhiteMode();
+    return themelessPictures;
+  }
+
+  @Get('dm-pictures')
+  async getIconsDarkMode() {
+    const themelessPictures = await this.firebaseService.getIconsDarkMode();
+    return themelessPictures;
   }
 }

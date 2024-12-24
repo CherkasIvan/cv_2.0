@@ -29,7 +29,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LogoutFormComponent } from './components/logout-form/logout-form.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { AuthComponent } from './pages/auth/auth.component';
 import { darkModeSelector } from './store/dark-mode-store/dark-mode.selectors';
 import { ModalState } from './store/experience-dialog-store/experience-dialog.reducers';
 import {
@@ -51,7 +50,6 @@ import { TDarkMode } from './store/model/dark-mode.type';
         FooterComponent,
         HeaderComponent,
         RouterOutlet,
-        AuthComponent,
         AnimationBgComponent,
         AsyncPipe,
         SpinnerComponent,
@@ -74,6 +72,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private _destroyed$: Subject<void> = new Subject();
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
+        takeUntil(this._destroyed$),
         select(darkModeSelector),
     );
 
@@ -82,10 +81,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
     }
 
     public navigation$: Observable<INavigation[]> = this._store$.pipe(
+        takeUntil(this._destroyed$),
         select(selectNavigation),
     );
 
     public social$: Observable<ISocialMedia[]> = this._store$.pipe(
+        takeUntil(this._destroyed$),
         select(selectSocialMediaLinks),
     );
 
@@ -114,12 +115,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
             });
 
         this.isExperienceDialogVisible$ = this._store$.pipe(
-            select(selectIsModalOpen),
             takeUntil(this._destroyed$),
+            select(selectIsModalOpen),
         );
         this.modalData$ = this._store$.pipe(
-            select(selectModalData),
             takeUntil(this._destroyed$),
+            select(selectModalData),
         );
 
         if (this.isFirstTime) {

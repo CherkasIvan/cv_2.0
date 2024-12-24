@@ -4,7 +4,9 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
+    Input,
     OnInit,
+    Type,
     input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -16,10 +18,12 @@ import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
 
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
     selector: 'cv-experience-card',
     standalone: true,
-    imports: [NgSwitch, NgClass, RouterLink],
+    imports: [NgClass, TranslateModule],
     templateUrl: './experience-card.component.html',
     styleUrls: [
         './experience-card.component.scss',
@@ -29,6 +33,7 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceCardComponent implements OnInit {
+    @Input() experience: any;
     public experienceType = input.required<string>();
     public workDescription = input<IExperience | null>(null);
     public experienceDescription = input<IExperience | null>(null);
