@@ -24,12 +24,12 @@ export const selectCloseImageUrl = createSelector(
     (state: LogoState) => state.closeImageUrl,
 );
 
-export const selectDarkModeImages = createSelector(
+export const selectDarkModeImageUrl = createSelector(
     selectLogoState,
-    (state: LogoState) => state.darkModeImages,
+    (state: LogoState) => state.darkModeImageUrl,
 );
 
-export const selectWhiteModeImages = createSelector(
+export const selectWhiteModeImageUrl = createSelector(
     selectLogoState,
-    (state: LogoState) => state.whiteModeImages,
+    (state: LogoState) => state.whiteModeImageUrl,
 );

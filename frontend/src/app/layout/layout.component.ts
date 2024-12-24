@@ -78,7 +78,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     public getModalInstance($event: boolean) {
         this.isModalDialogVisible = $event;
-        console.log(this.isModalDialogVisible);
     }
 
     public navigation$: Observable<INavigation[]> = this._store$.pipe(

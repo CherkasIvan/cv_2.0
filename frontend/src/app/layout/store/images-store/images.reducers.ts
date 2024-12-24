@@ -6,8 +6,8 @@ export interface LogoState {
     imageUrl: string;
     profileImageUrl: string;
     closeImageUrl: string;
-    darkModeImages: string[];
-    whiteModeImages: string[];
+    darkModeImageUrl: string;
+    whiteModeImageUrl: string;
     error: any;
 }
 
@@ -15,8 +15,8 @@ export const initialState: LogoState = {
     imageUrl: '',
     profileImageUrl: '',
     closeImageUrl: '',
-    darkModeImages: [],
-    whiteModeImages: [],
+    darkModeImageUrl: '',
+    whiteModeImageUrl: '',
     error: null,
 };
 
@@ -49,28 +49,20 @@ export const logoReducer = createReducer(
         ...state,
         error,
     })),
-    on(
-        ImagesActions.loadThemelessPicturesImagesSuccess,
-        (state, { darkModeImages, whiteModeImages }) => ({
-            ...state,
-            darkModeImages,
-            whiteModeImages,
-            error: null,
-        }),
-    ),
-    on(
-        ImagesActions.loadThemelessPicturesImagesFailure,
-        (state, { error }) => ({
-            ...state,
-            error,
-        }),
-    ),
-    on(ImagesActions.setDarkModeImages, (state, { images }) => ({
+    on(ImagesActions.setDarkModeImagesSuccess, (state, { imageUrl }) => ({
         ...state,
-        darkModeImages: images,
+        darkModeImageUrl: imageUrl,
     })),
-    on(ImagesActions.setWhiteModeImages, (state, { images }) => ({
+    on(ImagesActions.setDarkModeImagesFailure, (state, { error }) => ({
         ...state,
-        whiteModeImages: images,
+        error,
+    })),
+    on(ImagesActions.setWhiteModeImagesSuccess, (state, { imageUrl }) => ({
+        ...state,
+        whiteModeImageUrl: imageUrl,
+    })),
+    on(ImagesActions.setWhiteModeImagesFailure, (state, { error }) => ({
+        ...state,
+        error,
     })),
 );

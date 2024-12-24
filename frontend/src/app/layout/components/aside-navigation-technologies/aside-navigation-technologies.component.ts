@@ -1,6 +1,6 @@
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { AsyncPipe, JsonPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -12,7 +12,6 @@ import {
     Output,
     input,
 } from '@angular/core';
-import { RouterLinkActive } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
@@ -28,13 +27,7 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
 @Component({
     selector: 'cv-aside-navigation-technologies',
     standalone: true,
-    imports: [
-        NgClass,
-        RouterLinkActive,
-        AsyncPipe,
-        JsonPipe,
-        AsideNavigationSubtechnologiesComponent,
-    ],
+    imports: [NgClass, AsideNavigationSubtechnologiesComponent],
     templateUrl: './aside-navigation-technologies.component.html',
     styleUrls: [
         './aside-navigation-technologies.component.scss',

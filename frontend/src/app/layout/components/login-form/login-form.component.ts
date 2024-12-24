@@ -47,7 +47,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     public url!: any;
     public authForm!: FormGroup;
     public user: TProfile | null = null;
-    public whiteModeImages$!: Observable<string[]>;
     public closeImageUrl$!: Observable<string>;
 
     public onMouseMove(event: MouseEvent) {
@@ -64,11 +63,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
 
     ngOnInit(): void {
-        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
-
         this._createForm();
         this._authFormListener();
-        this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
         this.closeImageUrl$ = this._store$.select(selectCloseImageUrl);
     }
 

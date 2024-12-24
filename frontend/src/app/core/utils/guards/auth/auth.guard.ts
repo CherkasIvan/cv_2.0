@@ -16,7 +16,6 @@ export class AuthGuard {
     ) {}
 
     canActivate(): Observable<boolean> | Promise<boolean> | UrlTree | boolean {
-        console.log('AuthGuard canActivate:', this._authService.isAuth$.value);
         if (!this._authService.isAuth$.value) {
             this._router.navigate([ERoute.AUTH]);
             return false;

@@ -77,10 +77,15 @@ export class FirebaseController {
     return experienceAside;
   }
 
-  @Get('themeless-pictures')
-  async getThemelessPicturesImages() {
-    const themelessPictures =
-      await this.firebaseService.getThemelessPicturesImages();
+  @Get('wm-pictures')
+  async getIconsWhiteMode() {
+    const themelessPictures = await this.firebaseService.getIconsWhiteMode();
+    return themelessPictures;
+  }
+
+  @Get('dm-pictures')
+  async getIconsDarkMode() {
+    const themelessPictures = await this.firebaseService.getIconsDarkMode();
     return themelessPictures;
   }
 }
