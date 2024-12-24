@@ -17,9 +17,9 @@ import { TDarkMode } from '@layout/store/model/dark-mode.type';
 @Component({
     selector: 'cv-button',
     standalone: true,
-    imports: [NgClass, NgStyle],
+    imports: [NgClass],
     templateUrl: './button.component.html',
-    styleUrl: './button.component.scss',
+    styleUrls: ['./button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {

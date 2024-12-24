@@ -36,7 +36,7 @@ export class ProfileLogoComponent {
         );
     }
 
-    githubNavigation() {
+    public githubNavigation() {
         this.document.defaultView?.open(
             'https://github.com/CherkasIvan',
             '_blank',

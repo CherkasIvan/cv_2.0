@@ -1,0 +1,33 @@
+{
+    "HEADER": {
+        "MAIN": "Главная",
+        "EXPERIENCE": "Опыт работы и образование",
+        "PROJECTS": "Проекты",
+        "TECHNOLOGIES": "Технологии",
+        "GUEST": "ГОСТЬ"
+    },
+    "EXPERIENCE-PAGE": {
+        "NAVIGATION": {
+            "WORK": "Опыт работы",
+            "EDUCATION": "Образование"
+        },
+        "PLACE": {
+            "WORK-PLACE": "место работы",
+            "COURSE": "курс"
+        }
+    },
+    "BUTTONS": {
+        "CV": {
+            "WATCH": "Смотреть CV",
+            "OPEN": "Открыть CV"
+        },
+        "CONTACT": {
+            "CONTACT-ME": "Связаться со мной",
+            "WRITE": "Написать мне"
+        },
+        "PROJECTS": {
+            "TO_WEBSITE": "Перейти на сайт",
+            "GO": "Перейти"
+        }
+    }
+}
