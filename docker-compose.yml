@@ -1,4 +1,22 @@
 services:
+  nginx:
+    hostname: nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.nginx
+    ports:
+      - "80:80"
+    networks:
+      - cv-network
+    depends_on:
+      - frontend
+      - backend
+    # environment:
+    #   - FRONTEND_HOST=${FRONTEND_HOST}
+    #   - FRONTEND_PORT=${FRONTEND_PORT}
+    #   - BACKEND_HOST=${BACKEND_HOST}
+    #   - BACKEND_PORT=${BACKEND_PORT}
+
   backend:
     hostname: backend
     build:
@@ -6,12 +24,11 @@ services:
       dockerfile: Dockerfile.backend
     ports:
       - "3000:3000"
-
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    networks:
+      - cv-network
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
 
   frontend:
     hostname: frontend
@@ -20,17 +37,12 @@ services:
       dockerfile: Dockerfile.frontend
     ports:
       - "4000:4000"
+    networks:
+      - cv-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
 
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  nginx:
-    hostname: nginx
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.nginx
-    ports:
-      - "80:80"
+networks:
+  cv-network:
+    driver: bridge

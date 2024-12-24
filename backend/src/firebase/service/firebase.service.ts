@@ -8,14 +8,17 @@ import { TNavigation } from 'src/models/navigation.type';
 export class FirebaseService {
   private bucket = admin.storage().bucket();
 
-  async getImagesByFolder(folder: string): Promise<string[]> {
+  public async getImagesByFolder(folder: string): Promise<string[]> {
+    console.log(`Fetching images from folder: ${folder}`);
     const [files] = await this.bucket.getFiles({ prefix: folder });
+    console.log(`Files found: ${files.length}`);
     const urls = await Promise.all(
       files.map(async (file) => {
         const [url] = await file.getSignedUrl({
           action: 'read',
           expires: '03-01-2500',
         });
+        console.log(`Generated URL: ${url}`);
         return url;
       }),
     );
@@ -76,6 +79,11 @@ export class FirebaseService {
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
+  async getThemelessPictures(): Promise<any> {
+    const querySnapshot = await getDocs(collection(db, 'themelessPictures'));
+    return querySnapshot.docs.map((doc) => doc.data());
+  }
+
   async getOtherTech(): Promise<any> {
     const querySnapshot = await getDocs(collection(db, 'otherTech'));
     return querySnapshot.docs.map((doc) => doc.data());
@@ -107,6 +115,29 @@ export class FirebaseService {
   async getFrontendTechWithImages(): Promise<any> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('technologies/frontend');
+    return frontendTech.map(
+      (tech) => (
+        console.log(tech.alt),
+        {
+          ...tech,
+          iconPath: images.find((url) => url.includes(tech.alt)) || '',
+        }
+      ),
+    );
+  }
+
+  async getIconsWhiteMode(): Promise<any> {
+    const frontendTech = await this.getFrontendTech();
+    const images = await this.getImagesByFolder('icons/white-mode');
+    return frontendTech.map((tech) => ({
+      ...tech,
+      iconPath: images.find((url) => url.includes(tech.alt)) || '',
+    }));
+  }
+
+  async getIconsDarkMode(): Promise<any> {
+    const frontendTech = await this.getFrontendTech();
+    const images = await this.getImagesByFolder('icons/dark-mode');
     return frontendTech.map((tech) => ({
       ...tech,
       iconPath: images.find((url) => url.includes(tech.alt)) || '',

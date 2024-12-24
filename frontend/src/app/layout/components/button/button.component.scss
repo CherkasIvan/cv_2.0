@@ -27,14 +27,14 @@
         visibility: visible;
         z-index: 1;
         transition:
-            transform 1.2s ease-in-out,
-            opacity 1.2s ease-in-out,
-            z-index 0s 1.2s,
-            display 1.2s ease-in-out;
+            transform 0.6s ease-in-out,
+            opacity 0.6s ease-in-out,
+            z-index 0s 0.6s,
+            display 0.6s ease-in-out;
 
         &.generalButtonActive {
-            transform: translateY(-300%);
-            opacity: 0; /* Добавлено для плавного исчезновения */
+            transform: translateY(-100%);
+            opacity: 0;
             transition:
                 transform 0.6s ease-in-out,
                 opacity 0.6s ease-in-out;
@@ -49,42 +49,42 @@
         justify-content: center;
         align-items: center;
         transform: translate(-50%, 0);
-        opacity: 0; /* Изначально скрыто */
+        opacity: 0;
         z-index: 2;
         transition:
-            transform 1s ease-in-out,
-            opacity 0.7s ease-in-out,
-            z-index 0s 1s;
+            transform 0.6s ease-in-out,
+            opacity 0.6s ease-in-out,
+            z-index 0s 0.6s;
         border-radius: 50%;
         background-color: color.$blue;
         line-height: 86px;
         text-align: center;
 
         .hovered-text {
-            transition: opacity 0.7s ease-in-out; /* Добавлено для плавного исчезновения текста */
+            transition: opacity 0.6s ease-in-out;
         }
     }
 
     &:hover .general-button_text-absolute {
-        top: 50%; /* Центрирование по вертикали */
+        top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%); /* Центрирование по горизонтали и вертикали */
-        opacity: 1; /* Показать элемент */
+        transform: translate(-50%, -50%);
+        opacity: 1;
         color: color.$white;
     }
 
     &:hover .general-button_text-absolute .hovered-text {
-        opacity: 1; /* Показать текст */
+        opacity: 1;
     }
 
     &:not(:hover) .general-button_text-absolute {
-        top: 100%; /* Возвращение к исходному положению */
-        transform: translate(-50%, 0); /* Возвращение к исходному положению */
-        opacity: 0; /* Скрыть элемент */
+        top: 100%;
+        transform: translate(-50%, 0);
+        opacity: 0;
     }
 
     &:not(:hover) .general-button_text-absolute .hovered-text {
-        opacity: 0; /* Скрыть текст */
+        opacity: 0;
     }
 }
 

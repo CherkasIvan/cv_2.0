@@ -12,22 +12,20 @@
             >
                 <img
                     aria-hidden="true"
-                    src="assets/images/white-mode/icons/close.svg"
-                    alt="close.svg"
+                    [src]="closeImageUrl$ | async"
+                    [alt]="closeImageUrl$ | async"
                 />
             </button>
         </header>
         <main class="modal-dialog_content">
             <div class="modal-dialog_body">
                 <ng-container *ngIf="modalData$ | async as modalData">
-                    <!-- Ваш контент здесь -->
-                    <div *ngIf="modalData">
+                    @if (modalData) {
                         <p>Company: {{ modalData.company }}</p>
                         <p>From: {{ modalData.from }}</p>
                         <p>To: {{ modalData.to }}</p>
                         <p>Specialization: {{ modalData.specialization }}</p>
-                        <!-- Добавьте другие поля по необходимости -->
-                    </div>
+                    }
                 </ng-container>
             </div>
             <div class="content-form_submit-buttons">

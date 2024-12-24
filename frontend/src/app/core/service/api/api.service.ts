@@ -76,18 +76,44 @@ export class ApiService {
             `${this.baseUrl}/firebase/technologies-aside`,
         );
     }
+
     getExperienceAside(): Observable<TExperienceAside[]> {
         return this.http.get<TExperienceAside[]>(
             `${this.baseUrl}/firebase/experience-aside`,
         );
     }
 
-    getImages(folder?: string): Observable<string[] | undefined> {
+    getThemelessPicturesImages(): Observable<any> {
+        return this.http.get<any[]>(
+            `${this.baseUrl}/firebase/themeless-pictures`,
+        );
+    }
+
+    getIconsWhiteMode(): Observable<string[]> {
+        return this.http.get<string[]>('/firebase/wm-pictures');
+    }
+
+    getIconsDarkMode(): Observable<string[]> {
+        return this.http.get<string[]>('/firebase/dm-pictures');
+    }
+
+    getImages(
+        folder?: string,
+        searchParam?: string,
+    ): Observable<string[] | undefined> {
         if (!folder) {
             return of(undefined);
         }
-        return this.http.get<string[]>(
-            `${this.baseUrl}/firebase/images/${folder}`,
-        );
+        console.log(`${this.baseUrl}/firebase/images/${folder}`);
+        return this.http
+            .get<string[]>(`${this.baseUrl}/firebase/images/${folder}`)
+            .pipe(
+                map((urls: string[]) => {
+                    if (searchParam) {
+                        return urls.filter((url) => url.includes(searchParam));
+                    }
+                    return urls;
+                }),
+            );
     }
 }

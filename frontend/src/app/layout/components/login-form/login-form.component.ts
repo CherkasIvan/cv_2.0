@@ -1,6 +1,6 @@
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -24,15 +24,17 @@ import {
 import { Store } from '@ngrx/store';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import { ImagesActions } from '@layout/store/images-store/images.actions';
+import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
 import { TAuthUser } from '@layout/store/model/auth-user.type';
 import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
     selector: 'cv-login-form',
     standalone: true,
-    imports: [ReactiveFormsModule, NgClass],
+    imports: [ReactiveFormsModule, NgClass, AsyncPipe],
     templateUrl: './login-form.component.html',
-    styleUrl: './login-form.component.scss',
+    styleUrls: ['./login-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
@@ -41,17 +43,11 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     @Output() public emittedModalHide = new EventEmitter<boolean>();
     @HostListener('document:mousemove', ['$event'])
     public header = input.required<string>();
+    public imageUrl$!: any;
+    public url!: any;
     public authForm!: FormGroup;
     public user: TProfile | null = null;
-
-    private _destroyed$: Subject<void> = new Subject();
-
-    constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
-
-    ngOnInit(): void {
-        this._createForm();
-        this._authFormListener();
-    }
+    public closeImageUrl$!: Observable<string>;
 
     public onMouseMove(event: MouseEvent) {
         const target = event.target as HTMLElement;
@@ -60,6 +56,16 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         } else {
             this.modal.nativeElement.classList.remove('dimmed');
         }
+    }
+
+    private _destroyed$: Subject<void> = new Subject();
+
+    constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
+
+    ngOnInit(): void {
+        this._createForm();
+        this._authFormListener();
+        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl);
     }
 
     public confirmModalDialog() {

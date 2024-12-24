@@ -1,6 +1,6 @@
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -15,7 +15,7 @@ import { Store, select } from '@ngrx/store';
 import { EvenColumnDirective } from '@core/directives/even-column.directive';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
-import { TTechnologies } from '@core/models/tecnologies.type';
+import { TTechnologies } from '@core/models/technologies.type';
 import { ApiService } from '@core/service/api/api.service';
 
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
@@ -37,7 +37,6 @@ import { TechnologyCardComponent } from './components/technology-card/technology
         AsideNavigationTechnologiesComponent,
         TechnologyCardComponent,
         AsyncPipe,
-        NgClass,
         EvenColumnDirective,
     ],
     templateUrl: './technologies.component.html',
@@ -89,6 +88,7 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
                     .pipe(takeUntil(this._destroyed$))
                     .subscribe((tech) => {
                         if (tech) {
+                            console.log(tech);
                             this.currentTechnologiesStack = tech;
                             this._cdr.markForCheck();
                         }
@@ -132,7 +132,9 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
         });
 
         this._store$.dispatch(
-            FirebaseActions.getTechnologiesAside({ imgName: '' }),
+            FirebaseActions.getTechnologiesAside({
+                imgName: '/icons/white-mode',
+            }),
         );
     }
 

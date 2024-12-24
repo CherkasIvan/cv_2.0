@@ -1,4 +1,4 @@
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 
 import { NgClass, NgFor } from '@angular/common';
 import {
@@ -15,10 +15,13 @@ import {
 } from '@angular/core';
 import {
     NavigationEnd,
+    Event as NavigationEvent,
     Router,
     RouterLink,
     RouterLinkActive,
 } from '@angular/router';
+
+import { takeUntil } from 'rxjs/operators';
 
 import { Store, select } from '@ngrx/store';
 
@@ -32,19 +35,20 @@ import { selectImageUrl } from '@layout/store/images-store/images.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
 import { TLanguages } from '@layout/store/model/languages.type';
 
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
-import { LoginFormComponent } from '../login-form/login-form.component';
 
 @Component({
     selector: 'cv-header',
     standalone: true,
     imports: [
         RouterLink,
-        NgFor,
         RouterLinkActive,
         NgClass,
+        NgFor,
         DarkModeToggleComponent,
-        LoginFormComponent,
+        TranslateModule,
     ],
     templateUrl: './header.component.html',
     styleUrls: [
@@ -65,10 +69,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public imageUrl: string = '';
 
     private _destroyed$: Subject<void> = new Subject();
+    protected readonly _locales = ['en', 'ru'];
+    protected isCollapsed = true;
 
     constructor(
         @Inject(Router) private readonly _router: Router,
         @Inject(Store) private _store$: Store<TLanguages>,
+        @Inject(TranslateService)
+        private readonly _translateService: TranslateService,
         private _cdr: ChangeDetectorRef,
         private _localStorageService: LocalStorageService,
         private _translationService: TranslationService,
@@ -82,9 +90,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     public changeLanguage() {
         this.isCheckedLanguage = !this.isCheckedLanguage;
         const newLanguage = this.isCheckedLanguage ? 'en' : 'ru';
-        this._localStorageService.setLanguage(newLanguage);
-        this._store$.dispatch(setLanguageSuccess(newLanguage));
-        this.translateNavigationLinks(newLanguage);
+        console.log(`Changing language to: ${newLanguage}`);
+        this._translateService.use(newLanguage).subscribe(() => {
+            console.log(`Language changed to: ${newLanguage}`);
+            this._localStorageService.setLanguage(newLanguage);
+            this._store$.dispatch(setLanguageSuccess(newLanguage));
+            this.translateNavigationLinks(newLanguage);
+        });
     }
 
     private translateNavigationLinks(language: string): void {
@@ -102,7 +114,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._router.events
             .pipe(takeUntil(this._destroyed$))
-            .subscribe((event) => {
+            .subscribe((event: NavigationEvent) => {
                 if (event instanceof NavigationEnd) {
                     this.currentRoute = event.url;
                     this._localStorageService.updateCurrentRoute(

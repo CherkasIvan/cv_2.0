@@ -18,3 +18,18 @@ export const selectLogoError = createSelector(
     selectLogoState,
     (state: LogoState) => state.error,
 );
+
+export const selectCloseImageUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.closeImageUrl,
+);
+
+export const selectDarkModeImageUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.darkModeImageUrl,
+);
+
+export const selectWhiteModeImageUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.whiteModeImageUrl,
+);

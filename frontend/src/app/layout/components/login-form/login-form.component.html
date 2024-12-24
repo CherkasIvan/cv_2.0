@@ -8,12 +8,12 @@
             <h3 class="header-block_title">{{ header() }}</h3>
             <button
                 class="header-block_close-button"
-                (click)="closeModalDialog()"
+                (click)="resetModalDialog()"
             >
                 <img
                     aria-hidden="true"
-                    src="assets/images/white-mode/icons/close.svg"
-                    alt="close.svg"
+                    [src]="closeImageUrl$ | async"
+                    [alt]="closeImageUrl$ | async"
                 />
             </button>
         </header>
@@ -34,6 +34,7 @@
                             formControlName="email"
                             id="email"
                             class="content-form_input"
+                            autocomplete="username"
                         />
                     </label>
                     <label
@@ -44,8 +45,9 @@
                         <input
                             type="password"
                             id="password"
-                            formControlName="password"
-                            class="content-form_input"
+                            formcontrolname="password"
+                            class="content-form_input ng-untouched ng-pristine ng-invalid"
+                            autocomplete="current-password"
                         />
                     </label>
                 }
