@@ -13,6 +13,7 @@ import { Store, select } from '@ngrx/store';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
+import { ImagesActions } from '@layout/store/images-store/images.actions';
 import {
     selectDarkModeImageUrl,
     selectWhiteModeImageUrl,
@@ -32,7 +33,6 @@ export class DarkModeToggleComponent implements OnInit {
     public isChecked: boolean = false;
     public darkModeImages$!: Observable<string>;
     public whiteModeImages$!: Observable<string>;
-
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(
@@ -50,13 +50,20 @@ export class DarkModeToggleComponent implements OnInit {
         this.isChecked = this._localStorageService.getDarkMode() || false;
         this._store$.dispatch(setModeSuccess(this.isChecked));
 
+        // Инициируем запросы на получение изображений для темной и светлой тем
+        this._store$.dispatch(ImagesActions.getIconsWhiteMode());
+        this._store$.dispatch(ImagesActions.getIconsDarkMode());
+
         this.darkModeImages$ = this._store$.pipe(
             takeUntil(this._destroyed$),
             select(selectDarkModeImageUrl),
             tap((el) => {
                 console.log('Dark Mode Images:', el);
             }),
-            map((response: any) => response),
+            map((response: any) => {
+                console.log('Mapped Dark Mode Images:', response);
+                return response;
+            }),
         );
 
         this.whiteModeImages$ = this._store$.pipe(
@@ -65,7 +72,10 @@ export class DarkModeToggleComponent implements OnInit {
             tap((el) => {
                 console.log('White Mode Images:', el);
             }),
-            map((response: any) => response),
+            map((response: any) => {
+                console.log('Mapped White Mode Images:', response);
+                return response;
+            }),
         );
     }
 

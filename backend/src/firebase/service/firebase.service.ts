@@ -9,13 +9,16 @@ export class FirebaseService {
   private bucket = admin.storage().bucket();
 
   public async getImagesByFolder(folder: string): Promise<string[]> {
+    console.log(`Fetching images from folder: ${folder}`);
     const [files] = await this.bucket.getFiles({ prefix: folder });
+    console.log(`Files found: ${files.length}`);
     const urls = await Promise.all(
       files.map(async (file) => {
         const [url] = await file.getSignedUrl({
           action: 'read',
           expires: '03-01-2500',
         });
+        console.log(`Generated URL: ${url}`);
         return url;
       }),
     );

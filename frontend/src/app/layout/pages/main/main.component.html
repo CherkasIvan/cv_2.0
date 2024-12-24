@@ -30,8 +30,8 @@
                 <span class="status">{{ mainInfoPageData.status }}</span>
                 <cv-button
                     buttonType="long"
-                    buttonText="{{ mainInfoPageData.buttonText }}"
-                    buttonHoverText="{{ mainInfoPageData.buttonHoverText }}"
+                    buttonText="{{ 'BUTTONS.CV.WATCH' | translate }}"
+                    buttonHoverText="{{ 'BUTTONS.CV.OPEN' | translate }}"
                     [buttonTheme]="currentTheme$ | async"
                 ></cv-button>
             </section>

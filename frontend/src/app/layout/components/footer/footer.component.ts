@@ -4,12 +4,14 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { ISocialMedia } from '@core/models/social-media.interface';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { ButtonComponent } from '../button/button.component';
 
 @Component({
     selector: 'cv-footer',
     standalone: true,
-    imports: [RouterLink, NgFor, RouterLinkActive, ButtonComponent, NgClass],
+    imports: [TranslateModule, ButtonComponent, NgClass],
     templateUrl: './footer.component.html',
     styleUrls: [
         './footer.component.scss',

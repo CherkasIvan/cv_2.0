@@ -102,7 +102,6 @@ export class LocalStorageService {
             const usersState = this.getUsersState();
             if (usersState) {
                 usersState.user = userData;
-                console.log('Setting user data:', usersState); // Добавьте это для отладки
                 localStorage.setItem(
                     this.USER_STATE_KEY,
                     JSON.stringify(usersState),

@@ -97,6 +97,14 @@ export const appConfig: ApplicationConfig = {
             StoreModule.forRoot({
                 router: routerReducer,
             }),
+            TranslateModule.forRoot({
+                defaultLanguage: 'en',
+                loader: {
+                    provide: TranslateLoader,
+                    useFactory: HttpLoaderFactory,
+                    deps: [HttpClient],
+                },
+            }),
             EffectsModule.forRoot({}),
             EffectsModule.forRoot([
                 FirebaseEffects,

@@ -49,19 +49,21 @@ export const logoReducer = createReducer(
         ...state,
         error,
     })),
-    on(ImagesActions.setDarkModeImagesSuccess, (state, { imageUrl }) => ({
+    on(ImagesActions.getIconsWhiteModeSuccess, (state, { images }) => ({
         ...state,
-        darkModeImageUrl: imageUrl,
+        whiteModeImageUrl: images.join(', '),
+        error: null,
     })),
-    on(ImagesActions.setDarkModeImagesFailure, (state, { error }) => ({
+    on(ImagesActions.getIconsWhiteModeFailure, (state, { error }) => ({
         ...state,
         error,
     })),
-    on(ImagesActions.setWhiteModeImagesSuccess, (state, { imageUrl }) => ({
+    on(ImagesActions.getIconsDarkModeSuccess, (state, { images }) => ({
         ...state,
-        whiteModeImageUrl: imageUrl,
+        darkModeImageUrl: images.join(', '),
+        error: null,
     })),
-    on(ImagesActions.setWhiteModeImagesFailure, (state, { error }) => ({
+    on(ImagesActions.getIconsDarkModeFailure, (state, { error }) => ({
         ...state,
         error,
     })),

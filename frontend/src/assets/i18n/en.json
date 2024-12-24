@@ -1,0 +1,33 @@
+{
+    "HEADER": {
+        "MAIN": "Main",
+        "EXPERIENCE": "Work experience and education",
+        "PROJECTS": "Projects",
+        "TECHNOLOGIES": "Technologies",
+        "GUEST": "GUEST"
+    },
+    "EXPERIENCE-PAGE": {
+        "NAVIGATION": {
+            "WORK": "Work experience",
+            "EDUCATION": "Education"
+        },
+        "PLACE": {
+            "WORK-PLACE": "work place",
+            "COURSE": "course"
+        }
+    },
+    "BUTTONS": {
+        "CV": {
+            "WATCH": "Watch CV",
+            "OPEN": "Open CV"
+        },
+        "CONTACT": {
+            "CONTACT-ME": "Contact me",
+            "WRITE": "Write to me"
+        },
+        "PROJECTS": {
+            "TO_WEBSITE": "Go to website",
+            "GO": "Go"
+        }
+    }
+}
