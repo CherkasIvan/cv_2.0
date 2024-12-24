@@ -66,41 +66,18 @@ export class ImagesEffects {
         ),
     );
 
-    loadThemelessPicturesImages$ = createEffect(() =>
-        this.actions$.pipe(
-            takeUntil(this._destroyed$),
-            ofType(ImagesActions.loadThemelessPicturesImages),
-            mergeMap(() =>
-                this.apiService.getThemelessPicturesImages().pipe(
-                    map((data) =>
-                        ImagesActions.loadThemelessPicturesImagesSuccess({
-                            darkModeImages: data.darkModeImages,
-                            whiteModeImages: data.whiteModeImages,
-                        }),
-                    ),
-                    catchError((error) =>
-                        of(
-                            ImagesActions.loadThemelessPicturesImagesFailure({
-                                error,
-                            }),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    );
     setWhiteModeIconImg$ = createEffect(() =>
         this.actions$.pipe(
             takeUntil(this._destroyed$),
-            ofType(ImagesActions.getCloseImg),
-            mergeMap((action) =>
-                this.apiService.getImages('white-mode').pipe(
+            ofType(ImagesActions.setWhiteModeImages),
+            mergeMap(() =>
+                this.apiService.getImages('icons/white-mode').pipe(
                     map((data: any) => {
-                        const images =
+                        const imageUrl =
                             data.find((url: string) => url.includes('moon')) ||
                             '';
                         return ImagesActions.setWhiteModeImagesSuccess({
-                            images,
+                            imageUrl,
                         });
                     }),
                     catchError((error) =>
@@ -114,17 +91,15 @@ export class ImagesEffects {
     setDarkModeIconImg$ = createEffect(() =>
         this.actions$.pipe(
             takeUntil(this._destroyed$),
-            ofType(ImagesActions.setDarkModeImagesSuccess),
-            mergeMap((action) =>
-                this.apiService.getImages('dark-mode').pipe(
-                    takeUntil(this._destroyed$),
+            ofType(ImagesActions.setDarkModeImages),
+            mergeMap(() =>
+                this.apiService.getImages('icons/dark-mode').pipe(
                     map((data: any) => {
-                        console.log(data);
-                        const images =
+                        const imageUrl =
                             data.find((url: string) => url.includes('sun')) ||
                             '';
                         return ImagesActions.setDarkModeImagesSuccess({
-                            images,
+                            imageUrl,
                         });
                     }),
                     catchError((error) =>
@@ -139,10 +114,10 @@ export class ImagesEffects {
         this.actions$.pipe(
             takeUntil(this._destroyed$),
             ofType(ImagesActions.getCloseImg),
-            mergeMap((action) =>
+            mergeMap(() =>
                 this.apiService.getImages('icons/white-mode').pipe(
                     map((data: any) => {
-                        console.log(data);
+                        console.log(data + 'd');
                         const imageUrl = data.find((el: any) =>
                             el.includes('close'),
                         );

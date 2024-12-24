@@ -73,8 +73,6 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
 
-        this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
-
         this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
             takeUntil(this._destroyed$),
             map((response: any) => {

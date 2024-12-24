@@ -8,7 +8,7 @@ import { TNavigation } from 'src/models/navigation.type';
 export class FirebaseService {
   private bucket = admin.storage().bucket();
 
-  async getImagesByFolder(folder: string): Promise<string[]> {
+  public async getImagesByFolder(folder: string): Promise<string[]> {
     const [files] = await this.bucket.getFiles({ prefix: folder });
     const urls = await Promise.all(
       files.map(async (file) => {
@@ -112,23 +112,15 @@ export class FirebaseService {
   async getFrontendTechWithImages(): Promise<any> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('technologies/frontend');
-    return frontendTech.map((tech) => {
-      const regex = new RegExp(`/${tech.alt}($|/)`);
-      const iconPath = images.find((url) => regex.test(url)) || '';
-      return {
-        ...tech,
-        iconPath,
-      };
-    });
-  }
-
-  async getThemelessPicturesImages(): Promise<any> {
-    const [darkModeImages, whiteModeImages] = await Promise.all([
-      this.getImagesByFolder('icons/dark-mode/'),
-      this.getImagesByFolder('icons/white-mode/'),
-    ]);
-
-    return [darkModeImages, whiteModeImages];
+    return frontendTech.map(
+      (tech) => (
+        console.log(tech.alt),
+        {
+          ...tech,
+          iconPath: images.find((url) => url.includes(tech.alt)) || '',
+        }
+      ),
+    );
   }
 
   async getIconsWhiteMode(): Promise<any> {

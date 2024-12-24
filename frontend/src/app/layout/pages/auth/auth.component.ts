@@ -3,10 +3,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { ImagesActions } from '@layout/store/images-store/images.actions';
-import {
-    selectCloseImageUrl,
-    selectWhiteModeImages,
-} from '@layout/store/images-store/images.selectors';
 
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
 

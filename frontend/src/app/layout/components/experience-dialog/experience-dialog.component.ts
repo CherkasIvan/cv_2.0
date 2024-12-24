@@ -59,7 +59,6 @@ export class ExperienceDialogComponent implements OnInit {
     ngOnInit(): void {
         this.modalData$ = this._store$.pipe(select(selectModalData));
         this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
-        this._store$.dispatch(ImagesActions.loadThemelessPicturesImages());
         this.closeImageUrl$ = this._store$.select(selectCloseImageUrl);
     }
 
