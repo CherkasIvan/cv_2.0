@@ -4,3 +4,11 @@
     flex-direction: column;
     overflow-y: auto;
 }
+
+.first-item {
+    transition: transform 0.3s ease;
+
+    &.first-item:hover {
+        transform: translateY(100px);
+    }
+}

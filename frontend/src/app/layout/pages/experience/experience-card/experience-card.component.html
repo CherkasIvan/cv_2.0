@@ -25,7 +25,9 @@
             }
 
             <div class="card-info">
-                <span class="card-info_place">место работы</span>
+                <span class="card-info_place">
+                    {{ 'EXPERIENCE-PAGE.PLACE.WORK-PLACE' | translate }}
+                </span>
                 <span class="card-info_place-name">
                     {{ workDescription()?.company }}
                 </span>
@@ -82,7 +84,7 @@
                 </button>
             </div>
             <div class="card-info">
-                <span class="card-info_place">курс</span>
+                <span class="card-info_place">{{ 'EXPERIENCE-PAGE.PLACE.COURSE' | translate }}</span>
                 <span class="card-info_place-name">
                     {{ experienceDescription()?.company }}
                     {{ experienceDescription()?.specialization }}
@@ -120,7 +122,7 @@
             }
 
             <div class="card-info">
-                <span class="card-info_place">место работы</span>
+                <span class="card-info_place">{{ 'EXPERIENCE-PAGE.PLACE.WORK-PLACE' | translate }}</span>
                 <span class="card-info_place-name">
                     {{ workDescription()?.company }}
                 </span>

@@ -21,6 +21,8 @@ import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectMainPageInfo } from '@layout/store/firebase-store/firebase.selectors';
 import { TDarkMode } from '@layout/store/model/dark-mode.type';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { ProfileLogoComponent } from '../../../layout/components/profile-logo/profile-logo.component';
 
 @Component({
@@ -32,6 +34,7 @@ import { ProfileLogoComponent } from '../../../layout/components/profile-logo/pr
         RouterLink,
         NgClass,
         AsyncPipe,
+        TranslateModule,
     ],
     templateUrl: './main.component.html',
     styleUrls: [

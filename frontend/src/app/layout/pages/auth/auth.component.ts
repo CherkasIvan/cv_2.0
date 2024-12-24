@@ -1,21 +1,29 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
-import { FirstTimeComponent } from '@layout/components/first-time/first-time.component';
+import { Store } from '@ngrx/store';
+
+import { ImagesActions } from '@layout/store/images-store/images.actions';
 
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
 
 @Component({
     selector: 'cv-auth',
     standalone: true,
-    imports: [LoginFormComponent, FirstTimeComponent],
+    imports: [LoginFormComponent],
     templateUrl: './auth.component.html',
     styleUrl: './auth.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
     public isModalDialogVisible: boolean = false;
 
     public getModalInstance($event: boolean) {
         this.isModalDialogVisible = $event;
+    }
+
+    constructor(private _store$: Store) {}
+
+    ngOnInit() {
+        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
     }
 }
