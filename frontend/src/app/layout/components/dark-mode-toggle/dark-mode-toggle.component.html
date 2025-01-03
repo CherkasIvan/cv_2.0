@@ -17,8 +17,8 @@
         [ngClass]="{ active: !isChecked }"
     >
         <img
-            [src]="darkModeImages$ | async"
-            [alt]="darkModeImages$ | async"
+            [src]="darkModeImage$ | async"
+            [alt]="darkModeImage$ | async"
         />
     </span>
     <span
@@ -26,8 +26,8 @@
         [ngClass]="{ active: isChecked }"
     >
         <img
-            [src]="whiteModeImages$ | async"
-            [alt]="whiteModeImages$ | async"
+            [src]="whiteModeImage$ | async"
+            [alt]="whiteModeImage$ | async"
         />
     </span>
 </label>

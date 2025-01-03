@@ -6,6 +6,12 @@
         "TECHNOLOGIES": "Технологии",
         "GUEST": "ГОСТЬ"
     },
+    "MAIN-PAGE": {
+        "NAME": "ИВАН ЧЕРКАС",
+        "STACK": "FULL-STACK",
+        "STATUS": "РАЗРАБОТЧИК",
+        "DESCRIPTION": "Меня зовут Черкас Иван, и я являюсь фулстек разработчик с опытом работы более 3 лет"
+    },
     "EXPERIENCE-PAGE": {
         "NAVIGATION": {
             "WORK": "Опыт работы",
@@ -14,6 +20,16 @@
         "PLACE": {
             "WORK-PLACE": "место работы",
             "COURSE": "курс"
+        }
+    },
+    "TECHNOLOGIES-PAGE": {
+        "NAVIGATION": {
+            "TECHNOLOGIES": "Технические навыки",
+            "TECH": {
+                "FRONTEND": "Навыки стороны клиента",
+                "BACKEND": "Навыки стороны сервера"
+            },
+            "OTHER": "Остальные навыки"
         }
     },
     "BUTTONS": {
@@ -29,5 +45,11 @@
             "TO_WEBSITE": "Перейти на сайт",
             "GO": "Перейти"
         }
+    },
+    "LOGOUT-MODAL": {
+        "TITLE": "Выход",
+        "DESCRIPTION": "Вы уверены что хотите покинуть приложение",
+        "LOGOUT": "Выйти",
+        "CANCEL": "Отменить"
     }
 }

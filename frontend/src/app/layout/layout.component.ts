@@ -22,6 +22,8 @@ import { routeAnimations } from '@core/utils/animations/router-animations';
 import { startCardFadeIn } from '@core/utils/animations/start-cart-fade-in';
 import { startCardFadeOut } from '@core/utils/animations/start-cart-fade-out';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
 import { ExperienceDialogComponent } from './components/experience-dialog/experience-dialog.component';
 import { FirstTimeComponent } from './components/first-time/first-time.component';
@@ -56,6 +58,7 @@ import { TDarkMode } from './store/model/dark-mode.type';
         LogoutFormComponent,
         ExperienceDialogComponent,
         FirstTimeComponent,
+        TranslateModule,
         NgClass,
     ],
     templateUrl: './layout.component.html',

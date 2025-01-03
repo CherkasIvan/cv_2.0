@@ -6,6 +6,12 @@
         "TECHNOLOGIES": "Technologies",
         "GUEST": "GUEST"
     },
+    "MAIN-PAGE": {
+        "NAME": "IVAN CHERKAS",
+        "STACK": "FULL-STACK",
+        "STATUS": "DEVELOPER",
+        "DESCRIPTION": "My name is Ivan Cherkas, and I am a full stack developer with more than 3 years of experience."
+    },
     "EXPERIENCE-PAGE": {
         "NAVIGATION": {
             "WORK": "Work experience",
@@ -14,6 +20,16 @@
         "PLACE": {
             "WORK-PLACE": "work place",
             "COURSE": "course"
+        }
+    },
+    "TECHNOLOGIES-PAGE": {
+        "NAVIGATION": {
+            "TECHNOLOGIES": "Technical skills",
+            "TECH": {
+                "FRONTEND": "Client side skills",
+                "BACKEND": "Server Side Skills"
+            },
+            "OTHER": "Other skills"
         }
     },
     "BUTTONS": {
@@ -29,5 +45,11 @@
             "TO_WEBSITE": "Go to website",
             "GO": "Go"
         }
+    },
+    "LOGOUT-MODAL": {
+        "TITLE": "Exit",
+        "DESCRIPTION": "Are you sure you want to leave the application",
+        "LOGOUT": "Logout",
+        "CANCEL": "Cancel"
     }
 }

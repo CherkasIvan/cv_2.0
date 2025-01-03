@@ -1,10 +1,11 @@
-import { Observable, Subject, map, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
     Inject,
+    OnDestroy,
     OnInit,
 } from '@angular/core';
 
@@ -14,10 +15,7 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
-import {
-    selectDarkModeImageUrl,
-    selectWhiteModeImageUrl,
-} from '@layout/store/images-store/images.selectors';
+import { selectToggleUrl } from '@layout/store/images-store/images.selectors';
 import { TDarkMode } from '@layout/store/model/dark-mode.type';
 import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
 
@@ -29,10 +27,10 @@ import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
     styleUrls: ['./dark-mode-toggle.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DarkModeToggleComponent implements OnInit {
+export class DarkModeToggleComponent implements OnInit, OnDestroy {
     public isChecked: boolean = false;
-    public darkModeImages$!: Observable<string>;
-    public whiteModeImages$!: Observable<string>;
+    public darkModeImage$ = new BehaviorSubject<string>('');
+    public whiteModeImage$ = new BehaviorSubject<string>('');
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(
@@ -44,39 +42,29 @@ export class DarkModeToggleComponent implements OnInit {
         this.isChecked = !this.isChecked;
         this._localStorageService.setDarkMode(this.isChecked);
         this._store$.dispatch(setModeSuccess(this.isChecked));
+        this._store$.dispatch(
+            ImagesActions.getToggleIcons({ mode: this.isChecked }),
+        );
     }
 
     ngOnInit(): void {
         this.isChecked = this._localStorageService.getDarkMode() || false;
         this._store$.dispatch(setModeSuccess(this.isChecked));
-
-        // Инициируем запросы на получение изображений для темной и светлой тем
-        this._store$.dispatch(ImagesActions.getIconsWhiteMode());
-        this._store$.dispatch(ImagesActions.getIconsDarkMode());
-
-        this.darkModeImages$ = this._store$.pipe(
-            takeUntil(this._destroyed$),
-            select(selectDarkModeImageUrl),
-            tap((el) => {
-                console.log('Dark Mode Images:', el);
-            }),
-            map((response: any) => {
-                console.log('Mapped Dark Mode Images:', response);
-                return response;
-            }),
+        this._store$.dispatch(
+            ImagesActions.getToggleIcons({ mode: this.isChecked }),
         );
 
-        this.whiteModeImages$ = this._store$.pipe(
-            takeUntil(this._destroyed$),
-            select(selectWhiteModeImageUrl),
-            tap((el) => {
-                console.log('White Mode Images:', el);
-            }),
-            map((response: any) => {
-                console.log('Mapped White Mode Images:', response);
-                return response;
-            }),
-        );
+        this._store$
+            .pipe(takeUntil(this._destroyed$), select(selectToggleUrl))
+            .subscribe((url) => {
+                this.darkModeImage$.next(url);
+            });
+
+        this._store$
+            .pipe(takeUntil(this._destroyed$), select(selectToggleUrl))
+            .subscribe((url) => {
+                this.whiteModeImage$.next(url);
+            });
     }
 
     ngOnDestroy(): void {

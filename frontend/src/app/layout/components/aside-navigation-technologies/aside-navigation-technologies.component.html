@@ -11,7 +11,7 @@
                     (click)="changeTab(navItem.value)"
                 >
                     <a [ngClass]="{ active: selectedTab === navItem.value }">
-                        {{ navItem.title }}
+                        {{ 'TECHNOLOGIES-PAGE.NAVIGATION.' + navItem.value.toUpperCase() | translate }}
                     </a>
                 </button>
                 @if (navItem.id === '1' && selectedTab === 'technologies') {

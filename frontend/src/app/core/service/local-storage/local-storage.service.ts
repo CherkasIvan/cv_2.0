@@ -89,7 +89,6 @@ export class LocalStorageService {
                 isDark: false,
                 language: 'ru',
             };
-            console.log('Initializing user state:', usersState); // Добавьте это для отладки
             localStorage.setItem(
                 this.USER_STATE_KEY,
                 JSON.stringify(usersState),

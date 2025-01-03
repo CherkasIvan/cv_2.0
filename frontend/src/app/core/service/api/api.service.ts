@@ -104,7 +104,7 @@ export class ApiService {
         if (!folder) {
             return of(undefined);
         }
-        console.log(`${this.baseUrl}/firebase/images/${folder}`);
+        console.log(`ПАпка: ${this.baseUrl}/firebase/images/${folder}`);
         return this.http
             .get<string[]>(`${this.baseUrl}/firebase/images/${folder}`)
             .pipe(

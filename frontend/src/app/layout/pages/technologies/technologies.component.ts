@@ -88,7 +88,6 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
                     .pipe(takeUntil(this._destroyed$))
                     .subscribe((tech) => {
                         if (tech) {
-                            console.log(tech);
                             this.currentTechnologiesStack = tech;
                             this._cdr.markForCheck();
                         }

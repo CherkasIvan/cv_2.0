@@ -21,7 +21,7 @@ import { ExperienceActions } from '@layout/store/experience-dialog-store/experie
 import { ModalState } from '@layout/store/experience-dialog-store/experience-dialog.reducers';
 import { selectModalData } from '@layout/store/experience-dialog-store/experience-dialog.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
+import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
 import { TProfile } from '@layout/store/model/profile.type';
 
 @Component({
@@ -59,7 +59,7 @@ export class ExperienceDialogComponent implements OnInit {
     ngOnInit(): void {
         this.modalData$ = this._store$.pipe(select(selectModalData));
         this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
-        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl);
+        this.closeImageUrl$ = this._store$.select(selectCloseUrl);
     }
 
     public onBackgroundClick(event: MouseEvent): void {

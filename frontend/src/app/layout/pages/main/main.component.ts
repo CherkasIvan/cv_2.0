@@ -48,6 +48,7 @@ export class MainComponent implements OnInit, OnDestroy {
         select(selectMainPageInfo),
     );
     public mainInfoPageData: IMainPageInfo | null = null;
+    public mainInfoKeys: string[] = [];
 
     private destroyed$: Subject<void> = new Subject();
     public currentTheme$: Observable<boolean> = this._store$.pipe(
@@ -63,6 +64,10 @@ export class MainComponent implements OnInit, OnDestroy {
         this._store$.dispatch(FirebaseActions.getMainPageInfo({ imgName: '' }));
         this.mainInfo$.pipe(takeUntil(this.destroyed$)).subscribe((info) => {
             this.mainInfoPageData = info;
+            if (info) {
+                this.mainInfoKeys = Object.keys(info);
+                console.log(this.mainInfoKeys);
+            }
             this._cdr.markForCheck();
         });
     }
