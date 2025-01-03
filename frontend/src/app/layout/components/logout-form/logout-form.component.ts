@@ -1,12 +1,4 @@
-import {
-    Observable,
-    Subject,
-    catchError,
-    map,
-    mergeMap,
-    of,
-    takeUntil,
-} from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
 import {
@@ -15,7 +7,6 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
-    Input,
     OnDestroy,
     OnInit,
     Output,
@@ -24,20 +15,20 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '@core/service/auth/auth.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
+import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
 import { TProfile } from '@layout/store/model/profile.type';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'cv-logout-form',
     standalone: true,
-    imports: [ReactiveFormsModule, AsyncPipe],
+    imports: [ReactiveFormsModule, AsyncPipe, TranslateModule],
     templateUrl: './logout-form.component.html',
     styleUrls: ['./logout-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,7 +64,7 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
 
-        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
+        this.closeImageUrl$ = this._store$.select(selectCloseUrl).pipe(
             takeUntil(this._destroyed$),
             map((response: any) => {
                 return response;

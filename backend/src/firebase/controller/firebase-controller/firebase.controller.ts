@@ -7,9 +7,7 @@ export class FirebaseController {
 
   @Get('images/:folder*')
   async getImagesByFolder(@Param('folder') folder: string) {
-    console.log(`Request to get images from folder: ${folder}`);
     const images = await this.firebaseService.getImagesByFolder(folder);
-    console.log(`Images fetched: ${images.length}`);
     return images;
   }
 

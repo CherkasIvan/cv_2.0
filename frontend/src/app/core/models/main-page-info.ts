@@ -3,7 +3,7 @@ export interface IMainPageInfo {
     buttonHoverText: string | undefined;
     buttonText: string | undefined;
     description: string;
-    fullName: string;
+    name: string;
     imgSrc: string;
     stack: string;
     status: string;

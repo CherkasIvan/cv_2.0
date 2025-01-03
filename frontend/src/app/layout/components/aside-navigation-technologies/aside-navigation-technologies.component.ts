@@ -22,12 +22,18 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-subtechnologies/aside-navigation-subtechnologies.component';
 
 @Component({
     selector: 'cv-aside-navigation-technologies',
     standalone: true,
-    imports: [NgClass, AsideNavigationSubtechnologiesComponent],
+    imports: [
+        NgClass,
+        AsideNavigationSubtechnologiesComponent,
+        TranslateModule,
+    ],
     templateUrl: './aside-navigation-technologies.component.html',
     styleUrls: [
         './aside-navigation-technologies.component.scss',

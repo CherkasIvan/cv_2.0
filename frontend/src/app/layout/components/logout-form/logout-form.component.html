@@ -18,21 +18,23 @@
             </button>
         </header>
         <main class="modal-dialog_content">
-            <div class="content_question">Вы уверены что хотите покинуть приложение, {{ displayName }}?</div>
+            <div class="content_question">
+                {{ 'LOGOUT-MODAL.DESCRIPTION' | translate }}, {{ displayName || 'GUEST' | translate }}?
+            </div>
             <div class="content_submit-buttons">
                 <button
                     class="submit-button"
                     (click)="confirmLogout()"
                     type="button"
                 >
-                    Выйти
+                    {{ 'LOGOUT-MODAL.LOGOUT' | translate }}
                 </button>
                 <button
                     class="reset-button"
                     (click)="closeLogoutDialog()"
                     type="button"
                 >
-                    Отменить
+                    {{ 'LOGOUT-MODAL.CANCEL' | translate }}
                 </button>
             </div>
         </main>

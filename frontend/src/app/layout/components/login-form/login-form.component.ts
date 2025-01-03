@@ -25,14 +25,16 @@ import { Store } from '@ngrx/store';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
+import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
 import { TAuthUser } from '@layout/store/model/auth-user.type';
 import { TProfile } from '@layout/store/model/profile.type';
+
+import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
 
 @Component({
     selector: 'cv-login-form',
     standalone: true,
-    imports: [ReactiveFormsModule, NgClass, AsyncPipe],
+    imports: [ReactiveFormsModule, NgClass, AsyncPipe, LanguageToggleComponent],
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,7 +67,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._createForm();
         this._authFormListener();
-        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl);
+        this.closeImageUrl$ = this._store$.select(selectCloseUrl);
+        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
     }
 
     public confirmModalDialog() {
