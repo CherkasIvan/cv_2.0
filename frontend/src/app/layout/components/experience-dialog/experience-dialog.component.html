@@ -1,42 +1,45 @@
-<div
-    class="modal-background"
-    #modal
-    (click)="onBackgroundClick($event)"
->
-    <dialog class="modal-dialog">
-        <header class="header-block">
-            <h3 class="header-block_title">{{ header() }}</h3>
-            <button
-                class="header-block_close-button"
-                (click)="closeModalDialog()"
-            >
-                <img
-                    aria-hidden="true"
-                    [src]="closeImageUrl$ | async"
-                    [alt]="closeImageUrl$ | async"
-                />
-            </button>
-        </header>
-        <main class="modal-dialog_content">
-            <div class="modal-dialog_body">
-                <ng-container *ngIf="modalData$ | async as modalData">
-                    @if (modalData) {
-                        <p>Company: {{ modalData.company }}</p>
-                        <p>From: {{ modalData.from }}</p>
-                        <p>To: {{ modalData.to }}</p>
-                        <p>Specialization: {{ modalData.specialization }}</p>
-                    }
-                </ng-container>
-            </div>
-            <div class="content-form_submit-buttons">
+<ng-container *ngIf="modalData$ | async as modalData">
+    <div
+        class="modal-background"
+        #modal
+        (click)="onBackgroundClick($event)"
+    >
+        <dialog class="modal-dialog">
+            <header class="header-block">
+                <h3 class="header-block_title">{{ modalData.company }}</h3>
                 <button
-                    class="reset-button"
+                    class="header-block_close-button"
                     (click)="closeModalDialog()"
-                    type="button"
                 >
-                    Закрыть
+                    <img
+                        aria-hidden="true"
+                        [src]="closeImageUrl$ | async"
+                        [alt]="closeImageUrl$ | async"
+                    />
                 </button>
-            </div>
-        </main>
-    </dialog>
-</div>
+            </header>
+            <main class="modal-dialog_content">
+                <div class="modal-dialog_body">
+                    <p>{{ 'EXPERIENCE-MODAL.FROM' | translate }}: {{ modalData.from }}</p>
+                    <p>{{ 'EXPERIENCE-MODAL.TO' | translate }}: {{ modalData.to }}</p>
+                    <p>{{ 'EXPERIENCE-MODAL.TECHNOLOGIES' | translate }}: {{ modalData.specialization }}</p>
+                </div>
+                <div class="modal-dialog_image">
+                    <img
+                        [src]="modalData.logoPath"
+                        [src]="modalData.logoPath"
+                    />
+                </div>
+                <div class="content-form_submit-buttons">
+                    <button
+                        class="reset-button"
+                        (click)="closeModalDialog()"
+                        type="button"
+                    >
+                        {{ 'EXPERIENCE-MODAL.CLOSE' | translate }}
+                    </button>
+                </div>
+            </main>
+        </dialog>
+    </div>
+</ng-container>
