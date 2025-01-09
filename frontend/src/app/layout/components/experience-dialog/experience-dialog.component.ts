@@ -24,10 +24,12 @@ import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
 import { TProfile } from '@layout/store/model/profile.type';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
     selector: 'cv-experience-dialog',
     standalone: true,
-    imports: [ReactiveFormsModule, AsyncPipe, NgIf],
+    imports: [ReactiveFormsModule, AsyncPipe, NgIf, TranslateModule],
     templateUrl: './experience-dialog.component.html',
     styleUrls: ['./experience-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -46,6 +46,12 @@
             "GO": "Go"
         }
     },
+    "EXPERIENCE-MODAL": {
+        "FROM": "Getting started",
+        "TO": "Finishing work",
+        "TECHNOLOGIES": "Technologies",
+        "CLOSE": "Close"
+    },
     "LOGOUT-MODAL": {
         "TITLE": "Exit",
         "DESCRIPTION": "Are you sure you want to leave the application",

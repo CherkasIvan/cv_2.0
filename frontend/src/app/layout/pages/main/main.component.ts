@@ -65,7 +65,7 @@ export class MainComponent implements OnInit, OnDestroy {
         this.mainInfo$.pipe(takeUntil(this.destroyed$)).subscribe((info) => {
             this.mainInfoPageData = info;
             if (info) {
-                this.mainInfoKeys = Object.keys(info);
+                this.mainInfoKeys = Object.keys(info).sort();
                 console.log(this.mainInfoKeys);
             }
             this._cdr.markForCheck();
