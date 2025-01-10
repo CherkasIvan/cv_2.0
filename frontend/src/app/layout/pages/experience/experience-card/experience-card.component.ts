@@ -1,4 +1,4 @@
-import { NgClass, NgSwitch } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -6,10 +6,8 @@ import {
     Inject,
     Input,
     OnInit,
-    Type,
     input,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 

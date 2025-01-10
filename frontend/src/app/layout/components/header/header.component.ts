@@ -8,6 +8,7 @@ import {
     EventEmitter,
     Inject,
     Input,
+    OnChanges,
     OnDestroy,
     OnInit,
     Output,
@@ -30,10 +31,7 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
-import {
-    selectLogoUrl,
-    selectProfileUrl,
-} from '@layout/store/images-store/images.selectors';
+import { selectLogoUrl } from '@layout/store/images-store/images.selectors';
 import { TLanguages } from '@layout/store/model/languages.type';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -60,7 +58,7 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
     @Input() public navigationLinks: INavigation[] | null = null;
     @Input() public theme: boolean | null = null;
     @Output() public emittedModalShow = new EventEmitter<boolean>();

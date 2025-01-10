@@ -97,7 +97,7 @@ export class AuthService implements OnDestroy {
 
     signInAsGuest() {
         return from(this._afAuth.signInAnonymously()).pipe(
-            tap((result) => {
+            tap(() => {
                 if (this._isBrowser) {
                     if (!this.usersState) {
                         this._localStorageService.initUser(

@@ -10,6 +10,8 @@
             <button
                 class="header-block_close-button"
                 (click)="resetModalDialog()"
+                (keyup.enter)="resetModalDialog()"
+                tabindex="0"
             >
                 <img
                     aria-hidden="true"
@@ -70,9 +72,11 @@
                     <button
                         class="submit-button"
                         (click)="confirmModalDialog()"
+                        (keyup.enter)="confirmModalDialog()"
                         type="button"
                         [disabled]="!authForm.valid && !authForm.get('guest')?.value"
                         [ngClass]="{ 'disabled-submit': !authForm.valid && !authForm.get('guest')?.value }"
+                        tabindex="0"
                     >
                         Войти
                     </button>
@@ -80,11 +84,13 @@
                         <button
                             class="reset-button"
                             (click)="resetModalDialog()"
+                            (keyup.enter)="resetModalDialog()"
                             type="button"
                             [disabled]="!authForm.get('email')?.value || !authForm.get('password')?.value"
                             [ngClass]="{
                                 'disabled-reset': !authForm.get('email')?.value || !authForm.get('password')?.value,
                             }"
+                            tabindex="0"
                         >
                             Сбросить
                         </button>

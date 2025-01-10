@@ -3,6 +3,8 @@
         class="modal-background"
         #modal
         (click)="onBackgroundClick($event)"
+        (keyup.enter)="onBackgroundClick($event)"
+        tabindex="0"
     >
         <dialog class="modal-dialog">
             <header class="header-block">
@@ -10,6 +12,8 @@
                 <button
                     class="header-block_close-button"
                     (click)="closeModalDialog()"
+                    (keyup.enter)="closeModalDialog()"
+                    tabindex="0"
                 >
                     <img
                         aria-hidden="true"
@@ -27,14 +31,16 @@
                 <div class="modal-dialog_image">
                     <img
                         [src]="modalData.logoPath"
-                        [src]="modalData.logoPath"
+                        [alt]="modalData.logoPath"
                     />
                 </div>
                 <div class="content-form_submit-buttons">
                     <button
                         class="reset-button"
                         (click)="closeModalDialog()"
+                        (keyup.enter)="closeModalDialog()"
                         type="button"
+                        tabindex="0"
                     >
                         {{ 'EXPERIENCE-MODAL.CLOSE' | translate }}
                     </button>

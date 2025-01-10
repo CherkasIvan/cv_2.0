@@ -64,7 +64,7 @@ export class ExperienceDialogComponent implements OnInit {
         this.closeImageUrl$ = this._store$.select(selectCloseUrl);
     }
 
-    public onBackgroundClick(event: MouseEvent): void {
+    public onBackgroundClick(event: Event): void {
         const target = event.target as HTMLElement;
         if (target.classList.contains(this.modal.nativeElement.classList)) {
             this._store$.dispatch(

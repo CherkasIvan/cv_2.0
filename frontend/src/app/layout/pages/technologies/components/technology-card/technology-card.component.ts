@@ -17,6 +17,4 @@ import { ITechnologies } from '@core/models/technologies.interface';
 export class TechnologyCardComponent {
     public technologyItem = input.required<ITechnologies | null>();
     public theme = input<boolean | null>();
-
-    ngOnInit() {}
 }

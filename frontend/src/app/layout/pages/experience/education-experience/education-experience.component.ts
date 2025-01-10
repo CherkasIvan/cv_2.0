@@ -8,7 +8,6 @@ import {
 
 import { IExperience } from '@core/models/experience.interface';
 
-import { ExperienceDialogComponent } from '@layout/components/experience-dialog/experience-dialog.component';
 import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
 
 @Component({
