@@ -1,5 +1,5 @@
 <button
-    [ngClass]="{ 'dark-theme': (currentTheme$ | async) && authPath != 'auth' }"
+    [ngClass]="{ 'dark-theme': (currentTheme$ | async) && authPath !== 'auth' }"
     class="language-button"
     (click)="changeLanguage()"
 >

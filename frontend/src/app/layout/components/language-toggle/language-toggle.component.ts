@@ -1,4 +1,3 @@
-import { Router } from 'express';
 import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
@@ -14,7 +13,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
-import { TranslationService } from '@core/service/translation/translation.service';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';

@@ -1,6 +1,6 @@
 import { Subject, catchError, map, mergeMap, of, takeUntil } from 'rxjs';
 
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
@@ -9,7 +9,7 @@ import { ApiService } from '@core/service/api/api.service';
 import { ImagesActions } from './images.actions';
 
 @Injectable()
-export class ImagesEffects {
+export class ImagesEffects implements OnDestroy {
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(

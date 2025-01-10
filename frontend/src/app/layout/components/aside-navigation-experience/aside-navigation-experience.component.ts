@@ -1,6 +1,6 @@
 import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -13,7 +13,6 @@ import {
     Output,
     input,
 } from '@angular/core';
-import { RouterLinkActive } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 

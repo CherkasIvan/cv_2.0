@@ -14,7 +14,7 @@ export class LocalStorageService {
     private readonly USER_STATE_KEY = 'usersState';
 
     constructor(
-        @Inject(PLATFORM_ID) private platformId: Object,
+        @Inject(PLATFORM_ID) private platformId: object,
         @Inject(Router) private readonly _router: Router,
     ) {
         this.isBrowser = isPlatformBrowser(this.platformId);
@@ -49,7 +49,7 @@ export class LocalStorageService {
         return state && state.user ? state.user.displayName : '';
     }
 
-    public getItem(key: string): string | null {
+    public getItem(): string | null {
         if (this.localStorageAvailable) {
             return localStorage['getItemkey'];
         }
@@ -59,12 +59,6 @@ export class LocalStorageService {
     public setItem(key: string, value: string): void {
         if (this.localStorageAvailable) {
             localStorage.setItem(key, value);
-        }
-    }
-
-    public removeItem(key: string): void {
-        if (this.localStorageAvailable) {
-            localStorage['removeItemKey'];
         }
     }
 
