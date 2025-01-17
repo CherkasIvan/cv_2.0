@@ -57,5 +57,13 @@
         "DESCRIPTION": "Are you sure you want to leave the application",
         "LOGOUT": "Logout",
         "CANCEL": "Cancel"
+    },
+    "LOGIN-MODAL": {
+        "TITLE": "Authorization",
+        "EMAIL": "E-mail",
+        "PASSWORD": "Password",
+        "GUEST-MODE": "Continue in guest mode",
+        "LOGIN": "Login",
+        "CANCEL": "Reset"
     }
 }

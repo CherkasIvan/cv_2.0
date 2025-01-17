@@ -66,6 +66,15 @@ export class LanguageToggleComponent implements OnInit, OnDestroy {
         this.route.url.pipe(takeUntil(this._destroyed$)).subscribe((url) => {
             this.authPath = url.find((el) => el.path);
         });
+
+        const storedLanguage = this._localStorageService.getLanguage();
+        const languageToSet = storedLanguage || 'en';
+
+        this._translateService.use(languageToSet).subscribe(() => {
+            this._localStorageService.setLanguage(languageToSet);
+            this._store$.dispatch(setLanguageSuccess(languageToSet));
+        });
+
         this._store$
             .pipe(select(selectCurrentLanguage), takeUntil(this._destroyed$))
             .subscribe((language) => {
@@ -73,17 +82,6 @@ export class LanguageToggleComponent implements OnInit, OnDestroy {
                 this.isCheckedLanguage = language === 'en';
                 this._cdr.markForCheck();
             });
-
-        const storedLanguage = this._localStorageService.getLanguage();
-        if (storedLanguage) {
-            this._store$.dispatch(setLanguageSuccess(storedLanguage));
-        } else {
-            this._store$.dispatch(setLanguageSuccess('en'));
-        }
-
-        this.isCheckedLanguage =
-            this._localStorageService.getLanguage() === 'en';
-        console.log(this.isCheckedLanguage);
     }
 
     ngOnDestroy(): void {

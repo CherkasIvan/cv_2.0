@@ -3,10 +3,15 @@
     #modal
     (click)="onBackgroundClick($event)"
 >
-    <dialog class="modal-dialog">
+    <dialog
+        class="modal-dialog"
+        [@fadeInOut]="modalState"
+    >
         <header class="header-block">
             <cv-language-toggle class="header-block_title"></cv-language-toggle>
-            <h3 class="header-block_title">{{ header() }}</h3>
+            <h3 class="header-block_title">
+                {{ 'LOGIN-MODAL.' + header() | translate }}
+            </h3>
             <button
                 class="header-block_close-button"
                 (click)="resetModalDialog()"
@@ -26,40 +31,43 @@
                 method="post"
                 class="content-form"
             >
-                @if (!authForm.get('guest')?.value) {
-                    <label
-                        for="email"
-                        class="content-form_label"
-                    >
-                        Е-мейл
-                        <input
-                            type="email"
-                            formControlName="email"
-                            id="email"
-                            class="content-form_input"
-                            autocomplete="username"
-                        />
-                    </label>
-                    <label
-                        for="password"
-                        class="content-form_label"
-                    >
-                        Пароль
-                        <input
-                            type="password"
-                            id="password"
-                            formcontrolname="password"
-                            class="content-form_input ng-untouched ng-pristine ng-invalid"
-                            autocomplete="current-password"
-                        />
-                    </label>
-                }
-
+                <div class="content_fields">
+                    @if (!authForm.get('guest')?.value) {
+                        <label
+                            for="email"
+                            class="content-form_label"
+                        >
+                            {{ 'LOGIN-MODAL.EMAIL' | translate }}
+                            <input
+                                type="email"
+                                formControlName="email"
+                                id="email"
+                                class="content-form_input"
+                                autocomplete="username"
+                            />
+                        </label>
+                    }
+                    @if (!authForm.get('guest')?.value) {
+                        <label
+                            for="password"
+                            class="content-form_label"
+                        >
+                            {{ 'LOGIN-MODAL.PASSWORD' | translate }}
+                            <input
+                                type="password"
+                                id="password"
+                                formControlName="password"
+                                class="content-form_input"
+                                autocomplete="current-password"
+                            />
+                        </label>
+                    }
+                </div>
                 <label
                     for="guest"
                     class="content-form_guest"
                 >
-                    Продолжить в гостевом режиме
+                    {{ 'LOGIN-MODAL.GUEST-MODE' | translate }}
                     <input
                         type="checkbox"
                         id="guest"
@@ -67,7 +75,6 @@
                         class="content-form_checkbox"
                     />
                 </label>
-
                 <div class="content-form_submit-buttons">
                     <button
                         class="submit-button"
@@ -78,23 +85,22 @@
                         [ngClass]="{ 'disabled-submit': !authForm.valid && !authForm.get('guest')?.value }"
                         tabindex="0"
                     >
-                        Войти
+                        {{ 'LOGIN-MODAL.LOGIN' | translate }}
                     </button>
-                    @if (!authForm.get('guest')?.value) {
-                        <button
-                            class="reset-button"
-                            (click)="resetModalDialog()"
-                            (keyup.enter)="resetModalDialog()"
-                            type="button"
-                            [disabled]="!authForm.get('email')?.value || !authForm.get('password')?.value"
-                            [ngClass]="{
-                                'disabled-reset': !authForm.get('email')?.value || !authForm.get('password')?.value,
-                            }"
-                            tabindex="0"
-                        >
-                            Сбросить
-                        </button>
-                    }
+                    <button
+                        *ngIf="!authForm.get('guest')?.value"
+                        class="reset-button"
+                        (click)="resetModalDialog()"
+                        (keyup.enter)="resetModalDialog()"
+                        type="button"
+                        [disabled]="!authForm.get('email')?.value || !authForm.get('password')?.value"
+                        [ngClass]="{
+                            'disabled-reset': !authForm.get('email')?.value || !authForm.get('password')?.value,
+                        }"
+                        tabindex="0"
+                    >
+                        {{ 'LOGIN-MODAL.CANCEL' | translate }}
+                    </button>
                 </div>
             </form>
         </main>

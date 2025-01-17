@@ -21,7 +21,6 @@ export const initialState: LogoState = {
 export const logoReducer = createReducer(
     initialState,
     on(ImagesActions.getLogoSuccess, (state, { logoUrl }) => {
-        console.log('Updating state with logo image URL:', logoUrl);
         return {
             ...state,
             logoUrl,
@@ -42,7 +41,6 @@ export const logoReducer = createReducer(
         error,
     })),
     on(ImagesActions.getCloseImgSuccess, (state, { closeUrl }) => {
-        console.log('Reducer updating state with close image URL:', closeUrl);
         return {
             ...state,
             closeUrl,
