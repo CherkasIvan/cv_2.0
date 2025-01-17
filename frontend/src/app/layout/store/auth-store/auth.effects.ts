@@ -1,6 +1,6 @@
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -14,6 +14,10 @@ import { AuthActions } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
+    public modalClass = 'fade-in';
+    @Output() emittedModalHide: EventEmitter<boolean> =
+        new EventEmitter<boolean>();
+
     constructor(
         private _actions$: Actions,
         private _authService$: AuthService,
@@ -35,6 +39,13 @@ export class AuthEffects {
                             emailVerified: userCredential.user?.emailVerified,
                         };
                         return AuthActions.getLoginSuccess({ user });
+                    }),
+                    tap(() => {
+                        this.modalClass = 'fade-out';
+                        setTimeout(() => {
+                            this.emittedModalHide.emit(true);
+                            this.modalClass = 'fade-in';
+                        }, 1500);
                     }),
                     catchError((error) =>
                         of(AuthActions.getLoginError({ error })),

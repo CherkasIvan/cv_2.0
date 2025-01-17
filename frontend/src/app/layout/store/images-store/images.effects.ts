@@ -30,7 +30,6 @@ export class ImagesEffects implements OnDestroy {
                                 data?.find((url: string) =>
                                     url.includes('logo-i.cherkas'),
                                 ) || '';
-                            console.log('Fetched logo image URL:', logoUrl);
                             return ImagesActions.getLogoSuccess({ logoUrl });
                         }),
                         catchError((error) =>
@@ -98,7 +97,9 @@ export class ImagesEffects implements OnDestroy {
             ofType(ImagesActions.getCloseImg),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'icons/white-mode' : 'icons/dark-mode',
+                    )
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
@@ -106,7 +107,6 @@ export class ImagesEffects implements OnDestroy {
                                 data?.find((url: string) =>
                                     url.includes('close'),
                                 ) || '';
-                            console.log('Close image URL fetched:', closeUrl);
                             return ImagesActions.getCloseImgSuccess({
                                 closeUrl,
                             });

@@ -10,5 +10,6 @@
 
     &.first-item:hover {
         transform: translateY(100px);
+        z-index: 200;
     }
 }
