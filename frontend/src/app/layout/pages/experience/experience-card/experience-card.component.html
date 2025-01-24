@@ -36,12 +36,8 @@
             <div class="card-button__container">
                 <button class="card-button">
                     <img
-                        [src]="
-                            !theme()
-                                ? 'assets/images/white-mode/icons/arrow-wm.svg'
-                                : 'assets/images/dark-mode/icons/arrow-dm.svg'
-                        "
-                        [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
+                        [src]="arrowUrl$ | async"
+                        [alt]="arrowUrl$ | async"
                     />
                 </button>
             </div>
@@ -74,12 +70,8 @@
             <div class="card-button__container">
                 <button class="card-button">
                     <img
-                        [src]="
-                            !theme()
-                                ? 'assets/images/white-mode/icons/download-wm.svg'
-                                : 'assets/images/dark-mode/icons/download-dm.svg'
-                        "
-                        [alt]="!theme() ? 'download-wm.svg' : 'download-dm.svg'"
+                        [src]="downloadUrl$ | async"
+                        [alt]="downloadUrl$ | async"
                     />
                 </button>
             </div>
@@ -110,8 +102,8 @@
         >
             @if (experienceCardImgVisibility) {
                 <div
-                    @fadeInOutCards
                     class="experience-card_picture-work"
+                    @fadeInOutCards
                 >
                     <img
                         class="card-img"
@@ -131,12 +123,8 @@
             <div class="card-button__container">
                 <button class="card-button">
                     <img
-                        [src]="
-                            !theme()
-                                ? 'assets/images/white-mode/icons/arrow-wm.svg'
-                                : 'assets/images/dark-mode/icons/arrow-dm.svg'
-                        "
-                        [alt]="!theme() ? 'arrow-wm.svg' : 'arrow-dm.svg'"
+                        [src]="arrowUrl$ | async"
+                        [alt]="arrowUrl$ | async"
                     />
                 </button>
             </div>

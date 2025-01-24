@@ -18,5 +18,13 @@ export const ImagesActions = createActionGroup({
         'Get Toggle Icons': props<{ mode: boolean }>(),
         'Get Toggle Icons Success': props<{ toggleUrl: string }>(),
         'Get Toggle Icons Failure': props<{ error: any }>(),
+
+        'Get Arrow Icons': props<{ mode: boolean }>(),
+        'Get Arrow Icons Success': props<{ arrowUrl: string }>(),
+        'Get Arrow Icons Failure': props<{ error: any }>(),
+
+        'Get Download Icons': props<{ mode: boolean }>(),
+        'Get Download Icons Success': props<{ downloadUrl: string }>(),
+        'Get Download Icons Failure': props<{ error: any }>(),
     },
 });

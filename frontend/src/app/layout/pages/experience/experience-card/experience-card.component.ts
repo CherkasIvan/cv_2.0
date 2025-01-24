@@ -1,13 +1,17 @@
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     Inject,
     Input,
+    OnChanges,
     OnInit,
+    SimpleChanges,
+    ViewEncapsulation,
     input,
 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
@@ -15,22 +19,28 @@ import { IExperience } from '@core/models/experience.interface';
 import { fadeInOutCards } from '@core/utils/animations/fade-in-out-cards';
 
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
+import { ImagesActions } from '@layout/store/images-store/images.actions';
+import {
+    selectArrowUrl,
+    selectDownloadUrl,
+} from '@layout/store/images-store/images.selectors';
 
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'cv-experience-card',
     standalone: true,
-    imports: [NgClass, TranslateModule],
+    imports: [NgClass, TranslateModule, AsyncPipe],
     templateUrl: './experience-card.component.html',
     styleUrls: [
         './experience-card.component.scss',
         './experience-card-dm/experience-card-dm.component.scss',
     ],
-    animations: [fadeInOutCards],
+    encapsulation: ViewEncapsulation.Emulated,
     changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [fadeInOutCards],
 })
-export class ExperienceCardComponent implements OnInit {
+export class ExperienceCardComponent implements OnInit, OnChanges {
     @Input() experience: any;
     public experienceType = input.required<string>();
     public workDescription = input<IExperience | null>(null);
@@ -38,21 +48,49 @@ export class ExperienceCardComponent implements OnInit {
     public experienceCardImgVisibility: boolean = false;
     public theme = input<boolean | null>();
 
+    public arrowUrl$ = this.store.select(selectArrowUrl);
+    public downloadUrl$ = this.store.select(selectDownloadUrl);
+
     constructor(
         private _cdr: ChangeDetectorRef,
-        @Inject(Store) private _store$: Store<IExperience>,
-    ) {}
+        @Inject(Store) private store: Store<IExperience>,
+        private router: Router,
+    ) {
+        this.router.events.subscribe((event) => {
+            if (event instanceof NavigationEnd) {
+                this.initializeComponent();
+            }
+        });
+    }
+
+    private getMode(): boolean {
+        return true;
+    }
 
     ngOnInit(): void {
-        this.experienceType = this.experienceType || 'work';
+        this.initializeComponent();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['experienceType'] || changes['theme']) {
+            this.initializeComponent();
+            console.log(this.experienceType());
+        }
+    }
+
+    private initializeComponent(): void {
+        this.experienceType = this.experienceType;
         this.workDescription = this.workDescription || null;
         this.experienceDescription = this.experienceDescription || null;
+        const mode = this.getMode();
+        this.store.dispatch(ImagesActions.getArrowIcons({ mode }));
+        this.store.dispatch(ImagesActions.getDownloadIcons({ mode }));
 
         this._cdr.detectChanges();
     }
 
     public showDialogExperience(dialogInfo: IExperience | IExperience | null) {
-        this._store$.dispatch(
+        this.store.dispatch(
             ExperienceActions.getExperienceDialogOpen({ data: dialogInfo }),
         );
     }
