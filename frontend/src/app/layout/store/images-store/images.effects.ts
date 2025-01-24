@@ -92,6 +92,68 @@ export class ImagesEffects implements OnDestroy {
         ),
     );
 
+    getArrowIcons$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(ImagesActions.getArrowIcons),
+            mergeMap((action) =>
+                this._apiService
+                    .getImages(
+                        action.mode ? 'icons/white-mode' : 'icons/dark-mode',
+                    )
+                    .pipe(
+                        takeUntil(this._destroyed$),
+                        map((data) => {
+                            const arrowUrl =
+                                data?.find((url: string) =>
+                                    action.mode
+                                        ? url.includes('arrow-wm')
+                                        : url.includes('arrow-dm'),
+                                ) || '';
+                            return ImagesActions.getArrowIconsSuccess({
+                                arrowUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(ImagesActions.getArrowIconsFailure({ error })),
+                        ),
+                    ),
+            ),
+        ),
+    );
+
+    getDownloadIcons$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(ImagesActions.getDownloadIcons),
+            mergeMap((action) =>
+                this._apiService
+                    .getImages(
+                        action.mode ? 'icons/white-mode' : 'icons/dark-mode',
+                    )
+                    .pipe(
+                        takeUntil(this._destroyed$),
+                        map((data) => {
+                            const downloadUrl =
+                                data?.find((url: string) =>
+                                    action.mode
+                                        ? url.includes('download-wm')
+                                        : url.includes('download-dm'),
+                                ) || '';
+                            return ImagesActions.getDownloadIconsSuccess({
+                                downloadUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(
+                                ImagesActions.getDownloadIconsFailure({
+                                    error,
+                                }),
+                            ),
+                        ),
+                    ),
+            ),
+        ),
+    );
+
     getCloseImg$ = createEffect(() =>
         this._actions$.pipe(
             ofType(ImagesActions.getCloseImg),

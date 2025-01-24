@@ -82,7 +82,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
 
     ngOnInit(): void {
-        console.log(this.header());
         this._createForm();
         this._authFormListener();
         this.closeImageUrl$ = this._store$.select(selectCloseUrl);

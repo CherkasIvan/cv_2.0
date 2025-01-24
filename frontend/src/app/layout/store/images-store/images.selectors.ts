@@ -24,6 +24,16 @@ export const selectToggleUrl = createSelector(
     (state: LogoState) => state.toggleUrl,
 );
 
+export const selectArrowUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.arrowUrl,
+);
+
+export const selectDownloadUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.downloadUrl,
+);
+
 export const selectLogoError = createSelector(
     selectLogoState,
     (state: LogoState) => state.error,

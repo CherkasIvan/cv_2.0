@@ -89,6 +89,7 @@ export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
                 }
             });
         this.emittedTab.emit(this.selectedTab);
+        console.log(this.selectedTab);
     }
 
     ngOnDestroy(): void {
