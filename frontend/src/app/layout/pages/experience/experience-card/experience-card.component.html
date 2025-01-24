@@ -34,7 +34,10 @@
                 <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
             </div>
             <div class="card-button__container">
-                <button class="card-button">
+                <button
+                    class="card-button"
+                    [ngClass]="{ 'dark-theme': theme() }"
+                >
                     <img
                         [src]="arrowUrl$ | async"
                         [alt]="arrowUrl$ | async"
@@ -57,6 +60,7 @@
         >
             @if (experienceCardImgVisibility) {
                 <div
+                    [ngClass]="{ 'dark-theme': theme() }"
                     class="experience-card_picture-education"
                     @fadeInOutCards
                 >
@@ -105,11 +109,13 @@
                     class="experience-card_picture-work"
                     @fadeInOutCards
                 >
-                    <img
-                        class="card-img"
-                        [src]="workDescription()?.logoPath"
-                        [alt]="workDescription()?.logoPath"
-                    />
+                    <div class="img-border">
+                        <img
+                            class="card-img"
+                            [src]="workDescription()?.logoPath"
+                            [alt]="workDescription()?.logoPath"
+                        />
+                    </div>
                 </div>
             }
 
@@ -120,7 +126,10 @@
                 </span>
                 <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
             </div>
-            <div class="card-button__container">
+            <div
+                class="card-button__container"
+                [ngClass]="{ 'dark-theme': theme() }"
+            >
                 <button class="card-button">
                     <img
                         [src]="arrowUrl$ | async"

@@ -59,12 +59,9 @@ export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
 
     public changeTab(tab: 'education' | 'work') {
         this.selectedTab = tab;
+        console.log(tab);
         this._localStorageService.saveSelectedTab(tab);
-        if (this.currentSkills && this.selectedTab === 'work') {
-            this.emittedTab.emit(this.currentSkills);
-        } else {
-            this.emittedTab.emit(this.selectedTab);
-        }
+        this.emittedTab.emit(this.selectedTab);
         this._cdr.detectChanges();
     }
 
