@@ -103,11 +103,10 @@ export class ImagesEffects implements OnDestroy {
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
+                            console.log(data);
                             const arrowUrl =
                                 data?.find((url: string) =>
-                                    action.mode
-                                        ? url.includes('arrow-wm')
-                                        : url.includes('arrow-dm'),
+                                    url.includes('arrow'),
                                 ) || '';
                             return ImagesActions.getArrowIconsSuccess({
                                 arrowUrl,
@@ -134,9 +133,7 @@ export class ImagesEffects implements OnDestroy {
                         map((data) => {
                             const downloadUrl =
                                 data?.find((url: string) =>
-                                    action.mode
-                                        ? url.includes('download-wm')
-                                        : url.includes('download-dm'),
+                                    url.includes('download'),
                                 ) || '';
                             return ImagesActions.getDownloadIconsSuccess({
                                 downloadUrl,
