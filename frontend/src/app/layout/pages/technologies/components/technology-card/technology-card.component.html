@@ -1,13 +1,19 @@
 <article
+    *ngIf="isImageLoaded()"
     class="technology-card"
     [ngClass]="{ 'dark-theme': theme() }"
+    [@technologyCardFadeIn]
 >
     <div class="technology-card_block">
-        <img
-            src="{{ technologyItem()?.iconPath }}"
-            alt="{{ technologyItem()?.alt }}"
-            class="technology-img"
-        />
+        @if (technologyItem() ? onImageLoad() : isImageLoaded()) {
+            <img
+                src="{{ technologyItem()?.iconPath }}"
+                alt="{{ technologyItem()?.alt }}"
+                class="technology-img"
+                (load)="onImageLoad()"
+                (error)="onImageLoad()"
+            />
+        }
     </div>
     <label
         class="technology-card_description"
