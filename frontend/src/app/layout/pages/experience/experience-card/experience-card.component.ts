@@ -64,7 +64,8 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     }
 
     private getMode(): boolean {
-        return true;
+        console.log(this.theme());
+        return this.theme() || false;
     }
 
     ngOnInit(): void {
@@ -72,7 +73,7 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['experienceType'] || changes['theme']) {
+        if (changes['theme']) {
             this.initializeComponent();
             console.log(this.experienceType());
         }
@@ -83,9 +84,9 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
         this.workDescription = this.workDescription || null;
         this.experienceDescription = this.experienceDescription || null;
         const mode = this.getMode();
+        console.log(mode);
         this.store.dispatch(ImagesActions.getArrowIcons({ mode }));
         this.store.dispatch(ImagesActions.getDownloadIcons({ mode }));
-
         this._cdr.detectChanges();
     }
 
