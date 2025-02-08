@@ -1,4 +1,4 @@
-import { Observable, Subject, map, takeUntil } from 'rxjs';
+import { Observable, map, takeUntil } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
 import {
@@ -7,7 +7,7 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
-    OnDestroy,
+    Inject,
     OnInit,
     Output,
     ViewChild,
@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '@core/service/auth/auth.service';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
@@ -31,9 +32,10 @@ import { TranslateModule } from '@ngx-translate/core';
     imports: [ReactiveFormsModule, AsyncPipe, TranslateModule],
     templateUrl: './logout-form.component.html',
     styleUrls: ['./logout-form.component.scss'],
+    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoutFormComponent implements OnInit, OnDestroy {
+export class LogoutFormComponent implements OnInit {
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
     @Output() public emittedModalHide = new EventEmitter<boolean>();
@@ -52,9 +54,8 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     public user: TProfile | null = null;
     public displayName = '';
 
-    private _destroyed$: Subject<void> = new Subject();
-
     constructor(
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _authService: AuthService,
         private _localStorageService: LocalStorageService,
         private _store$: Store,
@@ -94,10 +95,5 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
 
     public resetModalDialog() {
         this.emittedModalHide.emit(false);
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }

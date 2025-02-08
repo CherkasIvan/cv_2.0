@@ -1,4 +1,4 @@
-import { Observable, Subject, takeUntil, timer } from 'rxjs';
+import { Observable, takeUntil, timer } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
@@ -6,7 +6,6 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
-    OnDestroy,
     OnInit,
 } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
@@ -17,6 +16,7 @@ import { Store, select } from '@ngrx/store';
 import { IExperience } from '@core/models/experience.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 import { routeAnimations } from '@core/utils/animations/router-animations';
 import { startCardFadeIn } from '@core/utils/animations/start-cart-fade-in';
@@ -63,16 +63,15 @@ import { TDarkMode } from './store/model/dark-mode.type';
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',
+    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LayoutComponent implements OnInit, OnDestroy {
-    public isFirstTime!: boolean; //TODO
+export class LayoutComponent implements OnInit {
+    public isFirstTime!: boolean;
     public isAuth: boolean = false;
     public isModalDialogVisible: boolean = false;
     public isExperienceDialogVisible$!: Observable<boolean>;
     public modalData$!: Observable<IExperience | null>;
-
-    private _destroyed$: Subject<void> = new Subject();
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         takeUntil(this._destroyed$),
@@ -99,6 +98,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
             TDarkMode | INavigation | ISocialMedia | { modal: ModalState }
         >,
         @Inject(AngularFireAuth) public afAuth: AngularFireAuth,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _localStorageService: LocalStorageService,
         private _cdr: ChangeDetectorRef,
     ) {
@@ -147,10 +147,5 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     public closeModal() {
         this.isModalDialogVisible = false;
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }
