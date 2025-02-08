@@ -97,9 +97,7 @@ export class ImagesEffects implements OnDestroy {
             ofType(ImagesActions.getArrowIcons),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(
-                        action.mode ? 'icons/white-mode' : 'icons/dark-mode',
-                    )
+                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
@@ -129,9 +127,7 @@ export class ImagesEffects implements OnDestroy {
             ofType(ImagesActions.getDownloadIcons),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(
-                        action.mode ? 'icons/white-mode' : 'icons/dark-mode',
-                    )
+                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {

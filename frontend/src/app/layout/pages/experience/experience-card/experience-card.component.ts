@@ -75,7 +75,7 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['theme']) {
             this.initializeComponent();
-            console.log(this.experienceType());
+            // console.log(this.experienceType());
         }
     }
 

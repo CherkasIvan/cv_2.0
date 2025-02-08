@@ -1,4 +1,4 @@
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
@@ -7,7 +7,6 @@ import {
     EventEmitter,
     HostListener,
     Inject,
-    OnDestroy,
     OnInit,
     Output,
     ViewChild,
@@ -23,6 +22,7 @@ import {
 
 import { Store } from '@ngrx/store';
 
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import {
     loginFadeInOut,
     toggleHeight,
@@ -51,9 +51,10 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.scss'],
     animations: [loginFadeInOut, toggleHeight],
+    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent implements OnInit, OnDestroy {
+export class LoginFormComponent implements OnInit {
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
     @Output() public emittedModalHide: EventEmitter<boolean> =
@@ -77,9 +78,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         }
     }
 
-    private _destroyed$: Subject<void> = new Subject();
-
-    constructor(@Inject(Store) private _store$: Store<TAuthUser>) {}
+    constructor(
+        @Inject(Store) private _store$: Store<TAuthUser>,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
+    ) {}
 
     ngOnInit(): void {
         this._createForm();
@@ -158,10 +160,5 @@ export class LoginFormComponent implements OnInit, OnDestroy {
             guest: new FormControl(false),
         });
         return this.authForm;
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }
