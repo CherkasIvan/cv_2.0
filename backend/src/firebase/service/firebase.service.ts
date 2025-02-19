@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, DocumentData } from 'firebase/firestore';
 import { db } from '../utils/firebase.config';
 import * as admin from 'firebase-admin';
-import { TNavigation } from 'src/models/navigation.type';
+import { TNavigationDto } from 'src/models/navigation-dto.type';
 
 @Injectable()
 export class FirebaseService {
@@ -22,7 +22,7 @@ export class FirebaseService {
     return urls;
   }
 
-  async getNavigation(): Promise<TNavigation[]> {
+  async getNavigation(): Promise<TNavigationDto[]> {
     const querySnapshot = await getDocs(collection(db, 'navigation'));
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
@@ -32,66 +32,66 @@ export class FirebaseService {
         position: data.position,
         value: data.value,
         imgName: data.imgName,
-      } as TNavigation;
+      } as TNavigationDto;
     });
   }
 
-  async getSocialMediaLinks(): Promise<any> {
+  async getSocialMediaLinks(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'socialMediaLinks'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getWorkExperience(): Promise<any> {
+  async getWorkExperience(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'workExperience'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getHardSkillsNav(): Promise<any> {
+  async getHardSkillsNav(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'hardSkillsNav'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getEducationPlaces(): Promise<any> {
+  async getEducationPlaces(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'educationExperience'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getMainPageInfo(): Promise<any> {
+  async getMainPageInfo(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'mainPageInfo'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getTechnologiesAside(): Promise<any> {
+  async getTechnologiesAside(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'technologiesAside'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getExperienceAside(): Promise<any> {
+  async getExperienceAside(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'experienceAside'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getBackendTech(): Promise<any> {
+  async getBackendTech(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'backendTech'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getThemelessPictures(): Promise<any> {
+  async getThemelessPictures(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'themelessPictures'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getOtherTech(): Promise<any> {
+  async getOtherTech(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'otherTech'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getFrontendTech(): Promise<any> {
+  async getFrontendTech(): Promise<DocumentData> {
     const querySnapshot = await getDocs(collection(db, 'frontendTech'));
     return querySnapshot.docs.map((doc) => doc.data());
   }
 
-  async getBackendTechWithImages(): Promise<any> {
+  async getBackendTechWithImages(): Promise<DocumentData> {
     const backendTech = await this.getBackendTech();
     const images = await this.getImagesByFolder('technologies/backend');
     return backendTech.map((tech) => ({
@@ -100,7 +100,7 @@ export class FirebaseService {
     }));
   }
 
-  async getOtherTechWithImages(): Promise<any> {
+  async getOtherTechWithImages(): Promise<DocumentData> {
     const otherTech = await this.getOtherTech();
     const images = await this.getImagesByFolder('technologies/other');
     return otherTech.map((tech) => ({
@@ -109,7 +109,7 @@ export class FirebaseService {
     }));
   }
 
-  async getFrontendTechWithImages(): Promise<any> {
+  async getFrontendTechWithImages(): Promise<DocumentData> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('technologies/frontend');
     return frontendTech.map((tech) => ({
@@ -118,7 +118,7 @@ export class FirebaseService {
     }));
   }
 
-  async getIconsWhiteMode(): Promise<any> {
+  async getIconsWhiteMode(): Promise<DocumentData> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('icons/white-mode');
     return frontendTech.map((tech) => ({
@@ -127,7 +127,7 @@ export class FirebaseService {
     }));
   }
 
-  async getIconsDarkMode(): Promise<any> {
+  async getIconsDarkMode(): Promise<DocumentData> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('icons/dark-mode');
     return frontendTech.map((tech) => ({

@@ -25,6 +25,7 @@ import { startCardFadeOut } from '@core/utils/animations/start-cart-fade-out';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
+import { DarkAnimationLayoutComponent } from './components/dark-animation-layout/dark-animation-layout.component';
 import { ExperienceDialogComponent } from './components/experience-dialog/experience-dialog.component';
 import { FirstTimeComponent } from './components/first-time/first-time.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -56,6 +57,7 @@ import { TDarkMode } from './store/model/dark-mode.type';
         AsyncPipe,
         SpinnerComponent,
         LogoutFormComponent,
+        DarkAnimationLayoutComponent,
         ExperienceDialogComponent,
         FirstTimeComponent,
         TranslateModule,

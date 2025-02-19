@@ -12,4 +12,4 @@ COPY src/assets/ /app/src/assets/styles/
 RUN npm run build:ssr --prod
 
 EXPOSE 4000
-CMD ["npm", "run", "serve:ssr"]
+CMD ["npm", "run", "start:ssr"]

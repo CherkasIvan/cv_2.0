@@ -1,9 +1,11 @@
-import { timer } from 'rxjs';
+import { Subject, pipe, takeUntil, timer } from 'rxjs';
 
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from '@core/service/auth/auth.service';
 import { listAnimation } from '@core/utils/animations/translate-fade-out';
+
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'cv-first-time',
@@ -12,47 +14,41 @@ import { listAnimation } from '@core/utils/animations/translate-fade-out';
     templateUrl: './first-time.component.html',
     styleUrls: ['./first-time.component.scss'],
 })
-export class FirstTimeComponent implements OnInit {
+export class FirstTimeComponent implements OnInit, OnDestroy {
     public isAuth = false;
     public showTranslated = false;
-    public persons = [
-        {
-            name: 'Черкас Иван (SEO) Fullstack разработчик',
-            translated: 'Cherkas Ivan (SEO) Fullstack Developer',
-        },
-        {
-            name: 'Зябликов Александр (DevOPS)',
-            translated: 'Zyablikov Alexander (DevOPS)',
-        },
-        {
-            name: 'Подобед Дарья (UI/UX дизайнер)',
-            translated: 'Podobed Darya (UI/UX Designer)',
-        },
-    ];
+    public persons: any[] = [];
+    public titles: any[] = [];
 
-    public titles = [
-        {
-            name: 'Это приложение CV было сделано усилиями трех человек:',
-            translated:
-                'This CV application was made by the efforts of three people:',
-        },
-        {
-            name: 'Так же спасибо огромное моей семье, которая на всех этапах разработки меня всегда поддерживала и мотивировала.',
-            translated:
-                'Also, a huge thank you to my family, who always supported and motivated me at all stages of the development.',
-        },
-    ];
+    private _destroyed$ = new Subject();
 
     constructor(
         private _authService: AuthService,
         private _cd: ChangeDetectorRef,
+        private _translateService: TranslateService,
     ) {}
 
     ngOnInit(): void {
         this.isAuth = this._authService.isAuth$.getValue();
+
+        this._translateService
+            .get('FIRST_TIME.PERSONS')
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((translations) => {
+                this.persons = translations;
+            });
+
+        this._translateService
+            .get('FIRST_TIME.TITLES')
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((translations) => {
+                this.titles = translations;
+            });
+
         timer(6000).subscribe(() => {
             this.showTranslated = true;
             this._cd.markForCheck();
         });
     }
+    ngOnDestroy(): void {}
 }

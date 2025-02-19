@@ -1,3 +1,5 @@
+console.log('Custom script running...');
+
 const fs = require('fs');
 const path = require('path');
 
