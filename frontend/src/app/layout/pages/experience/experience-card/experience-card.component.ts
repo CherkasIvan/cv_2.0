@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, NgClass, NgIf } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -30,13 +30,12 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
     selector: 'cv-experience-card',
     standalone: true,
-    imports: [NgClass, TranslateModule, AsyncPipe],
+    imports: [NgClass, TranslateModule, AsyncPipe, NgIf],
     templateUrl: './experience-card.component.html',
     styleUrls: [
         './experience-card.component.scss',
         './experience-card-dm/experience-card-dm.component.scss',
     ],
-    encapsulation: ViewEncapsulation.Emulated,
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInOutCards],
 })
@@ -84,7 +83,6 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
         this.workDescription = this.workDescription || null;
         this.experienceDescription = this.experienceDescription || null;
         const mode = this.getMode();
-        console.log(mode);
         this.store.dispatch(ImagesActions.getArrowIcons({ mode }));
         this.store.dispatch(ImagesActions.getDownloadIcons({ mode }));
         this._cdr.detectChanges();

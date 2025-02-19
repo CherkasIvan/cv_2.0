@@ -1,10 +1,14 @@
 @use '../../assets/styles/variables' as color;
 
+:host {
+    position: relative;
+    z-index: 2;
+}
+
 .layout-container {
     background-image: url('../../assets/images/white-mode/background-main-menu.png');
     background-size: cover;
     padding: 40px calc(50px + (100vw - 320px) * (135 - 50) / (1920 - 320)) 60px;
-    // padding: 40px 135px 60px;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
