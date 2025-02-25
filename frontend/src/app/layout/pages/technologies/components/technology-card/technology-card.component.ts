@@ -15,7 +15,6 @@ import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fad
     selector: 'cv-technology-card',
     standalone: true,
     imports: [NgClass],
-    animations: [technologyCardFadeIn],
     templateUrl: './technology-card.component.html',
     styleUrls: [
         './technology-card.component.scss',
@@ -23,23 +22,23 @@ import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fad
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechnologyCardComponent implements OnChanges {
+export class TechnologyCardComponent {
     public technologyItem = input.required<ITechnologies | null>();
     public theme = input<boolean | null>();
 
-    // Флаг для отслеживания загрузки изображения
-    public isImageLoaded = signal(false); // Используем сигнал
+    // // Флаг для отслеживания загрузки изображения
+    // public isImageLoaded = signal(false); // Используем сигнал
 
-    // Метод для обработки события загрузки изображения
-    public onImageLoad() {
-        this.isImageLoaded.set(true); // Устанавливаем значение сигнала
-    }
+    // // Метод для обработки события загрузки изображения
+    // public onImageLoad() {
+    //     this.isImageLoaded.set(true); // Устанавливаем значение сигнала
+    // }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log(this.technologyItem());
-        if (changes['technologyItem']) {
-            console.log(this.isImageLoaded());
-            this.isImageLoaded.set(false); // Сбрасываем флаг при изменении technologyItem
-        }
-    }
+    // ngOnChanges(changes: SimpleChanges): void {
+    //     console.log(this.technologyItem());
+    //     if (changes['technologyItem']) {
+    //         console.log(this.isImageLoaded());
+    //         this.isImageLoaded.set(false); // Сбрасываем флаг при изменении technologyItem
+    //     }
+    // }
 }

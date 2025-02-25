@@ -1,14 +1,17 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { FirebaseService } from '../../service/firebase.service';
+import { Observable, of, from } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Controller('firebase')
 export class FirebaseController {
   constructor(private readonly firebaseService: FirebaseService) {}
 
-  @Get('images/:folder*')
-  async getImagesByFolder(@Param('folder') folder: string) {
-    const images = await this.firebaseService.getImagesByFolder(folder);
-    return images;
+  @Get('images/:folder')
+  getImages(@Param('folder') folder: string): Observable<string[]> {
+    return from(this.firebaseService.getImagesByFolder(folder)).pipe(
+      map((urls: string[]) => urls),
+    );
   }
 
   @Get('navigation')

@@ -1,4 +1,4 @@
-import { AsyncPipe, NgClass, NgIf } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -8,7 +8,6 @@ import {
     OnChanges,
     OnInit,
     SimpleChanges,
-    ViewEncapsulation,
     input,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
@@ -30,7 +29,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
     selector: 'cv-experience-card',
     standalone: true,
-    imports: [NgClass, TranslateModule, AsyncPipe, NgIf],
+    imports: [NgClass, TranslateModule, AsyncPipe],
     templateUrl: './experience-card.component.html',
     styleUrls: [
         './experience-card.component.scss',
@@ -51,7 +50,7 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     public downloadUrl$ = this.store.select(selectDownloadUrl);
 
     constructor(
-        private _cdr: ChangeDetectorRef,
+        @Inject(ChangeDetectorRef) private _cdr: ChangeDetectorRef,
         @Inject(Store) private store: Store<IExperience>,
         private router: Router,
     ) {
