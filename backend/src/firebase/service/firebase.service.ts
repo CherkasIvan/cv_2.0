@@ -1,97 +1,97 @@
 import { Injectable } from '@nestjs/common';
-import { getDocs, collection, DocumentData } from 'firebase/firestore';
+import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../utils/firebase.config';
 import * as admin from 'firebase-admin';
 import { TNavigationDto } from 'src/models/navigation-dto.type';
+import { TSocialMediaDto } from 'src/models/social-media-dto.type';
+import { TExperienceDto } from 'src/models/experience-dto.type';
+import { TTechnologiesDto } from 'src/models/technologies-dto.type';
 
 @Injectable()
 export class FirebaseService {
   private bucket = admin.storage().bucket();
 
   public async getImagesByFolder(folder: string): Promise<string[]> {
-    const [files] = await this.bucket.getFiles({ prefix: folder });
-    const urls = await Promise.all(
-      files.map(async (file) => {
-        const [url] = await file.getSignedUrl({
-          action: 'read',
-          expires: '03-01-2500',
-        });
-        return url;
-      }),
-    );
-    return urls;
+    try {
+      const [files] = await this.bucket.getFiles({ prefix: folder });
+      const urls = await Promise.all(
+        files.map(async (file) => {
+          const [url] = await file.getSignedUrl({
+            action: 'read',
+            expires: '03-01-2500',
+          });
+          return url;
+        }),
+      );
+      return urls;
+    } catch (error) {
+      console.error('Error getting images:', error);
+      throw error;
+    }
+  }
+
+  private async getCollectionData<T>(collectionName: string): Promise<T[]> {
+    try {
+      const querySnapshot = await getDocs(collection(db, collectionName));
+      return querySnapshot.docs.map((doc) => doc.data() as T);
+    } catch (error) {
+      console.error(
+        `Error getting data from collection ${collectionName}:`,
+        error,
+      );
+      throw error;
+    }
   }
 
   async getNavigation(): Promise<TNavigationDto[]> {
-    const querySnapshot = await getDocs(collection(db, 'navigation'));
-    return querySnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        link: data.link,
-        position: data.position,
-        value: data.value,
-        imgName: data.imgName,
-      } as TNavigationDto;
-    });
+    return this.getCollectionData<TNavigationDto>('navigation');
   }
 
-  async getSocialMediaLinks(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'socialMediaLinks'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getSocialMediaLinks(): Promise<TSocialMediaDto[]> {
+    return this.getCollectionData<TSocialMediaDto>('socialMediaLinks');
   }
 
-  async getWorkExperience(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'workExperience'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getWorkExperience(): Promise<TExperienceDto[]> {
+    return this.getCollectionData<TExperienceDto>('workExperience');
   }
 
-  async getHardSkillsNav(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'hardSkillsNav'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getEducationPlaces(): Promise<TExperienceDto[]> {
+    return this.getCollectionData<TExperienceDto>('educationExperience');
   }
 
-  async getEducationPlaces(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'educationExperience'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getHardSkillsNav(): Promise<TNavigationDto[]> {
+    return this.getCollectionData<TNavigationDto>('hardSkillsNav');
   }
 
-  async getMainPageInfo(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'mainPageInfo'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getMainPageInfo(): Promise<TTechnologiesDto[]> {
+    return this.getCollectionData<TTechnologiesDto>('mainPageInfo');
   }
 
-  async getTechnologiesAside(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'technologiesAside'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getTechnologiesAside(): Promise<TTechnologiesDto[]> {
+    return this.getCollectionData<TTechnologiesDto>('technologiesAside');
   }
 
-  async getExperienceAside(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'experienceAside'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getExperienceAside(): Promise<TExperienceDto[]> {
+    return this.getCollectionData<TExperienceDto>('experienceAside');
   }
 
-  async getBackendTech(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'backendTech'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getBackendTech(): Promise<TTechnologiesDto[]> {
+    return this.getCollectionData<TTechnologiesDto>('backendTech');
   }
 
-  async getThemelessPictures(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'themelessPictures'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getThemelessPictures(): Promise<TTechnologiesDto[]> {
+    return this.getCollectionData<TTechnologiesDto>('themelessPictures');
   }
 
-  async getOtherTech(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'otherTech'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getOtherTech(): Promise<TTechnologiesDto[]> {
+    return this.getCollectionData<TTechnologiesDto>('otherTech');
   }
 
-  async getFrontendTech(): Promise<DocumentData> {
-    const querySnapshot = await getDocs(collection(db, 'frontendTech'));
-    return querySnapshot.docs.map((doc) => doc.data());
+  async getFrontendTech(): Promise<TTechnologiesDto[]> {
+    return this.getCollectionData<TTechnologiesDto>('frontendTech');
   }
 
-  async getBackendTechWithImages(): Promise<DocumentData> {
+  async getBackendTechWithImages(): Promise<TTechnologiesDto[]> {
     const backendTech = await this.getBackendTech();
     const images = await this.getImagesByFolder('technologies/backend');
     return backendTech.map((tech) => ({
@@ -100,7 +100,7 @@ export class FirebaseService {
     }));
   }
 
-  async getOtherTechWithImages(): Promise<DocumentData> {
+  async getOtherTechWithImages(): Promise<TTechnologiesDto[]> {
     const otherTech = await this.getOtherTech();
     const images = await this.getImagesByFolder('technologies/other');
     return otherTech.map((tech) => ({
@@ -109,7 +109,7 @@ export class FirebaseService {
     }));
   }
 
-  async getFrontendTechWithImages(): Promise<DocumentData> {
+  async getFrontendTechWithImages(): Promise<TTechnologiesDto[]> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('technologies/frontend');
     return frontendTech.map((tech) => ({
@@ -118,7 +118,7 @@ export class FirebaseService {
     }));
   }
 
-  async getIconsWhiteMode(): Promise<DocumentData> {
+  async getIconsWhiteMode(): Promise<TTechnologiesDto[]> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('icons/white-mode');
     return frontendTech.map((tech) => ({
@@ -127,7 +127,7 @@ export class FirebaseService {
     }));
   }
 
-  async getIconsDarkMode(): Promise<DocumentData> {
+  async getIconsDarkMode(): Promise<TTechnologiesDto[]> {
     const frontendTech = await this.getFrontendTech();
     const images = await this.getImagesByFolder('icons/dark-mode');
     return frontendTech.map((tech) => ({
