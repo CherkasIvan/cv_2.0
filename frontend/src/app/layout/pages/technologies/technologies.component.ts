@@ -17,7 +17,10 @@ import { ITechnologies } from '@core/models/technologies.interface';
 import { TTechnologies } from '@core/models/technologies.type';
 import { ApiService } from '@core/service/api/api.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fade-in.animation';
+import {
+    listAnimation,
+    technologyCardFadeIn,
+} from '@core/utils/animations/technology-card-fade-in.animation';
 
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
@@ -41,9 +44,9 @@ import { TechnologyCardComponent } from './components/technology-card/technology
         EvenColumnDirective,
     ],
     templateUrl: './technologies.component.html',
-    styleUrl: './technologies.component.scss',
+    styleUrls: ['./technologies.component.scss'],
     providers: [DestroyService],
-    animations: [technologyCardFadeIn],
+    animations: [technologyCardFadeIn, listAnimation],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TechnologiesComponent implements OnInit {
@@ -130,12 +133,6 @@ export class TechnologiesComponent implements OnInit {
                 FirebaseActions.getOtherTechSuccess({ otherTech }),
             );
         });
-
-        this._store$.dispatch(
-            FirebaseActions.getTechnologiesAside({
-                imgName: '/icons/white-mode',
-            }),
-        );
     }
 
     constructor(

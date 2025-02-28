@@ -8,6 +8,6 @@ export type TExperienceDto = {
   link: string;
   specialization: string;
   workTime?: string;
-  imgName: string;
+  imgName?: string;
   images?: string[];
 };

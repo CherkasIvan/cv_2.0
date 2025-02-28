@@ -59,7 +59,6 @@ export class AsideNavigationExperienceComponent implements OnInit {
 
     public changeTab(tab: 'education' | 'work') {
         this.selectedTab = tab;
-        console.log(tab);
         this._localStorageService.saveSelectedTab(tab);
         this.emittedTab.emit(this.selectedTab);
         this._cdr.detectChanges();
@@ -86,6 +85,5 @@ export class AsideNavigationExperienceComponent implements OnInit {
                 }
             });
         this.emittedTab.emit(this.selectedTab);
-        console.log(this.selectedTab);
     }
 }

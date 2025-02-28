@@ -2,119 +2,119 @@
 @use '../../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
 
 .experience-card {
-  display: flex;
-  position: relative;
-  column-gap: 30px;
-  align-items: center;
-  cursor: pointer;
-  border-radius: 40px;
-  @include glassmorphism.cards_glassmorphism;
-  padding: 30px;
-  width: 100%;
-  height: 140px;
-
-  &_picture-work,
-  &_picture-education {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    border-radius: 28px;
-    background-color: color.$white;
-  }
-
-  &_picture-work,
-  &_picture-education {
-    transition: 0.3s;
-
-    .card-img {
-      border-radius: 28px;
-      max-width: 15rem;
-    }
-  }
-
-  .card-info {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-
-    &_place {
-      margin-bottom: 8px;
-      color: color.$darkGray;
-    }
-
-    &_place-name {
-      margin-bottom: 20px;
-      font-weight: bold;
-      font-size: 20px;
-    }
-
-    &_time {
-      font-size: 16px;
-    }
-  }
-
-  .card-button__container {
     display: flex;
     position: relative;
-    justify-content: center;
+    column-gap: 30px;
     align-items: center;
-    transition: transform 0.5s ease;
-    border-radius: 50%;
-    padding: 2px;
+    cursor: pointer;
+    border-radius: 40px;
+    @include glassmorphism.cards_glassmorphism;
+    padding: 30px;
+    width: 100%;
+    height: 140px;
 
-    .card-button {
-      z-index: 1;
-      border-radius: 50%;
-      background: color.$white;
-      padding: 23px;
+    &_picture-work,
+    &_picture-education {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 100;
+        border-radius: 28px;
+        background-color: color.$white;
     }
 
-    &::before {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 0;
-      border: 2px solid transparent;
-      border-radius: 50%;
-      width: 100%;
-      height: 100%;
-      content: '';
-    }
-  }
+    &_picture-work,
+    &_picture-education {
+        transition: 0.3s;
 
-  &:hover .card-button__container::before {
-    animation: rotateCircle 1s linear infinite;
-  }
+        .card-img {
+            border-radius: 28px;
+            max-width: 15rem;
+        }
+    }
+
+    .card-info {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        &_place {
+            margin-bottom: 8px;
+            color: color.$darkGray;
+        }
+
+        &_place-name {
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        &_time {
+            font-size: 16px;
+        }
+    }
+
+    .card-button__container {
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.5s ease;
+        border-radius: 50%;
+        padding: 2px;
+
+        .card-button {
+            z-index: 1;
+            border-radius: 50%;
+            background: color.$white;
+            padding: 23px;
+        }
+
+        &::before {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            content: '';
+        }
+    }
+
+    &:hover .card-button__container::before {
+        animation: rotateCircle 1s linear infinite;
+    }
 }
 
 .experience-card.activeWork {
-  justify-content: flex-end;
+    justify-content: flex-end;
 
-  .card-info {
-    align-items: flex-end;
-  }
+    .card-info {
+        align-items: flex-end;
+    }
 }
 
 .experience-card.activeEducation {
-  justify-content: flex-start;
+    justify-content: flex-start;
 
-  .card-info {
-    align-items: flex-start;
-  }
+    .card-info {
+        align-items: flex-start;
+    }
 }
 
 .experience-card.activeWork:hover .card-button__container {
-  transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }
 
 @keyframes rotateCircle {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg) translate(50px);
-  }
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translate(50px);
+    }
 
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg) translate(50px);
-  }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) translate(50px);
+    }
 }
