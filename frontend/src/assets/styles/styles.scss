@@ -1,8 +1,8 @@
-@import './assets/styles/_variables.scss';
-@import './assets/styles/_reset.scss';
-@import './assets/styles/_global.scss';
-@import './assets/styles/_material.scss';
-@import './assets/styles/mixins/_flex.mixin.scss';
-@import './assets/styles/mixins/_glassmorphism.mixin.scss';
-@import './assets/styles/mixins/_layout.mixin.scss';
-@import './assets/styles/mixins/_neon.mixin.scss';
+@use './assets/styles/_variables.scss' as *;
+@use './assets/styles/_reset.scss' as *;
+@use './assets/styles/_global.scss' as *;
+@use './assets/styles/_material.scss' as *;
+@use './assets/styles/mixins/_flex.mixin.scss' as *;
+@use './assets/styles/mixins/_glassmorphism.mixin.scss' as *;
+@use './assets/styles/mixins/_layout.mixin.scss' as *;
+@use './assets/styles/mixins/_neon.mixin.scss' as *;

@@ -27,7 +27,12 @@ import {
     BrowserAnimationsModule,
     provideAnimations,
 } from '@angular/platform-browser/animations';
-import { provideRouter, withViewTransitions } from '@angular/router';
+import {
+    PreloadAllModules,
+    RouterModule,
+    provideRouter,
+    withViewTransitions,
+} from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { EffectsModule, provideEffects } from '@ngrx/effects';
@@ -94,6 +99,9 @@ export const appConfig: ApplicationConfig = {
             AngularFireDatabaseModule,
             BrowserModule,
             BrowserAnimationsModule,
+            RouterModule.forRoot(MAIN_ROUTES, {
+                preloadingStrategy: PreloadAllModules,
+            }),
             StoreModule.forRoot({
                 router: routerReducer,
             }),

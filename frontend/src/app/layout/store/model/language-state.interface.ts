@@ -1,3 +1,3 @@
 export interface LanguageState {
-    language: 'ru' | 'en';
+    currentLanguage: 'ru' | 'en';
 }

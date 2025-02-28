@@ -1,12 +1,4 @@
-import {
-    Observable,
-    Subject,
-    catchError,
-    map,
-    mergeMap,
-    of,
-    takeUntil,
-} from 'rxjs';
+import { Observable, map, takeUntil } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
 import {
@@ -15,8 +7,7 @@ import {
     ElementRef,
     EventEmitter,
     HostListener,
-    Input,
-    OnDestroy,
+    Inject,
     OnInit,
     Output,
     ViewChild,
@@ -24,25 +15,27 @@ import {
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '@core/service/auth/auth.service';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectCloseImageUrl } from '@layout/store/images-store/images.selectors';
+import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
 import { TProfile } from '@layout/store/model/profile.type';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'cv-logout-form',
     standalone: true,
-    imports: [ReactiveFormsModule, AsyncPipe],
+    imports: [ReactiveFormsModule, AsyncPipe, TranslateModule],
     templateUrl: './logout-form.component.html',
     styleUrls: ['./logout-form.component.scss'],
+    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoutFormComponent implements OnInit, OnDestroy {
+export class LogoutFormComponent implements OnInit {
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
     @Output() public emittedModalHide = new EventEmitter<boolean>();
@@ -61,9 +54,8 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
     public user: TProfile | null = null;
     public displayName = '';
 
-    private _destroyed$: Subject<void> = new Subject();
-
     constructor(
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _authService: AuthService,
         private _localStorageService: LocalStorageService,
         private _store$: Store,
@@ -73,7 +65,7 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
         this.displayName =
             this._localStorageService.checkLocalStorageUserName();
 
-        this.closeImageUrl$ = this._store$.select(selectCloseImageUrl).pipe(
+        this.closeImageUrl$ = this._store$.select(selectCloseUrl).pipe(
             takeUntil(this._destroyed$),
             map((response: any) => {
                 return response;
@@ -103,10 +95,5 @@ export class LogoutFormComponent implements OnInit, OnDestroy {
 
     public resetModalDialog() {
         this.emittedModalHide.emit(false);
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }

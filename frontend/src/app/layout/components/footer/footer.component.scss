@@ -15,7 +15,7 @@
 
     .footer-links {
         display: flex;
-        column-gap: calc(10.3px + 70 * (100vw / 1920));
+        column-gap: calc(2.3px + 50 * (100vw / 1920));
         align-items: center;
         transition: background-color 0.5s ease-in-out;
         @include glassmorphism.cards_glassmorphism;

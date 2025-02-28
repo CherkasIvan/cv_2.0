@@ -1,4 +1,4 @@
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
@@ -6,7 +6,6 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
-    OnDestroy,
     OnInit,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -14,6 +13,7 @@ import { RouterLink } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 
 import { IMainPageInfo } from '@core/models/main-page-info';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
@@ -41,15 +41,16 @@ import { ProfileLogoComponent } from '../../../layout/components/profile-logo/pr
         './main.component.scss',
         './main-dark-mode/main-dark-mode.component.scss',
     ],
+    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit {
     public mainInfo$: Observable<IMainPageInfo | null> = this._store$.pipe(
         select(selectMainPageInfo),
     );
     public mainInfoPageData: IMainPageInfo | null = null;
+    public mainInfoKeys: string[] = [];
 
-    private destroyed$: Subject<void> = new Subject();
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         select(darkModeSelector),
     );
@@ -57,18 +58,17 @@ export class MainComponent implements OnInit, OnDestroy {
     constructor(
         private _cdr: ChangeDetectorRef,
         @Inject(Store) private _store$: Store<TDarkMode | IMainPageInfo>,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
     ) {}
 
     ngOnInit(): void {
         this._store$.dispatch(FirebaseActions.getMainPageInfo({ imgName: '' }));
-        this.mainInfo$.pipe(takeUntil(this.destroyed$)).subscribe((info) => {
+        this.mainInfo$.pipe(takeUntil(this._destroyed$)).subscribe((info) => {
             this.mainInfoPageData = info;
+            if (info) {
+                this.mainInfoKeys = Object.keys(info).sort();
+            }
             this._cdr.markForCheck();
         });
-    }
-
-    ngOnDestroy(): void {
-        this.destroyed$.next();
-        this.destroyed$.complete();
     }
 }

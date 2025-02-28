@@ -7,13 +7,13 @@
                         <a
                             class="skill-item_link"
                             routerLinkActive="active"
-                            [routerLinkActiveOptions]="{
-                                exact: true,
-                            }"
+                            [routerLinkActiveOptions]="{ exact: true }"
                             [ngClass]="{ 'active-link': changeRoutNavigation(skillItem.link) }"
                             (click)="changeSkillsList(skillItem.link)"
+                            (keyup.enter)="changeSkillsList(skillItem.link)"
+                            tabindex="0"
                         >
-                            {{ skillItem.value }}
+                            {{ 'TECHNOLOGIES-PAGE.NAVIGATION.TECH.' + skillItem.link.toUpperCase() | translate }}
                         </a>
                     }
                 </li>

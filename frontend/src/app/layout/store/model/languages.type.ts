@@ -1,3 +1,3 @@
 export type TLanguages = {
-    language: 'ru' | 'en';
+    currentLanguage: 'ru' | 'en';
 };

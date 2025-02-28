@@ -1,4 +1,4 @@
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 
 import { AsyncPipe } from '@angular/common';
 import {
@@ -6,7 +6,6 @@ import {
     ChangeDetectorRef,
     Component,
     Inject,
-    OnDestroy,
     OnInit,
 } from '@angular/core';
 
@@ -17,6 +16,11 @@ import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ITechnologies } from '@core/models/technologies.interface';
 import { TTechnologies } from '@core/models/technologies.type';
 import { ApiService } from '@core/service/api/api.service';
+import { DestroyService } from '@core/service/destroy/destroy.service';
+import {
+    listAnimation,
+    technologyCardFadeIn,
+} from '@core/utils/animations/technology-card-fade-in.animation';
 
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
@@ -40,10 +44,12 @@ import { TechnologyCardComponent } from './components/technology-card/technology
         EvenColumnDirective,
     ],
     templateUrl: './technologies.component.html',
-    styleUrl: './technologies.component.scss',
+    styleUrls: ['./technologies.component.scss'],
+    providers: [DestroyService],
+    animations: [technologyCardFadeIn, listAnimation],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechnologiesComponent implements OnInit, OnDestroy {
+export class TechnologiesComponent implements OnInit {
     public selectedTab: string = '';
 
     public data: ITechnologies[] | undefined;
@@ -69,8 +75,6 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
         select(selectFrontendTech),
     );
 
-    private _destroyed$: Subject<void> = new Subject();
-
     public technologiesSwitcher(tab: string): void {
         switch (tab) {
             case 'other':
@@ -88,7 +92,6 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
                     .pipe(takeUntil(this._destroyed$))
                     .subscribe((tech) => {
                         if (tech) {
-                            console.log(tech);
                             this.currentTechnologiesStack = tech;
                             this._cdr.markForCheck();
                         }
@@ -130,27 +133,17 @@ export class TechnologiesComponent implements OnInit, OnDestroy {
                 FirebaseActions.getOtherTechSuccess({ otherTech }),
             );
         });
-
-        this._store$.dispatch(
-            FirebaseActions.getTechnologiesAside({
-                imgName: '/icons/white-mode',
-            }),
-        );
     }
 
     constructor(
         private _cdr: ChangeDetectorRef,
         private _apiService: ApiService,
         @Inject(Store) private _store$: Store<TTechnologies>,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
     ) {}
 
     ngOnInit(): void {
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }

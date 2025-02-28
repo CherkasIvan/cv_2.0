@@ -1,4 +1,4 @@
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 
 import { NgClass } from '@angular/common';
 import {
@@ -6,8 +6,8 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
+    Inject,
     InputSignal,
-    OnDestroy,
     OnInit,
     Output,
     input,
@@ -17,17 +17,25 @@ import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
+
+import { TranslateModule } from '@ngx-translate/core';
 
 import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-subtechnologies/aside-navigation-subtechnologies.component';
 
 @Component({
     selector: 'cv-aside-navigation-technologies',
     standalone: true,
-    imports: [NgClass, AsideNavigationSubtechnologiesComponent],
+    imports: [
+        NgClass,
+        AsideNavigationSubtechnologiesComponent,
+        TranslateModule,
+    ],
+    providers: [DestroyService],
     templateUrl: './aside-navigation-technologies.component.html',
     styleUrls: [
         './aside-navigation-technologies.component.scss',
@@ -35,7 +43,7 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
+export class AsideNavigationTechnologiesComponent implements OnInit {
     @Output() public emittedTab = new EventEmitter<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
@@ -50,12 +58,11 @@ export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
     public currentSkills: string = '';
     public selectedTab: 'technologies' | 'other' = 'technologies';
 
-    private _destroyed$: Subject<void> = new Subject();
-
     constructor(
         private cdr: ChangeDetectorRef,
         private _store$: Store<INavigation>,
         private _localStorageService: LocalStorageService,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
     ) {}
 
     public changeTab(tab: 'technologies' | 'other') {
@@ -95,10 +102,5 @@ export class AsideNavigationTechnologiesComponent implements OnInit, OnDestroy {
                 }
             });
         this.emittedTab.emit(this.selectedTab);
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }

@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgSwitch } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -51,7 +51,7 @@ export class ExperienceComponent implements OnInit {
     public workPlace$: Observable<IExperience[]> = this._store$.pipe(
         select(selectWorkExperience),
     );
-    public selectedTab: string = '';
+    public selectedTab: string = 'work';
 
     public educationPlace$: Observable<IExperience[]> = this._store$.pipe(
         select(selectEducation),

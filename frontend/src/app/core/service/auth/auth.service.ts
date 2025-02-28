@@ -72,7 +72,6 @@ export class AuthService implements OnDestroy {
                             'main',
                         );
                     } else {
-                        console.log('Setting user in signIn:', result.user); // Добавьте это для отладки
                         this._localStorageService.setUser(result.user);
                     }
 
@@ -98,9 +97,8 @@ export class AuthService implements OnDestroy {
 
     signInAsGuest() {
         return from(this._afAuth.signInAnonymously()).pipe(
-            tap((result) => {
+            tap(() => {
                 if (this._isBrowser) {
-                    console.log('signInAsGuest result:', result);
                     if (!this.usersState) {
                         this._localStorageService.initUser(
                             true,
@@ -112,10 +110,6 @@ export class AuthService implements OnDestroy {
                         this._localStorageService.setUser(null);
                     }
                     this.isAuth$.next(true);
-                    console.log(
-                        'isAuth$ after signInAsGuest:',
-                        this.isAuth$.value,
-                    );
                     this._router.navigate([ERoute.LAYOUT]);
                 }
             }),
