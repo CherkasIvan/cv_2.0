@@ -59,7 +59,6 @@ export class ExperienceComponent implements OnInit {
 
     public switchTab($event: string) {
         this.selectedTab = $event;
-        console.log('Selected Tab:', this.selectedTab);
         this._cd.detectChanges();
     }
 

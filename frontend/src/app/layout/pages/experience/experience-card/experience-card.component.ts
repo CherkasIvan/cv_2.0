@@ -10,7 +10,8 @@ import {
     SimpleChanges,
     input,
 } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+
+import { filter, map } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
@@ -46,23 +47,21 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     public experienceCardImgVisibility: boolean = false;
     public theme = input<boolean | null>();
 
-    public arrowUrl$ = this.store.select(selectArrowUrl);
-    public downloadUrl$ = this.store.select(selectDownloadUrl);
+    public arrowUrl$ = this.store.select(selectArrowUrl).pipe(
+        filter((url) => url !== undefined && url !== null),
+        map((url) => url),
+    );
+    public downloadUrl$ = this.store.select(selectDownloadUrl).pipe(
+        filter((url) => url !== undefined && url !== null),
+        map((url) => url),
+    );
 
     constructor(
         @Inject(ChangeDetectorRef) private _cdr: ChangeDetectorRef,
         @Inject(Store) private store: Store<IExperience>,
-        private router: Router,
-    ) {
-        this.router.events.subscribe((event) => {
-            if (event instanceof NavigationEnd) {
-                this.initializeComponent();
-            }
-        });
-    }
+    ) {}
 
     private getMode(): boolean {
-        console.log(this.theme());
         return this.theme() || false;
     }
 
@@ -73,21 +72,18 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['theme']) {
             this.initializeComponent();
-            // console.log(this.experienceType());
         }
+        console.log(this.experienceDescription());
     }
 
     private initializeComponent(): void {
-        this.experienceType = this.experienceType;
-        this.workDescription = this.workDescription || null;
-        this.experienceDescription = this.experienceDescription || null;
-        const mode = this.getMode();
+        const mode = !this.getMode();
         this.store.dispatch(ImagesActions.getArrowIcons({ mode }));
         this.store.dispatch(ImagesActions.getDownloadIcons({ mode }));
         this._cdr.detectChanges();
     }
 
-    public showDialogExperience(dialogInfo: IExperience | IExperience | null) {
+    public showDialogExperience(dialogInfo: IExperience | null) {
         this.store.dispatch(
             ExperienceActions.getExperienceDialogOpen({ data: dialogInfo }),
         );

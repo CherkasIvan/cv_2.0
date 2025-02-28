@@ -20,6 +20,4 @@ export interface FirebaseService {
   getBackendTechWithImages(): Promise<TTechnologiesDto[]>;
   getOtherTechWithImages(): Promise<TTechnologiesDto[]>;
   getFrontendTechWithImages(): Promise<TTechnologiesDto[]>;
-  getIconsWhiteMode(): Promise<TTechnologiesDto[]>;
-  getIconsDarkMode(): Promise<TTechnologiesDto[]>;
 }
