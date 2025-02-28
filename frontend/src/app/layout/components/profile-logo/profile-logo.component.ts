@@ -7,7 +7,7 @@ import { Store, select } from '@ngrx/store';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectProfileImageUrl } from '@layout/store/images-store/images.selectors';
+import { selectProfileUrl } from '@layout/store/images-store/images.selectors';
 
 @Component({
     selector: 'cv-profile-logo',
@@ -31,7 +31,7 @@ export class ProfileLogoComponent {
             switchMap((isDarkMode) => {
                 const mode = !isDarkMode;
                 this._store$.dispatch(ImagesActions.getProfileImg({ mode }));
-                return this._store$.pipe(select(selectProfileImageUrl));
+                return this._store$.pipe(select(selectProfileUrl));
             }),
         );
     }

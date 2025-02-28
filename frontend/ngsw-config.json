@@ -24,6 +24,30 @@
                     "/**/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
                 ]
             }
+        },
+        {
+            "name": "firebase-images",
+            "installMode": "lazy",
+            "updateMode": "lazy",
+            "resources": {
+                "urls": [
+                    "https://firebasestorage.googleapis.com/v0/b/cv-cherkas-db.appspot.com/**"
+                ]
+            }
+        }
+    ],
+    "dataGroups": [
+        {
+            "name": "firebase-api",
+            "urls": [
+                "https://firebasestorage.googleapis.com/v0/b/cv-cherkas-db.appspot.com/**"
+            ],
+            "cacheConfig": {
+                "maxSize": 100,
+                "maxAge": "1d",
+                "timeout": "10s",
+                "strategy": "freshness"
+            }
         }
     ]
 }

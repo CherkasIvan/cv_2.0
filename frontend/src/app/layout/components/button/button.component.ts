@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { NgClass, NgStyle } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,

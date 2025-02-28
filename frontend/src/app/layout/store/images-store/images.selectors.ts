@@ -4,32 +4,37 @@ import { LogoState } from './images.reducers';
 
 export const selectLogoState = createFeatureSelector<LogoState>('logo');
 
-export const selectImageUrl = createSelector(
+export const selectLogoUrl = createSelector(
     selectLogoState,
-    (state: LogoState) => state.imageUrl,
+    (state: LogoState) => state.logoUrl,
 );
 
-export const selectProfileImageUrl = createSelector(
+export const selectProfileUrl = createSelector(
     selectLogoState,
-    (state: LogoState) => state.profileImageUrl,
+    (state: LogoState) => state.profileUrl,
+);
+
+export const selectCloseUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.closeUrl,
+);
+
+export const selectToggleUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.toggleUrl,
+);
+
+export const selectArrowUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.arrowUrl,
+);
+
+export const selectDownloadUrl = createSelector(
+    selectLogoState,
+    (state: LogoState) => state.downloadUrl,
 );
 
 export const selectLogoError = createSelector(
     selectLogoState,
     (state: LogoState) => state.error,
-);
-
-export const selectCloseImageUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.closeImageUrl,
-);
-
-export const selectDarkModeImageUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.darkModeImageUrl,
-);
-
-export const selectWhiteModeImageUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.whiteModeImageUrl,
 );

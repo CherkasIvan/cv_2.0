@@ -26,5 +26,5 @@
     transition: 0.3s;
     background-image: url('../../../../../assets/images/white-mode/background-main-menu.png');
     background-color: color.$white !important;
-    @include neon.dm-neon-block;
+    // @include neon.dm-neon-block;
 }

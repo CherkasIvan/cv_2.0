@@ -1,0 +1,5 @@
+@use '../../../../../assets/styles/variables' as color;
+
+.language-button.dark-theme {
+    color: color.$white;
+}

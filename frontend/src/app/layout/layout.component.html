@@ -23,7 +23,6 @@
                 [@routeAnimations]="prepareRoute(outlet)"
             >
                 <router-outlet #outlet="outlet"></router-outlet>
-                <!-- Your content here -->
             </main>
 
             <footer class="footer">
@@ -36,7 +35,7 @@
 
         @if (isModalDialogVisible) {
             <cv-logout-form
-                header="Выход"
+                header="{{ 'LOGOUT-MODAL.TITLE' | translate }}?"
                 (emittedModalHide)="getModalInstance($event)"
             ></cv-logout-form>
         }
@@ -44,6 +43,7 @@
         @if (isExperienceDialogVisible$ | async) {
             <cv-experience-dialog header="Выход"></cv-experience-dialog>
         }
+        <cv-dark-animation-layout></cv-dark-animation-layout>
     </div>
 }
 <cv-spinner [spinnerStyle]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"></cv-spinner>

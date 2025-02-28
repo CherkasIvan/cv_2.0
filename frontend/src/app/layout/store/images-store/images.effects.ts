@@ -1,20 +1,19 @@
 import { Subject, catchError, map, mergeMap, of, takeUntil } from 'rxjs';
 
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 
 import { ApiService } from '@core/service/api/api.service';
 
 import { ImagesActions } from './images.actions';
 
 @Injectable()
-export class ImagesEffects {
+export class ImagesEffects implements OnDestroy {
     private _destroyed$: Subject<void> = new Subject();
 
     constructor(
-        private _actions$: Actions<Action<string>>,
+        private _actions$: Actions,
         private _apiService: ApiService,
     ) {}
 
@@ -23,15 +22,18 @@ export class ImagesEffects {
             ofType(ImagesActions.getLogo),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
-                            const imageUrl =
+                            const logoUrl =
                                 data?.find((url: string) =>
                                     url.includes('logo-i.cherkas'),
                                 ) || '';
-                            return ImagesActions.getLogoSuccess({ imageUrl });
+                            return ImagesActions.getLogoSuccess({ logoUrl });
                         }),
                         catchError((error) =>
                             of(ImagesActions.getLogoFailure({ error })),
@@ -46,20 +48,125 @@ export class ImagesEffects {
             ofType(ImagesActions.getProfileImg),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
-                            const imageUrl =
+                            const profileUrl =
                                 data?.find((url: string) =>
                                     url.includes('profile-i.cherkas'),
                                 ) || '';
                             return ImagesActions.getProfileImgSuccess({
-                                imageUrl,
+                                profileUrl,
                             });
                         }),
                         catchError((error) =>
                             of(ImagesActions.getProfileImgFailure({ error })),
+                        ),
+                    ),
+            ),
+        ),
+    );
+
+    loadIcons$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(ImagesActions.getToggleIcons),
+            mergeMap((action) =>
+                this._apiService
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
+                    .pipe(
+                        takeUntil(this._destroyed$),
+                        map((data) => {
+                            const toggleUrl =
+                                data?.find((url: string) =>
+                                    action.mode
+                                        ? url.includes('moon')
+                                        : url.includes('sun'),
+                                ) || '';
+                            return ImagesActions.getToggleIconsSuccess({
+                                toggleUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(ImagesActions.getToggleIconsFailure({ error })),
+                        ),
+                    ),
+            ),
+        ),
+    );
+
+    getArrowIcons$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(ImagesActions.getArrowIcons),
+            mergeMap((action) =>
+                this._apiService
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
+                    .pipe(
+                        takeUntil(
+                            this._actions$.pipe(
+                                ofType(ImagesActions.getArrowIconsFailure),
+                            ),
+                        ),
+                        map((data) => {
+                            const arrowUrl =
+                                data?.find((url: string) =>
+                                    action.mode
+                                        ? url.includes('arrow-wm')
+                                        : url.includes('arrow'),
+                                ) || '';
+                            return ImagesActions.getArrowIconsSuccess({
+                                arrowUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(
+                                ImagesActions.getArrowIconsFailure({
+                                    error,
+                                }),
+                            ),
+                        ),
+                    ),
+            ),
+        ),
+    );
+
+    getDownloadIcons$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(ImagesActions.getDownloadIcons),
+            mergeMap((action) =>
+                this._apiService
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
+                    .pipe(
+                        takeUntil(this._destroyed$),
+                        map((data) => {
+                            const downloadUrl =
+                                data?.find((url: string) =>
+                                    action.mode
+                                        ? url.includes('download-wm')
+                                        : url.includes('download'),
+                                ) || '';
+                            return ImagesActions.getDownloadIconsSuccess({
+                                downloadUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(
+                                ImagesActions.getDownloadIconsFailure({
+                                    error,
+                                }),
+                            ),
                         ),
                     ),
             ),
@@ -71,54 +178,31 @@ export class ImagesEffects {
             ofType(ImagesActions.getCloseImg),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'icons/white-mode' : 'icons/dark-mode',
+                    )
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
-                            const imageUrl =
+                            const closeUrl =
                                 data?.find((url: string) =>
-                                    url.includes('close-i.cherkas'),
+                                    url.includes('close'),
                                 ) || '';
                             return ImagesActions.getCloseImgSuccess({
-                                imageUrl,
+                                closeUrl,
                             });
                         }),
-                        catchError((error) =>
-                            of(ImagesActions.getCloseImgFailure({ error })),
-                        ),
+                        catchError((error) => {
+                            console.error(
+                                'Error fetching close image URL:',
+                                error,
+                            );
+                            return of(
+                                ImagesActions.getCloseImgFailure({ error }),
+                            );
+                        }),
                     ),
-            ),
-        ),
-    );
-
-    loadIconsWhiteMode$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(ImagesActions.getIconsWhiteMode),
-            mergeMap(() =>
-                this._apiService.getIconsWhiteMode().pipe(
-                    map((images) =>
-                        ImagesActions.getIconsWhiteModeSuccess({ images }),
-                    ),
-                    catchError((error) =>
-                        of(ImagesActions.getIconsWhiteModeFailure({ error })),
-                    ),
-                ),
-            ),
-        ),
-    );
-
-    loadIconsDarkMode$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(ImagesActions.getIconsDarkMode),
-            mergeMap(() =>
-                this._apiService.getIconsDarkMode().pipe(
-                    map((images) =>
-                        ImagesActions.getIconsDarkModeSuccess({ images }),
-                    ),
-                    catchError((error) =>
-                        of(ImagesActions.getIconsDarkModeFailure({ error })),
-                    ),
-                ),
             ),
         ),
     );

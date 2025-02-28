@@ -5,12 +5,12 @@
     >
         <div class="main_info">
             <section class="fullname-img">
-                <span class="fullname">{{ mainInfoPageData.fullName }}</span>
+                <span class="fullname">{{ 'MAIN-PAGE.' + mainInfoKeys[4].toUpperCase() | translate }}</span>
                 <cv-profile-logo></cv-profile-logo>
             </section>
             <section class="description-projects-stack">
                 <p class="description">
-                    {{ mainInfoPageData.description }}
+                    {{ 'MAIN-PAGE.' + mainInfoKeys[2].toUpperCase() | translate }}
                 </p>
                 <button class="projects-button">
                     <a
@@ -24,10 +24,10 @@
                         />
                     </a>
                 </button>
-                <span class="stack">{{ mainInfoPageData.stack }}</span>
+                <span class="stack">{{ 'MAIN-PAGE.' + mainInfoKeys[5].toUpperCase() | translate }}</span>
             </section>
             <section class="status-cv">
-                <span class="status">{{ mainInfoPageData.status }}</span>
+                <span class="status">{{ 'MAIN-PAGE.' + mainInfoKeys[6].toUpperCase() | translate }}</span>
                 <cv-button
                     buttonType="long"
                     buttonText="{{ 'BUTTONS.CV.WATCH' | translate }}"

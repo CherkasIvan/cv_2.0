@@ -19,10 +19,12 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
 
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
     selector: 'cv-aside-navigation-subtechnologies',
     standalone: true,
-    imports: [NgClass, RouterLinkActive, AsyncPipe],
+    imports: [NgClass, RouterLinkActive, AsyncPipe, TranslateModule],
     templateUrl: './aside-navigation-subtechnologies.component.html',
     styleUrls: [
         './aside-navigation-subtechnologies.component.scss',

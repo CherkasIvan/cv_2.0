@@ -178,12 +178,12 @@ export class FirebaseEffects {
                     education: this._apiService.getEducationPlaces(),
                     images: this._apiService.getImages(action.imgName),
                 }).pipe(
-                    map(({ education, images }) =>
-                        FirebaseActions.getEducationPlacesSuccess({
+                    map(({ education, images }) => {
+                        return FirebaseActions.getEducationPlacesSuccess({
                             education,
                             images,
-                        }),
-                    ),
+                        });
+                    }),
                     catchError((error) =>
                         of(FirebaseActions.getEducationPlacesError({ error })),
                     ),

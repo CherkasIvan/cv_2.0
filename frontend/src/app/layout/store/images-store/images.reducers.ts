@@ -3,67 +3,82 @@ import { createReducer, on } from '@ngrx/store';
 import { ImagesActions } from './images.actions';
 
 export interface LogoState {
-    imageUrl: string;
-    profileImageUrl: string;
-    closeImageUrl: string;
-    darkModeImageUrl: string;
-    whiteModeImageUrl: string;
+    logoUrl: string;
+    profileUrl: string;
+    closeUrl: string;
+    toggleUrl: string;
+    arrowUrl: string;
+    downloadUrl: string;
     error: any;
 }
 
 export const initialState: LogoState = {
-    imageUrl: '',
-    profileImageUrl: '',
-    closeImageUrl: '',
-    darkModeImageUrl: '',
-    whiteModeImageUrl: '',
+    logoUrl: '',
+    profileUrl: '',
+    closeUrl: '',
+    toggleUrl: '',
+    arrowUrl: '',
+    downloadUrl: '',
     error: null,
 };
 
 export const logoReducer = createReducer(
     initialState,
-    on(ImagesActions.getLogoSuccess, (state, { imageUrl }) => ({
-        ...state,
-        imageUrl,
-        error: null,
-    })),
+    on(ImagesActions.getLogoSuccess, (state, { logoUrl }) => {
+        return {
+            ...state,
+            logoUrl,
+            error: null,
+        };
+    }),
     on(ImagesActions.getLogoFailure, (state, { error }) => ({
         ...state,
         error,
     })),
-    on(ImagesActions.getProfileImgSuccess, (state, { imageUrl }) => ({
+    on(ImagesActions.getProfileImgSuccess, (state, { profileUrl }) => ({
         ...state,
-        profileImageUrl: imageUrl,
+        profileUrl,
         error: null,
     })),
     on(ImagesActions.getProfileImgFailure, (state, { error }) => ({
         ...state,
         error,
     })),
-    on(ImagesActions.getCloseImgSuccess, (state, { imageUrl }) => ({
-        ...state,
-        closeImageUrl: imageUrl,
-        error: null,
-    })),
+    on(ImagesActions.getCloseImgSuccess, (state, { closeUrl }) => {
+        return {
+            ...state,
+            closeUrl,
+            error: null,
+        };
+    }),
     on(ImagesActions.getCloseImgFailure, (state, { error }) => ({
         ...state,
         error,
     })),
-    on(ImagesActions.getIconsWhiteModeSuccess, (state, { images }) => ({
+    on(ImagesActions.getToggleIconsSuccess, (state, { toggleUrl }) => ({
         ...state,
-        whiteModeImageUrl: images.join(', '),
+        toggleUrl,
         error: null,
     })),
-    on(ImagesActions.getIconsWhiteModeFailure, (state, { error }) => ({
+    on(ImagesActions.getToggleIconsFailure, (state, { error }) => ({
         ...state,
         error,
     })),
-    on(ImagesActions.getIconsDarkModeSuccess, (state, { images }) => ({
+    on(ImagesActions.getArrowIconsSuccess, (state, { arrowUrl }) => ({
         ...state,
-        darkModeImageUrl: images.join(', '),
+        arrowUrl,
         error: null,
     })),
-    on(ImagesActions.getIconsDarkModeFailure, (state, { error }) => ({
+    on(ImagesActions.getArrowIconsFailure, (state, { error }) => ({
+        ...state,
+        error,
+    })),
+    on(ImagesActions.getDownloadIconsSuccess, (state, { downloadUrl }) => ({
+        ...state,
+        downloadUrl,
+        error: null,
+    })),
+    on(ImagesActions.getDownloadIconsFailure, (state, { error }) => ({
         ...state,
         error,
     })),

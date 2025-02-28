@@ -1,6 +1,8 @@
 @if (isAuth) {
     <div class="first-time">
-        <span class="title">{{ showTranslated ? titles[0].translated : titles[0].name }}</span>
+        <span class="title">
+            {{ showTranslated ? titles[0].translated : titles[0].name }}
+        </span>
         <ul
             class="persons"
             [@listAnimation]="persons.length"

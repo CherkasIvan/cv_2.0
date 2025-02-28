@@ -26,6 +26,7 @@
     &_picture-work,
     &_picture-education {
         transition: 0.3s;
+
         .card-img {
             border-radius: 28px;
             max-width: 15rem;
@@ -112,6 +113,7 @@
     0% {
         transform: translate(-50%, -50%) rotate(0deg) translate(50px);
     }
+
     100% {
         transform: translate(-50%, -50%) rotate(360deg) translate(50px);
     }
