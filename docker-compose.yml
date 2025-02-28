@@ -1,37 +1,17 @@
 services:
   nginx:
-    hostname: nginx
     build:
       context: ./nginx
       dockerfile: Dockerfile.nginx
     ports:
       - "80:80"
-    networks:
-      - cv-network
     depends_on:
       - frontend
       - backend
-    # environment:
-    #   - FRONTEND_HOST=${FRONTEND_HOST}
-    #   - FRONTEND_PORT=${FRONTEND_PORT}
-    #   - BACKEND_HOST=${BACKEND_HOST}
-    #   - BACKEND_PORT=${BACKEND_PORT}
-
-  backend:
-    hostname: backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.backend
-    ports:
-      - "3000:3000"
     networks:
       - cv-network
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
 
   frontend:
-    hostname: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend
@@ -39,9 +19,15 @@ services:
       - "4000:4000"
     networks:
       - cv-network
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3000:3000"
+    networks:
+      - cv-network
 
 networks:
   cv-network:

@@ -1,17 +1,9 @@
-import {
-    animate,
-    state,
-    style,
-    transition,
-    trigger,
-} from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 export const fadeInOutCards = trigger('fadeInOutCards', [
-    state(
-        'void',
-        style({
-            opacity: 0,
-        }),
-    ),
-    transition('void <=> *', [animate(300)]),
+    transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms', style({ opacity: 1 })),
+    ]),
+    transition(':leave', [animate('500ms', style({ opacity: 0 }))]),
 ]);

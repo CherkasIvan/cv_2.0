@@ -51,7 +51,7 @@ export class ExperienceComponent implements OnInit {
     public workPlace$: Observable<IExperience[]> = this._store$.pipe(
         select(selectWorkExperience),
     );
-    public selectedTab: string = '';
+    public selectedTab: string = 'work';
 
     public educationPlace$: Observable<IExperience[]> = this._store$.pipe(
         select(selectEducation),

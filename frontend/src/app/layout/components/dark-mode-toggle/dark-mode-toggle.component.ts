@@ -1,4 +1,4 @@
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
@@ -11,6 +11,7 @@ import {
 
 import { Store, select } from '@ngrx/store';
 
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
@@ -25,16 +26,17 @@ import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
     imports: [NgClass, AsyncPipe],
     templateUrl: './dark-mode-toggle.component.html',
     styleUrls: ['./dark-mode-toggle.component.scss'],
+    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DarkModeToggleComponent implements OnInit, OnDestroy {
+export class DarkModeToggleComponent implements OnInit {
     public isChecked: boolean = false;
     public darkModeImage$ = new BehaviorSubject<string>('');
     public whiteModeImage$ = new BehaviorSubject<string>('');
-    private _destroyed$: Subject<void> = new Subject();
 
     constructor(
         @Inject(Store) private _store$: Store<TDarkMode | TLocalstorageUser>,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _localStorageService: LocalStorageService,
     ) {}
 
@@ -65,10 +67,5 @@ export class DarkModeToggleComponent implements OnInit, OnDestroy {
             .subscribe((url) => {
                 this.whiteModeImage$.next(url);
             });
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }

@@ -22,7 +22,10 @@ export class ImagesEffects implements OnDestroy {
             ofType(ImagesActions.getLogo),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
@@ -30,7 +33,6 @@ export class ImagesEffects implements OnDestroy {
                                 data?.find((url: string) =>
                                     url.includes('logo-i.cherkas'),
                                 ) || '';
-                            console.log('Fetched logo image URL:', logoUrl);
                             return ImagesActions.getLogoSuccess({ logoUrl });
                         }),
                         catchError((error) =>
@@ -46,7 +48,10 @@ export class ImagesEffects implements OnDestroy {
             ofType(ImagesActions.getProfileImg),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
@@ -71,7 +76,10 @@ export class ImagesEffects implements OnDestroy {
             ofType(ImagesActions.getToggleIcons),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
@@ -93,12 +101,87 @@ export class ImagesEffects implements OnDestroy {
         ),
     );
 
+    getArrowIcons$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(ImagesActions.getArrowIcons),
+            mergeMap((action) =>
+                this._apiService
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
+                    .pipe(
+                        takeUntil(
+                            this._actions$.pipe(
+                                ofType(ImagesActions.getArrowIconsFailure),
+                            ),
+                        ),
+                        map((data) => {
+                            const arrowUrl =
+                                data?.find((url: string) =>
+                                    action.mode
+                                        ? url.includes('arrow-wm')
+                                        : url.includes('arrow'),
+                                ) || '';
+                            return ImagesActions.getArrowIconsSuccess({
+                                arrowUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(
+                                ImagesActions.getArrowIconsFailure({
+                                    error,
+                                }),
+                            ),
+                        ),
+                    ),
+            ),
+        ),
+    );
+
+    getDownloadIcons$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(ImagesActions.getDownloadIcons),
+            mergeMap((action) =>
+                this._apiService
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'white-mode' : 'dark-mode',
+                    )
+                    .pipe(
+                        takeUntil(this._destroyed$),
+                        map((data) => {
+                            const downloadUrl =
+                                data?.find((url: string) =>
+                                    action.mode
+                                        ? url.includes('download-wm')
+                                        : url.includes('download'),
+                                ) || '';
+                            return ImagesActions.getDownloadIconsSuccess({
+                                downloadUrl,
+                            });
+                        }),
+                        catchError((error) =>
+                            of(
+                                ImagesActions.getDownloadIconsFailure({
+                                    error,
+                                }),
+                            ),
+                        ),
+                    ),
+            ),
+        ),
+    );
+
     getCloseImg$ = createEffect(() =>
         this._actions$.pipe(
             ofType(ImagesActions.getCloseImg),
             mergeMap((action) =>
                 this._apiService
-                    .getImages(action.mode ? 'white-mode' : 'dark-mode')
+                    .getImages(
+                        action.mode ? 'white-mode/' : 'dark-mode/',
+                        action.mode ? 'icons/white-mode' : 'icons/dark-mode',
+                    )
                     .pipe(
                         takeUntil(this._destroyed$),
                         map((data) => {
@@ -106,7 +189,6 @@ export class ImagesEffects implements OnDestroy {
                                 data?.find((url: string) =>
                                     url.includes('close'),
                                 ) || '';
-                            console.log('Close image URL fetched:', closeUrl);
                             return ImagesActions.getCloseImgSuccess({
                                 closeUrl,
                             });

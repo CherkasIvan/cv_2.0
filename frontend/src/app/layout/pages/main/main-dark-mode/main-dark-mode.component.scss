@@ -5,19 +5,19 @@
     color: color.$white;
     .fullname-img {
         .fullname {
-            @include neon.dm-neon-text;
+            // @include neon.dm-neon-text;
             color: color.$white;
         }
     }
 
     .description-projects-stack {
         .description {
-            @include neon.dm-neon-text;
+            // @include neon.dm-neon-text;
             color: color.$white;
         }
 
         .stack {
-            @include neon.dm-neon-text;
+            // @include neon.dm-neon-text;
             color: color.$white;
         }
 
@@ -32,7 +32,7 @@
 
     .status-cv {
         .status {
-            @include neon.dm-neon-text;
+            // @include neon.dm-neon-text;
             color: color.$white;
         }
     }
