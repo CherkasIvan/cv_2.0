@@ -20,6 +20,7 @@
         flex-direction: column;
         justify-content: flex-start;
         margin-bottom: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Добавление тени
         border-radius: 40px;
         background: color.$white;
         padding-bottom: 10px;
@@ -58,6 +59,12 @@
                 display: flex;
                 row-gap: 26px;
                 flex-direction: column;
+
+                .content_fields {
+                    display: flex;
+                    row-gap: 26px;
+                    flex-direction: column;
+                }
 
                 > * {
                     display: flex;

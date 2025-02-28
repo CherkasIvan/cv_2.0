@@ -3,11 +3,13 @@
     [ngClass]="{ 'dark-theme': theme() }"
 >
     <div class="technology-card_block">
-        <img
-            src="{{ technologyItem()?.iconPath }}"
-            alt="{{ technologyItem()?.alt }}"
-            class="technology-img"
-        />
+        @if (technologyItem()) {
+            <img
+                src="{{ technologyItem()?.iconPath }}"
+                alt="{{ technologyItem()?.alt }}"
+                class="technology-img"
+            />
+        }
     </div>
     <label
         class="technology-card_description"

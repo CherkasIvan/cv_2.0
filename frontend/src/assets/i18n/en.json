@@ -1,4 +1,31 @@
 {
+    "FIRST_TIME": {
+        "PERSONS": [
+            {
+                "name": "Cherkas Ivan (SEO) Fullstack Developer",
+                "translated": "Cherkas Ivan (SEO) Fullstack Developer"
+            },
+            {
+                "name": "Zyablikov Alexander (DevOPS)",
+                "translated": "Zyablikov Alexander (DevOPS)"
+            },
+            {
+                "name": "Podobed Darya (UI/UX Designer)",
+                "translated": "Podobed Darya (UI/UX Designer)"
+            }
+        ],
+        "TITLES": [
+            {
+                "name": "This CV application was made by the efforts of three people:",
+                "translated": "This CV application was made by the efforts of three people:"
+            },
+            {
+                "name": "Also, a huge thank you to my family, who always supported and motivated me at all stages of the development.",
+                "translated": "Also, a huge thank you to my family, who always supported and motivated me at all stages of the development."
+            }
+        ]
+    },
+
     "HEADER": {
         "MAIN": "Main",
         "EXPERIENCE": "Work experience and education",
@@ -57,5 +84,13 @@
         "DESCRIPTION": "Are you sure you want to leave the application",
         "LOGOUT": "Logout",
         "CANCEL": "Cancel"
+    },
+    "LOGIN-MODAL": {
+        "TITLE": "Authorization",
+        "EMAIL": "E-mail",
+        "PASSWORD": "Password",
+        "GUEST-MODE": "Continue in guest mode",
+        "LOGIN": "Login",
+        "CANCEL": "Reset"
     }
 }

@@ -1,4 +1,4 @@
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 
 import { NgClass } from '@angular/common';
 import {
@@ -8,7 +8,6 @@ import {
     EventEmitter,
     Inject,
     InputSignal,
-    OnDestroy,
     OnInit,
     Output,
     input,
@@ -18,6 +17,7 @@ import { Store, select } from '@ngrx/store';
 
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { INavigation } from '@core/models/navigation.interface';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
@@ -29,6 +29,7 @@ import { TranslateModule } from '@ngx-translate/core';
     selector: 'cv-aside-navigation-experience',
     standalone: true,
     imports: [NgClass, TranslateModule],
+    providers: [DestroyService],
     templateUrl: './aside-navigation-experience.component.html',
     styleUrls: [
         './aside-navigation-experience.component.scss',
@@ -36,7 +37,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
+export class AsideNavigationExperienceComponent implements OnInit {
     @Output() public emittedTab = new EventEmitter<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
@@ -49,22 +50,17 @@ export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
     public currentSkills: string = '';
     public selectedTab: 'work' | 'education' = 'work';
 
-    private _destroyed$: Subject<void> = new Subject();
-
     constructor(
         private _cdr: ChangeDetectorRef,
         @Inject(Store) private _store$: Store<INavigation>,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _localStorageService: LocalStorageService,
     ) {}
 
     public changeTab(tab: 'education' | 'work') {
         this.selectedTab = tab;
         this._localStorageService.saveSelectedTab(tab);
-        if (this.currentSkills && this.selectedTab === 'work') {
-            this.emittedTab.emit(this.currentSkills);
-        } else {
-            this.emittedTab.emit(this.selectedTab);
-        }
+        this.emittedTab.emit(this.selectedTab);
         this._cdr.detectChanges();
     }
 
@@ -89,10 +85,5 @@ export class AsideNavigationExperienceComponent implements OnInit, OnDestroy {
                 }
             });
         this.emittedTab.emit(this.selectedTab);
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }

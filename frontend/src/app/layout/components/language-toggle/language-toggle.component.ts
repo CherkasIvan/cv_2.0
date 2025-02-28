@@ -1,17 +1,12 @@
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
-import {
-    ChangeDetectorRef,
-    Component,
-    Inject,
-    OnDestroy,
-    OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
@@ -27,12 +22,13 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     standalone: true,
     imports: [TranslateModule, NgClass, AsyncPipe],
     templateUrl: './language-toggle.component.html',
+    providers: [DestroyService],
     styleUrls: [
         './language-toggle.component.scss',
         './language-toggle-dark-mode/language-toggle.component.dm.scss',
     ],
 })
-export class LanguageToggleComponent implements OnInit, OnDestroy {
+export class LanguageToggleComponent implements OnInit {
     public currentLanguage: string = 'EN';
     public isCheckedLanguage: boolean = false;
     public authPath!: any;
@@ -40,13 +36,13 @@ export class LanguageToggleComponent implements OnInit, OnDestroy {
         select(darkModeSelector),
     );
 
-    private _destroyed$: Subject<void> = new Subject();
     protected readonly _locales = ['en', 'ru'];
     protected isCollapsed = true;
 
     constructor(
         private route: ActivatedRoute,
         @Inject(Store) private _store$: Store<TLanguages | TDarkMode>,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
         @Inject(TranslateService)
         private readonly _translateService: TranslateService,
         private _cdr: ChangeDetectorRef,
@@ -66,6 +62,15 @@ export class LanguageToggleComponent implements OnInit, OnDestroy {
         this.route.url.pipe(takeUntil(this._destroyed$)).subscribe((url) => {
             this.authPath = url.find((el) => el.path);
         });
+
+        const storedLanguage = this._localStorageService.getLanguage();
+        const languageToSet = storedLanguage || 'en';
+
+        this._translateService.use(languageToSet).subscribe(() => {
+            this._localStorageService.setLanguage(languageToSet);
+            this._store$.dispatch(setLanguageSuccess(languageToSet));
+        });
+
         this._store$
             .pipe(select(selectCurrentLanguage), takeUntil(this._destroyed$))
             .subscribe((language) => {
@@ -73,21 +78,5 @@ export class LanguageToggleComponent implements OnInit, OnDestroy {
                 this.isCheckedLanguage = language === 'en';
                 this._cdr.markForCheck();
             });
-
-        const storedLanguage = this._localStorageService.getLanguage();
-        if (storedLanguage) {
-            this._store$.dispatch(setLanguageSuccess(storedLanguage));
-        } else {
-            this._store$.dispatch(setLanguageSuccess('en'));
-        }
-
-        this.isCheckedLanguage =
-            this._localStorageService.getLanguage() === 'en';
-        console.log(this.isCheckedLanguage);
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 }

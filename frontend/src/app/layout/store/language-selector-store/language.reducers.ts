@@ -4,7 +4,7 @@ import { LanguageState } from '../model/language-state.interface';
 import { setLanguageSuccess } from './language.actions';
 
 export const initialLanguageState: LanguageState = {
-    currentLanguage: 'ru',
+    currentLanguage: 'en',
 };
 
 export const languageReducer = createReducer(

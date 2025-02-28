@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { NgClass, NgFor } from '@angular/common';
 import {
@@ -9,7 +9,6 @@ import {
     Inject,
     Input,
     OnChanges,
-    OnDestroy,
     OnInit,
     Output,
     SimpleChanges,
@@ -27,6 +26,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
@@ -56,9 +56,10 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
         './header.component.scss',
         './header-dark-mode/header.component.dm.scss',
     ],
+    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
+export class HeaderComponent implements OnInit, OnChanges {
     @Input() public navigationLinks: INavigation[] | null = null;
     @Input() public theme: boolean | null = null;
     @Output() public emittedModalShow = new EventEmitter<boolean>();
@@ -69,13 +70,13 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
     public displayName = '';
     public imageUrl: string = '';
 
-    private _destroyed$: Subject<void> = new Subject();
     protected readonly _locales = ['en', 'ru'];
     protected isCollapsed = true;
 
     constructor(
         @Inject(Router) private readonly _router: Router,
         @Inject(Store) private _store$: Store<TLanguages>,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _cdr: ChangeDetectorRef,
         private _localStorageService: LocalStorageService,
     ) {}
@@ -123,11 +124,6 @@ export class HeaderComponent implements OnInit, OnDestroy, OnChanges {
             );
         }
         this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme }));
-    }
-
-    ngOnDestroy(): void {
-        this._destroyed$.next();
-        this._destroyed$.complete();
     }
 
     trackByPosition(index: number, item: INavigation): number {

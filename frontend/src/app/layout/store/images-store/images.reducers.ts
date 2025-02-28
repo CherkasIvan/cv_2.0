@@ -7,6 +7,8 @@ export interface LogoState {
     profileUrl: string;
     closeUrl: string;
     toggleUrl: string;
+    arrowUrl: string;
+    downloadUrl: string;
     error: any;
 }
 
@@ -15,13 +17,14 @@ export const initialState: LogoState = {
     profileUrl: '',
     closeUrl: '',
     toggleUrl: '',
+    arrowUrl: '',
+    downloadUrl: '',
     error: null,
 };
 
 export const logoReducer = createReducer(
     initialState,
     on(ImagesActions.getLogoSuccess, (state, { logoUrl }) => {
-        console.log('Updating state with logo image URL:', logoUrl);
         return {
             ...state,
             logoUrl,
@@ -42,7 +45,6 @@ export const logoReducer = createReducer(
         error,
     })),
     on(ImagesActions.getCloseImgSuccess, (state, { closeUrl }) => {
-        console.log('Reducer updating state with close image URL:', closeUrl);
         return {
             ...state,
             closeUrl,
@@ -59,6 +61,24 @@ export const logoReducer = createReducer(
         error: null,
     })),
     on(ImagesActions.getToggleIconsFailure, (state, { error }) => ({
+        ...state,
+        error,
+    })),
+    on(ImagesActions.getArrowIconsSuccess, (state, { arrowUrl }) => ({
+        ...state,
+        arrowUrl,
+        error: null,
+    })),
+    on(ImagesActions.getArrowIconsFailure, (state, { error }) => ({
+        ...state,
+        error,
+    })),
+    on(ImagesActions.getDownloadIconsSuccess, (state, { downloadUrl }) => ({
+        ...state,
+        downloadUrl,
+        error: null,
+    })),
+    on(ImagesActions.getDownloadIconsFailure, (state, { error }) => ({
         ...state,
         error,
     })),
