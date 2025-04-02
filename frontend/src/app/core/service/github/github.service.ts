@@ -34,4 +34,12 @@ export class GithubService {
                 ),
             );
     }
+
+    public getRepositoryLanguages(repoName: string): Observable<string[]> {
+        return this.httpClient
+            .get<{
+                [key: string]: number;
+            }>(`https://api.github.com/repos/CherkasIvan/${repoName}/languages`)
+            .pipe(map((languages) => Object.keys(languages)));
+    }
 }

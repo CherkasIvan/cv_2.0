@@ -35,8 +35,14 @@ import { TranslateModule } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceDialogComponent implements OnInit {
-    @ViewChild('modal', { static: false })
-    public modal!: ElementRef;
+    @ViewChild('modal', { static: false }) public modal!: ElementRef;
+    @ViewChild('modalDialog', { static: false })
+    public modalDialog!: ElementRef;
+
+    public modalData$!: Observable<IExperience | null>;
+    public header = input.required<string>();
+    public authForm!: FormGroup;
+    public user: TProfile | null = null;
     public closeImageUrl$!: Observable<string>;
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(event: MouseEvent) {
@@ -47,11 +53,6 @@ export class ExperienceDialogComponent implements OnInit {
             this.modal.nativeElement.classList.remove('dimmed');
         }
     }
-
-    public modalData$!: Observable<IExperience | null>;
-    public header = input.required<string>();
-    public authForm!: FormGroup;
-    public user: TProfile | null = null;
 
     constructor(
         @Inject(Store)
@@ -66,14 +67,24 @@ export class ExperienceDialogComponent implements OnInit {
 
     public onBackgroundClick(event: Event): void {
         const target = event.target as HTMLElement;
-        if (target.classList.contains(this.modal.nativeElement.classList)) {
+        if (!this.modalDialog.nativeElement.contains(target)) {
             this._store$.dispatch(
                 ExperienceActions.getExperienceDialogClosed(),
             );
         }
     }
 
-    public closeModalDialog() {
-        this._store$.dispatch(ExperienceActions.getExperienceDialogClosed());
+    public closeModalDialog(): void {
+        const modalBackground = this.modal.nativeElement;
+        const modalDialog = this.modalDialog.nativeElement;
+
+        modalBackground.classList.add('closing');
+        modalDialog.classList.add('closing');
+
+        setTimeout(() => {
+            this._store$.dispatch(
+                ExperienceActions.getExperienceDialogClosed(),
+            );
+        }, 300);
     }
 }

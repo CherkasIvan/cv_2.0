@@ -66,6 +66,8 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
+        console.log(this.workDescription());
+        console.log(this.experienceDescription());
         this.initializeComponent();
     }
 
@@ -73,7 +75,6 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
         if (changes['theme']) {
             this.initializeComponent();
         }
-        console.log(this.experienceDescription());
     }
 
     private initializeComponent(): void {

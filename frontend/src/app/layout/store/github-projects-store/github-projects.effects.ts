@@ -36,4 +36,31 @@ export class GithubRepositoriesEffects {
             ),
         ),
     );
+
+    loadRepositoryLanguages$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(GithubRepositoriesActions.getRepositoryLanguages),
+            mergeMap(({ repoName }) =>
+                this._githubService.getRepositoryLanguages(repoName).pipe(
+                    map((languages) =>
+                        GithubRepositoriesActions.getRepositoryLanguagesSuccess(
+                            {
+                                repoName,
+                                languages,
+                            },
+                        ),
+                    ),
+                    catchError((error) =>
+                        of(
+                            GithubRepositoriesActions.getRepositoryLanguagesError(
+                                {
+                                    error,
+                                },
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    );
 }

@@ -1,6 +1,8 @@
 export interface IExperience {
     id: string;
     logoPath: string;
+    alt?: string;
+    iconPath?: string;
     company: string;
     from: string;
     to: string;
