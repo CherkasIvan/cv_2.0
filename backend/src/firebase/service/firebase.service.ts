@@ -59,6 +59,24 @@ export class FirebaseService {
     return this.getCollectionData<TExperienceDto>('educationExperience');
   }
 
+  async getEducationPlacesWithImages(): Promise<TExperienceDto[]> {
+    const educationPlaces = await this.getEducationPlaces();
+    const images = await this.getImagesByFolder('certificates');
+    return educationPlaces.map((place) => ({
+      ...place,
+      iconPath: images.find((url) => url.includes(place.alt)) || '',
+    }));
+  }
+
+  async getWorkExperienceWithImages(): Promise<TExperienceDto[]> {
+    const workExperience = await this.getWorkExperience();
+    const images = await this.getImagesByFolder('companies-logo');
+    return workExperience.map((experience) => ({
+      ...experience,
+      iconPath: images.find((url) => url.includes(experience.alt)) || '',
+    }));
+  }
+
   async getHardSkillsNav(): Promise<TNavigationDto[]> {
     return this.getCollectionData<TNavigationDto>('hardSkillsNav');
   }

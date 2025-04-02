@@ -54,6 +54,10 @@
 .circle-element_img {
     --size: 250px;
     margin: calc(var(--size) / -2);
+    border-radius: 50%;
+
+    // Для цвета пузырьков можно добавить градиенты
+    background: radial-gradient(circle, #ff4500, #ff6347, #ffa07a);
     width: var(--size);
     height: var(--size);
 
@@ -61,9 +65,10 @@
         display: inline-block;
         position: relative;
         border-radius: 50%;
-        background: black;
+        background: radial-gradient(circle, #ff7f50, #ff4500);
     }
 
+    // Для движения пузырьков
     p {
         position: absolute;
         top: 50%;
@@ -71,29 +76,62 @@
     }
 
     p:nth-child(1) {
-        position: absolute;
-        animation: skewing-child 1s ease-in-out infinite alternate;
+        animation: lava-floating 6s ease-in-out infinite alternate;
 
         span {
-            animation: moving 2s cubic-bezier(0.97, 0.01, 0.12, 0.99) infinite alternate;
+            animation: lava-transform 4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
             margin: calc(var(--size) / -20);
-            width: calc(var(--size) / 10);
-            height: calc(var(--size) / 10);
+            width: calc(var(--size) / 12);
+            height: calc(var(--size) / 12);
         }
     }
 
     p:nth-child(2) {
-        position: absolute;
-        animation: squishing 1s ease-in-out infinite alternate;
+        animation: lava-floating-reverse 8s ease-in-out infinite alternate;
 
         span {
-            top: 50%;
-            left: 50%;
-            animation: skewing 2s 1.5s ease-in-out infinite;
+            animation: lava-transform 5s ease-in-out infinite alternate;
             margin: calc(var(--size) / -8);
-            width: calc(var(--size) / 4);
-            height: calc(var(--size) / 4);
+            width: calc(var(--size) / 6);
+            height: calc(var(--size) / 6);
         }
+    }
+}
+
+// Создаём эффект движения лавовых пузырьков
+@keyframes lava-floating {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-60px) scale(1.2);
+    }
+    100% {
+        transform: translateY(-120px) scale(1);
+    }
+}
+
+@keyframes lava-floating-reverse {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(60px) scale(0.8);
+    }
+    100% {
+        transform: translateY(120px) scale(1);
+    }
+}
+
+@keyframes lava-transform {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5) skew(5deg, 5deg);
+    }
+    100% {
+        transform: scale(1) skew(-5deg, -5deg);
     }
 }
 

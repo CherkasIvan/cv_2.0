@@ -1,6 +1,7 @@
-<div
+<button
     class="project-chips"
     [ngClass]="{ 'dark-theme': (currentTheme$ | async) }"
+    (click)="onProjectClick(repositoryName())"
 >
     {{ projectChipsText() }}
-</div>
+</button>
