@@ -2,15 +2,19 @@
     <div
         class="modal-background"
         #modal
+        tabindex="0"
         (click)="onBackgroundClick($event)"
         (keyup.enter)="onBackgroundClick($event)"
-        tabindex="0"
     >
-        <dialog class="modal-dialog">
+        <dialog
+            #modalDialog
+            class="modal-dialog"
+        >
             <header class="header-block">
                 <h3 class="header-block_title">{{ modalData.company }}</h3>
                 <button
                     class="header-block_close-button"
+                    modalDialog
                     (click)="closeModalDialog()"
                     (keyup.enter)="closeModalDialog()"
                     tabindex="0"
@@ -30,8 +34,8 @@
                 </div>
                 <div class="modal-dialog_image">
                     <img
-                        [src]="modalData.logoPath"
-                        [alt]="modalData.logoPath"
+                        [src]="modalData.iconPath"
+                        [alt]="modalData.alt"
                     />
                 </div>
                 <div class="content-form_submit-buttons">

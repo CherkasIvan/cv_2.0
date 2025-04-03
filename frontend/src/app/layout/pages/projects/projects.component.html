@@ -19,7 +19,10 @@
                     </div>
                     <aside class="repository-aside">
                         <div class="repository-technologies">
-                            <cv-project-chips projectChipsText="Angular"></cv-project-chips>
+                            <cv-project-chips
+                                [repositoryName]="repository.name"
+                                projectChipsText="Angular"
+                            ></cv-project-chips>
                         </div>
                         <div class="repository-conection">
                             <cv-button
