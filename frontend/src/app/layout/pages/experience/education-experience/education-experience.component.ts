@@ -24,8 +24,4 @@ export class EducationExperienceComponent {
     public selectedTabEducation = input<string>('');
     public educationExperience$ = input.required<IExperience[] | null>();
     public theme = input<boolean | null>();
-
-    ngOnChanges() {
-        console.log(this.educationExperience$());
-    }
 }

@@ -26,9 +26,23 @@ export class FirebaseController {
     return socialMediaLinks;
   }
 
+  @Get('experience-aside')
+  async getExperienceAside() {
+    const experienceAside = await this.firebaseService.getExperienceAside();
+    return experienceAside;
+  }
+
+  @Get('education-places')
+  async getEducationPlacesWithImages() {
+    const educationPlaces =
+      await this.firebaseService.getEducationPlacesWithImages();
+    return educationPlaces;
+  }
+
   @Get('work-experience')
-  async getWorkExperience() {
-    const workExperience = await this.firebaseService.getWorkExperience();
+  async getWorkExperienceWithImages() {
+    const workExperience =
+      await this.firebaseService.getWorkExperienceWithImages();
     return workExperience;
   }
 
@@ -56,12 +70,6 @@ export class FirebaseController {
     return hardSkillsNav;
   }
 
-  @Get('education-places')
-  async getEducationPlaces() {
-    const educationPlaces = await this.firebaseService.getEducationPlaces();
-    return educationPlaces;
-  }
-
   @Get('main-page-info')
   async getMainPageInfo() {
     const mainPageInfo = await this.firebaseService.getMainPageInfo();
@@ -72,11 +80,5 @@ export class FirebaseController {
   async getTechnologiesAside() {
     const technologiesAside = await this.firebaseService.getTechnologiesAside();
     return technologiesAside;
-  }
-
-  @Get('experience-aside')
-  async getExperienceAside() {
-    const experienceAside = await this.firebaseService.getExperienceAside();
-    return experienceAside;
   }
 }
