@@ -1,11 +1,16 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { TGitHub } from '@core/models/github.type';
+import { GithubState } from './github-projects.reducer';
 
 export const selectRepositoriesState =
-    createFeatureSelector<TGitHub[]>('github');
+    createFeatureSelector<GithubState>('github');
 
 export const selectGithubRepositories = createSelector(
     selectRepositoriesState,
-    (state: TGitHub[]) => state,
+    (state: GithubState) => state.repositories,
+);
+
+export const selectRepositoryLanguages = createSelector(
+    selectRepositoriesState,
+    (state: GithubState) => state.languages,
 );

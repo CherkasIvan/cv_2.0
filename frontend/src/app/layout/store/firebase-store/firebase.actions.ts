@@ -81,7 +81,7 @@ export const FirebaseActions = createActionGroup({
         }>(),
         getExperienceAsideError: props<{ error: Error | null }>(),
 
-        getTechnologiesAside: props<{ imgName: string }>(),
+        getTechnologiesAside: props<{ imgName: string | null }>(),
         getTechnologiesAsideSuccess: props<{
             technologiesAside: TTechnologiesAside[];
             images?: string[];

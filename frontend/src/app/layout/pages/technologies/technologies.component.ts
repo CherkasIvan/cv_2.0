@@ -1,6 +1,6 @@
 import { Observable, takeUntil } from 'rxjs';
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, JsonPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -143,6 +143,10 @@ export class TechnologiesComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this._store$.dispatch(
+            FirebaseActions.getTechnologiesAside({ imgName: '' }),
+        );
+
         this._technologiesDispatcher();
         this.technologiesSwitcher(this.selectedTab);
     }
