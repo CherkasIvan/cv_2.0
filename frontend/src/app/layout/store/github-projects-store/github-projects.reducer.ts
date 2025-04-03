@@ -4,16 +4,33 @@ import { TGitHub } from '@core/models/github.type';
 
 import { GithubRepositoriesActions } from './github-projects.action';
 
-export const githubState: TGitHub[] = [];
+export interface GithubState {
+    repositories: TGitHub[];
+    languages: { [repoName: string]: string[] };
+    error?: unknown;
+}
+
+export const githubState: GithubState = {
+    repositories: [],
+    languages: {},
+};
 
 export const githubRepositoriesReducer = createReducer(
     githubState,
     on(
         GithubRepositoriesActions.getRepositoriesSuccess,
-        (state, { repositories }) => [...repositories],
+        (state, { repositories }) => ({ ...state, repositories }),
     ),
-    on(GithubRepositoriesActions.getRepositoriesError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
+    on(
+        GithubRepositoriesActions.getRepositoryLanguagesSuccess,
+        (state, { repoName, languages }) => ({
+            ...state,
+            languages: { ...state.languages, [repoName]: languages },
+        }),
+    ),
+    on(
+        GithubRepositoriesActions.getRepositoriesError,
+        GithubRepositoriesActions.getRepositoryLanguagesError,
+        (state, { error }) => ({ ...state, error }),
+    ),
 );

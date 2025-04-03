@@ -27,17 +27,15 @@ export class TechnologyCardComponent implements OnChanges {
     public technologyItem = input.required<ITechnologies | null>();
     public theme = input<boolean | null>();
     public delay = input<string>();
-    // Флаг для отслеживания загрузки изображения
     public isImageLoaded = signal(false);
 
-    // Метод для обработки события загрузки изображения
     public onImageLoad() {
-        this.isImageLoaded.set(true); // Устанавливаем значение сигнала
+        this.isImageLoaded.set(true);
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['technologyItem']) {
-            this.isImageLoaded.set(false); // Сбрасываем флаг при изменении technologyItem
+            this.isImageLoaded.set(false);
         }
     }
 }
