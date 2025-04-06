@@ -4,7 +4,8 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-    console.log('Service Worker activating.');
+    event.waitUntil(clients.claim());
+    console.log('Service Worker activated.');
 });
 
 self.addEventListener('fetch', (event) => {
@@ -19,14 +20,14 @@ self.addEventListener('fetch', (event) => {
                     if (response) {
                         console.log('Serving from cache:', event.request.url);
                         fetch(event.request).then((newResponse) => {
-                            if (newResponse.status === 200) {
+                            if (newResponse.ok) {
                                 cache.put(event.request, newResponse.clone());
                             }
                         });
                         return response;
                     } else {
                         return fetch(event.request).then((newResponse) => {
-                            if (newResponse.status === 200) {
+                            if (newResponse.ok) {
                                 cache.put(event.request, newResponse.clone());
                             }
                             return newResponse;

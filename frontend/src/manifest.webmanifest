@@ -1,6 +1,7 @@
 {
     "name": "cv_2.0",
     "short_name": "cv_2.0",
+    "id": "/",
     "theme_color": "#1976d2",
     "background_color": "#fafafa",
     "display": "standalone",
@@ -11,49 +12,107 @@
             "src": "assets/icons/icon-72x72.png",
             "sizes": "72x72",
             "type": "image/png",
-            "purpose": "maskable any"
+            "form_factor": "wide"
         },
         {
             "src": "assets/icons/icon-96x96.png",
             "sizes": "96x96",
             "type": "image/png",
-            "purpose": "maskable any"
+            "form_factor": "wide"
         },
         {
             "src": "assets/icons/icon-128x128.png",
             "sizes": "128x128",
             "type": "image/png",
-            "purpose": "maskable any"
+            "form_factor": "wide"
         },
         {
             "src": "assets/icons/icon-144x144.png",
             "sizes": "144x144",
             "type": "image/png",
-            "purpose": "maskable any"
+            "form_factor": "wide"
         },
         {
             "src": "assets/icons/icon-152x152.png",
             "sizes": "152x152",
             "type": "image/png",
-            "purpose": "maskable any"
+            "form_factor": "wide"
         },
         {
             "src": "assets/icons/icon-192x192.png",
             "sizes": "192x192",
             "type": "image/png",
-            "purpose": "maskable any"
+            "form_factor": "wide"
         },
         {
             "src": "assets/icons/icon-384x384.png",
             "sizes": "384x384",
             "type": "image/png",
-            "purpose": "maskable any"
+            "form_factor": "wide"
         },
         {
             "src": "assets/icons/icon-512x512.png",
             "sizes": "512x512",
             "type": "image/png",
-            "purpose": "maskable any"
+            "form_factor": "wide"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "assets/screenshots/auth.png",
+            "sizes": "997x997",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA application icon"
+        },
+        {
+            "src": "assets/screenshots/experience.png",
+            "sizes": "997x997",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA application icon"
+        },
+        {
+            "src": "assets/screenshots/main",
+            "sizes": "997x997",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA application icon"
+        },
+        {
+            "src": "assets/screenshots/other",
+            "sizes": "997x997",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA application icon"
+        },
+        {
+            "src": "assets/screenshots/projects.png",
+            "sizes": "997x997",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA application icon"
+        },
+        {
+            "src": "assets/screenshots/client_tech.png",
+            "sizes": "997x997",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA application icon"
+        },
+        {
+            "src": "assets/screenshots/server_tech.png",
+            "sizes": "997x997",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA application icon"
+        },
+        {
+            "src": "assets/screenshots/dark_ru.png",
+            "sizes": "997x997",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "PWA application icon"
         }
     ]
 }
