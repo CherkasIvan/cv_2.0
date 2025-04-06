@@ -1,10 +1,13 @@
+@use '../../../../assets/styles/variables' as color;
+
 :host {
-    position: relative;
-    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .dark-animation-layout {
-    background-color: #353535;
+    background-color: color.$black;
     overflow: hidden;
 
     .row {
@@ -22,7 +25,7 @@
         .hexagon {
             position: relative;
             margin: 32.8px 2px;
-            background-color: #2b2b2b;
+            background-color: color.$dm-hexagon;
             width: 100px;
             height: 57.74px;
         }
@@ -31,7 +34,7 @@
             position: absolute;
             top: 100%;
             transition: all 0.2 linear;
-            border-top: 28.87px solid #2b2b2b;
+            border-top: 28.87px solid color.$dm-hexagon;
             border-right: 50px solid transparent;
             border-left: 50px solid transparent;
             width: 0;
@@ -43,7 +46,7 @@
             bottom: 100%;
             transition: all 0.2 linear;
             border-right: 50px solid transparent;
-            border-bottom: 28.87px solid #2b2b2b;
+            border-bottom: 28.87px solid color.$dm-hexagon;
             border-left: 50px solid transparent;
             width: 0;
             content: '';
@@ -60,6 +63,7 @@
         z-index: 0;
         filter: blur(40px);
         animation: glower 20s linear infinite;
+        transition: opacity 1.5s ease-in-out;
         box-shadow: 2px -3px 41px -1px rgba(241, 196, 15, 0.64);
         border-radius: 100%;
         background: linear-gradient(

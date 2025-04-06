@@ -5,6 +5,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    HostListener,
     Inject,
     OnInit,
 } from '@angular/core';
@@ -69,6 +70,15 @@ import { TDarkMode } from './store/model/dark-mode.type';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
+    public mouseX: number = 0;
+    public mouseY: number = 0;
+
+    @HostListener('document:mousemove', ['$event'])
+    onMouseMove(event: MouseEvent) {
+        this.mouseX = event.clientX;
+        this.mouseY = event.clientY;
+    }
+
     public isFirstTime!: boolean;
     public isAuth: boolean = false;
     public isModalDialogVisible: boolean = false;
