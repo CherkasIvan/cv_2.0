@@ -27,6 +27,7 @@ import {
     BrowserAnimationsModule,
     provideAnimations,
 } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {
     PreloadAllModules,
     RouterModule,
@@ -80,7 +81,7 @@ export const appConfig: ApplicationConfig = {
     providers: [
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
         provideAnimations(),
-        provideRouter(MAIN_ROUTES, withViewTransitions()),
+        provideAnimationsAsync(),
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideFirestore(() => getFirestore()),
         provideDatabase(() => getDatabase()),

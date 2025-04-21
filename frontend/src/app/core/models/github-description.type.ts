@@ -3,7 +3,7 @@ export type TGitHubDescription = {
     repoUrl: string;
     imgUrl: string[];
     private?: boolean;
-    repo_type: 'page-view' | 'application' | 'native';
+    repo_type: '        ' | 'application' | 'native';
     ghPageUrl: string | null;
     description: string | null;
     framework?: string | null;

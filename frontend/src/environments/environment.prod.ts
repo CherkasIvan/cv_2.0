@@ -4,4 +4,5 @@ export const environment = {
     production: true,
     firebase: firebaseConfig,
     appUrl: 'http://localhost:4200/',
+    backendUrl: 'http://localhost:3000/',
 };

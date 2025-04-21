@@ -12,10 +12,7 @@
             (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
-                <div
-                    class="experience-card_picture-work"
-                    @fadeInOutCards
-                >
+                <div class="experience-card_picture-work">
                     <img
                         class="card-img"
                         [src]="workDescription()?.iconPath"
@@ -62,7 +59,6 @@
                 <div
                     [ngClass]="{ 'dark-theme': theme() }"
                     class="experience-card_picture-education"
-                    @fadeInOutCards
                 >
                     <img
                         class="card-img"
@@ -105,10 +101,7 @@
             (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
-                <div
-                    class="experience-card_picture-work"
-                    @fadeInOutCards
-                >
+                <div class="experience-card_picture-work">
                     <div class="img-border">
                         <img
                             class="card-img"

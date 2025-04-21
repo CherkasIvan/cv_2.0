@@ -7,4 +7,5 @@ export type TGitHub = {
     created_at: string | null;
     updated_at: string | null;
     languages?: { [key: string]: number };
+    private: boolean;
 };

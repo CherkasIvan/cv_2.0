@@ -25,6 +25,7 @@
     "@nestjs/common": "^11.0.12",
     "@nestjs/core": "^11.0.12",
     "@nestjs/platform-express": "^11.0.12",
+    "angular-cli-ghpages": "^2.0.3",
     "axios": "^1.8.4",
     "cache-manager": "^6.4.1",
     "compression": "^1.8.0",

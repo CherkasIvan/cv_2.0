@@ -15,21 +15,49 @@ export class GithubRepositoriesEffects {
         private _githubService: GithubService,
     ) {}
 
-    loadRepositories$ = createEffect(() =>
+    public loadPublicRepositories$ = createEffect(() =>
         this._actions$.pipe(
-            ofType(GithubRepositoriesActions.getRepositories),
+            ofType(GithubRepositoriesActions.getPublicRepositories),
             mergeMap(() =>
-                this._githubService.getGithubRepos().pipe(
+                this._githubService.getGithubPublicRepos(1, 100).pipe(
                     map((repositories) =>
-                        GithubRepositoriesActions.getRepositoriesSuccess({
+                        GithubRepositoriesActions.getPublicRepositoriesSuccess({
                             repositories,
                         }),
                     ),
                     catchError((error) =>
                         of(
-                            GithubRepositoriesActions.getRepositoriesError({
-                                error,
-                            }),
+                            GithubRepositoriesActions.getPublicRepositoriesError(
+                                {
+                                    error,
+                                },
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    public loadPrivateRepositories$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(GithubRepositoriesActions.getPrivateRepositories),
+            mergeMap(() =>
+                this._githubService.getGithubPrivateRepos(1, 100).pipe(
+                    map((repositories) =>
+                        GithubRepositoriesActions.getPrivateRepositoriesSuccess(
+                            {
+                                repositories,
+                            },
+                        ),
+                    ),
+                    catchError((error) =>
+                        of(
+                            GithubRepositoriesActions.getPrivateRepositoriesError(
+                                {
+                                    error,
+                                },
+                            ),
                         ),
                     ),
                 ),

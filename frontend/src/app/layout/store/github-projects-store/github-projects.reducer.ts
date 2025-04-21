@@ -5,22 +5,50 @@ import { TGitHub } from '@core/models/github.type';
 import { GithubRepositoriesActions } from './github-projects.action';
 
 export interface GithubState {
-    repositories: TGitHub[];
+    publicRepositories: TGitHub[];
+    privateRepositories: TGitHub[];
     languages: { [repoName: string]: string[] };
     error?: unknown;
 }
 
-export const githubState: GithubState = {
-    repositories: [],
+export const initialGithubState: GithubState = {
+    publicRepositories: [],
+    privateRepositories: [],
     languages: {},
 };
 
 export const githubRepositoriesReducer = createReducer(
-    githubState,
+    initialGithubState,
     on(
-        GithubRepositoriesActions.getRepositoriesSuccess,
-        (state, { repositories }) => ({ ...state, repositories }),
+        GithubRepositoriesActions.getPublicRepositoriesSuccess,
+        (state, { repositories }) => ({
+            ...state,
+            publicRepositories: repositories,
+        }),
     ),
+    on(
+        GithubRepositoriesActions.getPublicRepositoriesError,
+        (state, { error }) => ({
+            ...state,
+            error,
+        }),
+    ),
+
+    on(
+        GithubRepositoriesActions.getPrivateRepositoriesSuccess,
+        (state, { repositories }) => ({
+            ...state,
+            privateRepositories: repositories,
+        }),
+    ),
+    on(
+        GithubRepositoriesActions.getPrivateRepositoriesError,
+        (state, { error }) => ({
+            ...state,
+            error,
+        }),
+    ),
+
     on(
         GithubRepositoriesActions.getRepositoryLanguagesSuccess,
         (state, { repoName, languages }) => ({
@@ -29,8 +57,10 @@ export const githubRepositoriesReducer = createReducer(
         }),
     ),
     on(
-        GithubRepositoriesActions.getRepositoriesError,
         GithubRepositoriesActions.getRepositoryLanguagesError,
-        (state, { error }) => ({ ...state, error }),
+        (state, { error }) => ({
+            ...state,
+            error,
+        }),
     ),
 );

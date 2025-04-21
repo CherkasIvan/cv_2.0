@@ -5,9 +5,14 @@ import { TGitHub } from '@core/models/github.type';
 export const GithubRepositoriesActions = createActionGroup({
     source: 'Repositories',
     events: {
-        getRepositories: emptyProps(),
-        getRepositoriesSuccess: props<{ repositories: TGitHub[] }>(),
-        getRepositoriesError: props<{ error: unknown }>(),
+        getPublicRepositories: emptyProps(),
+        getPublicRepositoriesSuccess: props<{ repositories: TGitHub[] }>(),
+        getPublicRepositoriesError: props<{ error: unknown }>(),
+
+        getPrivateRepositories: emptyProps(),
+        getPrivateRepositoriesSuccess: props<{ repositories: TGitHub[] }>(),
+        getPrivateRepositoriesError: props<{ error: unknown }>(),
+
         getRepositoryLanguages: props<{ repoName: string }>(),
         getRepositoryLanguagesSuccess: props<{
             repoName: string;

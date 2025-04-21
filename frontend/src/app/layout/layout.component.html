@@ -1,9 +1,8 @@
 @if (isFirstTime) {
-    <cv-first-time @startCardFadeOut></cv-first-time>
+    <cv-first-time></cv-first-time>
 }
 @if (!isFirstTime) {
     <div
-        @startCardFadeIn
         class="layout-container"
         [ngClass]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
     >

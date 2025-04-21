@@ -17,10 +17,8 @@ import { ITechnologies } from '@core/models/technologies.interface';
 import { TTechnologies } from '@core/models/technologies.type';
 import { ApiService } from '@core/service/api/api.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import {
-    listAnimation,
-    technologyCardFadeIn,
-} from '@core/utils/animations/technology-card-fade-in.animation';
+import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fade-in.animation';
+import { listAnimation } from '@core/utils/animations/translate-fade-out';
 
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';

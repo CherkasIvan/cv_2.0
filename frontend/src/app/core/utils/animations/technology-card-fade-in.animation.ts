@@ -17,11 +17,3 @@ export const technologyCardFadeIn = trigger('technologyCardFadeIn', [
         { params: { delay: '0ms' } },
     ),
 ]);
-
-export const listAnimation = trigger('listAnimation', [
-    transition('* => void', [animate('300ms', style({ opacity: 0 }))]),
-    transition('void => *', [
-        style({ opacity: 0 }),
-        animate('300ms', style({ opacity: 1 })),
-    ]),
-]);

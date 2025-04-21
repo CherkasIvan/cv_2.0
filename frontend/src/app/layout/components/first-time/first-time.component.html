@@ -3,10 +3,7 @@
         <span class="title">
             {{ showTranslated ? titles[0].translated : titles[0].name }}
         </span>
-        <ul
-            class="persons"
-            [@listAnimation]="persons.length"
-        >
+        <ul class="persons">
             @for (person of persons; track person.name; let i = $index) {
                 <li>
                     {{ showTranslated ? person.translated : person.name }}

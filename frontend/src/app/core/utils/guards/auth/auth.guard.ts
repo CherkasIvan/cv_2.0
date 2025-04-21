@@ -11,15 +11,15 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
     providedIn: 'root',
 })
 export class AuthGuard {
+    [x: string]: any;
     constructor(
         private readonly _authService: AuthService,
         private readonly _localStorageService: LocalStorageService,
-        private _router: Router,
     ) {}
 
     canActivate(): Observable<boolean> | Promise<boolean> | UrlTree | boolean {
         if (!this._authService.isAuth$.value) {
-            this._router.navigate([ERoute.AUTH]);
+            this['_router'].navigate([ERoute.AUTH]);
             return false;
         }
         return true;

@@ -39,7 +39,6 @@ export class AnimationBgComponent {
     public animationBlobs: any[] = [
         {
             width: '70px',
-            height: '70px',
             'animation-duration': '6s',
         },
         {

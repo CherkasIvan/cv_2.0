@@ -1,8 +1,8 @@
+import { NgClass } from '@angular/common';
 import {
     Component,
     ElementRef,
     HostListener,
-    Input,
     ViewChild,
     input,
 } from '@angular/core';
@@ -10,6 +10,7 @@ import {
 @Component({
     selector: 'cv-dark-animation-layout',
     standalone: true,
+    imports: [NgClass],
     templateUrl: './dark-animation-layout.component.html',
     styleUrls: ['./dark-animation-layout.component.scss'],
 })
@@ -28,6 +29,12 @@ export class DarkAnimationLayoutComponent {
     onMouseLeave() {
         this.hideCursor();
     }
+
+    public rowsBlock: any = {
+        rows: new Array(12).fill({ length: Math.random() > 0.5 ? 20 : 18 }),
+        evenHexagons: new Array(20),
+        oddHexagons: new Array(18),
+    };
 
     ngAfterViewInit() {
         this.updateCursorPosition(this.mouseX(), this.mouseY());
