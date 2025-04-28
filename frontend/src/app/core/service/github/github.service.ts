@@ -13,9 +13,35 @@ import { environment } from '@env/environment';
 })
 export class GithubService {
     private readonly _baseUrl = 'https://api.github.com';
+    private readonly apiUrl = 'http://localhost:3000/github';
+    private token: string | null = null;
 
     constructor(private httpClient: HttpClient) {}
 
+    // Метод для получения токена
+    getToken(): Observable<any> {
+        return this.httpClient.get(`${this._baseUrl}/token`);
+    }
+
+    // Метод для инициализации токена
+    initializeToken(): void {
+        this.getToken().subscribe(
+            (data) => {
+                this.token = data.token;
+                console.log('Token:', this.token);
+            },
+            (error) => {
+                console.error('Error fetching token', error);
+            },
+        );
+    }
+
+    // Метод для получения репозиториев
+    public getRepositories(): Observable<any> {
+        return this.httpClient.get(`${this._baseUrl}/repositories`);
+    }
+
+    // Метод для получения публичных репозиториев
     public getGithubPublicRepos(
         page: number = 1,
         perPage: number = 100,
@@ -46,12 +72,13 @@ export class GithubService {
             );
     }
 
+    // Метод для получения приватных репозиториев
     public getGithubPrivateRepos(
         page: number = 1,
         perPage: number = 100,
     ): Observable<TGitHub[]> {
         const headers = new HttpHeaders({
-            Authorization: `Bearer ${environment.githubToken}`, // Используйте токен из окружения
+            Authorization: `Bearer ${this.token}`, // Используем токен
             Accept: 'application/vnd.github.v3+json',
         });
 
@@ -79,6 +106,7 @@ export class GithubService {
             );
     }
 
+    // Метод для получения языков репозитория
     public getRepositoryLanguages(repoName: string): Observable<string[]> {
         return this.httpClient
             .get<{

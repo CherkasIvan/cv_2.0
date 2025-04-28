@@ -11,7 +11,6 @@ import {
 import { Store, select } from '@ngrx/store';
 
 import { TGitHub } from '@core/models/github.type';
-import { GithubService } from '@core/service/github/github.service';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';

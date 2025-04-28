@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { FirebaseModule } from './firebase/firebase.module';
-import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { CacheModule } from '@nestjs/cache-manager';
 import { GithubModule } from './github/github.module';
 
 @Module({
@@ -12,11 +11,5 @@ import { GithubModule } from './github/github.module';
       isGlobal: true,
     }),
   ],
-  // providers: [
-  //   {
-  //     provide: APP_INTERCEPTOR,
-  //     useClass: CacheInterceptor,
-  //   },
-  // ],
 })
 export class AppModule {}

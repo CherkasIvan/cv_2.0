@@ -10,4 +10,11 @@ dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
   controllers: [GithubController],
   providers: [GithubService],
 })
-export class GithubModule {}
+export class GithubModule {
+  constructor() {
+    const privateKey = process.env.GITHUB_PRIVATE_ACCESS_TOKEN;
+    if (!privateKey) {
+      throw new Error('GITHUB_PRIVATE_ACCESS_TOKEN is not defined');
+    }
+  }
+}

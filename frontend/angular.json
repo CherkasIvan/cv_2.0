@@ -22,51 +22,26 @@
                     "builder": "@storybook/angular:build-storybook",
                     "options": {
                         "configDir": ".storybook",
-                        "browserTarget": "cv_2.0:build",
-                        "outputDir": "dist/storybook/cv_2.0"
+                        "outputDir": "dist/storybook/cv_2.0",
+                        "browserTarget": "cv_2.0:build"
                     }
                 },
                 "build": {
-                    "builder": "@angular-devkit/build-angular:application",
+                    "builder": "ngx-build-plus:browser",
                     "options": {
-                        "allowedCommonJsDependencies": [
-                            "undici",
-                            "faye-websocket",
-                            "@grpc/grpc-js",
-                            "@grpc/proto-loader"
-                        ],
+                        "main": "src/main.ts",
                         "outputPath": "dist/cv_2.0",
                         "index": "src/index.html",
-                        "browser": "src/main.ts",
                         "polyfills": ["zone.js", "@angular/localize/init"],
                         "tsConfig": "tsconfig.app.json",
-                        "assets": [
-                            "src/favicon.ico",
-                            "src/assets",
-                            {
-                                "glob": "**/*",
-                                "input": "public"
-                            }
-                        ],
-                        "styles": [
-                            "src/styles.scss",
-                            "src/assets/styles/_variables.scss",
-                            "src/assets/styles/_reset.scss",
-                            "src/assets/styles/_global.scss",
-                            "src/assets/styles/_material.scss",
-                            "src/assets/styles/mixins/_flex.mixin.scss",
-                            "src/assets/styles/mixins/_glassmorphism.mixin.scss",
-                            "src/assets/styles/mixins/_layout.mixin.scss",
-                            "src/assets/styles/mixins/_neon.mixin.scss"
-                        ],
+                        "assets": ["src/favicon.ico", "src/assets"],
+                        "styles": ["src/styles.scss"],
                         "scripts": [],
-                        "server": "src/main.server.ts",
-                        "ssr": {
-                            "entry": "server.ts"
-                        }
+                        "extraWebpackConfig": "webpack.config.js"
                     },
                     "configurations": {
                         "production": {
+                            "serviceWorker": true,
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -84,12 +59,12 @@
                             "sourceMap": false,
                             "namedChunks": false,
                             "aot": true,
-                            "extractLicenses": true,
-                            "serviceWorker": "ngsw-config.json"
+                            "extractLicenses": true
                         },
                         "development": {
-                            "optimization": false,
-                            "extractLicenses": false,
+                            "extractLicenses": true,
+                            "serviceWorker": true,
+                            "ngswConfigPath": "ngsw-config.json",
                             "sourceMap": true,
                             "fileReplacements": [
                                 {
@@ -98,20 +73,25 @@
                                 }
                             ]
                         }
-                    },
-                    "defaultConfiguration": "production"
+                    }
                 },
                 "serve": {
-                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "builder": "ngx-build-plus:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "cv_2.0:build:production"
+                            "buildTarget": "cv_2.0:build:production",
+                            "extraWebpackConfig": "webpack.prod.config.js"
                         },
                         "development": {
                             "buildTarget": "cv_2.0:build:development"
                         }
                     },
-                    "defaultConfiguration": "production"
+                    "defaultConfiguration": "production",
+                    "options": {
+                        "port": 4200,
+                        "publicHost": "http://localhost:4200",
+                        "extraWebpackConfig": "webpack.config.js"
+                    }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n"

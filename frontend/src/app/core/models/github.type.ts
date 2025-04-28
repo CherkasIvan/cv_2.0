@@ -8,4 +8,6 @@ export type TGitHub = {
     updated_at: string | null;
     languages?: { [key: string]: number };
     private: boolean;
+    page?: number;
+    perPage?: number;
 };
