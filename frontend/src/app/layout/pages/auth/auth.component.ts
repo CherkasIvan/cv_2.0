@@ -4,10 +4,9 @@ import { Store } from '@ngrx/store';
 
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
-
 import { TranslateService } from '@ngx-translate/core';
+import { ImagesActions } from '@store/images-store/images.actions';
+import { setLanguageSuccess } from '@store/language-selector-store/language.actions';
 
 import { LoginFormComponent } from '../../components/login-form/login-form.component';
 

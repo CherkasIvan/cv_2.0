@@ -21,10 +21,9 @@ import { AuthService } from '@core/service/auth/auth.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
-import { TProfile } from '@layout/store/model/profile.type';
-
 import { TranslateModule } from '@ngx-translate/core';
+import { selectCloseUrl } from '@store/images-store/images.selectors';
+import { TProfile } from '@store/model/profile.type';
 
 @Component({
     selector: 'cv-logout-form',

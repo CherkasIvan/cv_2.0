@@ -11,11 +11,8 @@ import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { ISpinner } from '@layout/store/model/spinner.interface';
-import {
-    hideSpinner,
-    showSpinner,
-} from '@layout/store/spinner-store/spinner.actions';
+import { ISpinner } from '@store/model/spinner.interface';
+import { hideSpinner, showSpinner } from '@store/spinner-store/spinner.actions';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {

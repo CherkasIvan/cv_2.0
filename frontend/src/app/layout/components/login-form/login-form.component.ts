@@ -28,13 +28,12 @@ import {
     toggleHeight,
 } from '@core/utils/animations/login.animation';
 
-import { AuthActions } from '@layout/store/auth-store/auth.actions';
-import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
-import { TAuthUser } from '@layout/store/model/auth-user.type';
-import { TProfile } from '@layout/store/model/profile.type';
-
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthActions } from '@store/auth-store/auth.actions';
+import { ImagesActions } from '@store/images-store/images.actions';
+import { selectCloseUrl } from '@store/images-store/images.selectors';
+import { TAuthUser } from '@store/model/auth-user.type';
+import { TProfile } from '@store/model/profile.type';
 
 import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
 

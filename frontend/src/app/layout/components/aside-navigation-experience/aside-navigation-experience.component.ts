@@ -20,10 +20,9 @@ import { INavigation } from '@core/models/navigation.interface';
 import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
-import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
-
 import { TranslateModule } from '@ngx-translate/core';
+import { FirebaseActions } from '@store/firebase-store/firebase.actions';
+import { selectHardSkillsNav } from '@store/firebase-store/firebase.selectors';
 
 @Component({
     selector: 'cv-aside-navigation-experience',

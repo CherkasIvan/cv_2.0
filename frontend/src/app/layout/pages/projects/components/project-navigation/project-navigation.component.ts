@@ -11,7 +11,7 @@ import { Store, select } from '@ngrx/store';
 
 import { TGitHub } from '@core/models/github.type';
 
-import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
 
 @Component({
     selector: 'cv-project-navigation',

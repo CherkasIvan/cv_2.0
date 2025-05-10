@@ -45,29 +45,28 @@ import {
 import { StoreModule, provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
-import { ImagesEffects } from '@layout/store/images-store/images.effects';
-import { logoReducer } from '@layout/store/images-store/images.reducers';
-
 import {
     TranslateLoader,
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AuthEffects } from '@store/auth-store/auth.effects';
+import { authReducer } from '@store/auth-store/auth.reducers';
+import { darkModeReducer } from '@store/dark-mode-store/dark-mode.reducers';
+import { ImagesEffects } from '@store/images-store/images.effects';
+import { logoReducer } from '@store/images-store/images.reducers';
+import { languageReducer } from '@store/language-selector-store/language.reducers';
+import { spinnerReducer } from '@store/spinner-store/spinner.reducer';
 
 import { environment } from '../environments/environment.development';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
-import { AuthEffects } from './layout/store/auth-store/auth.effects';
-import { authReducer } from './layout/store/auth-store/auth.reducers';
-import { darkModeReducer } from './layout/store/dark-mode-store/dark-mode.reducers';
-import { experienceDialogReducer } from './layout/store/experience-dialog-store/experience-dialog.reducers';
-import { FirebaseEffects } from './layout/store/firebase-store/firebase.effects';
-import { firebaseReducer } from './layout/store/firebase-store/firebase.reducers';
-import { GithubRepositoriesEffects } from './layout/store/github-projects-store/github-projects.effects';
-import { githubRepositoriesReducer } from './layout/store/github-projects-store/github-projects.reducer';
-import { languageReducer } from './layout/store/language-selector-store/language.reducers';
-import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
+import { experienceDialogReducer } from './store/experience-dialog-store/experience-dialog.reducers';
+import { FirebaseEffects } from './store/firebase-store/firebase.effects';
+import { firebaseReducer } from './store/firebase-store/firebase.reducers';
+import { GithubRepositoriesEffects } from './store/github-projects-store/github-projects.effects';
+import { githubRepositoriesReducer } from './store/github-projects-store/github-projects.reducer';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, '/assets/i18n/', '.json');

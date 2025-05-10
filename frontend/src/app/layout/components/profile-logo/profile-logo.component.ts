@@ -5,9 +5,9 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
-import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectProfileUrl } from '@layout/store/images-store/images.selectors';
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
+import { ImagesActions } from '@store/images-store/images.actions';
+import { selectProfileUrl } from '@store/images-store/images.selectors';
 
 @Component({
     selector: 'cv-profile-logo',

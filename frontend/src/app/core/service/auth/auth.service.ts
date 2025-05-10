@@ -21,8 +21,8 @@ import { Store } from '@ngrx/store';
 
 import { ERoute } from '@core/enum/route.enum';
 
-import { AuthActions } from '@layout/store/auth-store/auth.actions';
-import { TProfile } from '@layout/store/model/profile.type';
+import { AuthActions } from '@store/auth-store/auth.actions';
+import { TProfile } from '@store/model/profile.type';
 
 import { LocalStorageService } from '../local-storage/local-storage.service';
 

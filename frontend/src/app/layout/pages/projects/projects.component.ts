@@ -13,15 +13,15 @@ import { Store, select } from '@ngrx/store';
 import { TGitHub } from '@core/models/github.type';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
-import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { GithubRepositoriesActions } from '@layout/store/github-projects-store/github-projects.action';
+
+import { TranslateModule } from '@ngx-translate/core';
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
+import { GithubRepositoriesActions } from '@store/github-projects-store/github-projects.action';
 import {
     selectFilteredPrivateRepositories,
     selectFilteredPublicRepositories,
-} from '@layout/store/github-projects-store/github-projects.selector';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
-
-import { TranslateModule } from '@ngx-translate/core';
+} from '@store/github-projects-store/github-projects.selector';
+import { TDarkMode } from '@store/model/dark-mode.type';
 
 import { ProjectChipsComponent } from './components/project-chips/project-chips.component';
 import { ProjectNavigationComponent } from './components/project-navigation/project-navigation.component';

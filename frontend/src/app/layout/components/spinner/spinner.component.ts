@@ -8,8 +8,8 @@ import { Store, select } from '@ngrx/store';
 
 import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
 
-import { ISpinner } from '@layout/store/model/spinner.interface';
-import { spinnerSelector } from '@layout/store/spinner-store/spinner.selector';
+import { ISpinner } from '@store/model/spinner.interface';
+import { spinnerSelector } from '@store/spinner-store/spinner.selector';
 
 @Component({
     selector: 'cv-spinner',

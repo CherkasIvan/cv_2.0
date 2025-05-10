@@ -24,7 +24,19 @@ import { startCardFadeIn } from '@core/utils/animations/start-cart-fade-in';
 import { startCardFadeOut } from '@core/utils/animations/start-cart-fade-out';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
 
+import { ModalState } from '../store/experience-dialog-store/experience-dialog.reducers';
+import {
+    selectIsModalOpen,
+    selectModalData,
+} from '../store/experience-dialog-store/experience-dialog.selectors';
+import { FirebaseActions } from '../store/firebase-store/firebase.actions';
+import {
+    selectNavigation,
+    selectSocialMediaLinks,
+} from '../store/firebase-store/firebase.selectors';
+import { TDarkMode } from '../store/model/dark-mode.type';
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
 import { DarkAnimationLayoutComponent } from './components/dark-animation-layout/dark-animation-layout.component';
 import { ExperienceDialogComponent } from './components/experience-dialog/experience-dialog.component';
@@ -33,18 +45,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LogoutFormComponent } from './components/logout-form/logout-form.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
-import { darkModeSelector } from './store/dark-mode-store/dark-mode.selectors';
-import { ModalState } from './store/experience-dialog-store/experience-dialog.reducers';
-import {
-    selectIsModalOpen,
-    selectModalData,
-} from './store/experience-dialog-store/experience-dialog.selectors';
-import { FirebaseActions } from './store/firebase-store/firebase.actions';
-import {
-    selectNavigation,
-    selectSocialMediaLinks,
-} from './store/firebase-store/firebase.selectors';
-import { TDarkMode } from './store/model/dark-mode.type';
 
 @Component({
     selector: 'cv-layout',

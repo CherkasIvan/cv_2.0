@@ -9,13 +9,12 @@ import { Store, select } from '@ngrx/store';
 import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
-import { selectCurrentLanguage } from '@layout/store/language-selector-store/language.selectors';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
-import { TLanguages } from '@layout/store/model/languages.type';
-
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
+import { setLanguageSuccess } from '@store/language-selector-store/language.actions';
+import { selectCurrentLanguage } from '@store/language-selector-store/language.selectors';
+import { TDarkMode } from '@store/model/dark-mode.type';
+import { TLanguages } from '@store/model/languages.type';
 
 @Component({
     selector: 'cv-language-toggle',
@@ -25,7 +24,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     providers: [DestroyService],
     styleUrls: [
         './language-toggle.component.scss',
-        './language-toggle-dark-mode/language-toggle.component.dm.scss',
+        './language-toggle-dm/language-toggle.dm.component.scss',
     ],
 })
 export class LanguageToggleComponent implements OnInit {

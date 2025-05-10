@@ -17,14 +17,13 @@ import { Store, select } from '@ngrx/store';
 
 import { IExperience } from '@core/models/experience.interface';
 
-import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
-import { ModalState } from '@layout/store/experience-dialog-store/experience-dialog.reducers';
-import { selectModalData } from '@layout/store/experience-dialog-store/experience-dialog.selectors';
-import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
-import { TProfile } from '@layout/store/model/profile.type';
-
 import { TranslateModule } from '@ngx-translate/core';
+import { ExperienceActions } from '@store/experience-dialog-store/experience-dialog.actions';
+import { ModalState } from '@store/experience-dialog-store/experience-dialog.reducers';
+import { selectModalData } from '@store/experience-dialog-store/experience-dialog.selectors';
+import { ImagesActions } from '@store/images-store/images.actions';
+import { selectCloseUrl } from '@store/images-store/images.selectors';
+import { TProfile } from '@store/model/profile.type';
 
 @Component({
     selector: 'cv-experience-dialog',

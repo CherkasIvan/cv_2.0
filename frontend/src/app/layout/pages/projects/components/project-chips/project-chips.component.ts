@@ -7,10 +7,10 @@ import { Store, select } from '@ngrx/store';
 
 import { DestroyService } from '@core/service/destroy/destroy.service';
 
-import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { GithubRepositoriesActions } from '@layout/store/github-projects-store/github-projects.action';
-import { GithubState } from '@layout/store/github-projects-store/github-projects.reducer';
-import { selectRepositoryLanguages } from '@layout/store/github-projects-store/github-projects.selector';
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
+import { GithubRepositoriesActions } from '@store/github-projects-store/github-projects.action';
+import { GithubState } from '@store/github-projects-store/github-projects.reducer';
+import { selectRepositoryLanguages } from '@store/github-projects-store/github-projects.selector';
 
 @Component({
     selector: 'cv-project-chips',

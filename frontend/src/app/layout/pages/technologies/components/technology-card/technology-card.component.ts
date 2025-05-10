@@ -20,6 +20,7 @@ import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fad
     styleUrls: [
         './technology-card.component.scss',
         './technology-card-dm/technology-card-dm.component.scss',
+        './technology-card-mobile/technology-card-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

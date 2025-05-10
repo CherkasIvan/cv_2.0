@@ -14,11 +14,11 @@ import { Store, select } from '@ngrx/store';
 import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
-import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectToggleUrl } from '@layout/store/images-store/images.selectors';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
-import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
+import { setModeSuccess } from '@store/dark-mode-store/dark-mode.actions';
+import { ImagesActions } from '@store/images-store/images.actions';
+import { selectToggleUrl } from '@store/images-store/images.selectors';
+import { TDarkMode } from '@store/model/dark-mode.type';
+import { TLocalstorageUser } from '@store/model/localstorage-user.type';
 
 @Component({
     selector: 'cv-dark-mode-toggle',

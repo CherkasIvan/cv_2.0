@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { ERoute } from '@core/enum/route.enum';
 
-import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
+import { TLocalstorageUser } from '@store/model/localstorage-user.type';
 
 @Injectable({
     providedIn: 'root',

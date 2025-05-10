@@ -1,6 +1,6 @@
 import { Observable, takeUntil } from 'rxjs';
 
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -21,14 +21,15 @@ import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fad
 import { listAnimation } from '@core/utils/animations/translate-fade-out';
 
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
-import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
+import { FirebaseActions } from '@store/firebase-store/firebase.actions';
 import {
     selectBackendTech,
     selectFrontendTech,
     selectOtherTech,
     selectTechnologiesAside,
-} from '@layout/store/firebase-store/firebase.selectors';
+} from '@store/firebase-store/firebase.selectors';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
 
@@ -42,7 +43,10 @@ import { TechnologyCardComponent } from './components/technology-card/technology
         EvenColumnDirective,
     ],
     templateUrl: './technologies.component.html',
-    styleUrls: ['./technologies.component.scss'],
+    styleUrls: [
+        './technologies.component.scss',
+        './technologies-mobile/technologies-mobile.component.scss',
+    ],
     providers: [DestroyService],
     animations: [technologyCardFadeIn, listAnimation],
     changeDetection: ChangeDetectionStrategy.OnPush,

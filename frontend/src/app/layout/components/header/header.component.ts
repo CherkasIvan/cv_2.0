@@ -29,12 +29,11 @@ import { INavigation } from '@core/models/navigation.interface';
 import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { selectAuth } from '@layout/store/auth-store/auth.selectors';
-import { ImagesActions } from '@layout/store/images-store/images.actions';
-import { selectLogoUrl } from '@layout/store/images-store/images.selectors';
-import { TLanguages } from '@layout/store/model/languages.type';
-
 import { TranslateModule } from '@ngx-translate/core';
+import { selectAuth } from '@store/auth-store/auth.selectors';
+import { ImagesActions } from '@store/images-store/images.actions';
+import { selectLogoUrl } from '@store/images-store/images.selectors';
+import { TLanguages } from '@store/model/languages.type';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';
 import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
@@ -54,7 +53,8 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
     templateUrl: './header.component.html',
     styleUrls: [
         './header.component.scss',
-        './header-dark-mode/header.component.dm.scss',
+        './header-dm/header-dm.component.scss',
+        './header-mobile/header-mobile.component.scss',
     ],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,

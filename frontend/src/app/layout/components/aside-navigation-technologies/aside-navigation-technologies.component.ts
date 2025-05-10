@@ -20,10 +20,9 @@ import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { DestroyService } from '@core/service/destroy/destroy.service';
 import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
-import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
-import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
-
 import { TranslateModule } from '@ngx-translate/core';
+import { FirebaseActions } from '@store/firebase-store/firebase.actions';
+import { selectHardSkillsNav } from '@store/firebase-store/firebase.selectors';
 
 import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-subtechnologies/aside-navigation-subtechnologies.component';
 

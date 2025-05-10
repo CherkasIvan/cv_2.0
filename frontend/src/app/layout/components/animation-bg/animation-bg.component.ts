@@ -13,8 +13,8 @@ import { Store, select } from '@ngrx/store';
 import { INavigation } from '@core/models/navigation.interface';
 import { blobFloat } from '@core/utils/animations/bg-layout.animation';
 
-import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
+import { TDarkMode } from '@store/model/dark-mode.type';
 
 @Component({
     selector: 'cv-animation-bg',

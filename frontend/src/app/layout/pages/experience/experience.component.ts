@@ -13,18 +13,18 @@ import { Store, select } from '@ngrx/store';
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { IExperience } from '@core/models/experience.interface';
 
-import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
+import { FirebaseActions } from '@store/firebase-store/firebase.actions';
 import {
     selectEducation,
     selectExperienceAside,
     selectWorkExperience,
-} from '@layout/store/firebase-store/firebase.selectors';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
+} from '@store/firebase-store/firebase.selectors';
+import { TDarkMode } from '@store/model/dark-mode.type';
 
 import { AsideNavigationExperienceComponent } from '../../components/aside-navigation-experience/aside-navigation-experience.component';
-import { EducationExperienceComponent } from './education-experience/education-experience.component';
-import { WorkExperienceComponent } from './work-experience/work-experience.component';
+import { EducationExperienceComponent } from './components/education-experience/education-experience.component';
+import { WorkExperienceComponent } from './components/work-experience/work-experience.component';
 
 @Component({
     selector: 'cv-experience',
