@@ -13,16 +13,6 @@
                 "storybook": {
                     "builder": "@storybook/angular:start-storybook",
                     "options": {
-                        "configDir": ".storybook",
-                        "browserTarget": "cv_2.0:build",
-                        "port": 6006
-                    }
-                },
-                "build-storybook": {
-                    "builder": "@storybook/angular:build-storybook",
-                    "options": {
-                        "configDir": ".storybook",
-                        "outputDir": "dist/storybook/cv_2.0",
                         "browserTarget": "cv_2.0:build"
                     }
                 },
@@ -36,12 +26,10 @@
                         "tsConfig": "tsconfig.app.json",
                         "assets": ["src/favicon.ico", "src/assets"],
                         "styles": ["src/styles.scss"],
-                        "scripts": [],
-                        "extraWebpackConfig": "webpack.config.js"
+                        "scripts": []
                     },
                     "configurations": {
                         "production": {
-                            "serviceWorker": true,
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -79,8 +67,7 @@
                     "builder": "ngx-build-plus:dev-server",
                     "configurations": {
                         "production": {
-                            "buildTarget": "cv_2.0:build:production",
-                            "extraWebpackConfig": "webpack.prod.config.js"
+                            "buildTarget": "cv_2.0:build:production"
                         },
                         "development": {
                             "buildTarget": "cv_2.0:build:development"
@@ -89,8 +76,7 @@
                     "defaultConfiguration": "production",
                     "options": {
                         "port": 4200,
-                        "publicHost": "http://localhost:4200",
-                        "extraWebpackConfig": "webpack.config.js"
+                        "publicHost": "http://localhost:4200"
                     }
                 },
                 "extract-i18n": {

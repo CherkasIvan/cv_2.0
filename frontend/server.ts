@@ -1,5 +1,5 @@
+import bootstrap from 'bootstrap';
 import express from 'express';
-import bootstrap from 'main.server';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 

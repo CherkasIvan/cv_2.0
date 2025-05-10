@@ -1,21 +1,21 @@
+import { AxiosResponse } from 'axios';
+import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common/decorators';
 import { Observable, map, switchMap } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class GithubService {
-  [x: string]: any;
   private readonly _baseUrl = 'https://api.github.com';
   private readonly apiUrl = 'http://localhost:3000/github';
   private token: string | null = null;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpService: HttpService) {}
 
   // Метод для получения токена
   getToken(): Observable<any> {
-    return this.httpClient.get(`${this.apiUrl}/token`);
+    return this.httpService
+      .get(`${this.apiUrl}/token`)
+      .pipe(map((response: AxiosResponse) => response.data));
   }
 
   // Метод для инициализации токена
@@ -51,14 +51,14 @@ export class GithubService {
   }
 
   private fetchPrivateRepos(page: number, perPage: number): Observable<any[]> {
-    const headers = new HttpHeaders({
+    const headers = {
       Authorization: `Bearer ${this.token}`,
       Accept: 'application/vnd.github.v3+json',
-    });
+    };
 
     console.log('Headers:', headers); // Проверка заголовков
 
-    return this.httpClient
+    return this.httpService
       .get<any[]>(`${this._baseUrl}/user/repos`, {
         headers,
         params: {
@@ -67,8 +67,8 @@ export class GithubService {
         },
       })
       .pipe(
-        map((repositories: any[]) =>
-          repositories.map((repository: any) => ({
+        map((response: AxiosResponse<any[]>) =>
+          response.data.map((repository: any) => ({
             name: repository.name,
             stars: repository.stargazers_count,
             htmlUrl: repository.html_url,

@@ -1,12 +1,14 @@
-import { Module } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 import { GithubController } from './controller/github.controller';
 import { GithubService } from './service/github.service';
+import { Module } from '@nestjs/common/decorators';
+import { HttpModule } from '@nestjs/axios';
 
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 @Module({
+  imports: [HttpModule],
   controllers: [GithubController],
   providers: [GithubService],
 })

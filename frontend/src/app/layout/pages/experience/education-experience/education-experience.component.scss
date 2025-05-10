@@ -5,14 +5,35 @@
     overflow-y: auto;
 }
 
-.activeEducation {
+.experience-card {
+    display: flex;
+    position: relative;
+    column-gap: 30px;
+    align-items: center;
     transition: transform 0.3s ease;
+    cursor: pointer;
+    border-radius: 40px;
+    padding: 30px;
+    width: 100%;
+    height: 140px;
 
-    &.first-item:hover {
-        transform: translateY(-120px); // Настройте значение по вашему усмотрению
+    &.activeEducation {
+        &:hover {
+            transform: translateY(-20px); // Подъем карточки
+            .icon {
+                transform: rotate(-15deg); // Поворот значка
+            }
+            .image {
+                transform: translateX(20px); // Всплытие картинки справа
+            }
+        }
     }
 
-    &.other-items:hover {
-        transform: translateY(-20px); // Настройте значение по вашему усмотрению
+    .icon {
+        transition: transform 0.3s ease;
+    }
+
+    .image {
+        transition: transform 0.3s ease;
     }
 }

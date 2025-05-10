@@ -1,4 +1,3 @@
-import { Injectable } from '@nestjs/common';
 import { getDocs, collection } from 'firebase/firestore';
 import { db } from '../utils/firebase.config';
 import * as admin from 'firebase-admin';
@@ -6,6 +5,7 @@ import { TNavigationDto } from 'src/models/navigation-dto.type';
 import { TSocialMediaDto } from 'src/models/social-media-dto.type';
 import { TExperienceDto } from 'src/models/experience-dto.type';
 import { TTechnologiesDto } from 'src/models/technologies-dto.type';
+import { Injectable } from '@nestjs/common/decorators';
 
 @Injectable()
 export class FirebaseService {

@@ -7,10 +7,12 @@ export class GithubController {
 
   @Get('repositories')
   async getRepositories(
-    @Query('page') page: number = 1,
-    @Query('perPage') perPage: number = 100,
+    @Query('page') page: string = '1',
+    @Query('perPage') perPage: string = '100',
   ) {
-    return this.githubService.getRepositories(page, perPage);
+    const pageNumber = parseInt(page, 10);
+    const perPageNumber = parseInt(perPage, 10);
+    return this.githubService.getGithubPrivateRepos(pageNumber, perPageNumber);
   }
 
   @Get('token')
