@@ -81,4 +81,10 @@ export class FirebaseController {
     const technologiesAside = await this.firebaseService.getTechnologiesAside();
     return technologiesAside;
   }
+
+  @Get('projects-aside')
+  async getProjectsAside() {
+    const projectsAside = await this.firebaseService.getProjectsAside();
+    return projectsAside;
+  }
 }

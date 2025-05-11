@@ -22,6 +22,7 @@ export interface FirebaseState {
     mainPageInfo: IMainPageInfo | null;
     experienceAside: TExperienceAside[];
     technologiesAside: TTechnologiesAside[];
+    projectsAside: TTechnologiesAside[];
     error: Error | null;
 }
 
@@ -37,6 +38,7 @@ export const initialFirebaseState: FirebaseState = {
     mainPageInfo: null,
     experienceAside: [],
     technologiesAside: [],
+    projectsAside: [],
     error: null,
 };
 
@@ -139,6 +141,14 @@ export const firebaseReducer = createReducer(
         }),
     ),
     on(FirebaseActions.getExperienceAsideError, (state, { error }) => ({
+        ...state,
+        error,
+    })),
+    on(FirebaseActions.getProjectsAsideSuccess, (state, { projectsAside }) => ({
+        ...state,
+        projectsAside,
+    })),
+    on(FirebaseActions.getProjectsAsideError, (state, { error }) => ({
         ...state,
         error,
     })),

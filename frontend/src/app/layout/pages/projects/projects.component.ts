@@ -11,11 +11,14 @@ import {
 import { Store, select } from '@ngrx/store';
 
 import { TGitHub } from '@core/models/github.type';
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
+import { FirebaseActions } from '@store/firebase-store/firebase.actions';
+import { selectProjectsAside } from '@store/firebase-store/firebase.selectors';
 import { GithubRepositoriesActions } from '@store/github-projects-store/github-projects.action';
 import {
     selectFilteredPrivateRepositories,
@@ -42,6 +45,7 @@ import { ProjectNavigationComponent } from './components/project-navigation/proj
     styleUrls: [
         './projects.component.scss',
         './projects-dm/projects-dm.component.scss',
+        './projects-mobile/projects-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -52,8 +56,12 @@ export class ProjectsComponent implements OnInit {
         select(darkModeSelector),
     );
     public currentRepositories$!: Observable<TGitHub[]>;
+    public repoTypes$!: Observable<any[]>;
 
-    constructor(@Inject(Store) private _store$: Store<TGitHub[] | TDarkMode>) {}
+    constructor(
+        @Inject(Store)
+        private _store$: Store<TGitHub[] | TDarkMode | TTechnologiesAside[]>,
+    ) {}
 
     ngOnInit(): void {
         this._store$.dispatch(
@@ -62,6 +70,9 @@ export class ProjectsComponent implements OnInit {
         this._store$.dispatch(
             GithubRepositoriesActions.getPrivateRepositories(),
         );
+        this._store$.dispatch(
+            FirebaseActions.getProjectsAside({ imgName: null }),
+        );
 
         this.publicRepositories$ = this._store$.select(
             selectFilteredPublicRepositories,
@@ -69,11 +80,13 @@ export class ProjectsComponent implements OnInit {
         this.privateRepositories$ = this._store$.select(
             selectFilteredPrivateRepositories,
         );
+        this.repoTypes$ = this._store$.select(selectProjectsAside);
 
         this.currentRepositories$ = this.publicRepositories$;
     }
 
     public setRepoType(type: 'public' | 'private' | 'all'): void {
+        console.log(type);
         if (type === 'public') {
             this.currentRepositories$ = this.publicRepositories$;
         } else if (type === 'private') {
@@ -107,7 +120,7 @@ export class ProjectsComponent implements OnInit {
     private shuffleRepos<T>(array: T[]): T[] {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Перемешивание
+            [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
     }

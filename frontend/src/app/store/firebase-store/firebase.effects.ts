@@ -296,4 +296,57 @@ export class FirebaseEffects {
             ),
         ),
     );
+
+    loadProjectsAside$ = createEffect(() =>
+        this._actions$.pipe(
+            ofType(FirebaseActions.getProjectsAside),
+            mergeMap(({ imgName }) =>
+                this._apiService.getProjectsAside().pipe(
+                    mergeMap((projectsAside) => {
+                        const imageRequests = projectsAside.map((project) => {
+                            if (project.imgName) {
+                                console.log('1: 0', projectsAside);
+                                return this._apiService
+                                    .getImages(project.imgName)
+                                    .pipe(
+                                        map((images) => ({
+                                            ...project,
+                                            images,
+                                        })),
+                                    );
+                            } else {
+                                return of(project);
+                            }
+                        });
+                        return forkJoin(imageRequests).pipe(
+                            map((updatedProjectsAside) => {
+                                const images = updatedProjectsAside
+                                    .map((project) => project.images)
+                                    .flat()
+                                    .filter(
+                                        (image): image is string =>
+                                            image !== undefined,
+                                    );
+
+                                return FirebaseActions.getProjectsAsideSuccess({
+                                    projectsAside: updatedProjectsAside,
+                                    images,
+                                });
+                            }),
+                            catchError((error) =>
+                                of(
+                                    FirebaseActions.getProjectsAsideError({
+                                        error,
+                                    }),
+                                ),
+                            ),
+                        );
+                    }),
+                    catchError((error) =>
+                        of(FirebaseActions.getProjectsAsideError({ error })),
+                    ),
+                ),
+            ),
+        ),
+    );
 }

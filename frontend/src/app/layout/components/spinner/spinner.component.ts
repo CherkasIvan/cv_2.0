@@ -16,7 +16,11 @@ import { spinnerSelector } from '@store/spinner-store/spinner.selector';
     standalone: true,
     imports: [CommonModule],
     templateUrl: './spinner.component.html',
-    styleUrls: ['./spinner.component.scss'],
+    styleUrls: [
+        './spinner.component.scss',
+        './spinner-dm/spinner-dm.component.scss',
+        './spinner-mobile/spinner-mobile.component.scss',
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {

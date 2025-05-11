@@ -48,7 +48,11 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
         TranslateModule,
     ],
     templateUrl: './login-form.component.html',
-    styleUrls: ['./login-form.component.scss'],
+    styleUrls: [
+        './login-form.component.scss',
+        './login-form-dm/login-form-dm.component.scss',
+        './login-form-mobile/login-form-mobile.component.scss',
+    ],
     animations: [loginFadeInOut, toggleHeight],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -36,7 +36,11 @@ import { WorkExperienceComponent } from './components/work-experience/work-exper
         AsyncPipe,
     ],
     templateUrl: './experience.component.html',
-    styleUrl: './experience.component.scss',
+    styleUrls: [
+        './experience.component.scss',
+        './experience-dm/experience-dm.component.scss',
+        './experience-mobile/experience-mobile.component.scss',
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceComponent implements OnInit {

@@ -66,8 +66,6 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        console.log(this.workDescription());
-        console.log(this.experienceDescription());
         this.initializeComponent();
     }
 

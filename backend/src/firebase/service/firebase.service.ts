@@ -89,6 +89,12 @@ export class FirebaseService {
     return this.getCollectionData<TTechnologiesDto>('technologiesAside');
   }
 
+  async getProjectsAside(): Promise<any[]> {
+    const data = await this.getCollectionData<any>('projectsAside');
+    console.log('Fetched Projects Aside:', data);
+    return data;
+  }
+
   async getExperienceAside(): Promise<TExperienceDto[]> {
     return this.getCollectionData<TExperienceDto>('experienceAside');
   }

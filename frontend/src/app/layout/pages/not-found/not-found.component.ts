@@ -5,7 +5,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     standalone: true,
     imports: [],
     templateUrl: './not-found.component.html',
-    styleUrl: './not-found.component.scss',
+    styleUrls: [
+        './not-found.component.scss',
+        './not-found-dm/not-found-dm.component.scss',
+        './not-found-mobile/not-found-mobile.component.scss',
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotFoundComponent {}

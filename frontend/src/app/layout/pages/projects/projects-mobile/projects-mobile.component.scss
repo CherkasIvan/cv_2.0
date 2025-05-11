@@ -1,0 +1,15 @@
+@use '../../../../../assets/styles/variables' as color;
+@use '../../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
+
+.repository-panel.dark-theme {
+    @include glassmorphism.projects_glassmorphism-dm;
+
+    .repository__name {
+        font-weight: 700;
+        font-size: 20px;
+    }
+
+    > * {
+        color: color.$white;
+    }
+}

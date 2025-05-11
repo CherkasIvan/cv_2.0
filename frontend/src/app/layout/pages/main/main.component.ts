@@ -39,7 +39,8 @@ import { ProfileLogoComponent } from '../../../layout/components/profile-logo/pr
     templateUrl: './main.component.html',
     styleUrls: [
         './main.component.scss',
-        './main-dark-mode/main-dark-mode.component.scss',
+        './main-dm/main-dm.component.scss',
+        './main-mobile/main-mobile.component.scss',
     ],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,

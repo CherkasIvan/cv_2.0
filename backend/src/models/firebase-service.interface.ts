@@ -13,6 +13,7 @@ export interface FirebaseService {
   getEducationPlaces(): Promise<DocumentData[]>;
   getMainPageInfo(): Promise<DocumentData[]>;
   getTechnologiesAside(): Promise<DocumentData[]>;
+  getProjectsAside(): Promise<DocumentData[]>;
   getExperienceAside(): Promise<DocumentData[]>;
   getBackendTech(): Promise<DocumentData[]>;
   getOtherTech(): Promise<DocumentData[]>;

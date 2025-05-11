@@ -36,7 +36,10 @@ export class GithubService {
         );
     }
 
-    // Метод для получения репозиториев
+    /**
+     * Метод для получения публичных репозиториев Github
+     * @returns
+     */
     public getRepositories(): Observable<any> {
         return this.httpClient.get(`${this._baseUrl}/repositories`);
     }
@@ -72,13 +75,18 @@ export class GithubService {
             );
     }
 
-    // Метод для получения приватных репозиториев
+    /**
+     * Метод для получения приватных репозиториев Github
+     * @param repoName
+     * @returns
+     */
     public getGithubPrivateRepos(
         page: number = 1,
         perPage: number = 100,
     ): Observable<TGitHub[]> {
+        console.log('Using token:', this.token);
         const headers = new HttpHeaders({
-            Authorization: `Bearer ${this.token}`, // Используем токен
+            Authorization: `Bearer ${this.token}`,
             Accept: 'application/vnd.github.v3+json',
         });
 
@@ -106,7 +114,11 @@ export class GithubService {
             );
     }
 
-    // Метод для получения языков репозитория
+    /**
+     * Метод для получения языков репозитория Github
+     * @param repoName
+     * @returns
+     */
     public getRepositoryLanguages(repoName: string): Observable<string[]> {
         return this.httpClient
             .get<{

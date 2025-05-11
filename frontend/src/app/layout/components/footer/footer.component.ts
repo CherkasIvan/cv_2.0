@@ -15,6 +15,7 @@ import { ButtonComponent } from '../button/button.component';
     styleUrls: [
         './footer.component.scss',
         './footer-dm/footer-dm.component.scss',
+        './footer-mobile/footer-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

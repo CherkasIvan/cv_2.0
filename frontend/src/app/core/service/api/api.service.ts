@@ -77,6 +77,10 @@ export class ApiService {
         );
     }
 
+    getProjectsAside(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.baseUrl}/firebase/projects-aside`);
+    }
+
     getExperienceAside(): Observable<TExperienceAside[]> {
         return this.http.get<TExperienceAside[]>(
             `${this.baseUrl}/firebase/experience-aside`,

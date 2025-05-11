@@ -36,18 +36,19 @@ export class GithubService {
     });
   }
 
-  // Метод для получения приватных репозиториев
+  /**
+   * Метод для получения приватных репозиториев GitHub
+   * @param page
+   * @param perPage
+   * @returns
+   */
   public getGithubPrivateRepos(
     page: number = 1,
     perPage: number = 100,
   ): Observable<any[]> {
-    if (!this.token) {
-      return this.initializeToken().pipe(
-        switchMap(() => this.fetchPrivateRepos(page, perPage)), // Используем switchMap
-      );
-    } else {
-      return this.fetchPrivateRepos(page, perPage);
-    }
+    return this.initializeToken().pipe(
+      switchMap(() => this.fetchPrivateRepos(page, perPage)),
+    );
   }
 
   private fetchPrivateRepos(page: number, perPage: number): Observable<any[]> {
@@ -56,8 +57,7 @@ export class GithubService {
       Accept: 'application/vnd.github.v3+json',
     };
 
-    console.log('Headers:', headers); // Проверка заголовков
-
+    console.log('Headers:', headers);
     return this.httpService
       .get<any[]>(`${this._baseUrl}/user/repos`, {
         headers,

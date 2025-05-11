@@ -30,7 +30,11 @@ import { TProfile } from '@store/model/profile.type';
     standalone: true,
     imports: [ReactiveFormsModule, AsyncPipe, NgIf, TranslateModule],
     templateUrl: './experience-dialog.component.html',
-    styleUrls: ['./experience-dialog.component.scss'],
+    styleUrls: [
+        './experience-dialog.component.scss',
+        './experience-dialog-dm/experience-dialog-dm.component.scss',
+        './experience-dialog-mobile/experience-dialog-mobile.component.scss',
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceDialogComponent implements OnInit {

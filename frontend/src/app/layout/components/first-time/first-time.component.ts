@@ -12,7 +12,11 @@ import { TranslateService } from '@ngx-translate/core';
     standalone: true,
     animations: [listAnimation],
     templateUrl: './first-time.component.html',
-    styleUrls: ['./first-time.component.scss'],
+    styleUrls: [
+        './first-time.component.scss',
+        './first-time-mobile/first-time-mobile.component.scss',
+        './first-time-dm/first-time-dm.component.scss',
+    ],
 })
 export class FirstTimeComponent implements OnInit, OnDestroy {
     public isAuth = false;

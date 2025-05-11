@@ -28,6 +28,7 @@ import { selectHardSkillsNav } from '@store/firebase-store/firebase.selectors';
     styleUrls: [
         './aside-navigation-subtechnologies.component.scss',
         './aside-navigation-subtechnologies-dm/aside-navigation-subtechnologies-dm.component.scss',
+        './aside-navigation-subtechnologies-mobile/aside-navigation-subtechnologies-mobile.component.scss',
     ],
 })
 export class AsideNavigationSubtechnologiesComponent implements OnInit {

@@ -1,7 +1,12 @@
-# CV 2.0
+# CV 2.0/frontend
 
 This project was generated with
-[Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
+[Angular CLI](https://github.com/angular/angular-cli) version 19.2.11.
+
+## Rules
+
+All UI components must have two accompanying style folders for `dark mode` and
+for `adaptive layout`.
 
 ## Development server
 

@@ -23,7 +23,8 @@ import { TDarkMode } from '@store/model/dark-mode.type';
     templateUrl: './animation-bg.component.html',
     styleUrls: [
         './animation-bg.component.scss',
-        './animation-bg-dark-mode/animation-bg-dark-mode.component.scss',
+        './animation-bg-dm/animation-bg-dm.component.scss',
+        './animation-bg-mobile/animation-bg-mobile.component.scss',
     ],
     animations: [blobFloat],
     changeDetection: ChangeDetectionStrategy.OnPush,

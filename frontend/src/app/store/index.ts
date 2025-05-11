@@ -26,10 +26,7 @@ export function globalSetReducers(
                   .isSpinnerOn
             : false,
         language: state
-            ? languageReducer(
-                  { currentLanguage: state.language.currentLanguage },
-                  action,
-              ).currentLanguage
-            : 'ru',
+            ? languageReducer(state.language, action)
+            : { currentLanguage: 'ru' },
     };
 }

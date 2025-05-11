@@ -17,7 +17,11 @@ import { selectRepositoryLanguages } from '@store/github-projects-store/github-p
     standalone: true,
     imports: [NgClass, AsyncPipe],
     templateUrl: './project-chips.component.html',
-    styleUrls: ['./project-chips.component.scss'],
+    styleUrls: [
+        './project-chips.component.scss',
+        './project-chips-dm/project-chips-dm.component.scss',
+        './project-chips-mobile/project-chips-mobile.component.scss',
+    ],
 })
 export class ProjectChipsComponent {
     public projectChipsText = input.required<string>();

@@ -1,5 +1,9 @@
 <section class="projects">
-    <cv-project-navigation (repoTypeChanged)="($event)"></cv-project-navigation>
+    <cv-project-navigation
+        (repoTypeChanged)="setRepoType($event)"
+        [currentTypes]="repoTypes$ | async"
+        [theme]="currentTheme$ | async"
+    ></cv-project-navigation>
     <div class="grid-container">
         @for (repository of currentRepositories$ | async; track repository.name; let i = $index) {
             {{ repository.private }}

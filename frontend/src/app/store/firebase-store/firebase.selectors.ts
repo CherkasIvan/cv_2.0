@@ -64,3 +64,8 @@ export const selectExperienceAside = createSelector(
     selectFirebaseState,
     (state: FirebaseState) => state.experienceAside,
 );
+
+export const selectProjectsAside = createSelector(
+    selectFirebaseState,
+    (state: FirebaseState) => state.projectsAside,
+);

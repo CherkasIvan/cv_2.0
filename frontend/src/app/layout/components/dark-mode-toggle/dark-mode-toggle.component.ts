@@ -25,7 +25,11 @@ import { TLocalstorageUser } from '@store/model/localstorage-user.type';
     standalone: true,
     imports: [NgClass, AsyncPipe],
     templateUrl: './dark-mode-toggle.component.html',
-    styleUrls: ['./dark-mode-toggle.component.scss'],
+    styleUrls: [
+        './dark-mode-toggle.component.scss',
+        './dark-mode-toggle-dm/dark-mode-toggle-dm.component.scss',
+        './dark-mode-toggle-mobile/dark-mode-toggle-mobile.component.scss',
+    ],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

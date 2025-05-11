@@ -18,6 +18,7 @@ import { ExperienceCardComponent } from '@layout/pages/experience/components/exp
     styleUrls: [
         './work-experience.component.scss',
         './work-experience-mobile/work-experience-mobile.component.scss',
+        './work-experience-dm/work-experience-dm.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

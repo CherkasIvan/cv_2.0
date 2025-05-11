@@ -39,6 +39,7 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
     styleUrls: [
         './aside-navigation-technologies.component.scss',
         './aside-navigation-technologies-dm/aside-navigation-technologies-dm.component.scss',
+        './aside-navigation-technologies-mobile/aside-navigation-technologies-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

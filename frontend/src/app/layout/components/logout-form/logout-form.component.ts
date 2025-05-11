@@ -30,7 +30,11 @@ import { TProfile } from '@store/model/profile.type';
     standalone: true,
     imports: [ReactiveFormsModule, AsyncPipe, TranslateModule],
     templateUrl: './logout-form.component.html',
-    styleUrls: ['./logout-form.component.scss'],
+    styleUrls: [
+        './logout-form.component.scss',
+        './logout-form-dm/logout-form-dm.component.scss',
+        './logout-form-mobile/logout-form-mobile.component.scss',
+    ],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

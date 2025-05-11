@@ -14,7 +14,11 @@ import { selectProfileUrl } from '@store/images-store/images.selectors';
     standalone: true,
     imports: [AsyncPipe, NgClass],
     templateUrl: './profile-logo.component.html',
-    styleUrls: ['./profile-logo.component.scss'],
+    styleUrls: [
+        './profile-logo.component.scss',
+        './profile-logo-dm/profile-logo-dm.component.scss',
+        './profile-logo-mobile/profile-logo-mobile.component.scss',
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileLogoComponent {
