@@ -37,9 +37,9 @@ import { WorkExperienceComponent } from './components/work-experience/work-exper
     ],
     templateUrl: './experience.component.html',
     styleUrls: [
-        './experience.component.scss',
-        './experience-dm/experience-dm.component.scss',
-        './experience-mobile/experience-mobile.component.scss',
+        './styles/experience.component.scss',
+        './styles/experience-dm.component.scss',
+        './styles/experience-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -1,0 +1,27 @@
+@use '../../../../../../../assets/styles/variables' as color;
+@use '../../../../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
+@use '../../../../../../../assets/styles/mixins/flex.mixin' as flex;
+
+.technology-card {
+    @include flex.flex-a_center-d_column;
+    column-gap: 96px;
+    cursor: pointer;
+    width: fit-content;
+    max-width: 140px;
+
+    &_block {
+        @include glassmorphism.cards_glassmorphism;
+        @include flex.flex-a_center-j_center;
+        padding: 30px;
+        width: 140px;
+        height: 140px;
+    }
+
+    &_description {
+        margin-bottom: 60px;
+        padding: 30px 0;
+        font-size: 16px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+}

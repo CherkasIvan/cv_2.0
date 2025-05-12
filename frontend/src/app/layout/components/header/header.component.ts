@@ -52,9 +52,9 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
     ],
     templateUrl: './header.component.html',
     styleUrls: [
-        './header.component.scss',
-        './header-dm/header-dm.component.scss',
-        './header-mobile/header-mobile.component.scss',
+        './styles/header.component.scss',
+        './styles/header-dm.component.scss',
+        './styles/header-mobile.component.scss',
     ],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -13,9 +13,9 @@ import {
     imports: [NgClass],
     templateUrl: './dark-animation-layout.component.html',
     styleUrls: [
-        './dark-animation-layout.component.scss',
-        './dark-animation-layout-dm/dark-animation-layout-dm.component.scss',
-        './dark-animation-layout-mobile/dark-animation-layout-mobile.component.scss',
+        './styles/dark-animation-layout.component.scss',
+        './styles/dark-animation-layout-dm.component.scss',
+        './styles/dark-animation-layout-mobile.component.scss',
     ],
 })
 export class DarkAnimationLayoutComponent {

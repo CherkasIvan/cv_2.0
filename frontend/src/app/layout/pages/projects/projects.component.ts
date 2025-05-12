@@ -43,9 +43,9 @@ import { ProjectNavigationComponent } from './components/project-navigation/proj
     ],
     templateUrl: './projects.component.html',
     styleUrls: [
-        './projects.component.scss',
-        './projects-dm/projects-dm.component.scss',
-        './projects-mobile/projects-mobile.component.scss',
+        './styles/projects.component.scss',
+        './styles/projects-dm.component.scss',
+        './styles/projects-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

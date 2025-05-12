@@ -6,9 +6,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     imports: [],
     templateUrl: './not-found.component.html',
     styleUrls: [
-        './not-found.component.scss',
-        './not-found-dm/not-found-dm.component.scss',
-        './not-found-mobile/not-found-mobile.component.scss',
+        './styles/not-found.component.scss',
+        './styles/not-found-dm.component.scss',
+        './styles/not-found-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

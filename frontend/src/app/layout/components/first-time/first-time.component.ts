@@ -13,9 +13,9 @@ import { TranslateService } from '@ngx-translate/core';
     animations: [listAnimation],
     templateUrl: './first-time.component.html',
     styleUrls: [
-        './first-time.component.scss',
-        './first-time-mobile/first-time-mobile.component.scss',
-        './first-time-dm/first-time-dm.component.scss',
+        './styles/first-time.component.scss',
+        './styles/first-time-mobile.component.scss',
+        './styles/first-time-dm.component.scss',
     ],
 })
 export class FirstTimeComponent implements OnInit, OnDestroy {

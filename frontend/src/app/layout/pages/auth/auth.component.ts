@@ -16,9 +16,9 @@ import { LoginFormComponent } from '../../components/login-form/login-form.compo
     imports: [LoginFormComponent],
     templateUrl: './auth.component.html',
     styleUrls: [
-        './auth.component.scss',
-        './auth-dm/auth-dm.component.scss',
-        './auth-mobile/auth-mobile.component.scss',
+        './styles/auth.component.scss',
+        './styles/auth-dm.component.scss',
+        './styles/auth-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

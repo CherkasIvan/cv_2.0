@@ -1,0 +1,225 @@
+@use '../../../../../assets/styles/variables' as color;
+
+.animation-bg {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+
+    .circles-list {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        height: 100%;
+
+        .circle-element {
+            display: flex;
+            align-items: flex-start;
+            width: fit-content;
+            height: 100%;
+
+            &_img {
+                animation: spin infinite linear;
+                animation-fill-mode: forwards;
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+@keyframes spin {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(200%);
+    }
+}
+
+.visible {
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+}
+.visible.fade-in {
+    opacity: 1;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.circle-element_img {
+    --size: 250px;
+    margin: calc(var(--size) / -2);
+    border-radius: 50%;
+
+    // Для цвета пузырьков можно добавить градиенты
+    background: radial-gradient(circle, #ff4500, #ff6347, #ffa07a);
+    width: var(--size);
+    height: var(--size);
+
+    span {
+        display: inline-block;
+        position: relative;
+        border-radius: 50%;
+        background: radial-gradient(circle, #ff7f50, #ff4500);
+    }
+
+    // Для движения пузырьков
+    p {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+
+    p:nth-child(1) {
+        animation: lava-floating 6s ease-in-out infinite alternate;
+
+        span {
+            animation: lava-transform 4s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+            margin: calc(var(--size) / -20);
+            width: calc(var(--size) / 12);
+            height: calc(var(--size) / 12);
+        }
+    }
+
+    p:nth-child(2) {
+        animation: lava-floating-reverse 8s ease-in-out infinite alternate;
+
+        span {
+            animation: lava-transform 5s ease-in-out infinite alternate;
+            margin: calc(var(--size) / -8);
+            width: calc(var(--size) / 6);
+            height: calc(var(--size) / 6);
+        }
+    }
+}
+
+// Создаём эффект движения лавовых пузырьков
+@keyframes lava-floating {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(-60px) scale(1.2);
+    }
+    100% {
+        transform: translateY(-120px) scale(1);
+    }
+}
+
+@keyframes lava-floating-reverse {
+    0% {
+        transform: translateY(0px) scale(1);
+    }
+    50% {
+        transform: translateY(60px) scale(0.8);
+    }
+    100% {
+        transform: translateY(120px) scale(1);
+    }
+}
+
+@keyframes lava-transform {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5) skew(5deg, 5deg);
+    }
+    100% {
+        transform: scale(1) skew(-5deg, -5deg);
+    }
+}
+
+@keyframes skewing {
+    0% {
+        transform: skewY(6deg);
+    }
+    10% {
+        transform: skewY(-6deg);
+    }
+    20% {
+        transform: skewY(4deg);
+    }
+    30% {
+        transform: skewY(-4deg);
+    }
+    40% {
+        transform: skewY(2deg);
+    }
+    50% {
+        transform: skewY(-6deg);
+    }
+    55% {
+        transform: skewY(6deg);
+    }
+    60% {
+        transform: skewY(-5deg);
+    }
+    65% {
+        transform: skewY(5deg);
+    }
+    70% {
+        transform: skewY(-4deg);
+    }
+    75% {
+        transform: skewY(4deg);
+    }
+    80% {
+        transform: skewY(-3deg);
+    }
+    85% {
+        transform: skewY(3deg);
+    }
+    90% {
+        transform: skewY(-2deg);
+    }
+    95% {
+        transform: skewY(2deg);
+    }
+    100% {
+        transform: skewY(1deg);
+    }
+}
+
+@keyframes skewing-child {
+    0% {
+        transform: skewY(-10deg);
+    }
+    100% {
+        transform: skewY(10deg);
+    }
+}
+
+@keyframes moving {
+    0% {
+        transform: translateY(calc(var(--size) / -2.5));
+    }
+    30% {
+        transform: translateY(calc(var(--size) / -10));
+    }
+    70% {
+        transform: translateY(calc(var(--size) / 10));
+    }
+    100% {
+        transform: translateY(calc(var(--size) / 2.5));
+    }
+}
+
+@keyframes squishing {
+    10%,
+    40%,
+    80% {
+        transform: scale(1.1, 0.9);
+    }
+    0%,
+    30%,
+    60%,
+    100% {
+        transform: scale(0.9, 1.1);
+    }
+}

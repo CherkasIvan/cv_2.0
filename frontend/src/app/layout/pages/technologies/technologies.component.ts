@@ -44,9 +44,9 @@ import { TechnologyCardComponent } from './components/technology-card/technology
     ],
     templateUrl: './technologies.component.html',
     styleUrls: [
-        './technologies.component.scss',
-        './technologies-mobile/technologies-mobile.component.scss',
-        './technologies-dm/technologies-dm.component.scss',
+        './styles/technologies.component.scss',
+        './styles/technologies-mobile.component.scss',
+        './styles/technologies-dm.component.scss',
     ],
     providers: [DestroyService],
     animations: [technologyCardFadeIn, listAnimation],

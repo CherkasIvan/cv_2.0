@@ -13,9 +13,9 @@ import { ButtonComponent } from '../button/button.component';
     imports: [TranslateModule, ButtonComponent, NgClass],
     templateUrl: './footer.component.html',
     styleUrls: [
-        './footer.component.scss',
-        './footer-dm/footer-dm.component.scss',
-        './footer-mobile/footer-mobile.component.scss',
+        './styles/footer.component.scss',
+        './styles/footer-dm.component.scss',
+        './styles/footer-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

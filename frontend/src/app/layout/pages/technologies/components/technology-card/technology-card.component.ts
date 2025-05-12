@@ -18,9 +18,9 @@ import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fad
     animations: [technologyCardFadeIn],
     templateUrl: './technology-card.component.html',
     styleUrls: [
-        './technology-card.component.scss',
-        './technology-card-dm/technology-card-dm.component.scss',
-        './technology-card-mobile/technology-card-mobile.component.scss',
+        './styles/technology-card.component.scss',
+        './styles/technology-card-dm.component.scss',
+        './styles/technology-card-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

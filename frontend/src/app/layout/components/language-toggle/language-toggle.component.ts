@@ -23,9 +23,9 @@ import { TLanguages } from '@store/model/languages.type';
     templateUrl: './language-toggle.component.html',
     providers: [DestroyService],
     styleUrls: [
-        './language-toggle.component.scss',
-        './language-toggle-dm/language-toggle-dm.component.scss',
-        './language-toggle-mobile/language-toggle-mobile.component.scss',
+        './styles/language-toggle.component.scss',
+        './styles/language-toggle-dm.component.scss',
+        './styles/language-toggle-mobile.component.scss',
     ],
 })
 export class LanguageToggleComponent implements OnInit {

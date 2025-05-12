@@ -22,9 +22,9 @@ import { TDarkMode } from '@store/model/dark-mode.type';
     imports: [NgStyle, NgClass, AsyncPipe],
     templateUrl: './animation-bg.component.html',
     styleUrls: [
-        './animation-bg.component.scss',
-        './animation-bg-dm/animation-bg-dm.component.scss',
-        './animation-bg-mobile/animation-bg-mobile.component.scss',
+        './styles/animation-bg.component.scss',
+        './styles/animation-bg-dm.component.scss',
+        './styles/animation-bg-mobile.component.scss',
     ],
     animations: [blobFloat],
     changeDetection: ChangeDetectionStrategy.OnPush,

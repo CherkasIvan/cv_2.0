@@ -18,8 +18,8 @@ import { spinnerSelector } from '@store/spinner-store/spinner.selector';
     templateUrl: './spinner.component.html',
     styleUrls: [
         './spinner.component.scss',
-        './spinner-dm/spinner-dm.component.scss',
-        './spinner-mobile/spinner-mobile.component.scss',
+        './styles/spinner-dm/spinner-dm.component.scss',
+        './styles/spinner-mobile/spinner-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [

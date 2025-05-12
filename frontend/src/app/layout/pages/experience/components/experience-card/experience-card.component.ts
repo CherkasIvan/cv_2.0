@@ -32,9 +32,9 @@ import {
     imports: [NgClass, TranslateModule, AsyncPipe],
     templateUrl: './experience-card.component.html',
     styleUrls: [
-        './experience-card.component.scss',
-        './experience-card-dm/experience-card-dm.component.scss',
-        './experience-card-mobile/experience-card-mobile.component.scss',
+        './styles/experience-card.component.scss',
+        './styles/experience-card-dm.component.scss',
+        './styles/experience-card-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInOutCards],

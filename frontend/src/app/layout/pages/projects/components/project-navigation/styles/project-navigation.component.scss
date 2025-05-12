@@ -1,0 +1,27 @@
+@use '../../../../../../../assets/styles/variables' as color;
+
+.aside-navigation {
+    position: relative;
+    .navigation-list {
+        display: flex;
+        row-gap: calc(10px + 20 * (100vw / 1920));
+        flex-direction: column;
+
+        .navigation_item {
+            color: color.$black;
+
+            .item-button {
+                cursor: pointer;
+                background-color: transparent;
+                color: color.$darkGray;
+                font-size: calc(20px + 30 * (100vw / 1920));
+                line-height: 51.1px;
+                font-family: 'RS-regular';
+                text-transform: capitalize;
+            }
+        }
+    }
+    .active {
+        color: color.$black;
+    }
+}

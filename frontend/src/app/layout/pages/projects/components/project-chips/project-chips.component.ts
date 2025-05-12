@@ -18,9 +18,9 @@ import { selectRepositoryLanguages } from '@store/github-projects-store/github-p
     imports: [NgClass, AsyncPipe],
     templateUrl: './project-chips.component.html',
     styleUrls: [
-        './project-chips.component.scss',
-        './project-chips-dm/project-chips-dm.component.scss',
-        './project-chips-mobile/project-chips-mobile.component.scss',
+        './styles/project-chips.component.scss',
+        './styles/project-chips-dm.component.scss',
+        './styles/project-chips-mobile.component.scss',
     ],
 })
 export class ProjectChipsComponent {

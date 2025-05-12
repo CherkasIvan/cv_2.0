@@ -21,9 +21,9 @@ import { darkModeSelector } from '@store/dark-mode-store/dark-mode.selectors';
     selector: 'cv-project-navigation',
     templateUrl: './project-navigation.component.html',
     styleUrls: [
-        './project-navigation.component.scss',
-        './project-navigation-dm/project-navigation-dm.component.scss',
-        './project-navigation-mobile/project-navigation-mobile.component.scss',
+        './styles/project-navigation.component.scss',
+        './styles/project-navigation-dm.component.scss',
+        './styles/project-navigation-mobile.component.scss',
     ],
     imports: [NgClass],
     standalone: true,

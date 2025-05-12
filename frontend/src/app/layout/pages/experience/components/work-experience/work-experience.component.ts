@@ -16,9 +16,9 @@ import { ExperienceCardComponent } from '@layout/pages/experience/components/exp
     imports: [ExperienceCardComponent, NgClass],
     templateUrl: './work-experience.component.html',
     styleUrls: [
-        './work-experience.component.scss',
-        './work-experience-mobile/work-experience-mobile.component.scss',
-        './work-experience-dm/work-experience-dm.component.scss',
+        './styles/work-experience.component.scss',
+        './styles/work-experience-mobile.component.scss',
+        './styles/work-experience-dm.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

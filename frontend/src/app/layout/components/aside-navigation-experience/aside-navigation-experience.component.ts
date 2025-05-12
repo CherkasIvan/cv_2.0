@@ -31,9 +31,9 @@ import { selectHardSkillsNav } from '@store/firebase-store/firebase.selectors';
     providers: [DestroyService],
     templateUrl: './aside-navigation-experience.component.html',
     styleUrls: [
-        './aside-navigation-experience.component.scss',
-        './aside-navigation-experience-dm/aside-navigation-experience-dm.component.scss',
-        './aside-navigation-experience-mobile/aside-navigation-experience-mobile.component.scss',
+        './styles/aside-navigation-experience.component.scss',
+        './styles/aside-navigation-experience-dm.component.scss',
+        './styles/aside-navigation-experience-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

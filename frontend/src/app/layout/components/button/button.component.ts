@@ -20,9 +20,9 @@ import { TDarkMode } from '@store/model/dark-mode.type';
     imports: [NgClass],
     templateUrl: './button.component.html',
     styleUrls: [
-        './button.component.scss',
-        './button-dm/button-dm.component.scss',
-        './button-mobile/button-mobile.component.scss',
+        './styles/button.component.scss',
+        './styles/button-dm.component.scss',
+        './styles/button-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

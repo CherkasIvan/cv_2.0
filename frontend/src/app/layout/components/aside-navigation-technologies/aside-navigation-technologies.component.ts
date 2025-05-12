@@ -37,9 +37,9 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
     providers: [DestroyService],
     templateUrl: './aside-navigation-technologies.component.html',
     styleUrls: [
-        './aside-navigation-technologies.component.scss',
-        './aside-navigation-technologies-dm/aside-navigation-technologies-dm.component.scss',
-        './aside-navigation-technologies-mobile/aside-navigation-technologies-mobile.component.scss',
+        './styles/aside-navigation-technologies.component.scss',
+        './styles/aside-navigation-technologies-dm.component.scss',
+        './styles/aside-navigation-technologies-mobile.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
