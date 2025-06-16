@@ -24,7 +24,7 @@ import { ERoute } from '@core/enum/route.enum';
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
 import { TProfile } from '@layout/store/model/profile.type';
 
-import { LocalStorageService } from '../local-storage/local-storage.service';
+import { CacheStorageService } from '../cache-storage/cache-storage.service';
 
 @Injectable({
     providedIn: 'root',
@@ -41,13 +41,13 @@ export class AuthService implements OnDestroy {
         private readonly _afs: AngularFirestore,
         private readonly _afAuth: AngularFireAuth,
         private readonly _router: Router,
-        private readonly _localStorageService: LocalStorageService,
+        private readonly _cacheStorageService: CacheStorageService,
         private readonly _store$: Store,
         @Inject(PLATFORM_ID) private platformId: string,
     ) {
         this._isBrowser = isPlatformBrowser(this.platformId);
         if (this._isBrowser) {
-            this.usersState = this._localStorageService.getUsersState();
+            this.usersState = this._cacheStorageService.getUsersState();
             if (localStorage.getItem('usersState')) {
                 this.isAuth$.next(true);
             } else {
@@ -65,14 +65,14 @@ export class AuthService implements OnDestroy {
             tap((result) => {
                 if (this._isBrowser) {
                     if (!this.usersState) {
-                        this._localStorageService.initUser(
+                        this._cacheStorageService.initUser(
                             true,
                             false,
                             result.user,
                             'main',
                         );
                     } else {
-                        this._localStorageService.setUser(result.user);
+                        this._cacheStorageService.setUser(result.user);
                     }
 
                     this.setUserData(result.user);
@@ -100,14 +100,14 @@ export class AuthService implements OnDestroy {
             tap(() => {
                 if (this._isBrowser) {
                     if (!this.usersState) {
-                        this._localStorageService.initUser(
+                        this._cacheStorageService.initUser(
                             true,
                             true,
                             null,
                             'main',
                         );
                     } else {
-                        this._localStorageService.setUser(null);
+                        this._cacheStorageService.setUser(null);
                     }
                     this.isAuth$.next(true);
                     this._router.navigate([ERoute.LAYOUT]);
@@ -140,7 +140,7 @@ export class AuthService implements OnDestroy {
             tap(() => {
                 if (this._isBrowser) {
                     const usersState =
-                        this._localStorageService.getUsersState();
+                        this._cacheStorageService.getUsersState();
 
                     if (usersState?.isGuest) {
                         usersState.isGuest = false;
@@ -150,10 +150,10 @@ export class AuthService implements OnDestroy {
                     }
 
                     if (usersState) {
-                        this._localStorageService.setUsersState(usersState);
+                        this._cacheStorageService.setUsersState(usersState);
                     }
 
-                    this._localStorageService.clearUserData();
+                    this._cacheStorageService.clearUserData();
                     this._store$.dispatch(AuthActions.getLogout());
                     this.isAuth$.next(false);
                     this._router.navigate([ERoute.AUTH]);

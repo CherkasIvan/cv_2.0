@@ -1,6 +1,6 @@
 import { TProfile } from './profile.type';
 
-export type TLocalstorageUser = {
+export type TCasheStorageUser = {
     isFirstTime: boolean;
     isGuest: boolean;
     user?: TProfile | null;

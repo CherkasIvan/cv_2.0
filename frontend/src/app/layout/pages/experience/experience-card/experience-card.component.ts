@@ -37,7 +37,7 @@ import { TranslateModule } from '@ngx-translate/core';
         './experience-card-dm/experience-card-dm.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [fadeInOutCards],
+    // animations: [fadeInOutCards],
 })
 export class ExperienceCardComponent implements OnInit, OnChanges {
     @Input() experience: any;

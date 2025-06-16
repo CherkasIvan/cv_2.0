@@ -17,8 +17,8 @@ import { Store, select } from '@ngrx/store';
 
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { INavigation } from '@core/models/navigation.interface';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
@@ -54,12 +54,12 @@ export class AsideNavigationExperienceComponent implements OnInit {
         private _cdr: ChangeDetectorRef,
         @Inject(Store) private _store$: Store<INavigation>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
     ) {}
 
     public changeTab(tab: 'education' | 'work') {
         this.selectedTab = tab;
-        this._localStorageService.saveSelectedTab(tab);
+        this._cacheStorageService.saveSelectedTab(tab);
         this.emittedTab.emit(this.selectedTab);
         this._cdr.detectChanges();
     }
@@ -71,7 +71,7 @@ export class AsideNavigationExperienceComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.selectedTab = this._localStorageService.getSelectedTab();
+        this.selectedTab = this._cacheStorageService.getSelectedTab();
         this._store$.dispatch(
             FirebaseActions.getHardSkillsNav({ imgName: '' }),
         );

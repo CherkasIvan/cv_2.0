@@ -14,7 +14,7 @@ import { RouterLinkActive } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
@@ -43,7 +43,7 @@ export class AsideNavigationSubtechnologiesComponent implements OnInit {
     constructor(
         private _cdr: ChangeDetectorRef,
         @Inject(Store) private _store$: Store<INavigation[]>,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
     ) {}
 
     public changeRoutNavigation(link: string): boolean {
@@ -52,15 +52,15 @@ export class AsideNavigationSubtechnologiesComponent implements OnInit {
 
     ngOnInit() {
         this.selectedTab =
-            this._localStorageService.getSelectedSubTechnologiesTab();
+            this._cacheStorageService.getSelectedSubTechnologiesTab();
         if (
-            this._localStorageService.getSelectedTechnologiesTab() ===
+            this._cacheStorageService.getSelectedTechnologiesTab() ===
             'technologies'
         ) {
             this.currentSkills =
-                this._localStorageService.getSelectedSubTechnologiesTab() ||
+                this._cacheStorageService.getSelectedSubTechnologiesTab() ||
                 'frontend';
-            this._localStorageService.saveSelectedSubTechnologiesTab(
+            this._cacheStorageService.saveSelectedSubTechnologiesTab(
                 this.currentSkills as 'frontend' | 'backend',
             );
         }
@@ -72,7 +72,7 @@ export class AsideNavigationSubtechnologiesComponent implements OnInit {
 
     public changeSkillsList(tab: string) {
         this.currentSkills = tab;
-        this._localStorageService.saveSelectedSubTechnologiesTab(
+        this._cacheStorageService.saveSelectedSubTechnologiesTab(
             tab as 'frontend' | 'backend',
         );
         this.emittedTab.emit(this.currentSkills);

@@ -1,8 +1,11 @@
+import { takeUntil } from 'rxjs';
+
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
@@ -28,19 +31,24 @@ export class AuthComponent implements OnInit {
 
     constructor(
         private _store$: Store,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
         private _translateService: TranslateService,
+        private _destroy: DestroyService,
     ) {}
 
     ngOnInit() {
-        const storedLanguage = this._localStorageService.getLanguage();
-        const languageToSet = storedLanguage || 'en';
+        this._cacheStorageService.getLanguage().then((storedLanguage) => {
+            const languageToSet = storedLanguage || 'en';
 
-        this._translateService.use(languageToSet).subscribe(() => {
-            this._localStorageService.setLanguage(languageToSet);
-            this._store$.dispatch(setLanguageSuccess(languageToSet));
+            this._translateService
+                .use(languageToSet)
+                .pipe(takeUntil(this._destroy))
+                .subscribe(() => {
+                    this._cacheStorageService.setLanguage(languageToSet);
+                    this._store$.dispatch(setLanguageSuccess(languageToSet));
+                });
+
+            this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
         });
-
-        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
     }
 }

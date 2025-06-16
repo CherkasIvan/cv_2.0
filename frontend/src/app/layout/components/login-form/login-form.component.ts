@@ -50,7 +50,7 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
     ],
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.scss'],
-    animations: [loginFadeInOut, toggleHeight],
+    // animations: [loginFadeInOut, toggleHeight],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -17,8 +17,8 @@ import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
@@ -61,13 +61,13 @@ export class AsideNavigationTechnologiesComponent implements OnInit {
     constructor(
         private cdr: ChangeDetectorRef,
         private _store$: Store<INavigation>,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
     ) {}
 
     public changeTab(tab: 'technologies' | 'other') {
         this.selectedTab = tab;
-        this._localStorageService.saveSelectedTechnologiesTab(tab);
+        this._cacheStorageService.saveSelectedTechnologiesTab(tab);
         if (this.currentSkills && this.selectedTab === 'technologies') {
             this.emittedTab.emit(this.currentSkills);
         } else {
@@ -88,7 +88,7 @@ export class AsideNavigationTechnologiesComponent implements OnInit {
 
     ngOnInit(): void {
         this.selectedTab =
-            this._localStorageService.getSelectedTechnologiesTab();
+            this._cacheStorageService.getSelectedTechnologiesTab();
         this._store$.dispatch(
             FirebaseActions.getHardSkillsNav({ imgName: '' }),
         );
