@@ -16,8 +16,8 @@ import { Store, select } from '@ngrx/store';
 import { IExperience } from '@core/models/experience.interface';
 import { INavigation } from '@core/models/navigation.interface';
 import { ISocialMedia } from '@core/models/social-media.interface';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 import { routeAnimations } from '@core/utils/animations/router-animations';
 import { startCardFadeIn } from '@core/utils/animations/start-cart-fade-in';
 import { startCardFadeOut } from '@core/utils/animations/start-cart-fade-out';
@@ -69,7 +69,7 @@ import { TDarkMode } from './store/model/dark-mode.type';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-    public isFirstTime!: boolean;
+    public isFirstTime!: Promise<boolean>;
     public isAuth: boolean = false;
     public isModalDialogVisible: boolean = false;
     public isExperienceDialogVisible$!: Observable<boolean>;
@@ -101,10 +101,10 @@ export class LayoutComponent implements OnInit {
         >,
         @Inject(AngularFireAuth) public afAuth: AngularFireAuth,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
         private _cdr: ChangeDetectorRef,
     ) {
-        this.isFirstTime = this._localStorageService.getIsFirstTime();
+        this.isFirstTime = this._cacheStorageService.getIsFirstTime();
     }
 
     ngOnInit(): void {
@@ -129,13 +129,16 @@ export class LayoutComponent implements OnInit {
         );
 
         if (this.isFirstTime) {
-            timer(12000)
-                .pipe(takeUntil(this._destroyed$))
-                .subscribe(() => {
-                    this.isFirstTime = false;
-                    this._localStorageService.setIsFirstTime(false);
-                    this._cdr.markForCheck();
-                });
+            this.isFirstTime.then((firstTime) => {
+                if (firstTime) {
+                    timer(12000)
+                        .pipe(takeUntil(this._destroyed$))
+                        .subscribe(() => {
+                            this._cacheStorageService.setIsFirstTime(false);
+                            this._cdr.markForCheck();
+                        });
+                }
+            });
         }
     }
 

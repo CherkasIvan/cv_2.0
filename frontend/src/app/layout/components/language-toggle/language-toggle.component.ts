@@ -6,12 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
-import { selectCurrentLanguage } from '@layout/store/language-selector-store/language.selectors';
 import { TDarkMode } from '@layout/store/model/dark-mode.type';
 import { TLanguages } from '@layout/store/model/languages.type';
 
@@ -46,14 +45,14 @@ export class LanguageToggleComponent implements OnInit {
         @Inject(TranslateService)
         private readonly _translateService: TranslateService,
         private _cdr: ChangeDetectorRef,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
     ) {}
 
     public changeLanguage() {
         this.isCheckedLanguage = !this.isCheckedLanguage;
         const newLanguage = this.isCheckedLanguage ? 'en' : 'ru';
         this._translateService.use(newLanguage).subscribe(() => {
-            this._localStorageService.setLanguage(newLanguage);
+            this._cacheStorageService.setLanguage(newLanguage);
             this._store$.dispatch(setLanguageSuccess(newLanguage));
         });
     }
@@ -63,20 +62,18 @@ export class LanguageToggleComponent implements OnInit {
             this.authPath = url.find((el) => el.path);
         });
 
-        const storedLanguage = this._localStorageService.getLanguage();
-        const languageToSet = storedLanguage || 'en';
+        this._cacheStorageService
+            .getLanguage()
+            .then((storedLanguage) => {
+                const languageToSet = storedLanguage || 'en';
 
-        this._translateService.use(languageToSet).subscribe(() => {
-            this._localStorageService.setLanguage(languageToSet);
-            this._store$.dispatch(setLanguageSuccess(languageToSet));
-        });
-
-        this._store$
-            .pipe(select(selectCurrentLanguage), takeUntil(this._destroyed$))
-            .subscribe((language) => {
-                this.currentLanguage = language;
-                this.isCheckedLanguage = language === 'en';
-                this._cdr.markForCheck();
+                this._translateService.use(languageToSet).subscribe(() => {
+                    this._cacheStorageService.setLanguage(languageToSet);
+                    this._store$.dispatch(setLanguageSuccess(languageToSet));
+                });
+            })
+            .catch((error) => {
+                console.error('Error retrieving language:', error);
             });
     }
 }

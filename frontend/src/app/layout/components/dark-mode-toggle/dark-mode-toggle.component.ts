@@ -11,14 +11,14 @@ import {
 
 import { Store, select } from '@ngrx/store';
 
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { selectToggleUrl } from '@layout/store/images-store/images.selectors';
+import { TLocalstorageUser } from '@layout/store/model/cash-storage-user.type';
 import { TDarkMode } from '@layout/store/model/dark-mode.type';
-import { TLocalstorageUser } from '@layout/store/model/localstorage-user.type';
 
 @Component({
     selector: 'cv-dark-mode-toggle',
@@ -37,12 +37,12 @@ export class DarkModeToggleComponent implements OnInit {
     constructor(
         @Inject(Store) private _store$: Store<TDarkMode | TLocalstorageUser>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
     ) {}
 
     public changeView(): void {
         this.isChecked = !this.isChecked;
-        this._localStorageService.setDarkMode(this.isChecked);
+        this._cacheStorageService.setDarkMode(this.isChecked);
         this._store$.dispatch(setModeSuccess(this.isChecked));
         this._store$.dispatch(
             ImagesActions.getToggleIcons({ mode: this.isChecked }),
@@ -50,7 +50,7 @@ export class DarkModeToggleComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.isChecked = this._localStorageService.getDarkMode() || false;
+        this.isChecked = this._cacheStorageService.getDarkMode() || false;
         this._store$.dispatch(setModeSuccess(this.isChecked));
         this._store$.dispatch(
             ImagesActions.getToggleIcons({ mode: this.isChecked }),

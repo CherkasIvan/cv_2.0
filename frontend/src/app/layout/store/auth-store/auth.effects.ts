@@ -7,7 +7,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { ERoute } from '@core/enum/route.enum';
 import { AuthService } from '@core/service/auth/auth.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 
 import { TProfile } from '../model/profile.type';
 import { AuthActions } from './auth.actions';
@@ -21,7 +21,7 @@ export class AuthEffects {
     constructor(
         private _actions$: Actions,
         private _authService$: AuthService,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
         private _router: Router,
     ) {}
 
@@ -76,7 +76,7 @@ export class AuthEffects {
                 this._authService$.signOut().pipe(
                     map(() => AuthActions.getLogoutSuccess()),
                     tap(() => this._router.navigate([ERoute.AUTH])),
-                    tap(() => this._localStorageService.clearUserData()),
+                    tap(() => this._cacheStorageService.clearUserData()),
                     catchError((error) =>
                         of(AuthActions.getLogoutError({ error })),
                     ),

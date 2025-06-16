@@ -5,7 +5,7 @@ import { Router, UrlTree } from '@angular/router';
 
 import { ERoute } from '@core/enum/route.enum';
 import { AuthService } from '@core/service/auth/auth.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +13,7 @@ import { LocalStorageService } from '@core/service/local-storage/local-storage.s
 export class AuthGuard {
     constructor(
         private readonly _authService: AuthService,
-        private readonly _localStorageService: LocalStorageService,
+        private readonly _cacheStorageService: CacheStorageService,
         private _router: Router,
     ) {}
 

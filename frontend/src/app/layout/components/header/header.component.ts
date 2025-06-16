@@ -26,8 +26,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
@@ -46,7 +46,6 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
         RouterLink,
         RouterLinkActive,
         NgClass,
-        NgFor,
         DarkModeToggleComponent,
         LanguageToggleComponent,
         TranslateModule,
@@ -78,7 +77,7 @@ export class HeaderComponent implements OnInit, OnChanges {
         @Inject(Store) private _store$: Store<TLanguages>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _cdr: ChangeDetectorRef,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
     ) {}
 
     public showDialogLogout() {
@@ -92,7 +91,7 @@ export class HeaderComponent implements OnInit, OnChanges {
             .subscribe((event: NavigationEvent) => {
                 if (event instanceof NavigationEnd) {
                     this.currentRoute = event.url;
-                    this._localStorageService.updateCurrentRoute(
+                    this._cacheStorageService.updateCurrentRoute(
                         this.currentRoute,
                     );
                 }
@@ -101,11 +100,18 @@ export class HeaderComponent implements OnInit, OnChanges {
         this._store$
             .pipe(takeUntil(this._destroyed$), select(selectAuth))
             .subscribe();
-        this.displayName =
-            this._localStorageService.checkLocalStorageUserName();
-        this._localStorageService.redirectToSavedRoute();
-        this.isCheckedLanguage =
-            this._localStorageService.getLanguage() === 'en';
+
+        // Handle the promise correctly
+        this._cacheStorageService.checkCashStorageUserName().then((name) => {
+            this.displayName = name;
+        });
+
+        this._cacheStorageService.redirectToSavedRoute();
+
+        // Handle the promise for getLanguage
+        this._cacheStorageService.getLanguage().then((language) => {
+            this.isCheckedLanguage = language === 'en';
+        });
 
         this._store$
             .pipe(takeUntil(this._destroyed$), select(selectLogoUrl))

@@ -39,3 +39,13 @@ self.addEventListener('fetch', (event) => {
         event.respondWith(fetch(event.request));
     }
 });
+
+self.addEventListener('message', (event) => {
+    const { action, state } = event.data;
+
+    if (action === 'updateUsersState') {
+        caches.open('user-state-cache').then((cache) => {
+            cache.put('userState', new Response(JSON.stringify(state)));
+        });
+    }
+});
