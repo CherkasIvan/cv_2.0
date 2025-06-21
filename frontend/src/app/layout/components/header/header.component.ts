@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit, OnChanges {
         @Inject(Router) private readonly _router: Router,
         @Inject(Store) private _store$: Store<TLanguages>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
-        private _cdr: ChangeDetectorRef,
+        @Inject(ChangeDetectorRef) private _cdr: ChangeDetectorRef,
         private _cacheStorageService: CacheStorageService,
     ) {}
 

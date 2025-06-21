@@ -10,6 +10,14 @@
             "sourceRoot": "src",
             "prefix": "cv",
             "architect": {
+                "server": {
+                    "builder": "@angular-devkit/build-angular:server",
+                    "options": {
+                        "outputPath": "dist/cv_2.0/server",
+                        "main": "server.ts",
+                        "tsConfig": "tsconfig.server.json"
+                    }
+                },
                 "storybook": {
                     "builder": "@storybook/angular:start-storybook",
                     "options": {
@@ -62,8 +70,9 @@
                         "scripts": [],
                         "server": "src/main.server.ts",
                         "ssr": {
-                            "entry": "server.ts"
-                        }
+                            "entry": "src/server.ts"
+                        },
+                        "outputMode": "server"
                     },
                     "configurations": {
                         "production": {
