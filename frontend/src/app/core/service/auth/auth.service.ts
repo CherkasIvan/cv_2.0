@@ -1,11 +1,16 @@
+import firebase from 'firebase/compat/app';
 import {
     BehaviorSubject,
+    Observable,
     Subject,
     catchError,
     from,
+    map,
     of,
+    switchMap,
     takeUntil,
     tap,
+    throwError,
 } from 'rxjs';
 
 import { isPlatformBrowser } from '@angular/common';
@@ -51,52 +56,62 @@ export class AuthService implements OnDestroy {
 
     private initAuthState(): void {
         if (this._isBrowser) {
-            this._cacheStorageService.getUsersState().subscribe((state) => {
-                const isAuthenticated = !!(state?.user || state?.isGuest);
-                this.isAuth$.next(isAuthenticated);
-            });
-        } else {
-            this.isAuth$.next(false);
+            this._afAuth.authState
+                .pipe(takeUntil(this._destroyed$))
+                .subscribe((user) => {
+                    const isAuthenticated = !!user;
+                    this.isAuth$.next(isAuthenticated);
+
+                    if (!isAuthenticated) {
+                        this._cacheStorageService
+                            .getUsersState()
+                            .subscribe((state) => {
+                                if (state?.isGuest) {
+                                    this.isAuth$.next(true);
+                                }
+                            });
+                    }
+                });
         }
     }
 
-    signIn(email: string, password: string) {
+    signIn(
+        email: string,
+        password: string,
+    ): Observable<firebase.auth.UserCredential> {
         return from(
             this._afAuth.signInWithEmailAndPassword(email, password),
         ).pipe(
-            tap((result) => {
+            switchMap((result: firebase.auth.UserCredential) => {
                 if (this._isBrowser && result.user) {
                     const user = this.convertToUserType(result.user);
-                    this._cacheStorageService
-                        .getUsersState()
-                        .subscribe((state) => {
-                            if (!state) {
-                                this._cacheStorageService.initUser(
-                                    false,
-                                    false,
-                                    user,
-                                    'main',
-                                );
-                            } else {
-                                this._cacheStorageService.setUser(user);
-                            }
+                    return this._cacheStorageService.getUsersState().pipe(
+                        switchMap((state) => {
+                            const initOrUpdate$ = !state
+                                ? this._cacheStorageService.initUser(
+                                      false,
+                                      false,
+                                      user,
+                                      'main',
+                                  )
+                                : this._cacheStorageService.setUser(user);
 
-                            this.setUserData(user);
-                            this.isAuth$.next(true);
-
-                            this._afAuth.authState
-                                .pipe(takeUntil(this._destroyed$))
-                                .subscribe((user) => {
-                                    if (user && this.isAuth$.value) {
-                                        this._router.navigate([ERoute.LAYOUT]);
-                                    }
-                                });
-                        });
+                            return initOrUpdate$.pipe(
+                                tap(() => {
+                                    this.setUserData(user);
+                                    this.isAuth$.next(true);
+                                    this._router.navigate([ERoute.LAYOUT]);
+                                }),
+                                map(() => result),
+                            );
+                        }),
+                    );
                 }
+                return throwError(() => new Error('Authentication failed'));
             }),
             catchError((error: Error) => {
                 this.isAuth$.next(false);
-                throw error;
+                return throwError(() => error);
             }),
         );
     }

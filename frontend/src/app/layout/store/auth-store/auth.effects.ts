@@ -1,6 +1,7 @@
+import firebase from 'firebase/compat/app';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { EventEmitter, Inject, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -19,7 +20,7 @@ export class AuthEffects {
         new EventEmitter<boolean>();
 
     constructor(
-        private _actions$: Actions,
+        @Inject(Actions) private _actions$: Actions,
         private _authService$: AuthService,
         private _cacheStorageService: CacheStorageService,
         private _router: Router,
@@ -30,13 +31,18 @@ export class AuthEffects {
             ofType(AuthActions.getLogin),
             mergeMap((action) =>
                 this._authService$.signIn(action.email, action.password).pipe(
-                    map((userCredential) => {
+                    map((userCredential: firebase.auth.UserCredential) => {
+                        if (!userCredential?.user) {
+                            throw new Error('Authentication failed - no user');
+                        }
+
                         const user: TProfile = {
-                            uid: userCredential.user?.uid,
-                            email: userCredential.user?.email,
-                            displayName: userCredential.user?.displayName,
-                            photoURL: userCredential.user?.photoURL,
-                            emailVerified: userCredential.user?.emailVerified,
+                            uid: userCredential.user.uid,
+                            email: userCredential.user.email || undefined,
+                            displayName:
+                                userCredential.user.displayName || undefined,
+                            photoURL: userCredential.user.photoURL || undefined,
+                            emailVerified: userCredential.user.emailVerified,
                         };
                         return AuthActions.getLoginSuccess({ user });
                     }),
@@ -47,9 +53,12 @@ export class AuthEffects {
                             this.modalClass = 'fade-in';
                         }, 1500);
                     }),
-                    catchError((error) =>
-                        of(AuthActions.getLoginError({ error })),
-                    ),
+                    catchError((error) => {
+                        console.error('Login error:', error);
+                        return of(
+                            AuthActions.getLoginError({ error: error.message }),
+                        );
+                    }),
                 ),
             ),
         ),
