@@ -28,6 +28,7 @@ import { ERoute } from '@core/enum/route.enum';
 import { TFirebaseUser } from '@core/models/firebase-user.type';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import { TCasheStorageUser } from '@layout/store/model/cash-storage-user.type';
 import { TProfile } from '@layout/store/model/profile.type';
 
 import { CacheStorageService } from '../cache-storage/cache-storage.service';
@@ -116,40 +117,43 @@ export class AuthService implements OnDestroy {
         );
     }
 
-    signInAsGuest() {
+    signInAsGuest(): Observable<void> {
         return from(this._afAuth.signInAnonymously()).pipe(
-            tap((result) => {
-                if (this._isBrowser && result.user) {
-                    const user = this.convertToUserType(result.user);
-                    this._cacheStorageService
-                        .getUsersState()
-                        .subscribe((state) => {
-                            if (!state) {
-                                this._cacheStorageService.initUser(
-                                    false,
-                                    true,
-                                    null,
-                                    'main',
-                                );
-                            } else {
-                                const updatedState = {
-                                    ...state,
-                                    isGuest: true,
-                                    user: null,
-                                };
-                                this._cacheStorageService.setUsersState(
-                                    updatedState,
-                                );
-                            }
-                            this.isAuth$.next(true);
-                            this._router.navigate([ERoute.LAYOUT]);
-                        });
+            switchMap((result) => {
+                if (!this._isBrowser || !result.user) {
+                    return throwError(() => new Error('Guest auth failed'));
                 }
-            }),
-            catchError((error: Error) => {
-                this.isAuth$.next(false);
-                console.error('signInAsGuest error:', error);
-                throw error;
+
+                return this._cacheStorageService.getUsersState().pipe(
+                    switchMap((state) => {
+                        const updatedState: TCasheStorageUser = state
+                            ? { ...state, isGuest: true, user: null }
+                            : {
+                                  isFirstTime: false,
+                                  isGuest: true,
+                                  user: null,
+                                  currentRoute: `${ERoute.LAYOUT}/main`,
+                                  experienceRoute: 'work',
+                                  technologiesRoute: 'technologies',
+                                  subTechnologiesRoute: 'frontend',
+                                  isDark: false,
+                                  language: 'ru',
+                              };
+
+                        return this._cacheStorageService.setUsersState(
+                            updatedState,
+                        );
+                    }),
+                    tap(() => {
+                        this.isAuth$.next(true);
+                        this._router.navigate([ERoute.LAYOUT]);
+                    }),
+                    catchError((error) => {
+                        this.isAuth$.next(false);
+                        console.error('Guest sign-in failed:', error);
+                        return throwError(() => error);
+                    }),
+                );
             }),
         );
     }

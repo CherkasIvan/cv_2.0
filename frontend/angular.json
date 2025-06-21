@@ -11,11 +11,11 @@
             "prefix": "cv",
             "architect": {
                 "server": {
-                    "builder": "@angular-devkit/build-angular:server",
+                    "builder": "@angular-devkit/build-angular:application",
                     "options": {
                         "outputPath": "dist/cv_2.0/server",
-                        "main": "server.ts",
-                        "tsConfig": "tsconfig.server.json"
+                        "tsConfig": "tsconfig.server.json",
+                        "server": "src/main.server.ts"
                     }
                 },
                 "storybook": {
@@ -54,7 +54,8 @@
                             {
                                 "glob": "**/*",
                                 "input": "public"
-                            }
+                            },
+                            "src/manifest.webmanifest"
                         ],
                         "styles": [
                             "src/styles.scss",
