@@ -1,7 +1,7 @@
-@if (isFirstTime$) {
+@if ((isFirstTime$ | async) === true) {
     <cv-first-time @startCardFadeOut></cv-first-time>
 }
-@if (!isFirstTime$) {
+@if ((isFirstTime$ | async) === false) {
     <div
         @startCardFadeIn
         class="layout-container"

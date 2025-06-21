@@ -69,7 +69,7 @@ import { TDarkMode } from './store/model/dark-mode.type';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-    public isFirstTime$!: Observable<boolean>;
+    public isFirstTime$: Observable<boolean>;
     public isAuth: boolean = false;
     public isModalDialogVisible: boolean = false;
     public isExperienceDialogVisible$!: Observable<boolean>;
@@ -130,6 +130,8 @@ export class LayoutComponent implements OnInit {
             .pipe(takeUntil(this._destroyed$))
             .subscribe((firstTime) => {
                 if (firstTime) {
+                    this._cdr.markForCheck();
+
                     timer(12000)
                         .pipe(takeUntil(this._destroyed$))
                         .subscribe(() => {

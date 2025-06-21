@@ -1,4 +1,4 @@
-import { Observable, from, map, of, switchMap, tap } from 'rxjs';
+import { Observable, catchError, from, map, of, switchMap, tap } from 'rxjs';
 
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
@@ -8,6 +8,9 @@ import { ERoute } from '@core/enum/route.enum';
 import { TFirebaseUser } from '@core/models/firebase-user.type';
 
 import { TCasheStorageUser } from '@layout/store/model/cash-storage-user.type';
+
+const CACHE_VERSION = 'v1';
+const USER_STATE_CACHE = `user-state-cache-${CACHE_VERSION}`;
 
 @Injectable({
     providedIn: 'root',
@@ -22,23 +25,69 @@ export class CacheStorageService {
         this.isBrowser = isPlatformBrowser(this.platformId);
     }
 
+    private verifyServiceWorker(): Observable<boolean> {
+        if (!this.isBrowser) return of(false);
+
+        return from(navigator.serviceWorker.getRegistration()).pipe(
+            map((registration) => {
+                if (!registration) {
+                    console.warn('No service worker registration found');
+                    return false;
+                }
+                if (!registration.active) {
+                    console.warn('Service worker registered but not active');
+                    return false;
+                }
+                return true;
+            }),
+            catchError((err) => {
+                console.error('Service worker check failed:', err);
+                return of(false);
+            }),
+        );
+    }
+
     private sendMessageToServiceWorker(message: any): void {
         if (this.isBrowser && 'serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistration().then((registration) => {
-                if (registration) {
-                    registration.active?.postMessage(message);
-                }
-            });
+            console.log('Sending message to service worker:', message);
+            navigator.serviceWorker
+                .getRegistration()
+                .then((registration) => {
+                    if (registration) {
+                        console.log('Found service worker registration');
+                        if (registration.active) {
+                            console.log(
+                                'Posting message to active service worker',
+                            );
+                            registration.active.postMessage(message);
+                        } else {
+                            console.warn(
+                                'Service worker registered but not active',
+                            );
+                        }
+                    } else {
+                        console.warn('No service worker registration found');
+                    }
+                })
+                .catch((err) => console.error('Service worker error:', err));
         }
     }
 
     public setUsersState(state: TCasheStorageUser): Observable<void> {
-        return this.setCachedData('userState', state).pipe(
-            tap(() => {
-                this.sendMessageToServiceWorker({
-                    action: 'updateUsersState',
-                    state,
-                });
+        console.log(state.isFirstTime);
+        return this.verifyServiceWorker().pipe(
+            switchMap((isActive) => {
+                if (!isActive) {
+                    return this.setCachedData('userState', state);
+                }
+                return this.setCachedData('userState', state).pipe(
+                    tap(() => {
+                        this.sendMessageToServiceWorker({
+                            action: 'updateUsersState',
+                            state,
+                        });
+                    }),
+                );
             }),
         );
     }
