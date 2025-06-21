@@ -4,10 +4,10 @@ import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectorRef,
     Component,
-    EventEmitter,
     Inject,
     OnInit,
-    Output,
+    output,
+    signal,
 } from '@angular/core';
 import { RouterLinkActive } from '@angular/router';
 
@@ -35,10 +35,11 @@ export class AsideNavigationSubtechnologiesComponent implements OnInit {
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
         select(selectHardSkillsNav),
     );
-    @Output() public emittedTab = new EventEmitter<string>();
 
-    public currentSkills: string = '';
-    public selectedTab: 'frontend' | 'backend' = 'frontend';
+    public emittedTab = output<string>();
+
+    public currentSkills = signal<string>('');
+    public selectedTab = signal<'frontend' | 'backend'>('frontend');
 
     constructor(
         private _cdr: ChangeDetectorRef,
@@ -47,35 +48,36 @@ export class AsideNavigationSubtechnologiesComponent implements OnInit {
     ) {}
 
     public changeRoutNavigation(link: string): boolean {
-        return this.currentSkills === link;
+        return this.currentSkills() === link;
     }
 
     ngOnInit() {
-        this.selectedTab =
-            this._cacheStorageService.getSelectedSubTechnologiesTab();
-        if (
-            this._cacheStorageService.getSelectedTechnologiesTab() ===
-            'technologies'
-        ) {
-            this.currentSkills =
-                this._cacheStorageService.getSelectedSubTechnologiesTab() ||
-                'frontend';
-            this._cacheStorageService.saveSelectedSubTechnologiesTab(
-                this.currentSkills as 'frontend' | 'backend',
-            );
-        }
-        this._store$.dispatch(
-            FirebaseActions.getHardSkillsNav({ imgName: '' }),
-        );
-        this.emittedTab.emit(this.selectedTab);
+        this._cacheStorageService
+            .getSelectedTechnologiesTab()
+            .subscribe((techTab) => {
+                if (techTab === 'technologies') {
+                    this._cacheStorageService
+                        .getSelectedSubTechnologiesTab()
+                        .subscribe((subTab) => {
+                            this.selectedTab.set(subTab || 'frontend');
+                            this.currentSkills.set(this.selectedTab());
+                            this._store$.dispatch(
+                                FirebaseActions.getHardSkillsNav({
+                                    imgName: '',
+                                }),
+                            );
+                            this.emittedTab.emit(this.selectedTab());
+                        });
+                }
+            });
     }
 
     public changeSkillsList(tab: string) {
-        this.currentSkills = tab;
+        this.currentSkills.set(tab);
         this._cacheStorageService.saveSelectedSubTechnologiesTab(
             tab as 'frontend' | 'backend',
         );
-        this.emittedTab.emit(this.currentSkills);
+        this.emittedTab.emit(this.currentSkills());
         this._cdr.detectChanges();
     }
 }

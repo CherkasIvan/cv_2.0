@@ -1,9 +1,9 @@
-import { User } from 'firebase/auth';
 import {
     BehaviorSubject,
     Subject,
     catchError,
     from,
+    of,
     takeUntil,
     tap,
 } from 'rxjs';
@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { ERoute } from '@core/enum/route.enum';
+import { TFirebaseUser } from '@core/models/firebase-user.type';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
 import { TProfile } from '@layout/store/model/profile.type';
@@ -30,9 +31,8 @@ import { CacheStorageService } from '../cache-storage/cache-storage.service';
     providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-    public userData: User | null = null;
+    public userData: TFirebaseUser | null = null;
     public isAuth$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    public usersState: any;
 
     private _destroyed$: Subject<void> = new Subject();
     private _isBrowser: boolean;
@@ -43,16 +43,18 @@ export class AuthService implements OnDestroy {
         private readonly _router: Router,
         private readonly _cacheStorageService: CacheStorageService,
         private readonly _store$: Store,
-        @Inject(PLATFORM_ID) private platformId: string,
+        @Inject(PLATFORM_ID) private platformId: object,
     ) {
         this._isBrowser = isPlatformBrowser(this.platformId);
+        this.initAuthState();
+    }
+
+    private initAuthState(): void {
         if (this._isBrowser) {
-            this.usersState = this._cacheStorageService.getUsersState();
-            if (localStorage.getItem('usersState')) {
-                this.isAuth$.next(true);
-            } else {
-                this.isAuth$.next(false);
-            }
+            this._cacheStorageService.getUsersState().subscribe((state) => {
+                const isAuthenticated = !!(state?.user || state?.isGuest);
+                this.isAuth$.next(isAuthenticated);
+            });
         } else {
             this.isAuth$.next(false);
         }
@@ -63,29 +65,33 @@ export class AuthService implements OnDestroy {
             this._afAuth.signInWithEmailAndPassword(email, password),
         ).pipe(
             tap((result) => {
-                if (this._isBrowser) {
-                    if (!this.usersState) {
-                        this._cacheStorageService.initUser(
-                            true,
-                            false,
-                            result.user,
-                            'main',
-                        );
-                    } else {
-                        this._cacheStorageService.setUser(result.user);
-                    }
+                if (this._isBrowser && result.user) {
+                    const user = this.convertToUserType(result.user);
+                    this._cacheStorageService
+                        .getUsersState()
+                        .subscribe((state) => {
+                            if (!state) {
+                                this._cacheStorageService.initUser(
+                                    false,
+                                    false,
+                                    user,
+                                    'main',
+                                );
+                            } else {
+                                this._cacheStorageService.setUser(user);
+                            }
 
-                    this.setUserData(result.user);
-                    if (result.user) {
-                        this.isAuth$.next(true);
-                        this._afAuth.authState
-                            .pipe(takeUntil(this._destroyed$))
-                            .subscribe((user) => {
-                                if (user && this.isAuth$.value) {
-                                    this._router.navigate([ERoute.LAYOUT]);
-                                }
-                            });
-                    }
+                            this.setUserData(user);
+                            this.isAuth$.next(true);
+
+                            this._afAuth.authState
+                                .pipe(takeUntil(this._destroyed$))
+                                .subscribe((user) => {
+                                    if (user && this.isAuth$.value) {
+                                        this._router.navigate([ERoute.LAYOUT]);
+                                    }
+                                });
+                        });
                 }
             }),
             catchError((error: Error) => {
@@ -97,20 +103,32 @@ export class AuthService implements OnDestroy {
 
     signInAsGuest() {
         return from(this._afAuth.signInAnonymously()).pipe(
-            tap(() => {
-                if (this._isBrowser) {
-                    if (!this.usersState) {
-                        this._cacheStorageService.initUser(
-                            true,
-                            true,
-                            null,
-                            'main',
-                        );
-                    } else {
-                        this._cacheStorageService.setUser(null);
-                    }
-                    this.isAuth$.next(true);
-                    this._router.navigate([ERoute.LAYOUT]);
+            tap((result) => {
+                if (this._isBrowser && result.user) {
+                    const user = this.convertToUserType(result.user);
+                    this._cacheStorageService
+                        .getUsersState()
+                        .subscribe((state) => {
+                            if (!state) {
+                                this._cacheStorageService.initUser(
+                                    false,
+                                    true,
+                                    null,
+                                    'main',
+                                );
+                            } else {
+                                const updatedState = {
+                                    ...state,
+                                    isGuest: true,
+                                    user: null,
+                                };
+                                this._cacheStorageService.setUsersState(
+                                    updatedState,
+                                );
+                            }
+                            this.isAuth$.next(true);
+                            this._router.navigate([ERoute.LAYOUT]);
+                        });
                 }
             }),
             catchError((error: Error) => {
@@ -121,16 +139,37 @@ export class AuthService implements OnDestroy {
         );
     }
 
-    setUserData(user: firebase.default.User | null) {
+    private convertToUserType(user: any): TFirebaseUser {
+        return {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            emailVerified: user.emailVerified,
+            providerData: user.providerData
+                .filter((p: any) => p !== null)
+                .map((p: any) => ({
+                    uid: p.uid,
+                    displayName: p.displayName,
+                    email: p.email,
+                    photoURL: p.photoURL,
+                    providerId: p.providerId,
+                })),
+        };
+    }
+
+    setUserData(user: TFirebaseUser | null) {
+        if (!user) return of(undefined);
+
         const userRef: AngularFirestoreDocument<TProfile> = this._afs.doc(
-            `users/${user?.uid}`,
+            `users/${user.uid}`,
         );
         const userData: TProfile = {
-            uid: user?.uid,
-            email: user?.email,
-            displayName: user?.displayName,
-            photoURL: user?.photoURL,
-            emailVerified: user?.emailVerified,
+            uid: user.uid,
+            email: user.email || undefined,
+            displayName: user.displayName || undefined,
+            photoURL: user.photoURL || undefined,
+            emailVerified: user.emailVerified,
         };
         return from(userRef.set(userData, { merge: true }));
     }
@@ -139,24 +178,29 @@ export class AuthService implements OnDestroy {
         return from(this._afAuth.signOut()).pipe(
             tap(() => {
                 if (this._isBrowser) {
-                    const usersState =
-                        this._cacheStorageService.getUsersState();
-
-                    if (usersState?.isGuest) {
-                        usersState.isGuest = false;
-                    }
-                    if (usersState?.user) {
-                        usersState.user = null;
-                    }
-
-                    if (usersState) {
-                        this._cacheStorageService.setUsersState(usersState);
-                    }
-
-                    this._cacheStorageService.clearUserData();
-                    this._store$.dispatch(AuthActions.getLogout());
-                    this.isAuth$.next(false);
-                    this._router.navigate([ERoute.AUTH]);
+                    this._cacheStorageService
+                        .getUsersState()
+                        .subscribe((state) => {
+                            if (state) {
+                                const updatedState = {
+                                    ...state,
+                                    isGuest: false,
+                                    user: null,
+                                };
+                                this._cacheStorageService.setUsersState(
+                                    updatedState,
+                                );
+                            }
+                            this._cacheStorageService
+                                .clearUserData()
+                                .subscribe(() => {
+                                    this._store$.dispatch(
+                                        AuthActions.getLogout(),
+                                    );
+                                    this.isAuth$.next(false);
+                                    this._router.navigate([ERoute.AUTH]);
+                                });
+                        });
                 }
             }),
         );
