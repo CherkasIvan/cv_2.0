@@ -5,12 +5,11 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    EventEmitter,
     Inject,
-    InputSignal,
     OnInit,
-    Output,
     input,
+    output,
+    signal,
 } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
@@ -38,17 +37,16 @@ import { TranslateModule } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsideNavigationExperienceComponent implements OnInit {
-    @Output() public emittedTab = new EventEmitter<string>();
+    public emittedTab = output<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
         select(selectHardSkillsNav),
     );
     public theme = input<boolean | null>(false);
-    public navigationList: InputSignal<TExperienceAside[]> = input<
-        TExperienceAside[]
-    >([]);
-    public currentSkills: string = '';
-    public selectedTab: 'work' | 'education' = 'work';
+    public navigationList = input<TExperienceAside[]>([]);
+
+    public currentSkills = signal<string>('');
+    public selectedTab = signal<'work' | 'education'>('work');
 
     constructor(
         private _cdr: ChangeDetectorRef,
@@ -58,32 +56,39 @@ export class AsideNavigationExperienceComponent implements OnInit {
     ) {}
 
     public changeTab(tab: 'education' | 'work') {
-        this.selectedTab = tab;
+        this.selectedTab.set(tab);
         this._cacheStorageService.saveSelectedTab(tab);
-        this.emittedTab.emit(this.selectedTab);
+        this.emittedTab.emit(tab);
         this._cdr.detectChanges();
     }
 
     public changeSkillsList(tab: string) {
-        this.currentSkills = tab;
-        this.emittedTab.emit(this.currentSkills);
+        this.currentSkills.set(tab);
+        this.emittedTab.emit(tab);
         this._cdr.detectChanges();
     }
 
     ngOnInit(): void {
-        this.selectedTab = this._cacheStorageService.getSelectedTab();
+        this._cacheStorageService
+            .getSelectedTab()
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((tab) => {
+                this.selectedTab.set(tab);
+                this.emittedTab.emit(tab);
+            });
+
         this._store$.dispatch(
             FirebaseActions.getHardSkillsNav({ imgName: '' }),
         );
+
         this.hardSkillsNavigation$
             .pipe(takeUntil(this._destroyed$))
             .subscribe((skills: INavigation[]) => {
                 const skill = skills.find((skill) => skill.id === '1');
                 if (skill) {
-                    this.currentSkills = skill.link;
+                    this.currentSkills.set(skill.link);
                     this._cdr.detectChanges();
                 }
             });
-        this.emittedTab.emit(this.selectedTab);
     }
 }

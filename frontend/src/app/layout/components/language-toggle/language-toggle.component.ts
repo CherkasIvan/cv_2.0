@@ -1,4 +1,4 @@
-import { Observable, takeUntil } from 'rxjs';
+import { Observable, map, switchMap, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
@@ -51,29 +51,54 @@ export class LanguageToggleComponent implements OnInit {
     public changeLanguage() {
         this.isCheckedLanguage = !this.isCheckedLanguage;
         const newLanguage = this.isCheckedLanguage ? 'en' : 'ru';
-        this._translateService.use(newLanguage).subscribe(() => {
-            this._cacheStorageService.setLanguage(newLanguage);
-            this._store$.dispatch(setLanguageSuccess(newLanguage));
-        });
+
+        this._translateService
+            .use(newLanguage)
+            .pipe(
+                takeUntil(this._destroyed$),
+                switchMap(() =>
+                    this._cacheStorageService.setLanguage(newLanguage),
+                ),
+                takeUntil(this._destroyed$),
+            )
+            .subscribe({
+                next: () => {
+                    this._store$.dispatch(setLanguageSuccess(newLanguage));
+                    this._cdr.markForCheck();
+                },
+                error: (err) => console.error('Error changing language:', err),
+            });
     }
 
     ngOnInit(): void {
         this.route.url.pipe(takeUntil(this._destroyed$)).subscribe((url) => {
             this.authPath = url.find((el) => el.path);
+            this._cdr.markForCheck();
         });
 
         this._cacheStorageService
             .getLanguage()
-            .then((storedLanguage) => {
-                const languageToSet = storedLanguage || 'en';
-
-                this._translateService.use(languageToSet).subscribe(() => {
-                    this._cacheStorageService.setLanguage(languageToSet);
+            .pipe(
+                takeUntil(this._destroyed$),
+                switchMap((storedLanguage) => {
+                    const languageToSet = storedLanguage || 'en';
+                    return this._translateService.use(languageToSet).pipe(
+                        switchMap(() =>
+                            this._cacheStorageService.setLanguage(
+                                languageToSet,
+                            ),
+                        ),
+                        map(() => languageToSet),
+                    );
+                }),
+            )
+            .subscribe({
+                next: (languageToSet) => {
                     this._store$.dispatch(setLanguageSuccess(languageToSet));
-                });
-            })
-            .catch((error) => {
-                console.error('Error retrieving language:', error);
+                    this._cdr.markForCheck();
+                },
+                error: (err) =>
+                    console.error('Error initializing language:', err),
             });
     }
 }

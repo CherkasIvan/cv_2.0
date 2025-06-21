@@ -1,10 +1,11 @@
-import { Observable, from, map } from 'rxjs';
+import { Observable, from, map, of, switchMap, tap } from 'rxjs';
 
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ERoute } from '@core/enum/route.enum';
+import { TFirebaseUser } from '@core/models/firebase-user.type';
 
 import { TCasheStorageUser } from '@layout/store/model/cash-storage-user.type';
 
@@ -16,17 +17,13 @@ export class CacheStorageService {
 
     constructor(
         @Inject(PLATFORM_ID) private platformId: object,
-        @Inject(Router) private readonly _router: Router,
+        private readonly _router: Router,
     ) {
         this.isBrowser = isPlatformBrowser(this.platformId);
     }
 
-    private get localStorageAvailable(): boolean {
-        return this.isBrowser && typeof CacheStorage !== 'undefined';
-    }
-
     private sendMessageToServiceWorker(message: any): void {
-        if ('serviceWorker' in navigator) {
+        if (this.isBrowser && 'serviceWorker' in navigator) {
             navigator.serviceWorker.getRegistration().then((registration) => {
                 if (registration) {
                     registration.active?.postMessage(message);
@@ -35,41 +32,61 @@ export class CacheStorageService {
         }
     }
 
+    public setUsersState(state: TCasheStorageUser): Observable<void> {
+        return this.setCachedData('userState', state).pipe(
+            tap(() => {
+                this.sendMessageToServiceWorker({
+                    action: 'updateUsersState',
+                    state,
+                });
+            }),
+        );
+    }
+
     private getCachedData(key: string): Observable<any> {
+        if (!this.isBrowser) return of(null);
+
         return from(caches.open('user-state-cache')).pipe(
-            map((cache) => cache.match(key)),
-            map((response) => (response ? response.json() : null)),
+            switchMap((cache) => from(cache.match(key))),
+            switchMap((response) =>
+                response ? from(response.json()) : of(null),
+            ),
         );
     }
 
     private setCachedData(key: string, data: any): Observable<void> {
+        if (!this.isBrowser) return of(undefined);
+
         return from(caches.open('user-state-cache')).pipe(
-            map((cache) => cache.put(key, new Response(JSON.stringify(data)))),
+            switchMap((cache) =>
+                from(cache.put(key, new Response(JSON.stringify(data)))),
+            ),
+            map(() => undefined),
         );
     }
 
-    public getUsersState(): Observable<any> {
-        return this.getCachedData('userState');
+    public clearUserData(): Observable<void> {
+        if (!this.isBrowser) return of(undefined);
+
+        return from(caches.open('user-state-cache')).pipe(
+            switchMap((cache) => from(cache.delete('userState'))),
+            map(() => undefined),
+        );
     }
 
-    public setUsersState(state: any): void {
-        this.setCachedData('userState', state).subscribe(() => {
-            this.sendMessageToServiceWorker({
-                action: 'updateUsersState',
-                state,
-            });
-        });
+    public getUsersState(): Observable<TCasheStorageUser | null> {
+        return this.getCachedData('userState');
     }
 
     public getUserName(): Observable<string> {
         return this.getUsersState().pipe(
-            map((state) => (state && state.user ? state.user.displayName : '')),
+            map((state) => state?.user?.displayName || ''),
         );
     }
 
     public checkUserName(): Observable<string> {
         return this.getUsersState().pipe(
-            map((state) => (state && state.user ? state.user.displayName : '')),
+            map((state) => state?.user?.displayName || ''),
         );
     }
 
@@ -85,43 +102,52 @@ export class CacheStorageService {
     public initUser(
         isFirstTime: boolean = false,
         isGuest: boolean = false,
-        user: firebase.default.User | null,
+        user: TFirebaseUser | null,
         currentRoute: string | 'main',
-    ): void {
-        this.getUsersState().subscribe((existingState) => {
-            if (!existingState) {
-                const usersState: TCasheStorageUser = {
-                    isFirstTime: isFirstTime,
-                    isGuest: isGuest,
-                    user: user,
-                    currentRoute: `${ERoute.LAYOUT}/${currentRoute}`,
-                    experienceRoute: 'work',
-                    technologiesRoute: 'technologies',
-                    subTechnologiesRoute: 'frontend',
-                    isDark: false,
-                    language: 'ru',
-                };
-                this.setUsersState(usersState);
-            }
-        });
+    ): Observable<void> {
+        return this.getUsersState().pipe(
+            switchMap((existingState) => {
+                if (!existingState) {
+                    const usersState: TCasheStorageUser = {
+                        isFirstTime,
+                        isGuest,
+                        user,
+                        currentRoute: `${ERoute.LAYOUT}/${currentRoute}`,
+                        experienceRoute: 'work',
+                        technologiesRoute: 'technologies',
+                        subTechnologiesRoute: 'frontend',
+                        isDark: false,
+                        language: 'ru',
+                    };
+                    return this.setUsersState(usersState);
+                }
+                return of(undefined);
+            }),
+        );
     }
 
-    public setUser(userData: firebase.default.User | null): void {
-        this.getUsersState().subscribe((usersState: any) => {
-            if (usersState) {
-                usersState.user = userData;
-                this.setUsersState(usersState);
-            }
-        });
+    public setUser(userData: TFirebaseUser | null): Observable<void> {
+        return this.getUsersState().pipe(
+            switchMap((usersState) => {
+                if (usersState) {
+                    usersState.user = userData;
+                    return this.setUsersState(usersState);
+                }
+                return of(undefined);
+            }),
+        );
     }
 
-    public updateCurrentRoute(route: string): void {
-        this.getUsersState().subscribe((usersState: any) => {
-            if (usersState) {
-                usersState.currentRoute = route;
-                this.setUsersState(usersState);
-            }
-        });
+    public updateCurrentRoute(route: string): Observable<void> {
+        return this.getUsersState().pipe(
+            switchMap((usersState) => {
+                if (usersState) {
+                    usersState.currentRoute = route;
+                    return this.setUsersState(usersState);
+                }
+                return of(undefined);
+            }),
+        );
     }
 
     public saveSelectedTab(selectedTab: 'work' | 'education'): void {
@@ -200,18 +226,21 @@ export class CacheStorageService {
         );
     }
 
-    public setLanguage(language: 'ru' | 'en'): void {
-        this.getUsersState().subscribe((usersState) => {
-            if (usersState) {
-                usersState.language = language;
-                this.setUsersState(usersState);
-            }
-        });
+    public setLanguage(language: 'ru' | 'en'): Observable<void> {
+        return this.getUsersState().pipe(
+            switchMap((usersState) => {
+                if (usersState) {
+                    usersState.language = language;
+                    return this.setUsersState(usersState);
+                }
+                return of(undefined);
+            }),
+        );
     }
 
     public getLanguage(): Observable<'ru' | 'en'> {
         return this.getUsersState().pipe(
-            map((usersState) => (usersState ? usersState.language : 'ru')),
+            map((state) => state?.language || 'ru'),
         );
     }
 

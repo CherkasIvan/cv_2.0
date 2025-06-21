@@ -5,7 +5,6 @@ import {
     ChangeDetectionStrategy,
     Component,
     Inject,
-    OnDestroy,
     OnInit,
 } from '@angular/core';
 
@@ -17,7 +16,6 @@ import { DestroyService } from '@core/service/destroy/destroy.service';
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { selectToggleUrl } from '@layout/store/images-store/images.selectors';
-import { TLocalstorageUser } from '@layout/store/model/cash-storage-user.type';
 import { TDarkMode } from '@layout/store/model/dark-mode.type';
 
 @Component({
@@ -30,12 +28,12 @@ import { TDarkMode } from '@layout/store/model/dark-mode.type';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DarkModeToggleComponent implements OnInit {
-    public isChecked: boolean = false;
+    public isChecked = false;
     public darkModeImage$ = new BehaviorSubject<string>('');
     public whiteModeImage$ = new BehaviorSubject<string>('');
 
     constructor(
-        @Inject(Store) private _store$: Store<TDarkMode | TLocalstorageUser>,
+        @Inject(Store) private _store$: Store<TDarkMode>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _cacheStorageService: CacheStorageService,
     ) {}
@@ -50,11 +48,16 @@ export class DarkModeToggleComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.isChecked = this._cacheStorageService.getDarkMode() || false;
-        this._store$.dispatch(setModeSuccess(this.isChecked));
-        this._store$.dispatch(
-            ImagesActions.getToggleIcons({ mode: this.isChecked }),
-        );
+        this._cacheStorageService
+            .getDarkMode()
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((darkMode) => {
+                this.isChecked = darkMode;
+                this._store$.dispatch(setModeSuccess(this.isChecked));
+                this._store$.dispatch(
+                    ImagesActions.getToggleIcons({ mode: this.isChecked }),
+                );
+            });
 
         this._store$
             .pipe(takeUntil(this._destroyed$), select(selectToggleUrl))

@@ -1,7 +1,7 @@
 import { Observable, switchMap } from 'rxjs';
 
-import { AsyncPipe, NgClass } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Inject, DOCUMENT } from '@angular/core';
+import { AsyncPipe, DOCUMENT, NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 

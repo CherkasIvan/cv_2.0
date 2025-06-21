@@ -69,7 +69,7 @@ import { TDarkMode } from './store/model/dark-mode.type';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-    public isFirstTime!: Promise<boolean>;
+    public isFirstTime$!: Observable<boolean>;
     public isAuth: boolean = false;
     public isModalDialogVisible: boolean = false;
     public isExperienceDialogVisible$!: Observable<boolean>;
@@ -79,10 +79,6 @@ export class LayoutComponent implements OnInit {
         takeUntil(this._destroyed$),
         select(darkModeSelector),
     );
-
-    public getModalInstance($event: boolean) {
-        this.isModalDialogVisible = $event;
-    }
 
     public navigation$: Observable<INavigation[]> = this._store$.pipe(
         takeUntil(this._destroyed$),
@@ -104,7 +100,7 @@ export class LayoutComponent implements OnInit {
         private _cacheStorageService: CacheStorageService,
         private _cdr: ChangeDetectorRef,
     ) {
-        this.isFirstTime = this._cacheStorageService.getIsFirstTime();
+        this.isFirstTime$ = this._cacheStorageService.getIsFirstTime();
     }
 
     ngOnInit(): void {
@@ -114,9 +110,11 @@ export class LayoutComponent implements OnInit {
         this.afAuth.authState
             .pipe(takeUntil(this._destroyed$))
             .subscribe((user) => {
+                this.isAuth = !!user;
                 if (!user) {
                     this.isModalDialogVisible = true;
                 }
+                this._cdr.markForCheck();
             });
 
         this.isExperienceDialogVisible$ = this._store$.pipe(
@@ -128,8 +126,9 @@ export class LayoutComponent implements OnInit {
             select(selectModalData),
         );
 
-        if (this.isFirstTime) {
-            this.isFirstTime.then((firstTime) => {
+        this.isFirstTime$
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((firstTime) => {
                 if (firstTime) {
                     timer(12000)
                         .pipe(takeUntil(this._destroyed$))
@@ -139,7 +138,11 @@ export class LayoutComponent implements OnInit {
                         });
                 }
             });
-        }
+    }
+
+    public getModalInstance($event: boolean) {
+        this.isModalDialogVisible = $event;
+        this._cdr.markForCheck();
     }
 
     public prepareRoute(outlet: RouterOutlet) {
@@ -152,5 +155,6 @@ export class LayoutComponent implements OnInit {
 
     public closeModal() {
         this.isModalDialogVisible = false;
+        this._cdr.markForCheck();
     }
 }

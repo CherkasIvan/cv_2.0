@@ -5,12 +5,10 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    EventEmitter,
     Inject,
-    InputSignal,
     OnInit,
-    Output,
     input,
+    output,
 } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
@@ -44,17 +42,14 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsideNavigationTechnologiesComponent implements OnInit {
-    @Output() public emittedTab = new EventEmitter<string>();
+    emittedTab = output<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
         select(selectHardSkillsNav),
     );
 
     public theme = input<boolean | null>(false);
-
-    public navigationList: InputSignal<TTechnologiesAside[]> = input<
-        TTechnologiesAside[]
-    >([]);
+    public navigationList = input<TTechnologiesAside[]>([]);
     public currentSkills: string = '';
     public selectedTab: 'technologies' | 'other' = 'technologies';
 
@@ -87,21 +82,28 @@ export class AsideNavigationTechnologiesComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.selectedTab =
-            this._cacheStorageService.getSelectedTechnologiesTab();
-        this._store$.dispatch(
-            FirebaseActions.getHardSkillsNav({ imgName: '' }),
-        );
-        this.hardSkillsNavigation$
+        this._cacheStorageService
+            .getSelectedTechnologiesTab()
             .pipe(takeUntil(this._destroyed$))
-            .subscribe((skills: INavigation[]) => {
-                console.log(skills);
-                const skill = skills.find((skill) => skill.id === '1');
-                if (skill) {
-                    this.currentSkills = skill.link;
-                    this.cdr.detectChanges();
-                }
+            .subscribe((tab) => {
+                this.selectedTab = tab;
+                this._store$.dispatch(
+                    FirebaseActions.getHardSkillsNav({ imgName: '' }),
+                );
+
+                this.hardSkillsNavigation$
+                    .pipe(takeUntil(this._destroyed$))
+                    .subscribe((skills: INavigation[]) => {
+                        console.log(skills);
+                        const skill = skills.find((skill) => skill.id === '1');
+                        if (skill) {
+                            this.currentSkills = skill.link;
+                        }
+                        this.cdr.detectChanges();
+                    });
+
+                this.emittedTab.emit(this.selectedTab);
+                this.cdr.detectChanges();
             });
-        this.emittedTab.emit(this.selectedTab);
     }
 }

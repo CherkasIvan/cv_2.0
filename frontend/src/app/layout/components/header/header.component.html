@@ -1,44 +1,53 @@
 <div
     class="navigation-border"
     [ngClass]="{
-        'visible fade-in': navigationLinks && navigationLinks.length > 0,
-        hidden: !(navigationLinks && navigationLinks.length > 0),
-        'dark-theme': theme,
-        'light-theme': !theme,
+        'visible fade-in': navigationLinks()!.length > 0,
+        hidden: !(navigationLinks()!.length > 0),
+        'dark-theme': theme(),
+        'light-theme': !theme(),
     }"
 >
     <nav
         class="navigation-header"
-        [ngClass]="theme ? 'dark-theme' : 'light-theme'"
+        [ngClass]="theme() ? 'dark-theme' : 'light-theme'"
     >
         <article class="header-logo">
             <a
                 class="header-logo_link"
                 routerLink="/layout/main"
             >
-                <img
-                    class="header-logo_link-img"
-                    [src]="imageUrl"
-                    [alt]="imageUrl"
-                />
+                @if (imageUrl) {
+                    <img
+                        class="header-logo_link-img"
+                        [src]="imageUrl"
+                        [alt]="imageUrl"
+                    />
+                }
             </a>
         </article>
-        <ul class="header-links">
-            <li
-                *ngFor="let itemLink of navigationLinks; trackBy: trackByPosition"
-                class="header-links_item"
-                [tabindex]="itemLink.position"
-            >
-                <a
-                    routerLink="{{ itemLink.link }}"
-                    routerLinkActive="active"
-                    [routerLinkActiveOptions]="{ exact: true }"
-                    class="item-link"
-                >
-                    <span class="item-link_text">{{ 'HEADER.' + itemLink.link.toUpperCase() | translate }}</span>
-                </a>
-            </li>
-        </ul>
+
+        @if (navigationLinks()?.length) {
+            <ul class="header-links">
+                @for (itemLink of navigationLinks(); track itemLink.position) {
+                    <li
+                        class="header-links_item"
+                        [tabindex]="itemLink.position"
+                    >
+                        <a
+                            routerLink="{{ itemLink.link }}"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            class="item-link"
+                        >
+                            <span class="item-link_text">
+                                {{ 'HEADER.' + itemLink.link.toUpperCase() | translate }}
+                            </span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+
         <aside class="header-buttons">
             <cv-dark-mode-toggle></cv-dark-mode-toggle>
             <cv-language-toggle></cv-language-toggle>
