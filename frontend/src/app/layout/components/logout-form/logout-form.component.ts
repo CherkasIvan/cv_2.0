@@ -18,8 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '@core/service/auth/auth.service';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
 import { TProfile } from '@layout/store/model/profile.type';
@@ -57,13 +57,17 @@ export class LogoutFormComponent implements OnInit {
     constructor(
         @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _authService: AuthService,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
         private _store$: Store,
     ) {}
 
     ngOnInit(): void {
-        this.displayName =
-            this._localStorageService.checkLocalStorageUserName();
+        this._cacheStorageService
+            .getUserName()
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((name) => {
+                this.displayName = name;
+            });
 
         this.closeImageUrl$ = this._store$.select(selectCloseUrl).pipe(
             takeUntil(this._destroyed$),

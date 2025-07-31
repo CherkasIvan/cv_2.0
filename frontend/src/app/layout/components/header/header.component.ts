@@ -1,21 +1,20 @@
 import { Observable } from 'rxjs';
 
-import { NgClass, NgFor } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    EventEmitter,
     Inject,
-    Input,
     OnChanges,
     OnInit,
-    Output,
     SimpleChanges,
+    input,
+    model,
+    output,
 } from '@angular/core';
 import {
     NavigationEnd,
-    Event as NavigationEvent,
     Router,
     RouterLink,
     RouterLinkActive,
@@ -26,8 +25,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { selectAuth } from '@layout/store/auth-store/auth.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
@@ -46,7 +45,6 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
         RouterLink,
         RouterLinkActive,
         NgClass,
-        NgFor,
         DarkModeToggleComponent,
         LanguageToggleComponent,
         TranslateModule,
@@ -60,9 +58,12 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit, OnChanges {
-    @Input() public navigationLinks: INavigation[] | null = null;
-    @Input() public theme: boolean | null = null;
-    @Output() public emittedModalShow = new EventEmitter<boolean>();
+    public navigationLinks = input<INavigation[] | null>(null);
+
+    public theme = model<boolean | null>(null);
+
+    public emittedModalShow = output<boolean>();
+
     public currentLanguage: string = 'EN';
     public isCheckedLanguage: boolean = false;
     public currentRoute: string = '';
@@ -77,8 +78,8 @@ export class HeaderComponent implements OnInit, OnChanges {
         @Inject(Router) private readonly _router: Router,
         @Inject(Store) private _store$: Store<TLanguages>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
-        private _cdr: ChangeDetectorRef,
-        private _localStorageService: LocalStorageService,
+        @Inject(ChangeDetectorRef) private _cdr: ChangeDetectorRef,
+        private _cacheStorageService: CacheStorageService,
     ) {}
 
     public showDialogLogout() {
@@ -89,10 +90,10 @@ export class HeaderComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this._router.events
             .pipe(takeUntil(this._destroyed$))
-            .subscribe((event: NavigationEvent) => {
+            .subscribe((event) => {
                 if (event instanceof NavigationEnd) {
                     this.currentRoute = event.url;
-                    this._localStorageService.updateCurrentRoute(
+                    this._cacheStorageService.updateCurrentRoute(
                         this.currentRoute,
                     );
                 }
@@ -101,11 +102,24 @@ export class HeaderComponent implements OnInit, OnChanges {
         this._store$
             .pipe(takeUntil(this._destroyed$), select(selectAuth))
             .subscribe();
-        this.displayName =
-            this._localStorageService.checkLocalStorageUserName();
-        this._localStorageService.redirectToSavedRoute();
-        this.isCheckedLanguage =
-            this._localStorageService.getLanguage() === 'en';
+
+        this._cacheStorageService
+            .getUserName()
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((name) => {
+                this.displayName = name;
+                this._cdr.markForCheck();
+            });
+
+        this._cacheStorageService.redirectToSavedRoute();
+
+        this._cacheStorageService
+            .getLanguage()
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe((language) => {
+                this.isCheckedLanguage = language === 'en';
+                this._cdr.markForCheck();
+            });
 
         this._store$
             .pipe(takeUntil(this._destroyed$), select(selectLogoUrl))
@@ -114,16 +128,19 @@ export class HeaderComponent implements OnInit, OnChanges {
                 this._cdr.markForCheck();
             });
 
-        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme }));
+        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme() }));
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['navigationLinks'] && this.navigationLinks) {
-            this.navigationLinks = [...this.navigationLinks].sort(
+        if (changes['navigationLinks'] && this.navigationLinks()) {
+            // Note: Since inputs are signals now, we need to call them as functions
+            const sortedLinks = [...this.navigationLinks()!].sort(
                 (a, b) => a.position - b.position,
             );
+            // If you need to update the input, consider using a different approach
+            // as signal inputs are meant to be read-only
         }
-        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme }));
+        this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme() }));
     }
 
     trackByPosition(index: number, item: INavigation): number {

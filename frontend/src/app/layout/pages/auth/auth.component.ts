@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
+import { takeUntil } from 'rxjs/operators';
+
 import { Store } from '@ngrx/store';
 
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
+import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
@@ -22,25 +25,46 @@ import { LoginFormComponent } from '../../components/login-form/login-form.compo
 export class AuthComponent implements OnInit {
     public isModalDialogVisible: boolean = false;
 
+    constructor(
+        private _store$: Store,
+        private _cacheStorageService: CacheStorageService,
+        private _translateService: TranslateService,
+        private _destroy: DestroyService,
+    ) {}
+
     public getModalInstance($event: boolean) {
         this.isModalDialogVisible = $event;
     }
 
-    constructor(
-        private _store$: Store,
-        private _localStorageService: LocalStorageService,
-        private _translateService: TranslateService,
-    ) {}
-
     ngOnInit() {
-        const storedLanguage = this._localStorageService.getLanguage();
-        const languageToSet = storedLanguage || 'en';
+        this._cacheStorageService
+            .getLanguage()
+            .pipe(takeUntil(this._destroy))
+            .subscribe({
+                next: (storedLanguage: 'ru' | 'en') => {
+                    const languageToSet = storedLanguage || 'en';
 
-        this._translateService.use(languageToSet).subscribe(() => {
-            this._localStorageService.setLanguage(languageToSet);
-            this._store$.dispatch(setLanguageSuccess(languageToSet));
-        });
+                    this._translateService
+                        .use(languageToSet)
+                        .pipe(takeUntil(this._destroy))
+                        .subscribe({
+                            next: () => {
+                                this._cacheStorageService.setLanguage(
+                                    languageToSet,
+                                );
+                                this._store$.dispatch(
+                                    setLanguageSuccess(languageToSet),
+                                );
+                            },
+                            error: (err) =>
+                                console.error('Language change error:', err),
+                        });
 
-        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
+                    this._store$.dispatch(
+                        ImagesActions.getCloseImg({ mode: true }),
+                    );
+                },
+                error: (err) => console.error('Failed to get language:', err),
+            });
     }
 }

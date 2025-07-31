@@ -4,17 +4,17 @@ import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectorRef,
     Component,
-    EventEmitter,
     Inject,
     OnInit,
-    Output,
+    output,
+    signal,
 } from '@angular/core';
 import { RouterLinkActive } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
@@ -35,47 +35,49 @@ export class AsideNavigationSubtechnologiesComponent implements OnInit {
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
         select(selectHardSkillsNav),
     );
-    @Output() public emittedTab = new EventEmitter<string>();
 
-    public currentSkills: string = '';
-    public selectedTab: 'frontend' | 'backend' = 'frontend';
+    public emittedTab = output<string>();
+
+    public currentSkills = signal<string>('');
+    public selectedTab = signal<'frontend' | 'backend'>('frontend');
 
     constructor(
         private _cdr: ChangeDetectorRef,
         @Inject(Store) private _store$: Store<INavigation[]>,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
     ) {}
 
     public changeRoutNavigation(link: string): boolean {
-        return this.currentSkills === link;
+        return this.currentSkills() === link;
     }
 
     ngOnInit() {
-        this.selectedTab =
-            this._localStorageService.getSelectedSubTechnologiesTab();
-        if (
-            this._localStorageService.getSelectedTechnologiesTab() ===
-            'technologies'
-        ) {
-            this.currentSkills =
-                this._localStorageService.getSelectedSubTechnologiesTab() ||
-                'frontend';
-            this._localStorageService.saveSelectedSubTechnologiesTab(
-                this.currentSkills as 'frontend' | 'backend',
-            );
-        }
-        this._store$.dispatch(
-            FirebaseActions.getHardSkillsNav({ imgName: '' }),
-        );
-        this.emittedTab.emit(this.selectedTab);
+        this._cacheStorageService
+            .getSelectedTechnologiesTab()
+            .subscribe((techTab) => {
+                if (techTab === 'technologies') {
+                    this._cacheStorageService
+                        .getSelectedSubTechnologiesTab()
+                        .subscribe((subTab) => {
+                            this.selectedTab.set(subTab || 'frontend');
+                            this.currentSkills.set(this.selectedTab());
+                            this._store$.dispatch(
+                                FirebaseActions.getHardSkillsNav({
+                                    imgName: '',
+                                }),
+                            );
+                            this.emittedTab.emit(this.selectedTab());
+                        });
+                }
+            });
     }
 
     public changeSkillsList(tab: string) {
-        this.currentSkills = tab;
-        this._localStorageService.saveSelectedSubTechnologiesTab(
+        this.currentSkills.set(tab);
+        this._cacheStorageService.saveSelectedSubTechnologiesTab(
             tab as 'frontend' | 'backend',
         );
-        this.emittedTab.emit(this.currentSkills);
+        this.emittedTab.emit(this.currentSkills());
         this._cdr.detectChanges();
     }
 }
