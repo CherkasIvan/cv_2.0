@@ -60,6 +60,8 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
 export class HeaderComponent implements OnInit, OnChanges {
     public navigationLinks = input<INavigation[] | null>(null);
 
+    public sortedLinks: INavigation[] = [];
+
     public theme = model<boolean | null>(null);
 
     public emittedModalShow = output<boolean>();
@@ -93,7 +95,6 @@ export class HeaderComponent implements OnInit, OnChanges {
             .subscribe((event) => {
                 if (event instanceof NavigationEnd) {
                     this.route = event.url;
-                    console.log(this.route);
                     this._cacheStorageService
                         .updateRoute(this.route)
                         .pipe(takeUntil(this._destroyed$))
@@ -135,7 +136,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['navigationLinks'] && this.navigationLinks()) {
-            const sortedLinks = [...this.navigationLinks()!].sort(
+            this.sortedLinks = [...this.navigationLinks()!].sort(
                 (a, b) => a.position - b.position,
             );
         }

@@ -26,9 +26,9 @@
             </a>
         </article>
 
-        @if (navigationLinks()?.length) {
+        @if (navigationLinks()?.length && sortedLinks.length) {
             <ul class="header-links">
-                @for (itemLink of navigationLinks(); track itemLink.position) {
+                @for (itemLink of sortedLinks; track itemLink.position) {
                     <li
                         class="header-links__item"
                         [tabindex]="itemLink.position"
