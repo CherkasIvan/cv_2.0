@@ -5,20 +5,18 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    EventEmitter,
     Inject,
-    InputSignal,
     OnInit,
-    Output,
     input,
+    output,
 } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
 import { INavigation } from '@core/models/navigation.interface';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
@@ -44,30 +42,27 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsideNavigationTechnologiesComponent implements OnInit {
-    @Output() public emittedTab = new EventEmitter<string>();
+    emittedTab = output<string>();
 
     public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
         select(selectHardSkillsNav),
     );
 
     public theme = input<boolean | null>(false);
-
-    public navigationList: InputSignal<TTechnologiesAside[]> = input<
-        TTechnologiesAside[]
-    >([]);
+    public navigationList = input<TTechnologiesAside[]>([]);
     public currentSkills: string = '';
     public selectedTab: 'technologies' | 'other' = 'technologies';
 
     constructor(
         private cdr: ChangeDetectorRef,
         private _store$: Store<INavigation>,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
     ) {}
 
     public changeTab(tab: 'technologies' | 'other') {
         this.selectedTab = tab;
-        this._localStorageService.saveSelectedTechnologiesTab(tab);
+        this._cacheStorageService.saveSelectedTechnologiesTab(tab);
         if (this.currentSkills && this.selectedTab === 'technologies') {
             this.emittedTab.emit(this.currentSkills);
         } else {
@@ -87,21 +82,28 @@ export class AsideNavigationTechnologiesComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.selectedTab =
-            this._localStorageService.getSelectedTechnologiesTab();
-        this._store$.dispatch(
-            FirebaseActions.getHardSkillsNav({ imgName: '' }),
-        );
-        this.hardSkillsNavigation$
+        this._cacheStorageService
+            .getSelectedTechnologiesTab()
             .pipe(takeUntil(this._destroyed$))
-            .subscribe((skills: INavigation[]) => {
-                console.log(skills);
-                const skill = skills.find((skill) => skill.id === '1');
-                if (skill) {
-                    this.currentSkills = skill.link;
-                    this.cdr.detectChanges();
-                }
+            .subscribe((tab) => {
+                this.selectedTab = tab;
+                this._store$.dispatch(
+                    FirebaseActions.getHardSkillsNav({ imgName: '' }),
+                );
+
+                this.hardSkillsNavigation$
+                    .pipe(takeUntil(this._destroyed$))
+                    .subscribe((skills: INavigation[]) => {
+                        console.log(skills);
+                        const skill = skills.find((skill) => skill.id === '1');
+                        if (skill) {
+                            this.currentSkills = skill.link;
+                        }
+                        this.cdr.detectChanges();
+                    });
+
+                this.emittedTab.emit(this.selectedTab);
+                this.cdr.detectChanges();
             });
-        this.emittedTab.emit(this.selectedTab);
     }
 }

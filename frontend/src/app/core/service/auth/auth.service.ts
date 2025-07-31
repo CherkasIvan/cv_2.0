@@ -1,11 +1,16 @@
-import { User } from 'firebase/auth';
+import firebase from 'firebase/compat/app';
 import {
     BehaviorSubject,
+    Observable,
     Subject,
     catchError,
     from,
+    map,
+    of,
+    switchMap,
     takeUntil,
     tap,
+    throwError,
 } from 'rxjs';
 
 import { isPlatformBrowser } from '@angular/common';
@@ -20,19 +25,20 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
 import { ERoute } from '@core/enum/route.enum';
+import { TFirebaseUser } from '@core/models/firebase-user.type';
 
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import { TCasheStorageUser } from '@layout/store/model/cash-storage-user.type';
 import { TProfile } from '@layout/store/model/profile.type';
 
-import { LocalStorageService } from '../local-storage/local-storage.service';
+import { CacheStorageService } from '../cache-storage/cache-storage.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-    public userData: User | null = null;
+    public userData: TFirebaseUser | null = null;
     public isAuth$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-    public usersState: any;
 
     private _destroyed$: Subject<void> = new Subject();
     private _isBrowser: boolean;
@@ -41,96 +47,148 @@ export class AuthService implements OnDestroy {
         private readonly _afs: AngularFirestore,
         private readonly _afAuth: AngularFireAuth,
         private readonly _router: Router,
-        private readonly _localStorageService: LocalStorageService,
+        private readonly _cacheStorageService: CacheStorageService,
         private readonly _store$: Store,
-        @Inject(PLATFORM_ID) private platformId: string,
+        @Inject(PLATFORM_ID) private platformId: object,
     ) {
         this._isBrowser = isPlatformBrowser(this.platformId);
-        if (this._isBrowser) {
-            this.usersState = this._localStorageService.getUsersState();
-            if (localStorage.getItem('usersState')) {
-                this.isAuth$.next(true);
-            } else {
-                this.isAuth$.next(false);
-            }
-        } else {
-            this.isAuth$.next(false);
-        }
+        this.initAuthState();
     }
 
-    signIn(email: string, password: string) {
-        return from(
-            this._afAuth.signInWithEmailAndPassword(email, password),
-        ).pipe(
-            tap((result) => {
-                if (this._isBrowser) {
-                    if (!this.usersState) {
-                        this._localStorageService.initUser(
-                            true,
-                            false,
-                            result.user,
-                            'main',
-                        );
-                    } else {
-                        this._localStorageService.setUser(result.user);
-                    }
+    private initAuthState(): void {
+        if (this._isBrowser) {
+            this._afAuth.authState
+                .pipe(takeUntil(this._destroyed$))
+                .subscribe((user) => {
+                    const isAuthenticated = !!user;
+                    this.isAuth$.next(isAuthenticated);
 
-                    this.setUserData(result.user);
-                    if (result.user) {
-                        this.isAuth$.next(true);
-                        this._afAuth.authState
-                            .pipe(takeUntil(this._destroyed$))
-                            .subscribe((user) => {
-                                if (user && this.isAuth$.value) {
-                                    this._router.navigate([ERoute.LAYOUT]);
+                    if (!isAuthenticated) {
+                        this._cacheStorageService
+                            .getUsersState()
+                            .subscribe((state) => {
+                                if (state?.isGuest) {
+                                    this.isAuth$.next(true);
                                 }
                             });
                     }
+                });
+        }
+    }
+
+    signIn(
+        email: string,
+        password: string,
+    ): Observable<firebase.auth.UserCredential> {
+        return from(
+            this._afAuth.signInWithEmailAndPassword(email, password),
+        ).pipe(
+            switchMap((result: firebase.auth.UserCredential) => {
+                if (this._isBrowser && result.user) {
+                    const user = this.convertToUserType(result.user);
+                    return this._cacheStorageService.getUsersState().pipe(
+                        switchMap((state) => {
+                            const initOrUpdate$ = !state
+                                ? this._cacheStorageService.initUser(
+                                      false,
+                                      false,
+                                      user,
+                                      'main',
+                                  )
+                                : this._cacheStorageService.setUser(user);
+
+                            return initOrUpdate$.pipe(
+                                tap(() => {
+                                    this.setUserData(user);
+                                    this.isAuth$.next(true);
+                                    this._router.navigate([ERoute.LAYOUT]);
+                                }),
+                                map(() => result),
+                            );
+                        }),
+                    );
                 }
+                return throwError(() => new Error('Authentication failed'));
             }),
             catchError((error: Error) => {
                 this.isAuth$.next(false);
-                throw error;
+                return throwError(() => error);
             }),
         );
     }
 
-    signInAsGuest() {
+    signInAsGuest(): Observable<void> {
         return from(this._afAuth.signInAnonymously()).pipe(
-            tap(() => {
-                if (this._isBrowser) {
-                    if (!this.usersState) {
-                        this._localStorageService.initUser(
-                            true,
-                            true,
-                            null,
-                            'main',
-                        );
-                    } else {
-                        this._localStorageService.setUser(null);
-                    }
-                    this.isAuth$.next(true);
-                    this._router.navigate([ERoute.LAYOUT]);
+            switchMap((result) => {
+                if (!this._isBrowser || !result.user) {
+                    return throwError(() => new Error('Guest auth failed'));
                 }
-            }),
-            catchError((error: Error) => {
-                this.isAuth$.next(false);
-                console.error('signInAsGuest error:', error);
-                throw error;
+
+                return this._cacheStorageService.getUsersState().pipe(
+                    switchMap((state) => {
+                        const updatedState: TCasheStorageUser = state
+                            ? { ...state, isGuest: true, user: null }
+                            : {
+                                  isFirstTime: false,
+                                  isGuest: true,
+                                  user: null,
+                                  currentRoute: `${ERoute.LAYOUT}/main`,
+                                  experienceRoute: 'work',
+                                  technologiesRoute: 'technologies',
+                                  subTechnologiesRoute: 'frontend',
+                                  isDark: false,
+                                  language: 'ru',
+                              };
+
+                        return this._cacheStorageService.setUsersState(
+                            updatedState,
+                        );
+                    }),
+                    tap(() => {
+                        this.isAuth$.next(true);
+                        this._router.navigate([ERoute.LAYOUT]);
+                    }),
+                    catchError((error) => {
+                        this.isAuth$.next(false);
+                        console.error('Guest sign-in failed:', error);
+                        return throwError(() => error);
+                    }),
+                );
             }),
         );
     }
 
-    setUserData(user: firebase.default.User | null) {
+    private convertToUserType(user: any): TFirebaseUser {
+        return {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            emailVerified: user.emailVerified,
+            providerData: user.providerData
+                .filter((p: any) => p !== null)
+                .map((p: any) => ({
+                    uid: p.uid,
+                    displayName: p.displayName,
+                    email: p.email,
+                    photoURL: p.photoURL,
+                    providerId: p.providerId,
+                })),
+        };
+    }
+
+    setUserData(user: TFirebaseUser | null) {
+        if (!user) return of(undefined);
+
         const userRef: AngularFirestoreDocument<TProfile> = this._afs.doc(
-            `users/${user?.uid}`,
+            `users/${user.uid}`,
         );
         const userData: TProfile = {
-            uid: user?.uid,
-            email: user?.email,
-            displayName: user?.displayName,
-            photoURL: user?.photoURL,
-            emailVerified: user?.emailVerified,
+            uid: user.uid,
+            email: user.email || undefined,
+            displayName: user.displayName || undefined,
+            photoURL: user.photoURL || undefined,
+            emailVerified: user.emailVerified,
         };
         return from(userRef.set(userData, { merge: true }));
     }
@@ -139,24 +197,29 @@ export class AuthService implements OnDestroy {
         return from(this._afAuth.signOut()).pipe(
             tap(() => {
                 if (this._isBrowser) {
-                    const usersState =
-                        this._localStorageService.getUsersState();
-
-                    if (usersState?.isGuest) {
-                        usersState.isGuest = false;
-                    }
-                    if (usersState?.user) {
-                        usersState.user = null;
-                    }
-
-                    if (usersState) {
-                        this._localStorageService.setUsersState(usersState);
-                    }
-
-                    this._localStorageService.clearUserData();
-                    this._store$.dispatch(AuthActions.getLogout());
-                    this.isAuth$.next(false);
-                    this._router.navigate([ERoute.AUTH]);
+                    this._cacheStorageService
+                        .getUsersState()
+                        .subscribe((state) => {
+                            if (state) {
+                                const updatedState = {
+                                    ...state,
+                                    isGuest: false,
+                                    user: null,
+                                };
+                                this._cacheStorageService.setUsersState(
+                                    updatedState,
+                                );
+                            }
+                            this._cacheStorageService
+                                .clearUserData()
+                                .subscribe(() => {
+                                    this._store$.dispatch(
+                                        AuthActions.getLogout(),
+                                    );
+                                    this.isAuth$.next(false);
+                                    this._router.navigate([ERoute.AUTH]);
+                                });
+                        });
                 }
             }),
         );

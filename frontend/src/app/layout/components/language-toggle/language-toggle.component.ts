@@ -1,4 +1,4 @@
-import { Observable, takeUntil } from 'rxjs';
+import { Observable, map, switchMap, takeUntil } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
@@ -6,12 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
-import { selectCurrentLanguage } from '@layout/store/language-selector-store/language.selectors';
 import { TDarkMode } from '@layout/store/model/dark-mode.type';
 import { TLanguages } from '@layout/store/model/languages.type';
 
@@ -46,37 +45,60 @@ export class LanguageToggleComponent implements OnInit {
         @Inject(TranslateService)
         private readonly _translateService: TranslateService,
         private _cdr: ChangeDetectorRef,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
     ) {}
 
     public changeLanguage() {
         this.isCheckedLanguage = !this.isCheckedLanguage;
         const newLanguage = this.isCheckedLanguage ? 'en' : 'ru';
-        this._translateService.use(newLanguage).subscribe(() => {
-            this._localStorageService.setLanguage(newLanguage);
-            this._store$.dispatch(setLanguageSuccess(newLanguage));
-        });
+
+        this._translateService
+            .use(newLanguage)
+            .pipe(
+                takeUntil(this._destroyed$),
+                switchMap(() =>
+                    this._cacheStorageService.setLanguage(newLanguage),
+                ),
+                takeUntil(this._destroyed$),
+            )
+            .subscribe({
+                next: () => {
+                    this._store$.dispatch(setLanguageSuccess(newLanguage));
+                    this._cdr.markForCheck();
+                },
+                error: (err) => console.error('Error changing language:', err),
+            });
     }
 
     ngOnInit(): void {
         this.route.url.pipe(takeUntil(this._destroyed$)).subscribe((url) => {
             this.authPath = url.find((el) => el.path);
+            this._cdr.markForCheck();
         });
 
-        const storedLanguage = this._localStorageService.getLanguage();
-        const languageToSet = storedLanguage || 'en';
-
-        this._translateService.use(languageToSet).subscribe(() => {
-            this._localStorageService.setLanguage(languageToSet);
-            this._store$.dispatch(setLanguageSuccess(languageToSet));
-        });
-
-        this._store$
-            .pipe(select(selectCurrentLanguage), takeUntil(this._destroyed$))
-            .subscribe((language) => {
-                this.currentLanguage = language;
-                this.isCheckedLanguage = language === 'en';
-                this._cdr.markForCheck();
+        this._cacheStorageService
+            .getLanguage()
+            .pipe(
+                takeUntil(this._destroyed$),
+                switchMap((storedLanguage) => {
+                    const languageToSet = storedLanguage || 'en';
+                    return this._translateService.use(languageToSet).pipe(
+                        switchMap(() =>
+                            this._cacheStorageService.setLanguage(
+                                languageToSet,
+                            ),
+                        ),
+                        map(() => languageToSet),
+                    );
+                }),
+            )
+            .subscribe({
+                next: (languageToSet) => {
+                    this._store$.dispatch(setLanguageSuccess(languageToSet));
+                    this._cdr.markForCheck();
+                },
+                error: (err) =>
+                    console.error('Error initializing language:', err),
             });
     }
 }
