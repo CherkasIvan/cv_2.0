@@ -30,7 +30,7 @@ import { ExperienceDialogComponent } from './components/experience-dialog/experi
 import { FirstTimeComponent } from './components/first-time/first-time.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import { LogoutFormComponent } from './components/logout-form/logout-form.component';
+import { LogoutDialogComponent } from './components/logout-form/logout-dialog.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { darkModeSelector } from './store/dark-mode-store/dark-mode.selectors';
 import { ModalState } from './store/experience-dialog-store/experience-dialog.reducers';
@@ -56,12 +56,13 @@ import { TDarkMode } from './store/model/dark-mode.type';
         AnimationBgComponent,
         AsyncPipe,
         SpinnerComponent,
-        LogoutFormComponent,
+        LogoutDialogComponent,
         DarkAnimationLayoutComponent,
         ExperienceDialogComponent,
         FirstTimeComponent,
         TranslateModule,
         NgClass,
+        LogoutDialogComponent,
     ],
     templateUrl: './layout.component.html',
     styleUrl: './layout.component.scss',

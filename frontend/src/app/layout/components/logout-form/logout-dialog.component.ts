@@ -11,7 +11,10 @@ import {
     OnInit,
     Output,
     ViewChild,
+    effect,
     input,
+    output,
+    signal,
 } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -27,56 +30,66 @@ import { TProfile } from '@layout/store/model/profile.type';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
-    selector: 'cv-logout-form',
+    selector: 'cv-logout-dialog',
     standalone: true,
-    imports: [ReactiveFormsModule, AsyncPipe, TranslateModule],
-    templateUrl: './logout-form.component.html',
-    styleUrls: ['./logout-form.component.scss'],
+    imports: [ReactiveFormsModule, TranslateModule],
+    templateUrl: './logout-dialog.component.html',
+    styleUrls: ['./logout-dialog.component.scss'],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoutFormComponent implements OnInit {
+export class LogoutDialogComponent {
+    // Входные параметры через signal-based input API
+    public header = input.required<string>();
+
+    // Выходные события через signal-based output API
+    public emittedModalHide = output<boolean>();
+
+    // Реактивные сигналы для состояния
+    public displayName = signal('');
+    public closeImageUrl = signal('');
+
+    // Ссылка на элемент модального окна
     @ViewChild('modal', { static: false })
     public modal!: ElementRef;
-    @Output() public emittedModalHide = new EventEmitter<boolean>();
-    @HostListener('document:mousemove', ['$event'])
-    public onMouseMove(event: MouseEvent) {
-        const target = event.target as HTMLElement;
-        if (!this.modal.nativeElement.contains(target)) {
-            this.modal.nativeElement.classList.add('dimmed');
-        } else {
-            this.modal.nativeElement.classList.remove('dimmed');
-        }
-    }
-
-    public closeImageUrl$!: Observable<string>;
-    public header = input.required<string>();
-    public user: TProfile | null = null;
-    public displayName = '';
 
     constructor(
         @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _authService: AuthService,
         private _cacheStorageService: CacheStorageService,
         private _store$: Store,
-    ) {}
+    ) {
+        // Инициализация данных через эффекты
+        effect(() => {
+            this._cacheStorageService
+                .getUserName()
+                .pipe(takeUntil(this._destroyed$))
+                .subscribe((name) => this.displayName.set(name));
+        });
 
-    ngOnInit(): void {
-        this._cacheStorageService
-            .getUserName()
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe((name) => {
-                this.displayName = name;
-            });
-
-        this.closeImageUrl$ = this._store$.select(selectCloseUrl).pipe(
-            takeUntil(this._destroyed$),
-            map((response: any) => {
-                return response;
-            }),
-        );
+        effect(() => {
+            this._store$
+                .select(selectCloseUrl)
+                .pipe(
+                    takeUntil(this._destroyed$),
+                    map((response) => response as string),
+                )
+                .subscribe((url) => this.closeImageUrl.set(url));
+        });
     }
 
+    // Обработчик движения мыши с использованием сигналов
+    @HostListener('document:mousemove', ['$event'])
+    public onMouseMove(event: MouseEvent) {
+        const target = event.target as HTMLElement;
+        if (!this.modal?.nativeElement?.contains(target)) {
+            this.modal.nativeElement.classList.add('dimmed');
+        } else {
+            this.modal.nativeElement.classList.remove('dimmed');
+        }
+    }
+
+    // Методы с использованием сигналов
     public confirmLogout() {
         this._authService
             .signOut()

@@ -94,7 +94,6 @@ export class AsideNavigationTechnologiesComponent implements OnInit {
                 this.hardSkillsNavigation$
                     .pipe(takeUntil(this._destroyed$))
                     .subscribe((skills: INavigation[]) => {
-                        console.log(skills);
                         const skill = skills.find((skill) => skill.id === '1');
                         if (skill) {
                             this.currentSkills = skill.link;
