@@ -50,7 +50,7 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
     ],
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.scss'],
-    animations: [loginFadeInOut, toggleHeight],
+    // animations: [loginFadeInOut, toggleHeight],
     providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -91,6 +91,7 @@ export class LoginFormComponent implements OnInit {
     }
 
     public confirmModalDialog() {
+        console.log('Confirm modal dialog called');
         this._checkAuth();
     }
 

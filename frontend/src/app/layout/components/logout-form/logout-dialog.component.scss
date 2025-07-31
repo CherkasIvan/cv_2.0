@@ -33,14 +33,14 @@
             justify-content: center;
             align-items: center;
 
-            &_title {
+            &__title {
                 margin-top: 52px;
                 margin-bottom: 10px;
                 font-weight: 600;
                 font-size: 20px;
             }
 
-            &_close-button {
+            &__close-button {
                 position: absolute;
                 top: 26px;
                 right: 26px;
@@ -51,7 +51,7 @@
             }
         }
 
-        &_content {
+        &__content {
             padding: 26px;
 
             .content {
@@ -59,7 +59,7 @@
                 row-gap: 26px;
                 flex-direction: column;
 
-                &_question {
+                &__question {
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -73,12 +73,12 @@
                     flex-direction: column;
                 }
 
-                &_label {
+                &__label {
                     color: color.$darkGray;
                     font-size: 14px;
                 }
 
-                &_input {
+                &__input {
                     box-sizing: border-box;
                     border-radius: 10px;
                     background-color: color.$lightGrey;
@@ -87,12 +87,12 @@
                     font-style: 16px;
                 }
 
-                &_input:focus,
-                &_input:active {
+                &__input:focus,
+                &__input:active {
                     border: 1px solid color.$blue;
                 }
 
-                &_submit-buttons {
+                &__submit-buttons {
                     display: flex;
                     row-gap: 26px;
                     flex-direction: column;

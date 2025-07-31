@@ -35,6 +35,7 @@ import { TranslateModule } from '@ngx-translate/core';
     styleUrls: [
         './experience-card.component.scss',
         './experience-card-dm/experience-card-dm.component.scss',
+        './experience-card-media/experience-card-media.component.scss',
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInOutCards],
@@ -66,8 +67,6 @@ export class ExperienceCardComponent implements OnInit, OnChanges {
     }
 
     ngOnInit(): void {
-        console.log(this.workDescription());
-        console.log(this.experienceDescription());
         this.initializeComponent();
     }
 

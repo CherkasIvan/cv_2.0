@@ -1,0 +1,25 @@
+@media (max-width: 768px) {
+    .experience-card {
+        flex-direction: column;
+        padding: 20px;
+        height: auto;
+
+        &.activeEducation,
+        &.activeWork {
+            .card-button__container {
+                order: 0;
+                margin: 15px 0;
+            }
+
+            .card-info {
+                text-align: center;
+            }
+        }
+
+        &_picture-work,
+        &_picture-education {
+            position: relative;
+            margin-bottom: 15px;
+        }
+    }
+}

@@ -1,27 +1,27 @@
-import { Observable } from 'rxjs';
+import { Observable, map, take, tap } from 'rxjs';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 
 import { ERoute } from '@core/enum/route.enum';
 import { AuthService } from '@core/service/auth/auth.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthGuard {
-    constructor(
-        private readonly _authService: AuthService,
-        private readonly _localStorageService: LocalStorageService,
-        private _router: Router,
-    ) {}
+    private _authService = inject(AuthService);
+    private _router = inject(Router);
 
-    canActivate(): Observable<boolean> | Promise<boolean> | UrlTree | boolean {
-        if (!this._authService.isAuth$.value) {
-            this._router.navigate([ERoute.AUTH]);
-            return false;
-        }
-        return true;
+    canActivate(): Observable<boolean | UrlTree> {
+        return this._authService.authState$.pipe(
+            take(1),
+            map(({ isAuth, isGuest }) => {
+                const allowed = isAuth || isGuest;
+                return allowed
+                    ? true
+                    : this._router.createUrlTree([ERoute.AUTH]);
+            }),
+        );
     }
 }

@@ -29,7 +29,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
     selector: 'cv-experience-dialog',
     standalone: true,
-    imports: [ReactiveFormsModule, AsyncPipe, NgIf, TranslateModule],
+    imports: [ReactiveFormsModule, AsyncPipe, TranslateModule],
     templateUrl: './experience-dialog.component.html',
     styleUrls: ['./experience-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

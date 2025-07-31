@@ -50,17 +50,15 @@
         <article
             class="experience-card"
             (click)="showDialogExperience(experienceDescription())"
-            (keyup.enter)="showDialogExperience(experienceDescription())"
-            tabindex="0"
-            [ngClass]="{ activeEducation: experienceType() === 'education', 'dark-theme': theme() }"
+            [ngClass]="{
+                activeEducation: experienceType() === 'education',
+                'dark-theme': theme(),
+            }"
             (mouseover)="experienceCardImgVisibility = true"
-            (focus)="experienceCardImgVisibility = true"
             (mouseleave)="experienceCardImgVisibility = false"
-            (blur)="experienceCardImgVisibility = false"
         >
             @if (experienceCardImgVisibility) {
                 <div
-                    [ngClass]="{ 'dark-theme': theme() }"
                     class="experience-card_picture-education"
                     @fadeInOutCards
                 >
@@ -71,14 +69,7 @@
                     />
                 </div>
             }
-            <div class="card-button__container">
-                <button class="card-button">
-                    <img
-                        [src]="downloadUrl$ | async"
-                        [alt]="downloadUrl$ | async"
-                    />
-                </button>
-            </div>
+
             <div class="card-info">
                 <span class="card-info_place">{{ 'EXPERIENCE-PAGE.PLACE.COURSE' | translate }}</span>
                 <span class="card-info_place-name">
@@ -86,9 +77,20 @@
                     {{ experienceDescription()?.specialization }}
                 </span>
                 <span class="card-info_time">
-                    {{ experienceDescription()?.from }} -
-                    {{ experienceDescription()?.to }}
+                    {{ experienceDescription()?.from }} - {{ experienceDescription()?.to }}
                 </span>
+            </div>
+
+            <div class="card-button__container">
+                <button
+                    class="card-button"
+                    [ngClass]="{ 'dark-theme': theme() }"
+                >
+                    <img
+                        [src]="downloadUrl$ | async"
+                        [alt]="downloadUrl$ | async"
+                    />
+                </button>
             </div>
         </article>
     }

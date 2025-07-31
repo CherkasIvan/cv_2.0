@@ -4,13 +4,13 @@ import { LanguageState } from '../model/language-state.interface';
 import { setLanguageSuccess } from './language.actions';
 
 export const initialLanguageState: LanguageState = {
-    currentLanguage: 'en',
+    language: 'en',
 };
 
 export const languageReducer = createReducer(
     initialLanguageState,
-    on(setLanguageSuccess, (state, { currentLanguage }) => ({
+    on(setLanguageSuccess, (state, { language }) => ({
         ...state,
-        currentLanguage,
+        language,
     })),
 );

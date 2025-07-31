@@ -3,7 +3,7 @@
         <ul class="skills-list">
             @for (skillItem of hardSkillsNavigation$ | async; track skillItem.id; let i = $index) {
                 <li class="skill-item">
-                    @if (currentSkills && skillItem.link) {
+                    @if (currentSkills() && skillItem.link) {
                         <a
                             class="skill-item_link"
                             routerLinkActive="active"

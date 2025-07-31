@@ -1,13 +1,14 @@
+import firebase from 'firebase/compat/app';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { EventEmitter, Inject, Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { ERoute } from '@core/enum/route.enum';
 import { AuthService } from '@core/service/auth/auth.service';
-import { LocalStorageService } from '@core/service/local-storage/local-storage.service';
+import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 
 import { TProfile } from '../model/profile.type';
 import { AuthActions } from './auth.actions';
@@ -19,9 +20,9 @@ export class AuthEffects {
         new EventEmitter<boolean>();
 
     constructor(
-        private _actions$: Actions,
+        @Inject(Actions) private _actions$: Actions,
         private _authService$: AuthService,
-        private _localStorageService: LocalStorageService,
+        private _cacheStorageService: CacheStorageService,
         private _router: Router,
     ) {}
 
@@ -30,13 +31,18 @@ export class AuthEffects {
             ofType(AuthActions.getLogin),
             mergeMap((action) =>
                 this._authService$.signIn(action.email, action.password).pipe(
-                    map((userCredential) => {
+                    map((userCredential: firebase.auth.UserCredential) => {
+                        if (!userCredential?.user) {
+                            throw new Error('Authentication failed - no user');
+                        }
+
                         const user: TProfile = {
-                            uid: userCredential.user?.uid,
-                            email: userCredential.user?.email,
-                            displayName: userCredential.user?.displayName,
-                            photoURL: userCredential.user?.photoURL,
-                            emailVerified: userCredential.user?.emailVerified,
+                            uid: userCredential.user.uid,
+                            email: userCredential.user.email || undefined,
+                            displayName:
+                                userCredential.user.displayName || undefined,
+                            photoURL: userCredential.user.photoURL || undefined,
+                            emailVerified: userCredential.user.emailVerified,
                         };
                         return AuthActions.getLoginSuccess({ user });
                     }),
@@ -47,9 +53,12 @@ export class AuthEffects {
                             this.modalClass = 'fade-in';
                         }, 1500);
                     }),
-                    catchError((error) =>
-                        of(AuthActions.getLoginError({ error })),
-                    ),
+                    catchError((error) => {
+                        console.error('Login error:', error);
+                        return of(
+                            AuthActions.getLoginError({ error: error.message }),
+                        );
+                    }),
                 ),
             ),
         ),
@@ -76,7 +85,7 @@ export class AuthEffects {
                 this._authService$.signOut().pipe(
                     map(() => AuthActions.getLogoutSuccess()),
                     tap(() => this._router.navigate([ERoute.AUTH])),
-                    tap(() => this._localStorageService.clearUserData()),
+                    tap(() => this._cacheStorageService.clearUserData()),
                     catchError((error) =>
                         of(AuthActions.getLogoutError({ error })),
                     ),

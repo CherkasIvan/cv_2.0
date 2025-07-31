@@ -3,6 +3,7 @@
     "compilerOptions": {
         "baseUrl": "./src",
         "paths": {
+            "firebase/*": ["node_modules/firebase/compat/*"],
             "@angular/*": ["./node_modules/@angular/*"],
             "@env/*": ["environments/*"],
             "@utils/*": ["utils/*"],
