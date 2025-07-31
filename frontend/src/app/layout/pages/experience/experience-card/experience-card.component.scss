@@ -114,10 +114,6 @@
         }
     }
 
-    // &:hover .card-button__container::before {
-    //     animation: rotateCircle 1s linear infinite;
-    // }
-
     &:hover .card-button__container::before {
         animation: rotateCircle 1.2s linear infinite;
         border-color: rgba(color.$white, 0.3);

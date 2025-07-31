@@ -20,8 +20,8 @@
 
         .header-logo {
             transition: 0.3s;
-            &_link,
-            &_link > * {
+            &__link,
+            &__link > * {
                 width: calc(100px + 140 * (100vw / 1920));
             }
         }
@@ -30,7 +30,7 @@
             display: flex;
             column-gap: 30px;
             height: 100%;
-            &_item {
+            &__item {
                 .item-link {
                     display: flex;
                     position: relative;
@@ -42,7 +42,7 @@
                     font-size: calc(4px + 12 * (100vw / 1920));
                     white-space: nowrap;
 
-                    &_text::first-letter {
+                    &__text::first-letter {
                         text-transform: uppercase;
                     }
                 }
@@ -92,20 +92,67 @@
             justify-content: space-between;
             align-items: center;
 
-            &_language {
+            &__language {
                 cursor: pointer;
                 background-color: transparent;
                 padding-right: 10px;
             }
 
-            &_login {
+            &__login {
                 position: relative;
                 cursor: pointer;
                 background-color: transparent;
                 padding-left: 30px;
+
+                .default-text,
+                .logout-text {
+                    display: inline-block;
+                    transition:
+                        transform 0.3s ease,
+                        opacity 0.3s ease;
+                }
+
+                .logout-text {
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    transform: translateY(-50%) translateX(-20px);
+                    opacity: 0;
+                }
+
+                &:hover {
+                    .default-text {
+                        transform: translateX(20px);
+                        opacity: 0;
+                    }
+
+                    .logout-text {
+                        transform: translateY(-50%) translateX(0);
+                        opacity: 1;
+                    }
+                }
+
+                &::before {
+                    position: absolute;
+                    top: 0;
+                    left: -100%;
+                    transition: all 0.8s ease;
+                    background: linear-gradient(90deg, transparent, rgba(color.$blue, 0.2), transparent);
+                    width: 100%;
+                    height: 100%;
+                    content: '';
+                }
+
+                &:hover {
+                    color: color.$blue !important;
+
+                    &::before {
+                        left: 100%;
+                    }
+                }
             }
 
-            &_login:before {
+            &__login:before {
                 position: absolute;
                 top: -5px;
                 left: -2px;

@@ -91,6 +91,7 @@ export class LoginFormComponent implements OnInit {
     }
 
     public confirmModalDialog() {
+        console.log('Confirm modal dialog called');
         this._checkAuth();
     }
 

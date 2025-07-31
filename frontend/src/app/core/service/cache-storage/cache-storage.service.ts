@@ -74,7 +74,7 @@ export class CacheStorageService {
     }
 
     public setUsersState(state: TCasheStorageUser): Observable<void> {
-        console.log(state.isFirstTime);
+        console.log(state);
         return this.verifyServiceWorker().pipe(
             switchMap((isActive) => {
                 if (!isActive) {
@@ -124,7 +124,18 @@ export class CacheStorageService {
     }
 
     public getUsersState(): Observable<TCasheStorageUser | null> {
-        return this.getCachedData('userState');
+        return this.getCachedData('userState').pipe(
+            map((state) => {
+                if (!state) {
+                    return null;
+                }
+                return state;
+            }),
+            catchError((error) => {
+                console.error('Error getting user state:', error);
+                return of(null);
+            }),
+        );
     }
 
     public getUserName(): Observable<string> {
@@ -142,7 +153,7 @@ export class CacheStorageService {
     public redirectToSavedRoute(): void {
         this.getUsersState().subscribe((usersState) => {
             if (usersState && (usersState.user || usersState.isGuest)) {
-                const route = usersState.currentRoute || '/';
+                const route = usersState.route || '/';
                 this._router.navigate([route]);
             }
         });
@@ -152,24 +163,32 @@ export class CacheStorageService {
         isFirstTime: boolean = false,
         isGuest: boolean = false,
         user: TFirebaseUser | null,
-        currentRoute: string | 'main',
+        route: string | 'main',
     ): Observable<void> {
         return this.getUsersState().pipe(
             switchMap((existingState) => {
-                if (!existingState) {
+                if (isFirstTime || !existingState) {
                     const usersState: TCasheStorageUser = {
-                        isFirstTime,
+                        isFirstTime: false,
                         isGuest,
                         user,
-                        currentRoute: `${ERoute.LAYOUT}/${currentRoute}`,
+                        route: `${ERoute.LAYOUT}/${route}`,
                         experienceRoute: 'work',
                         technologiesRoute: 'technologies',
                         subTechnologiesRoute: 'frontend',
                         isDark: false,
                         language: 'ru',
                     };
+                    console.log('Initializing new user state', usersState);
                     return this.setUsersState(usersState);
                 }
+
+                if (user) {
+                    existingState.user = user;
+                    console.log('Updating existing user state', existingState);
+                    return this.setUsersState(existingState);
+                }
+
                 return of(undefined);
             }),
         );
@@ -187,11 +206,15 @@ export class CacheStorageService {
         );
     }
 
-    public updateCurrentRoute(route: string): Observable<void> {
+    public updateRoute(route: string): Observable<void> {
+        console.log(route);
         return this.getUsersState().pipe(
             switchMap((usersState) => {
+                console.log(usersState);
                 if (usersState) {
-                    usersState.currentRoute = route;
+                    console.log(usersState.route);
+                    usersState.route = route;
+                    console.log(usersState.route);
                     return this.setUsersState(usersState);
                 }
                 return of(undefined);
@@ -243,8 +266,10 @@ export class CacheStorageService {
         selectedTab: 'frontend' | 'backend',
     ): void {
         this.getUsersState().subscribe((usersState) => {
-            if (usersState && (usersState.user || usersState.isGuest)) {
+            console.log(usersState && (usersState.user || usersState.isGuest));
+            if (usersState) {
                 usersState.subTechnologiesRoute = selectedTab;
+                console.log(usersState.subTechnologiesRoute);
                 this.setUsersState(usersState);
             }
         });

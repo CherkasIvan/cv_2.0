@@ -1,6 +1,6 @@
 import { Observable, map, take, tap } from 'rxjs';
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 
 import { ERoute } from '@core/enum/route.enum';
@@ -10,24 +10,18 @@ import { AuthService } from '@core/service/auth/auth.service';
     providedIn: 'root',
 })
 export class AuthGuard {
-    constructor(
-        private readonly _authService: AuthService,
-        private _router: Router,
-    ) {}
+    private _authService = inject(AuthService);
+    private _router = inject(Router);
 
     canActivate(): Observable<boolean | UrlTree> {
-        return this._authService.isAuth$.pipe(
+        return this._authService.authState$.pipe(
             take(1),
-            tap((isAuthenticated) => {
-                if (!isAuthenticated) {
-                    this._router.navigate([ERoute.AUTH]);
-                }
+            map(({ isAuth, isGuest }) => {
+                const allowed = isAuth || isGuest;
+                return allowed
+                    ? true
+                    : this._router.createUrlTree([ERoute.AUTH]);
             }),
-            map(
-                (isAuthenticated) =>
-                    isAuthenticated ||
-                    this._router.createUrlTree([ERoute.AUTH]),
-            ),
         );
     }
 }
