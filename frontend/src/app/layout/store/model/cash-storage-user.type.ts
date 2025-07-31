@@ -4,7 +4,7 @@ export type TCasheStorageUser = {
     isFirstTime: boolean;
     isGuest: boolean;
     user?: TProfile | null;
-    currentRoute: string;
+    route: string;
     experienceRoute: 'work' | 'education';
     technologiesRoute: 'technologies' | 'other';
     subTechnologiesRoute: 'frontend' | 'backend';
