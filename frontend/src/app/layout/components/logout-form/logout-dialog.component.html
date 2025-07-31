@@ -5,23 +5,23 @@
 >
     <dialog class="modal-dialog">
         <header class="header-block">
-            <h3 class="header-block_title">{{ header() }}</h3>
+            <h3 class="header-block__title">{{ header() }}</h3>
             <button
-                class="header-block_close-button"
+                class="header-block__close-button"
                 (click)="closeLogoutDialog()"
             >
                 <img
                     aria-hidden="true"
-                    [src]="closeImageUrl$ | async"
-                    [alt]="closeImageUrl$ | async"
+                    [src]="closeImageUrl()"
+                    [alt]="closeImageUrl()"
                 />
             </button>
         </header>
-        <main class="modal-dialog_content">
-            <div class="content_question">
-                {{ 'LOGOUT-MODAL.DESCRIPTION' | translate }}, {{ displayName || 'GUEST' | translate }}?
+        <main class="modal-dialog__content">
+            <div class="content__question">
+                {{ 'LOGOUT-MODAL.DESCRIPTION' | translate }}, {{ displayName() || 'GUEST' | translate }}?
             </div>
-            <div class="content_submit-buttons">
+            <div class="content__submit-buttons">
                 <button
                     class="submit-button"
                     (click)="confirmLogout()"

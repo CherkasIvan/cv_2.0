@@ -34,10 +34,10 @@
         </main>
 
         @if (isModalDialogVisible) {
-            <cv-logout-form
+            <cv-logout-dialog
                 header="{{ 'LOGOUT-MODAL.TITLE' | translate }}?"
                 (emittedModalHide)="getModalInstance($event)"
-            ></cv-logout-form>
+            ></cv-logout-dialog>
         }
 
         @if (isExperienceDialogVisible$ | async) {

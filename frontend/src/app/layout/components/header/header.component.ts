@@ -66,7 +66,7 @@ export class HeaderComponent implements OnInit, OnChanges {
 
     public currentLanguage: string = 'EN';
     public isCheckedLanguage: boolean = false;
-    public currentRoute: string = '';
+    public route: string = '';
     public isModalDialogVisible: boolean = false;
     public displayName = '';
     public imageUrl: string = '';
@@ -92,10 +92,12 @@ export class HeaderComponent implements OnInit, OnChanges {
             .pipe(takeUntil(this._destroyed$))
             .subscribe((event) => {
                 if (event instanceof NavigationEnd) {
-                    this.currentRoute = event.url;
-                    this._cacheStorageService.updateCurrentRoute(
-                        this.currentRoute,
-                    );
+                    this.route = event.url;
+                    console.log(this.route);
+                    this._cacheStorageService
+                        .updateRoute(this.route)
+                        .pipe(takeUntil(this._destroyed$))
+                        .subscribe();
                 }
             });
 
@@ -133,12 +135,9 @@ export class HeaderComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['navigationLinks'] && this.navigationLinks()) {
-            // Note: Since inputs are signals now, we need to call them as functions
             const sortedLinks = [...this.navigationLinks()!].sort(
                 (a, b) => a.position - b.position,
             );
-            // If you need to update the input, consider using a different approach
-            // as signal inputs are meant to be read-only
         }
         this._store$.dispatch(ImagesActions.getLogo({ mode: !this.theme() }));
     }

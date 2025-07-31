@@ -179,7 +179,6 @@ export class FirebaseEffects {
                     images: this._apiService.getImages(action.imgName),
                 }).pipe(
                     map(({ education, images }) => {
-                        console.log(action);
                         return FirebaseActions.getEducationPlacesSuccess({
                             education,
                             images,
@@ -223,7 +222,6 @@ export class FirebaseEffects {
                     experienceAside: this._apiService.getExperienceAside(),
                     images: this._apiService.getImages(action.imgName),
                 }).pipe(
-                    tap((el) => console.log(action)),
                     map(({ experienceAside, images }) =>
                         FirebaseActions.getExperienceAsideSuccess({
                             experienceAside,
