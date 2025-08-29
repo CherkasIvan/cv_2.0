@@ -75,6 +75,7 @@ export class LayoutComponent implements OnInit {
     public isModalDialogVisible: boolean = false;
     public isExperienceDialogVisible$!: Observable<boolean>;
     public modalData$!: Observable<IExperience | null>;
+    private frameWork: string[] = ['custom', 'primeNG', 'material'];
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
         takeUntil(this._destroyed$),

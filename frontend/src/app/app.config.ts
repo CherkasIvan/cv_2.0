@@ -13,8 +13,6 @@ import {
 } from '@angular/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
@@ -23,10 +21,6 @@ import {
     provideClientHydration,
     withHttpTransferCacheOptions,
 } from '@angular/platform-browser';
-import {
-    BrowserAnimationsModule,
-    provideAnimations,
-} from '@angular/platform-browser/animations';
 import {
     PreloadAllModules,
     RouterModule,
@@ -47,12 +41,13 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ImagesEffects } from '@layout/store/images-store/images.effects';
 import { logoReducer } from '@layout/store/images-store/images.reducers';
 
+import { HttpLoadFactory } from '@utils/class/trnaslate-lodader.class';
+
 import {
     TranslateLoader,
     TranslateModule,
     TranslateService,
 } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { environment } from '../environments/environment.development';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
@@ -68,10 +63,6 @@ import { languageReducer } from './layout/store/language-selector-store/language
 import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
 
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
-}
-
 if (environment.production) {
     enableProdMode();
 }
@@ -79,7 +70,6 @@ if (environment.production) {
 export const appConfig: ApplicationConfig = {
     providers: [
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
-        provideAnimations(),
         provideRouter(MAIN_ROUTES, withViewTransitions()),
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideFirestore(() => getFirestore()),
@@ -87,18 +77,9 @@ export const appConfig: ApplicationConfig = {
         provideStorage(() => getStorage()),
         provideAuth(() => getAuth()),
         provideStore(),
-        provideHttpClient(),
-        {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient],
-        },
         TranslateService,
         importProvidersFrom([
-            AngularFireModule.initializeApp(environment.firebase),
-            AngularFireDatabaseModule,
             BrowserModule,
-            BrowserAnimationsModule,
             RouterModule.forRoot(MAIN_ROUTES, {
                 preloadingStrategy: PreloadAllModules,
             }),
@@ -109,14 +90,10 @@ export const appConfig: ApplicationConfig = {
                 defaultLanguage: 'en',
                 loader: {
                     provide: TranslateLoader,
-                    useFactory: HttpLoaderFactory,
-                    deps: [HttpClient],
+                    useClass: HttpLoadFactory,
                 },
             }),
-            EffectsModule.forRoot({}),
             EffectsModule.forRoot([
-                FirebaseEffects,
-                AuthEffects,
                 FirebaseEffects,
                 AuthEffects,
                 GithubRepositoriesEffects,
@@ -146,10 +123,6 @@ export const appConfig: ApplicationConfig = {
         provideEffects(),
         provideRouterStore(),
         provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-        provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000',
-        }),
         provideServiceWorker('ngsw-worker.js', {
             enabled: !isDevMode(),
             registrationStrategy: 'registerWhenStable:30000',

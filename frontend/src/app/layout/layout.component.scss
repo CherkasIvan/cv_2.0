@@ -35,14 +35,40 @@
         .footer {
         }
     }
-}
 
-.light-theme {
-    transition: 0.3s;
-    background-color: color.$lightGrey;
-}
+    .light-theme {
+        transition: 0.3s;
+        background-color: color.$lightGrey;
+    }
 
-.dark-theme {
-    transition: 0.3s;
-    background-color: color.$black;
+    .dark-theme {
+        transition: 0.3s;
+        background-color: color.$black;
+    }
+
+    .layout-container {
+        position: relative;
+        padding: 1rem;
+        min-height: 100vh;
+
+        .menu-toggle {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .content-container {
+            margin: 0 auto;
+            padding: 2rem 1rem;
+            max-width: 1200px;
+
+            @media (min-width: 768px) {
+                margin-left: 250px;
+                padding: 3rem 2rem;
+            }
+        }
+    }
 }

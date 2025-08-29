@@ -1,3 +1,4 @@
+// firebase.reducers.ts
 import { createReducer, on } from '@ngrx/store';
 
 import { TExperienceAside } from '@core/models/experience-aside.type';
@@ -42,104 +43,202 @@ export const initialFirebaseState: FirebaseState = {
 
 export const firebaseReducer = createReducer(
     initialFirebaseState,
-    on(FirebaseActions.getNavigationSuccess, (state, { navigation }) => ({
-        ...state,
-        navigation,
-    })),
-    on(FirebaseActions.getNavigationError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
+    on(
+        FirebaseActions.getNavigationSuccess,
+        (
+            state: FirebaseState,
+            { navigation }: { navigation: INavigation[] },
+        ) => ({
+            ...state,
+            navigation,
+            error: null,
+        }),
+    ),
+    on(
+        FirebaseActions.getNavigationError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
     on(
         FirebaseActions.getSocialMediaSuccess,
-        (state, { socialMediaLinks }) => ({
+        (
+            state: FirebaseState,
+            { socialMediaLinks }: { socialMediaLinks: ISocialMedia[] },
+        ) => ({
             ...state,
             socialMediaLinks,
+            error: null,
         }),
     ),
-    on(FirebaseActions.getSocialMediaError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
+    on(
+        FirebaseActions.getSocialMediaError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
     on(
         FirebaseActions.getWorkExperienceSuccess,
-        (state, { workExperience }) => ({
+        (
+            state: FirebaseState,
+            { workExperience }: { workExperience: IExperience[] },
+        ) => ({
             ...state,
             workExperience,
+            error: null,
         }),
     ),
-    on(FirebaseActions.getWorkExperienceError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(FirebaseActions.getFrontendTechSuccess, (state, { frontendTech }) => ({
-        ...state,
-        frontendTech,
-    })),
-    on(FirebaseActions.getFrontendTechError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(FirebaseActions.getBackendTechSuccess, (state, { backendTech }) => ({
-        ...state,
-        backendTech,
-    })),
-    on(FirebaseActions.getBackendTechError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(FirebaseActions.getOtherTechSuccess, (state, { otherTech }) => ({
-        ...state,
-        otherTech,
-    })),
-    on(FirebaseActions.getOtherTechError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(FirebaseActions.getHardSkillsNavSuccess, (state, { hardSkillsNav }) => ({
-        ...state,
-        hardSkillsNav,
-    })),
-    on(FirebaseActions.getHardSkillsNavError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(FirebaseActions.getEducationPlacesSuccess, (state, { education }) => ({
-        ...state,
-        education,
-    })),
-    on(FirebaseActions.getEducationPlacesError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(FirebaseActions.getMainPageInfoSuccess, (state, { mainPageInfo }) => ({
-        ...state,
-        mainPageInfo,
-    })),
-    on(FirebaseActions.getMainPageInfoError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
+    on(
+        FirebaseActions.getWorkExperienceError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        FirebaseActions.getFrontendTechSuccess,
+        (
+            state: FirebaseState,
+            { frontendTech }: { frontendTech: ITechnologies[] },
+        ) => ({
+            ...state,
+            frontendTech,
+            error: null,
+        }),
+    ),
+    on(
+        FirebaseActions.getFrontendTechError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        FirebaseActions.getBackendTechSuccess,
+        (
+            state: FirebaseState,
+            { backendTech }: { backendTech: ITechnologies[] },
+        ) => ({
+            ...state,
+            backendTech,
+            error: null,
+        }),
+    ),
+    on(
+        FirebaseActions.getBackendTechError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        FirebaseActions.getOtherTechSuccess,
+        (
+            state: FirebaseState,
+            { otherTech }: { otherTech: ITechnologies[] },
+        ) => ({
+            ...state,
+            otherTech,
+            error: null,
+        }),
+    ),
+    on(
+        FirebaseActions.getOtherTechError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        FirebaseActions.getHardSkillsNavSuccess,
+        (
+            state: FirebaseState,
+            { hardSkillsNav }: { hardSkillsNav: INavigation[] },
+        ) => ({
+            ...state,
+            hardSkillsNav,
+            error: null,
+        }),
+    ),
+    on(
+        FirebaseActions.getHardSkillsNavError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        FirebaseActions.getEducationPlacesSuccess,
+        (
+            state: FirebaseState,
+            { education }: { education: IExperience[] },
+        ) => ({
+            ...state,
+            education,
+            error: null,
+        }),
+    ),
+    on(
+        FirebaseActions.getEducationPlacesError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        FirebaseActions.getMainPageInfoSuccess,
+        (
+            state: FirebaseState,
+            { mainPageInfo }: { mainPageInfo: IMainPageInfo },
+        ) => ({
+            ...state,
+            mainPageInfo,
+            error: null,
+        }),
+    ),
+    on(
+        FirebaseActions.getMainPageInfoError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
     on(
         FirebaseActions.getTechnologiesAsideSuccess,
-        (state, { technologiesAside }) => ({
+        (
+            state: FirebaseState,
+            { technologiesAside }: { technologiesAside: TTechnologiesAside[] },
+        ) => ({
             ...state,
             technologiesAside,
+            error: null,
         }),
     ),
-    on(FirebaseActions.getTechnologiesAsideError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
+    on(
+        FirebaseActions.getTechnologiesAsideError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
     on(
         FirebaseActions.getExperienceAsideSuccess,
-        (state, { experienceAside }) => ({
+        (
+            state: FirebaseState,
+            { experienceAside }: { experienceAside: TExperienceAside[] },
+        ) => ({
             ...state,
             experienceAside,
+            error: null,
         }),
     ),
-    on(FirebaseActions.getExperienceAsideError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
+    on(
+        FirebaseActions.getExperienceAsideError,
+        (state: FirebaseState, { error }: { error: Error | null }) => ({
+            ...state,
+            error,
+        }),
+    ),
 );

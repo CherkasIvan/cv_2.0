@@ -1,3 +1,4 @@
+// auth.reducers.ts
 import { createReducer, on } from '@ngrx/store';
 
 import { TAuthState } from '../model/auth-state.type';
@@ -10,21 +11,28 @@ export const initialState: TAuthState = {
 
 export const authReducer = createReducer(
     initialState,
-
-    on(AuthActions.getLoginSuccess, (state, { user }) => ({
+    on(
+        AuthActions.getLoginSuccess,
+        (state: TAuthState, { user }: { user: any }) => ({
+            ...state,
+            user,
+        }),
+    ),
+    on(
+        AuthActions.getLoginError,
+        (state: TAuthState, { error }: { error: any }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(AuthActions.getLogoutSuccess, (state: TAuthState) => ({
         ...state,
-        user,
     })),
-    on(AuthActions.getLoginError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-
-    on(AuthActions.getLogoutSuccess, (state) => ({
-        ...state,
-    })),
-    on(AuthActions.getLoginError, (state, { error }) => ({
-        ...state,
-        error,
-    })),
+    on(
+        AuthActions.getLoginError,
+        (state: TAuthState, { error }: { error: any }) => ({
+            ...state,
+            error,
+        }),
+    ),
 );

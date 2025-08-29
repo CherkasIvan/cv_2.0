@@ -68,6 +68,7 @@ export class LoginFormComponent implements OnInit {
     public closeImageUrl$!: Observable<string>;
     public modalState = 'in';
     public modalToggleState = 'expanded';
+    private isCreateMode = false;
 
     public onMouseMove(event: MouseEvent) {
         const target = event.target as HTMLElement;
@@ -100,6 +101,10 @@ export class LoginFormComponent implements OnInit {
         if (target.classList.contains(this.modal.nativeElement.classList)) {
             this.closeModalDialog();
         }
+    }
+
+    public createAccount(): void {
+        this.isCreateMode = !this.isCreateMode;
     }
 
     public closeModalDialog() {

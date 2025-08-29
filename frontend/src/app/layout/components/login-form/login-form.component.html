@@ -63,6 +63,16 @@
                         </label>
                     }
                 </div>
+
+                <div class="register-prompt">
+                    <span class="regester-title">{{ 'LOGIN-MODAL.REGISTRATION_QUESTION' | translate }}</span>
+                    <span
+                        class="register-link"
+                        (click)="createAccount()"
+                    >
+                        {{ 'LOGIN-MODAL.CREATE-USER' | translate }}
+                    </span>
+                </div>
                 <label
                     for="guest"
                     class="content-form_guest"

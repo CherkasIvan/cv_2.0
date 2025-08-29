@@ -9,8 +9,11 @@ export const initialLanguageState: LanguageState = {
 
 export const languageReducer = createReducer(
     initialLanguageState,
-    on(setLanguageSuccess, (state, { language }) => ({
-        ...state,
-        language,
-    })),
+    on(
+        setLanguageSuccess,
+        (state: LanguageState, { language }: { language: 'en' | 'ru' }) => ({
+            ...state,
+            language,
+        }),
+    ),
 );

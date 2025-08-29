@@ -9,6 +9,8 @@ import { TFirebaseUser } from '@core/models/firebase-user.type';
 
 import { TCasheStorageUser } from '@layout/store/model/cash-storage-user.type';
 
+import { AppStateService } from '../app-state/app-state.service';
+
 const CACHE_VERSION = 'v1';
 const USER_STATE_CACHE = `user-state-cache-${CACHE_VERSION}`;
 
@@ -21,6 +23,7 @@ export class CacheStorageService {
     constructor(
         @Inject(PLATFORM_ID) private platformId: object,
         private readonly _router: Router,
+        private _appStateService: AppStateService,
     ) {
         this.isBrowser = isPlatformBrowser(this.platformId);
     }

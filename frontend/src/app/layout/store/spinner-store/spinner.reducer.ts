@@ -9,11 +9,11 @@ export const initialSpinnerModeState: ISpinner = {
 
 export const spinnerReducer = createReducer(
     initialSpinnerModeState,
-    on(showSpinner, (state) => ({
+    on(showSpinner, (state: ISpinner) => ({
         ...state,
         isSpinnerOn: true,
     })),
-    on(hideSpinner, (state) => ({
+    on(hideSpinner, (state: ISpinner) => ({
         ...state,
         isSpinnerOn: false,
     })),

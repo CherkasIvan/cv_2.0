@@ -1,3 +1,4 @@
+// images.reducers.ts
 import { createReducer, on } from '@ngrx/store';
 
 import { ImagesActions } from './images.actions';
@@ -9,7 +10,7 @@ export interface LogoState {
     toggleUrl: string;
     arrowUrl: string;
     downloadUrl: string;
-    error: any;
+    error: string | null;
 }
 
 export const initialState: LogoState = {
@@ -24,62 +25,94 @@ export const initialState: LogoState = {
 
 export const logoReducer = createReducer(
     initialState,
-    on(ImagesActions.getLogoSuccess, (state, { logoUrl }) => {
-        return {
+    on(
+        ImagesActions.getLogoSuccess,
+        (state: LogoState, { logoUrl }: { logoUrl: string }) => ({
             ...state,
             logoUrl,
             error: null,
-        };
-    }),
-    on(ImagesActions.getLogoFailure, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(ImagesActions.getProfileImgSuccess, (state, { profileUrl }) => ({
-        ...state,
-        profileUrl,
-        error: null,
-    })),
-    on(ImagesActions.getProfileImgFailure, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(ImagesActions.getCloseImgSuccess, (state, { closeUrl }) => {
-        return {
+        }),
+    ),
+    on(
+        ImagesActions.getLogoFailure,
+        (state: LogoState, { error }: { error: string }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        ImagesActions.getProfileImgSuccess,
+        (state: LogoState, { profileUrl }: { profileUrl: string }) => ({
+            ...state,
+            profileUrl,
+            error: null,
+        }),
+    ),
+    on(
+        ImagesActions.getProfileImgFailure,
+        (state: LogoState, { error }: { error: string }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        ImagesActions.getCloseImgSuccess,
+        (state: LogoState, { closeUrl }: { closeUrl: string }) => ({
             ...state,
             closeUrl,
             error: null,
-        };
-    }),
-    on(ImagesActions.getCloseImgFailure, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(ImagesActions.getToggleIconsSuccess, (state, { toggleUrl }) => ({
-        ...state,
-        toggleUrl,
-        error: null,
-    })),
-    on(ImagesActions.getToggleIconsFailure, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(ImagesActions.getArrowIconsSuccess, (state, { arrowUrl }) => ({
-        ...state,
-        arrowUrl,
-        error: null,
-    })),
-    on(ImagesActions.getArrowIconsFailure, (state, { error }) => ({
-        ...state,
-        error,
-    })),
-    on(ImagesActions.getDownloadIconsSuccess, (state, { downloadUrl }) => ({
-        ...state,
-        downloadUrl,
-        error: null,
-    })),
-    on(ImagesActions.getDownloadIconsFailure, (state, { error }) => ({
-        ...state,
-        error,
-    })),
+        }),
+    ),
+    on(
+        ImagesActions.getCloseImgFailure,
+        (state: LogoState, { error }: { error: string }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        ImagesActions.getToggleIconsSuccess,
+        (state: LogoState, { toggleUrl }: { toggleUrl: string }) => ({
+            ...state,
+            toggleUrl,
+            error: null,
+        }),
+    ),
+    on(
+        ImagesActions.getToggleIconsFailure,
+        (state: LogoState, { error }: { error: string }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        ImagesActions.getArrowIconsSuccess,
+        (state: LogoState, { arrowUrl }: { arrowUrl: string }) => ({
+            ...state,
+            arrowUrl,
+            error: null,
+        }),
+    ),
+    on(
+        ImagesActions.getArrowIconsFailure,
+        (state: LogoState, { error }: { error: string }) => ({
+            ...state,
+            error,
+        }),
+    ),
+    on(
+        ImagesActions.getDownloadIconsSuccess,
+        (state: LogoState, { downloadUrl }: { downloadUrl: string }) => ({
+            ...state,
+            downloadUrl,
+            error: null,
+        }),
+    ),
+    on(
+        ImagesActions.getDownloadIconsFailure,
+        (state: LogoState, { error }: { error: string }) => ({
+            ...state,
+            error,
+        }),
+    ),
 );

@@ -11,11 +11,11 @@
             "prefix": "cv",
             "architect": {
                 "server": {
-                    "builder": "@angular-devkit/build-angular:application",
+                    "builder": "@angular-devkit/build-angular:server",
                     "options": {
                         "outputPath": "dist/cv_2.0/server",
-                        "tsConfig": "tsconfig.server.json",
-                        "server": "src/main.server.ts"
+                        "main": "src/main.server.ts",
+                        "tsConfig": "tsconfig.server.json"
                     }
                 },
                 "storybook": {
@@ -71,7 +71,7 @@
                         "scripts": [],
                         "server": "src/main.server.ts",
                         "ssr": {
-                            "entry": "src/server.ts"
+                            "entry": "server.ts"
                         },
                         "outputMode": "server"
                     },
@@ -89,6 +89,9 @@
                                     "maximumError": "3MB"
                                 }
                             ],
+                            "ssr": {
+                                "entry": "src/frontend/server.ts"
+                            },
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
@@ -109,6 +112,7 @@
                             ]
                         }
                     },
+
                     "defaultConfiguration": "production"
                 },
                 "serve": {

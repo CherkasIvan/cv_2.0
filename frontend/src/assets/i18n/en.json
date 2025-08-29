@@ -89,8 +89,10 @@
         "TITLE": "Authorization",
         "EMAIL": "E-mail",
         "PASSWORD": "Password",
+        "CREATE-USER": "Create account",
         "GUEST-MODE": "Continue in guest mode",
         "LOGIN": "Login",
-        "CANCEL": "Reset"
+        "CANCEL": "Reset",
+        "REGISTRATION_QUESTION": "Want to register?"
     }
 }
