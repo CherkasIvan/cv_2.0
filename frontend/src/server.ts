@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr/node';
 
-import bootstrap from './src/main.server';
+import bootstrap from './main.server';
 
 const app = express();
 
