@@ -6,8 +6,9 @@ import { provideHttpClient, withFetch } from '@angular/common/http';
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    [   (), provideHttpClient(withFetch())],
+    [provideServerRendering(), provideHttpClient(withFetch())],
   ]
 };
+
 
 export const config = mergeApplicationConfig(appConfig, serverConfig);

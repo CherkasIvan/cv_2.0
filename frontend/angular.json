@@ -24,9 +24,12 @@
             "browser": "src/main.ts",
             "server": "src/main.server.ts",
             "ssr": {
-              "entry": "server.ts"
+              "entry": "src/server.ts"
             },
-            "polyfills": ["zone.js", "@angular/localize/init"],
+            "polyfills": [
+              "zone.js",
+              "@angular/localize/init"
+            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -94,13 +97,13 @@
           "defaultConfiguration": "production"
         },
         "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/cv_2.0/server",
-            "main": "src/main.server.ts",
-            "tsConfig": "tsconfig.server.json"
-          }
-        },
+            "builder": "@angular-devkit/build-angular:server",
+            "options": {
+              "outputPath": "dist/cv_2.0/server",
+              "main": "src/main.server.ts",  
+              "tsConfig": "tsconfig.server.json"
+            }
+          },
         "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {

@@ -17,10 +17,13 @@
     "serve": "node dist/cv_2.0/server/server.mjs",
     "start:ssr": "node dist/cv_2.0/server/server.mjs",
     "heroku-postbuild": "npm run build:ssr",
-    "build:ssr": "ng build && ng run cv_2.0:server",
+    "build:client-and-server-bundles": "ng build --configuration production && ng run cv_2.0:server:production",
+    "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
+    "compile:server": "tsc -p tsconfig.server.json",
     "serve:ssr": "node dist/cv_2.0/server/server.mjs",
     "prettier": "npx prettier \"./{css,html,js,src}/**\" --write --log-level=\"warn\"",
-    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
+    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js",
+    "serve:ssr:cv_2.0": "node dist/cv_2.0/server/server.mjs"
   },
   "private": true,
   "dependencies": {
@@ -38,7 +41,7 @@
     "@angular/pwa": "^20.0.1",
     "@angular/router": "^20.0.1",
     "@angular/service-worker": "^20.0.1",
-    "@angular/ssr": "^20.2.1",
+    "@angular/ssr": "^20.0.1",
     "@gilsdav/ngx-translate-router": "^7.2.1",
     "@gilsdav/ngx-translate-router-http-loader": "^2.0.0",
     "@nebular/eva-icons": "^15.0.0",
@@ -77,7 +80,7 @@
     "@compodoc/compodoc": "^1.1.26",
     "@storybook/angular": "^9.0.5",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/express": "^5.0.2",
+    "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.8",
     "@types/jest": "^29.5.14",
     "@types/mocha": "^10.0.10",
