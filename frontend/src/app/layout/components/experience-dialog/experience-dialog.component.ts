@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe} from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,

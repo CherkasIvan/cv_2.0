@@ -97,8 +97,8 @@
                     >
                         {{ 'LOGIN-MODAL.LOGIN' | translate }}
                     </button>
+                    @if(!authForm.get('guest')?.value){
                     <button
-                        *ngIf="!authForm.get('guest')?.value"
                         class="reset-button"
                         (click)="resetModalDialog()"
                         (keyup.enter)="resetModalDialog()"
@@ -111,6 +111,7 @@
                     >
                         {{ 'LOGIN-MODAL.CANCEL' | translate }}
                     </button>
+                }
                 </div>
             </form>
         </main>

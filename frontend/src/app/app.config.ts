@@ -30,6 +30,7 @@ import {
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { EffectsModule, provideEffects } from '@ngrx/effects';
+import { provideTranslateHttpLoader, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
     StoreRouterConnectingModule,
     provideRouterStore,
@@ -41,9 +42,8 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ImagesEffects } from '@layout/store/images-store/images.effects';
 import { logoReducer } from '@layout/store/images-store/images.reducers';
 
-import { HttpLoadFactory } from '@utils/class/trnaslate-lodader.class';
-
 import {
+    provideTranslateService,
     TranslateLoader,
     TranslateModule,
     TranslateService,
@@ -62,6 +62,8 @@ import { githubRepositoriesReducer } from './layout/store/github-projects-store/
 import { languageReducer } from './layout/store/language-selector-store/language.reducers';
 import { spinnerReducer } from './layout/store/spinner-store/spinner.reducer';
 import { MAIN_ROUTES } from './main.routes';
+import { provideServerRendering } from '@angular/platform-server';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 if (environment.production) {
     enableProdMode();
@@ -69,6 +71,8 @@ if (environment.production) {
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        { provide: FIREBASE_OPTIONS, useValue: environment.firebase },
+        provideServerRendering(),
         provideHttpClient(withInterceptorsFromDi(), withFetch()),
         provideRouter(MAIN_ROUTES, withViewTransitions()),
         provideFirebaseApp(() => initializeApp(environment.firebase)),
@@ -77,7 +81,13 @@ export const appConfig: ApplicationConfig = {
         provideStorage(() => getStorage()),
         provideAuth(() => getAuth()),
         provideStore(),
-        TranslateService,
+        provideTranslateService({
+            loader: provideTranslateHttpLoader({
+                prefix: '/assets/i18n/',
+                suffix: '.json'
+            }),
+            fallbackLang: 'en'
+        }),
         importProvidersFrom([
             BrowserModule,
             RouterModule.forRoot(MAIN_ROUTES, {
@@ -85,13 +95,6 @@ export const appConfig: ApplicationConfig = {
             }),
             StoreModule.forRoot({
                 router: routerReducer,
-            }),
-            TranslateModule.forRoot({
-                defaultLanguage: 'en',
-                loader: {
-                    provide: TranslateLoader,
-                    useClass: HttpLoadFactory,
-                },
             }),
             EffectsModule.forRoot([
                 FirebaseEffects,
