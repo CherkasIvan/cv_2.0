@@ -1,6 +1,5 @@
 import {
     HTTP_INTERCEPTORS,
-    HttpClient,
     provideHttpClient,
     withFetch,
     withInterceptorsFromDi,
@@ -44,9 +43,6 @@ import { logoReducer } from '@layout/store/images-store/images.reducers';
 
 import {
     provideTranslateService,
-    TranslateLoader,
-    TranslateModule,
-    TranslateService,
 } from '@ngx-translate/core';
 
 import { environment } from '../environments/environment.development';
