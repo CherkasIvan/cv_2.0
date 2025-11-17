@@ -1,0 +1,20 @@
+@if (isAuth()) {
+    <div class="first-time">
+        <span class="title">
+            {{ showTranslated() ? titles()[0].translated : titles()[0].name }}
+        </span>
+        <ul
+            class="persons"
+            [@listAnimation]="persons().length"
+        >
+            @for (person of persons(); track person.name; let i = $index) {
+                <li>
+                    {{ showTranslated() ? person.translated : person.name }}
+                </li>
+            }
+        </ul>
+        <span class="familly">
+            {{ showTranslated() ? titles()[1].translated : titles()[1].name }}
+        </span>
+    </div>
+}

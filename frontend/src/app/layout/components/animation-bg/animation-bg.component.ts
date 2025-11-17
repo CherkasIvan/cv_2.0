@@ -1,0 +1,76 @@
+import { Observable } from 'rxjs';
+
+import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Inject,
+    Input,
+} from '@angular/core';
+
+import { Store, select } from '@ngrx/store';
+
+import { blobFloat } from '@core/utils/animations/bg-layout.animation';
+
+import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
+import { TDarkMode } from '@layout/store/model/dark-mode.type';
+import { TNavigation } from '@core/models/navigation.type';
+
+@Component({
+    selector: 'cv-animation-bg',
+    standalone: true,
+    imports: [NgStyle, NgClass, AsyncPipe],
+    templateUrl: './animation-bg.component.html',
+    styleUrls: [
+        './animation-bg.component.scss',
+        './animation-bg-dark-mode/animation-bg-dark-mode.component.scss',
+    ],
+    animations: [blobFloat],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AnimationBgComponent {
+    @Input() public navigationLinks: TNavigation[] | null = [];
+    public currentTheme$: Observable<boolean> = this._store$.pipe(
+        select(darkModeSelector),
+    );
+
+    constructor(@Inject(Store) private _store$: Store<TDarkMode>) {}
+
+    public animationBlobs: any[] = [
+        {
+            width: '70px',
+            height: '70px',
+            'animation-duration': '6s',
+        },
+        {
+            width: '50px',
+            height: '50px',
+            'animation-duration': '2s',
+        },
+        {
+            width: '100px',
+            height: '100px',
+            'animation-duration': '4s',
+        },
+        {
+            width: '40px',
+            height: '40px',
+            'animation-duration': '2.5s',
+        },
+        {
+            width: '90px',
+            height: '90px',
+            'animation-duration': '2.8s',
+        },
+        {
+            width: '80px',
+            height: '80px',
+            'animation-duration': '5s',
+        },
+        {
+            width: '65px',
+            height: '65px',
+            'animation-duration': '3s',
+        },
+    ];
+}

@@ -1,0 +1,27 @@
+<div class="technologies">
+    <aside class="technologies_navigation">
+        <cv-aside-navigation-technologies
+            [navigationList]="(technologiesAside$ | async) ?? []"
+            [theme]="currentTheme$ | async"
+            (emittedMainTab)="switchMainTab($event)"
+            (emittedSubTab)="switchSubTab($event)"
+        ></cv-aside-navigation-technologies>
+    </aside>
+    <section 
+        class="technologies_stack modern-list-animation"
+        [class.animate-in]="currentTechnologiesStack().length > 0"
+    >
+        @for (technology of currentTechnologiesStack(); track trackByTechnologyId($index, technology); let i = $index) {
+            <div
+                class="technologies_stack-column"
+                cvEvenColumn
+            >
+                <cv-technology-card
+                    [technologyItem]="technology"
+                    [theme]="currentTheme$ | async"
+                    [animationDelay]="i * 100"
+                ></cv-technology-card>
+            </div>
+        }
+    </section>
+</div>

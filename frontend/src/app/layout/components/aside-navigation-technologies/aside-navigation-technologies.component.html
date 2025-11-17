@@ -1,0 +1,25 @@
+<aside
+    class="aside-navigation"
+    [ngClass]="{ 'dark-theme': theme() }"
+>
+    <ul class="navigation-list">
+        @for (navItem of navigationList(); track navItem.id) {
+            <li class="navigation_item">
+                <button
+                    type="button"
+                    class="item-button"
+                    (click)="changeTab(navItem.value)"
+                >
+                    <a [ngClass]="{ active: selectedTab === navItem.value }">
+                        {{ 'TECHNOLOGIES-PAGE.NAVIGATION.' + navItem.value.toUpperCase() | translate }}
+                    </a>
+                </button>
+                @if (navItem.id === '1' && selectedTab === 'technologies') {
+                    <cv-aside-navigation-subtechnologies
+                        (emittedTab)="tabForRoute($event)"
+                    ></cv-aside-navigation-subtechnologies>
+                }
+            </li>
+        }
+    </ul>
+</aside>

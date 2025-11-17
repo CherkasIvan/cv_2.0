@@ -1,0 +1,24 @@
+<div
+    class="profile-logo"
+    (click)="githubNavigation()"
+    (keyup.enter)="githubNavigation()"
+    tabindex="0"
+>
+    <div
+        class="profile-logo_circle"
+        [ngClass]="{ 'dark-theme': (currentTheme$ | async) }"
+    ></div>
+    <div
+        class="profile-logo_circle"
+        [ngClass]="{ 'dark-theme': (currentTheme$ | async) }"
+    ></div>
+    <div
+        class="profile-logo_circle"
+        [ngClass]="{ 'dark-theme': (currentTheme$ | async) }"
+    ></div>
+    <img
+        class="profile-logo_img"
+        [src]="profileImageUrl$ | async"
+        alt="logo.jpg"
+    />
+</div>

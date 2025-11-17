@@ -1,0 +1,38 @@
+@if (technologyItem(); as tech) {
+    <div 
+        class="technology-card technology-card-entrance" 
+        [ngClass]="{ 
+            'dark-theme': theme(),
+            'image-loaded': isImageLoaded()
+        }"
+        [style]="cardStyles()"
+    >
+        <a 
+            class="technology-card_link"
+            [href]="tech.link" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            (click)="$event.stopPropagation()"
+        >
+            <div class="technology-card_block">
+                <div class="image-container">
+                    <img
+                        [src]="tech.iconPath"
+                        [alt]="tech.alt || 'technology icon'"
+                        (load)="onImageLoad()"
+                        class="technology-image"
+                        [class.loaded]="isImageLoaded()"
+                    />
+                    @if (!isImageLoaded()) {
+                        <div class="image-placeholder">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="technology-card_description">
+                <h3 class="technology-name">{{ tech.technologyName }}</h3>
+            </div>
+        </a>
+    </div>
+}

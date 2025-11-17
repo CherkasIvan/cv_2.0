@@ -1,0 +1,51 @@
+@if ((isFirstTime$ | async) === true) {
+    <cv-first-time @startCardFadeOut></cv-first-time>
+}
+@if ((isFirstTime$ | async) === false) {
+    <div
+        @startCardFadeIn
+        class="layout-container"
+        [ngClass]="currentTheme() ? 'dark-theme' : 'light-theme'"
+    >
+        <main class="layout">
+            <header class="header">
+                <cv-header
+                    [theme]="currentTheme()"
+                    [navigationLinks]="navigation$ | async"
+                    (emittedModalShow)="getModalInstance($event)"
+                ></cv-header>
+            </header>
+
+            <cv-animation-bg [navigationLinks]="navigation$ | async"></cv-animation-bg>
+
+            <main
+                class="general"
+                [@routeAnimations]="prepareRoute(outlet)"
+            >
+                <router-outlet #outlet="outlet"></router-outlet>
+            </main>
+
+            <footer class="footer">
+                <cv-footer
+                    [theme]="currentTheme()"
+                    [socialLinks$]="social$ | async"
+                ></cv-footer>
+            </footer>
+        </main>
+
+        @if (isModalDialogVisible) {
+            <cv-logout-dialog
+                header="{{ 'LOGOUT-MODAL.TITLE' | translate }}?"
+                (emittedModalHide)="getModalInstance($event)"
+            ></cv-logout-dialog>
+        }
+
+        @if (isExperienceDialogVisible$ | async) {
+            <cv-experience-dialog 
+                header="Выход"
+            ></cv-experience-dialog>
+        }
+        <cv-dark-animation-layout></cv-dark-animation-layout>
+    </div>
+}
+<cv-spinner [spinnerStyle]="currentTheme() ? 'dark-theme' : 'light-theme'"></cv-spinner>

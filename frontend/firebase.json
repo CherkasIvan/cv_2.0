@@ -1,0 +1,16 @@
+{
+    "hosting": {
+        "source": ".",
+        "public": "dist/cv_2.0/browser",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+        "frameworksBackend": {
+            "region": "asia-east1"
+        },
+        "rewrites": [
+            {
+                "source": "**",
+                "function": "ssr"
+            }
+        ]
+    }
+}

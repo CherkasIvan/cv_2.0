@@ -1,0 +1,11 @@
+<section class="work-experience">
+    @for (workPlace of workExperience$(); track workPlace.id; let i = $index) {
+        <cv-experience-card
+            [experience]="workPlace"
+            [ngClass]="{ 'first-item': $index === 0, 'other-items': $index !== 0 }"
+            [workDescription]="workPlace"
+            [experienceType]="selectedTabWork()"
+            [theme]="theme()"
+        ></cv-experience-card>
+    }
+</section>

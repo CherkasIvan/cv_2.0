@@ -1,0 +1,33 @@
+<label
+    class="dark-mode-toggle"
+    for="darkmode-toggle"
+>
+    <input
+        #darkModeCheckBox
+        class="dark-mode-toggle__input"
+        type="checkbox"
+        name="dark-mode-toggle"
+        id="darkmode-toggle"
+        [checked]="isChecked"
+        (change)="changeView()"
+    />
+    <span class="dark-mode-toggle__slider"></span>
+    <span
+        class="dark-mode-toggle__moon"
+        [ngClass]="{ active: !isChecked }"
+    >
+        <img
+            [src]="darkModeImage$ | async"
+            [alt]="darkModeImage$ | async"
+        />
+    </span>
+    <span
+        class="dark-mode-toggle__sun"
+        [ngClass]="{ active: isChecked }"
+    >
+        <img
+            [src]="whiteModeImage$ | async"
+            [alt]="whiteModeImage$ | async"
+        />
+    </span>
+</label>

@@ -1,0 +1,42 @@
+<div
+    class="modal-background"
+    #modal
+    (click)="onBackgroundClick($event)"
+>
+    <dialog class="modal-dialog">
+        <header class="header-block">
+            <h3 class="header-block__title">{{ header() }}</h3>
+            <button
+                class="header-block__close-button"
+                (click)="closeLogoutDialog()"
+            >
+                <img
+                    aria-hidden="true"
+                    [src]="closeImageUrl()"
+                    [alt]="closeImageUrl()"
+                />
+            </button>
+        </header>
+        <main class="modal-dialog__content">
+            <div class="content__question">
+                {{ 'LOGOUT-MODAL.DESCRIPTION' | translate }}, {{ displayName() || 'GUEST' | translate }}?
+            </div>
+            <div class="content__submit-buttons">
+                <button
+                    class="submit-button"
+                    (click)="confirmLogout()"
+                    type="button"
+                >
+                    {{ 'LOGOUT-MODAL.LOGOUT' | translate }}
+                </button>
+                <button
+                    class="reset-button"
+                    (click)="closeLogoutDialog()"
+                    type="button"
+                >
+                    {{ 'LOGOUT-MODAL.CANCEL' | translate }}
+                </button>
+            </div>
+        </main>
+    </dialog>
+</div>

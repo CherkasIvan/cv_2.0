@@ -1,0 +1,23 @@
+<section class="skills-switcher">
+    @if (hardSkillsNavigation$ | async; as hardSkillsNav) {
+        <ul class="skills-list">
+            @for (skillItem of hardSkillsNav; track skillItem.id; let i = $index) {
+                <li class="skill-item">
+                    @if (currentSkills() && skillItem.link) {
+                        <a
+                            class="skill-item_link"
+                            routerLinkActive="active"
+                            [routerLinkActiveOptions]="{ exact: true }"
+                            [ngClass]="{ 'active-link': isActiveLink()(skillItem.link) }"
+                            (click)="changeSkillsList(skillItem.link === 'frontend' ? 'frontend' : 'backend')"
+                            (keyup.enter)="changeSkillsList(skillItem.link === 'frontend' ? 'frontend' : 'backend')"
+                            tabindex="0"
+                        >
+                            {{ 'TECHNOLOGIES-PAGE.NAVIGATION.TECH.' + skillItem.link.toUpperCase() | translate }}
+                        </a>
+                    }
+                </li>
+            }
+        </ul>
+    }
+</section>

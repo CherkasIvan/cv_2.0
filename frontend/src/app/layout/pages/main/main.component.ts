@@ -1,0 +1,74 @@
+import { Observable, takeUntil } from 'rxjs';
+
+import { AsyncPipe, NgClass } from '@angular/common';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    OnInit,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
+
+import { Store, select } from '@ngrx/store';
+
+import { DestroyService } from '@core/service/destroy/destroy.service';
+
+import { ButtonComponent } from '@layout/components/button/button.component';
+import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
+import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+import { selectMainPageInfo } from '@layout/store/firebase-store/firebase.selectors';
+import { TDarkMode } from '@layout/store/model/dark-mode.type';
+
+import { TranslateModule } from '@ngx-translate/core';
+
+import { ProfileLogoComponent } from '../../../layout/components/profile-logo/profile-logo.component';
+import { TMainPageInfo } from '@core/models/main-page-info';
+
+@Component({
+    selector: 'cv-main',
+    standalone: true,
+    imports: [
+        ButtonComponent,
+        ProfileLogoComponent,
+        RouterLink,
+        NgClass,
+        AsyncPipe,
+        TranslateModule,
+    ],
+    templateUrl: './main.component.html',
+    styleUrls: [
+        './main.component.scss',
+        './main-dark-mode/main-dark-mode.component.scss',
+    ],
+    providers: [DestroyService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class MainComponent implements OnInit {
+    public mainInfo$: Observable<TMainPageInfo | null> = this._store$.pipe(
+        select(selectMainPageInfo),
+    );
+    public mainInfoPageData: TMainPageInfo | null = null;
+    public mainInfoKeys: string[] = [];
+
+    public currentTheme$: Observable<boolean> = this._store$.pipe(
+        select(darkModeSelector),
+    );
+
+    constructor(
+        private _cdr: ChangeDetectorRef,
+        @Inject(Store) private _store$: Store<TDarkMode | TMainPageInfo>,
+        @Inject(DestroyService) private _destroyed$: Observable<void>,
+    ) {}
+
+    ngOnInit(): void {
+        this._store$.dispatch(FirebaseActions.getMainPageInfo({ imgName: '' }));
+        this.mainInfo$.pipe(takeUntil(this._destroyed$)).subscribe((info) => {
+            this.mainInfoPageData = info;
+            if (info) {
+                this.mainInfoKeys = Object.keys(info).sort();
+            }
+            this._cdr.markForCheck();
+        });
+    }
+}

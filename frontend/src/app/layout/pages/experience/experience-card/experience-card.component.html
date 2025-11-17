@@ -1,0 +1,144 @@
+@switch (experienceType()) {
+    @case ('work') {
+        <article
+            class="experience-card"
+            (click)="showDialogExperience(workDescription())"
+            (keyup.enter)="showDialogExperience(workDescription())"
+            tabindex="0"
+            [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (focus)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
+            (blur)="experienceCardImgVisibility = false"
+        >
+            @if (experienceCardImgVisibility) {
+                <div
+                    class="experience-card_picture-work"
+                    @fadeInOutCards
+                >
+                    <img
+                        class="card-img"
+                        [src]="workDescription()?.iconPath"
+                        [alt]="workDescription()?.alt"
+                    />
+                </div>
+            }
+
+            <div class="card-info">
+                <span class="card-info_place">
+                    {{ 'EXPERIENCE-PAGE.PLACE.WORK-PLACE' | translate }}
+                </span>
+                <span class="card-info_place-name">
+                    {{ workDescription()?.company }}
+                </span>
+                <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
+            </div>
+            <div class="card-button__container">
+                <button
+                    class="card-button"
+                    [ngClass]="{ 'dark-theme': theme() }"
+                >
+                    <img
+                        [src]="arrowUrl$ | async"
+                        [alt]="arrowUrl$ | async"
+                    />
+                </button>
+            </div>
+        </article>
+    }
+    @case ('education') {
+        <article
+            class="experience-card"
+            (click)="showDialogExperience(experienceDescription())"
+            [ngClass]="{
+                activeEducation: experienceType() === 'education',
+                'dark-theme': theme(),
+            }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
+        >
+            @if (experienceCardImgVisibility) {
+                <div
+                    class="experience-card_picture-education"
+                    @fadeInOutCards
+                >
+                    <img
+                        class="card-img"
+                        [src]="experienceDescription()?.iconPath"
+                        [alt]="experienceDescription()?.alt"
+                    />
+                </div>
+            }
+
+            <div class="card-info">
+                <span class="card-info_place">{{ 'EXPERIENCE-PAGE.PLACE.COURSE' | translate }}</span>
+                <span class="card-info_place-name">
+                    {{ experienceDescription()?.company }}
+                    {{ experienceDescription()?.specialization }}
+                </span>
+                <span class="card-info_time">
+                    {{ experienceDescription()?.from }} - {{ experienceDescription()?.to }}
+                </span>
+            </div>
+
+            <div class="card-button__container">
+                <button
+                    class="card-button"
+                    [ngClass]="{ 'dark-theme': theme() }"
+                >
+                    <img
+                        [src]="downloadUrl$ | async"
+                        [alt]="downloadUrl$ | async"
+                    />
+                </button>
+            </div>
+        </article>
+    }
+    @default {
+        <article
+            class="experience-card"
+            (click)="showDialogExperience(workDescription())"
+            (keyup.enter)="showDialogExperience(workDescription())"
+            tabindex="0"
+            [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
+            (mouseover)="experienceCardImgVisibility = true"
+            (focus)="experienceCardImgVisibility = true"
+            (mouseleave)="experienceCardImgVisibility = false"
+            (blur)="experienceCardImgVisibility = false"
+        >
+            @if (experienceCardImgVisibility) {
+                <div
+                    class="experience-card_picture-work"
+                    @fadeInOutCards
+                >
+                    <div class="img-border">
+                        <img
+                            class="card-img"
+                            [src]="workDescription()?.iconPath"
+                            [alt]="workDescription()?.alt"
+                        />
+                    </div>
+                </div>
+            }
+
+            <div class="card-info">
+                <span class="card-info_place">{{ 'EXPERIENCE-PAGE.PLACE.WORK-PLACE' | translate }}</span>
+                <span class="card-info_place-name">
+                    {{ workDescription()?.company }}
+                </span>
+                <span class="card-info_time">{{ workDescription()?.from }} - {{ workDescription()?.to }}</span>
+            </div>
+            <div
+                class="card-button__container"
+                [ngClass]="{ 'dark-theme': theme() }"
+            >
+                <button class="card-button">
+                    <img
+                        [src]="arrowUrl$ | async"
+                        [alt]="arrowUrl$ | async"
+                    />
+                </button>
+            </div>
+        </article>
+    }
+}
