@@ -15,11 +15,10 @@ import {
 import { Store, select } from '@ngrx/store';
 
 import { TExperienceAside } from '@core/models/experience-aside.type';
-import { INavigation } from '@core/models/navigation.interface';
+import { THardSkillsNav } from '@core/models/hard-skills-nav.type';
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { DestroyService } from '@core/service/destroy/destroy.service';
 
-import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
 
 import { TranslateModule } from '@ngx-translate/core';
@@ -39,9 +38,8 @@ import { TranslateModule } from '@ngx-translate/core';
 export class AsideNavigationExperienceComponent implements OnInit {
     public emittedTab = output<string>();
 
-    public hardSkillsNavigation$: Observable<INavigation[]> = this._store$.pipe(
-        select(selectHardSkillsNav),
-    );
+    public hardSkillsNavigation$: Observable<THardSkillsNav[]> =
+        this._store$.pipe(select(selectHardSkillsNav));
     public theme = input<boolean | null>(false);
     public navigationList = input<TExperienceAside[]>([]);
 
@@ -50,14 +48,21 @@ export class AsideNavigationExperienceComponent implements OnInit {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        @Inject(Store) private _store$: Store<INavigation>,
+        @Inject(Store) private _store$: Store<THardSkillsNav>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _cacheStorageService: CacheStorageService,
     ) {}
 
     public changeTab(tab: 'education' | 'work') {
         this.selectedTab.set(tab);
-        this._cacheStorageService.saveSelectedTab(tab);
+        
+        // Исправлено: saveSelectedTab → setSelectedExperienceTab
+        this._cacheStorageService.setSelectedExperienceTab(tab)
+            .pipe(takeUntil(this._destroyed$))
+            .subscribe(() => {
+                console.log('Experience tab saved successfully');
+            });
+            
         this.emittedTab.emit(tab);
         this._cdr.detectChanges();
     }
@@ -69,22 +74,20 @@ export class AsideNavigationExperienceComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        // Исправлено: getSelectedTab → getSelectedExperienceTab
         this._cacheStorageService
-            .getSelectedTab()
+            .getSelectedExperienceTab()
             .pipe(takeUntil(this._destroyed$))
-            .subscribe((tab) => {
+            .subscribe((tab: 'work' | 'education') => {
                 this.selectedTab.set(tab);
                 this.emittedTab.emit(tab);
+                this._cdr.detectChanges();
             });
-
-        this._store$.dispatch(
-            FirebaseActions.getHardSkillsNav({ imgName: '' }),
-        );
 
         this.hardSkillsNavigation$
             .pipe(takeUntil(this._destroyed$))
-            .subscribe((skills: INavigation[]) => {
-                const skill = skills.find((skill) => skill.id === '1');
+            .subscribe((skills: THardSkillsNav[]) => {
+                const skill = skills.find((skill) => skill.id === 1);
                 if (skill) {
                     this.currentSkills.set(skill.link);
                     this._cdr.detectChanges();

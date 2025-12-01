@@ -1,76 +1,55 @@
-import { Observable } from 'rxjs';
-
+// animation-bg.component.ts
 import { AsyncPipe, NgClass, NgStyle } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    Inject,
-    Input,
+    computed,
+    inject,
+    input,
 } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { INavigation } from '@core/models/navigation.interface';
-import { blobFloat } from '@core/utils/animations/bg-layout.animation';
+import { TNavigation } from '@core/models/navigation.type';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
+
+import ALL_ANIMATION_CLASSES from '@assets/constant/animations.const';
 
 @Component({
     selector: 'cv-animation-bg',
     standalone: true,
     imports: [NgStyle, NgClass, AsyncPipe],
     templateUrl: './animation-bg.component.html',
-    styleUrls: [
-        './animation-bg.component.scss',
-        './animation-bg-dark-mode/animation-bg-dark-mode.component.scss',
-    ],
-    animations: [blobFloat],
+    styleUrls: ['./animation-bg.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimationBgComponent {
-    @Input() public navigationLinks: INavigation[] | null = [];
-    public currentTheme$: Observable<boolean> = this._store$.pipe(
-        select(darkModeSelector),
+    private store = inject(Store);
+
+    public navigationLinks = input<TNavigation[] | null>([]);
+
+    public currentTheme$ = this.store.select(darkModeSelector);
+
+    public readonly animationBlobs = [
+        { class: 'blob-float-slow', size: '70px' },
+        { class: 'blob-float-fast', size: '50px' },
+        { class: 'blob-float', size: '100px' },
+        { class: 'blob-float-fast', size: '40px' },
+        { class: 'blob-float', size: '90px' },
+        { class: 'blob-float-slow', size: '80px' },
+        { class: 'blob-float', size: '65px' },
+    ] as const;
+
+    public readonly cssClasses = ALL_ANIMATION_CLASSES;
+
+    public isVisible = computed(
+        () => this.navigationLinks() && this.navigationLinks()!.length > 0,
     );
 
-    constructor(@Inject(Store) private _store$: Store<TDarkMode>) {}
-
-    public animationBlobs: any[] = [
-        {
-            width: '70px',
-            height: '70px',
-            'animation-duration': '6s',
-        },
-        {
-            width: '50px',
-            height: '50px',
-            'animation-duration': '2s',
-        },
-        {
-            width: '100px',
-            height: '100px',
-            'animation-duration': '4s',
-        },
-        {
-            width: '40px',
-            height: '40px',
-            'animation-duration': '2.5s',
-        },
-        {
-            width: '90px',
-            height: '90px',
-            'animation-duration': '2.8s',
-        },
-        {
-            width: '80px',
-            height: '80px',
-            'animation-duration': '5s',
-        },
-        {
-            width: '65px',
-            height: '65px',
-            'animation-duration': '3s',
-        },
-    ];
+    // Метод для получения классов blob с учетом темы
+    public getBlobClasses(blobClass: string, isDark: boolean): string {
+        const themeClass = isDark ? 'blob-dark' : 'blob-light';
+        return `${blobClass} ${themeClass}`;
+    }
 }

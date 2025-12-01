@@ -1,6 +1,8 @@
-import { TProfile } from './profile.type';
+import { TAuthResponseState } from './auth-response-state.type';
 
 export type TAuthState = {
-    user: TProfile | null;
-    isFetching: boolean;
+    user: TAuthResponseState | null;
+    isAuthenticated: boolean;
+    isLoading: boolean;
+    error: string | null;
 };

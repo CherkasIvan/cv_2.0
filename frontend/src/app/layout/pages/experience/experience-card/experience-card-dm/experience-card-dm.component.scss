@@ -2,30 +2,30 @@
 @use '../../../../../../assets/styles/mixins/glassmorphism.mixin' as glassmorphism;
 
 .experience-card.dark-theme {
-  @include glassmorphism.cards_glassmorphism-dm;
+    @include glassmorphism.cards_glassmorphism-dm;
 
-  .experience-card_picture-work,
-  .experience-card_picture-education {
-    background-color: color.$dm-black;
-  }
-
-  .card-info {
-    &_place {
-      color: color.$dm-dark-text-title;
+    .experience-card_picture-work,
+    .experience-card_picture-education {
+        background-color: color.$dm-black;
     }
 
-    &_place-name {
-      color: color.$white;
+    .card-info {
+        &_place {
+            color: color.$dm-dark-text-title;
+        }
+
+        &_place-name {
+            color: color.$white;
+        }
+
+        &_time {
+            color: color.$dm-dark-text;
+        }
     }
 
-    &_time {
-      color: color.$dm-dark-text;
+    .card-button__container {
+        .card-button {
+            background: color.$black;
+        }
     }
-  }
-
-  .card-button__container {
-    .card-button {
-      background: color.$black;
-    }
-  }
 }

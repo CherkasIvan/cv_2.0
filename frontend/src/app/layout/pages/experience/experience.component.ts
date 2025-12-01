@@ -10,17 +10,18 @@ import {
 
 import { Store, select } from '@ngrx/store';
 
+import { TEducationExperience } from '@core/models/education-experience.type';
 import { TExperienceAside } from '@core/models/experience-aside.type';
-import { IExperience } from '@core/models/experience.interface';
+import { TWorkExperience } from '@core/models/work-experience.type';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+import * as FirebaseActions from '@layout/store/firebase-store/firebase.actions';
 import {
     selectEducation,
     selectExperienceAside,
     selectWorkExperience,
 } from '@layout/store/firebase-store/firebase.selectors';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
+import { TDarkModeState } from '@layout/store/model/dark-mode-state.type';
 
 import { AsideNavigationExperienceComponent } from '../../components/aside-navigation-experience/aside-navigation-experience.component';
 import { EducationExperienceComponent } from './education-experience/education-experience.component';
@@ -48,14 +49,13 @@ export class ExperienceComponent implements OnInit {
         select(darkModeSelector),
     );
 
-    public workPlace$: Observable<IExperience[]> = this._store$.pipe(
+    public workPlace$: Observable<TWorkExperience[]> = this._store$.pipe(
         select(selectWorkExperience),
     );
     public selectedTab: string = 'work';
 
-    public educationPlace$: Observable<IExperience[]> = this._store$.pipe(
-        select(selectEducation),
-    );
+    public educationPlace$: Observable<TEducationExperience[]> =
+        this._store$.pipe(select(selectEducation));
 
     public switchTab($event: string) {
         this.selectedTab = $event;
@@ -63,22 +63,14 @@ export class ExperienceComponent implements OnInit {
     }
 
     constructor(
-        private _store$: Store<
-            TDarkMode | IExperience | IExperience | TExperienceAside
-        >,
+        private _store$: Store<TDarkModeState>, // Simplify the Store type
         private _cd: ChangeDetectorRef,
     ) {}
 
     ngOnInit(): void {
         this.switchTab('work');
-        this._store$.dispatch(
-            FirebaseActions.getExperienceAside({ imgName: '' }),
-        );
-        this._store$.dispatch(
-            FirebaseActions.getWorkExperience({ imgName: 'companies-logo' }),
-        );
-        this._store$.dispatch(
-            FirebaseActions.getEducationPlaces({ imgName: 'certificates' }),
-        );
+        this._store$.dispatch(FirebaseActions.loadExperienceAside());
+        this._store$.dispatch(FirebaseActions.loadWorkExperience());
+        this._store$.dispatch(FirebaseActions.loadEducationPlaces());
     }
 }

@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { TGitHub } from '@core/models/github.type';
+import { TGitHubMapped } from '@core/models/github-mapped.type';
 
 import { GithubRepositoriesActions } from './github-projects.action';
 
 export interface GithubState {
-    repositories: TGitHub[];
+    repositories: TGitHubMapped[];
     languages: { [repoName: string]: string[] };
     error?: unknown;
 }

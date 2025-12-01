@@ -1,0 +1,13 @@
+@use '../../../assets/styles/mixins/animations-mixins' as anim;
+
+.login-fade-in-out {
+    @include anim.login-fade-in-out-class(2s);
+    @include anim.optimize-opacity;
+    @include anim.reduce-motion;
+}
+
+.toggle-height {
+    @include anim.toggle-height-class(0.5s);
+    @include anim.will-change-auto;
+    @include anim.reduce-motion;
+}

@@ -3,8 +3,8 @@ import { Observable, map } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { IGitHubRepository } from '@core/models/github-repository.interface';
-import { TGitHub } from '@core/models/github.type';
+import { TGitHubMapped } from '@core/models/github-mapped.type';
+import { TGitHubRepository } from '@core/models/github-repository.type';
 
 @Injectable({
     providedIn: 'root',
@@ -12,16 +12,16 @@ import { TGitHub } from '@core/models/github.type';
 export class GithubService {
     constructor(private httpClient: HttpClient) {}
 
-    public getGithubRepos(): Observable<TGitHub[]> {
+    public getGithubRepos(): Observable<TGitHubMapped[]> {
         return this.httpClient
             .get<
-                IGitHubRepository[]
+                TGitHubRepository[]
             >('https://api.github.com/users/CherkasIvan/repos')
             .pipe(
-                map((repositories: IGitHubRepository[]) =>
+                map((repositories: TGitHubRepository[]) =>
                     repositories.map(
-                        (repository: IGitHubRepository) =>
-                            <TGitHub>{
+                        (repository: TGitHubRepository) =>
+                            <TGitHubMapped>{
                                 name: repository.name,
                                 stars: repository.stargazers_count,
                                 htmlUrl: repository.html_url,

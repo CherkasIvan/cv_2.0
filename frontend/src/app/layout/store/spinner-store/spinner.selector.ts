@@ -1,11 +1,11 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { ISpinner } from '../model/spinner.interface';
+import { TSpinnerState } from '../model/spinner-state.type';
 
 export const spinnerFeatureSelector =
-    createFeatureSelector<ISpinner>('spinner');
+    createFeatureSelector<TSpinnerState>('spinner');
 
 export const spinnerSelector = createSelector(
     spinnerFeatureSelector,
-    (state: ISpinner) => state.isSpinnerOn,
+    (state: TSpinnerState) => state.isSpinnerOn,
 );

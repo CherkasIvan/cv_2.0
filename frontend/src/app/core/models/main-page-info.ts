@@ -1,4 +1,4 @@
-export interface IMainPageInfo {
+export type TMainPageInfo = {
     id: string;
     buttonHoverText: string | undefined;
     buttonText: string | undefined;
@@ -9,4 +9,4 @@ export interface IMainPageInfo {
     status: string;
     imgName: string;
     images?: string[];
-}
+};

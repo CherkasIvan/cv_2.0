@@ -12,14 +12,14 @@ import { RouterLink } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
-import { IMainPageInfo } from '@core/models/main-page-info';
+import { TMainPageInfo } from '@core/models/main-page-info';
 import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
-import { FirebaseActions } from '@layout/store/firebase-store/firebase.actions';
+import * as FirebaseActions from '@layout/store/firebase-store/firebase.actions';
 import { selectMainPageInfo } from '@layout/store/firebase-store/firebase.selectors';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
+import { TDarkModeState } from '@layout/store/model/dark-mode-state.type';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -45,10 +45,10 @@ import { ProfileLogoComponent } from '../../../layout/components/profile-logo/pr
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent implements OnInit {
-    public mainInfo$: Observable<IMainPageInfo | null> = this._store$.pipe(
+    public mainInfo$: Observable<TMainPageInfo | null> = this._store$.pipe(
         select(selectMainPageInfo),
     );
-    public mainInfoPageData: IMainPageInfo | null = null;
+    public mainInfoPageData: TMainPageInfo | null = null;
     public mainInfoKeys: string[] = [];
 
     public currentTheme$: Observable<boolean> = this._store$.pipe(
@@ -57,16 +57,19 @@ export class MainComponent implements OnInit {
 
     constructor(
         private _cdr: ChangeDetectorRef,
-        @Inject(Store) private _store$: Store<TDarkMode | IMainPageInfo>,
+        @Inject(Store) private _store$: Store<TDarkModeState | TMainPageInfo>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
     ) {}
 
     ngOnInit(): void {
-        this._store$.dispatch(FirebaseActions.getMainPageInfo({ imgName: '' }));
+        this._store$.dispatch(
+            FirebaseActions.loadMainPageInfo({ imgName: '' }),
+        );
         this.mainInfo$.pipe(takeUntil(this._destroyed$)).subscribe((info) => {
             this.mainInfoPageData = info;
             if (info) {
                 this.mainInfoKeys = Object.keys(info).sort();
+                console.log(this.mainInfoKeys);
             }
             this._cdr.markForCheck();
         });

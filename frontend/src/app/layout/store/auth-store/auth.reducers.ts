@@ -1,30 +1,99 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { TAuthState } from '../model/auth-state.type';
+import { TAuthState } from '@core/models/auth-state.type';
+
 import { AuthActions } from './auth.actions';
 
 export const initialState: TAuthState = {
     user: null,
-    isFetching: false,
+    isAuthenticated: false,
+    isLoading: false,
+    error: null,
 };
 
 export const authReducer = createReducer(
     initialState,
 
-    on(AuthActions.getLoginSuccess, (state, { user }) => ({
+    // Login
+    on(AuthActions.login, (state) => ({
         ...state,
-        user,
+        isLoading: true,
+        error: null,
     })),
-    on(AuthActions.getLoginError, (state, { error }) => ({
+    on(AuthActions.loginSuccess, (state, { user, token }) => ({
+        ...state,
+        user: { ...user, token },
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+    })),
+    on(AuthActions.loginFailure, (state, { error }) => ({
         ...state,
         error,
+        isLoading: false,
+        isAuthenticated: false,
     })),
 
-    on(AuthActions.getLogoutSuccess, (state) => ({
+    // Registration
+    on(AuthActions.register, (state) => ({
         ...state,
+        isLoading: true,
+        error: null,
     })),
-    on(AuthActions.getLoginError, (state, { error }) => ({
+    on(AuthActions.registerSuccess, (state, { user, token }) => ({
+        ...state,
+        user: { ...user, token },
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+    })),
+    on(AuthActions.registerFailure, (state, { error }) => ({
         ...state,
         error,
+        isLoading: false,
+    })),
+
+    // Logout
+    on(AuthActions.logout, (state) => ({
+        ...state,
+        isLoading: true,
+    })),
+    on(AuthActions.logoutSuccess, () => ({
+        ...initialState,
+    })),
+    on(AuthActions.logoutFailure, (state, { error }) => ({
+        ...state,
+        error,
+        isLoading: false,
+    })),
+
+    // Check Auth
+    on(AuthActions.checkAuthSuccess, (state, { user }) => ({
+        ...state,
+        user,
+        isAuthenticated: true,
+    })),
+    on(AuthActions.checkAuthFailure, (state) => ({
+        ...state,
+        isAuthenticated: false,
+    })),
+
+    // Guest Login
+    on(AuthActions.guestLogin, (state) => ({
+        ...state,
+        isLoading: true,
+        error: null,
+    })),
+    on(AuthActions.guestLoginSuccess, (state, { user, token }) => ({
+        ...state,
+        user: { ...user, token },
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+    })),
+    on(AuthActions.guestLoginFailure, (state, { error }) => ({
+        ...state,
+        error,
+        isLoading: false,
     })),
 );

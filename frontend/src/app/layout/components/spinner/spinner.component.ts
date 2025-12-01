@@ -6,9 +6,9 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
-import { LoadingInterceptor } from '@core/interceptors/loading.interceptor';
+import { LoadingInterceptor } from '@core/interceptors/loading/loading.interceptor';
 
-import { ISpinner } from '@layout/store/model/spinner.interface';
+import { TSpinnerState } from '@layout/store/model/spinner-state.type';
 import { spinnerSelector } from '@layout/store/spinner-store/spinner.selector';
 
 @Component({
@@ -28,9 +28,9 @@ import { spinnerSelector } from '@layout/store/spinner-store/spinner.selector';
 })
 export class SpinnerComponent {
     public spinnerStyle = input<string>('');
-    public loading$: Observable<boolean> = this._store.pipe(
+    public loading$: Observable<boolean> = this._store$.pipe(
         select(spinnerSelector),
     );
 
-    constructor(private _store: Store<ISpinner>) {}
+    constructor(private _store$: Store<TSpinnerState>) {}
 }

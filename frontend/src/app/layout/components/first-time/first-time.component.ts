@@ -1,54 +1,69 @@
-import { Subject, pipe, takeUntil, timer } from 'rxjs';
+import { timer } from 'rxjs';
 
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    signal,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AuthService } from '@core/service/auth/auth.service';
-import { listAnimation } from '@core/utils/animations/translate-fade-out';
+
+import ALL_ANIMATION_CLASSES, {
+    AllAnimationClassType,
+} from '@assets/constant/animations.const';
 
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'cv-first-time',
     standalone: true,
-    animations: [listAnimation],
     templateUrl: './first-time.component.html',
     styleUrls: ['./first-time.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FirstTimeComponent implements OnInit, OnDestroy {
-    public isAuth = false;
-    public showTranslated = false;
-    public persons: any[] = [];
-    public titles: any[] = [];
+export class FirstTimeComponent {
+    private _authService = inject(AuthService);
+    private _translateService = inject(TranslateService);
 
-    private _destroyed$ = new Subject();
+    public isAuth = signal(this._authService.isAuthenticated());
+    public showTranslated = signal(false);
+    public persons = signal<any[]>([]);
+    public titles = signal<any[]>([]);
 
-    constructor(
-        private _authService: AuthService,
-        private _cd: ChangeDetectorRef,
-        private _translateService: TranslateService,
-    ) {}
+    public readonly cssClasses = ALL_ANIMATION_CLASSES;
 
-    ngOnInit(): void {
-        this.isAuth = this._authService.isAuth$.getValue();
+    constructor() {
+        this._initTranslations();
+        this._initTimer();
+    }
 
+    private _initTranslations(): void {
         this._translateService
             .get('FIRST_TIME.PERSONS')
-            .pipe(takeUntil(this._destroyed$))
+            .pipe(takeUntilDestroyed())
             .subscribe((translations) => {
-                this.persons = translations;
+                this.persons.set(translations);
             });
 
         this._translateService
             .get('FIRST_TIME.TITLES')
-            .pipe(takeUntil(this._destroyed$))
+            .pipe(takeUntilDestroyed())
             .subscribe((translations) => {
-                this.titles = translations;
+                this.titles.set(translations);
             });
-
-        timer(6000).subscribe(() => {
-            this.showTranslated = true;
-            this._cd.markForCheck();
-        });
     }
-    ngOnDestroy(): void {}
+
+    private _initTimer(): void {
+        timer(6000)
+            .pipe(takeUntilDestroyed())
+            .subscribe(() => {
+                this.showTranslated.set(true);
+            });
+    }
+
+    public getAnimationClass(type: AllAnimationClassType): string {
+        return this.cssClasses[type];
+    }
 }

@@ -1,0 +1,44 @@
+@use '../../../assets/styles/mixins/animations-mixins';
+
+.route-enter {
+    @include route-enter-class(0.6s);
+
+    @include composite-animation;
+    @include will-change-transform;
+
+    @include reduce-motion;
+    @include safe-animation(0.6s);
+
+    @include responsive-animation(0.4s, 0.5s, 0.6s);
+
+    @include motion-reduce {
+        transform: none;
+        opacity: 1;
+        animation: none;
+    }
+}
+
+.route-leave {
+    @include route-leave-class(0.6s);
+
+    @include composite-animation;
+    @include will-change-transform;
+
+    @include reduce-motion;
+    @include safe-animation(0.6s);
+
+    @include responsive-animation(0.4s, 0.5s, 0.6s);
+
+    @include motion-reduce {
+        transform: none;
+        opacity: 0;
+        animation: none;
+    }
+}
+
+.router-animation-container {
+    @include layer-animation;
+    contain: layout style paint;
+
+    @include optimize-for-animation;
+}

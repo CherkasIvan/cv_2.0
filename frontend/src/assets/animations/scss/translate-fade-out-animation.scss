@@ -1,0 +1,105 @@
+@use '../../../assets/styles/mixins/animations-mixins';
+
+.translate-fade-out {
+    @include translate-fade-out-class(0.5s);
+
+    // Оптимизация для исчезновения элементов
+    @include composite-animation;
+    @include will-change-transform;
+
+    // Безопасные анимации
+    @include reduce-motion;
+    @include safe-animation(0.5s);
+
+    // Адаптивность
+    @include responsive-animation(0.3s, 0.4s, 0.5s);
+
+    // Ускорение на мобильных
+    @media (max-width: 768px) {
+        animation-duration: 0.3s;
+
+        @include motion-reduce {
+            transform: translateY(-20px);
+            opacity: 0;
+            animation: none;
+        }
+    }
+
+    // Instant disappearance для reduced motion
+    @include motion-reduce {
+        display: none;
+        opacity: 0;
+        animation: none;
+    }
+}
+
+.translate-fade-in {
+    @include translate-fade-in-class(0.5s);
+
+    // Оптимизация для появления элементов
+    @include composite-animation;
+    @include will-change-transform;
+
+    // Безопасные анимации
+    @include reduce-motion;
+    @include safe-animation(0.5s);
+
+    // Адаптивность
+    @include responsive-animation(0.3s, 0.4s, 0.5s);
+
+    // Ускорение на мобильных
+    @media (max-width: 768px) {
+        animation-duration: 0.3s;
+
+        @include motion-reduce {
+            transform: none;
+            opacity: 1;
+            animation: none;
+        }
+    }
+
+    // Instant appearance для reduced motion
+    @include motion-reduce {
+        transform: none;
+        opacity: 1;
+        animation: none;
+    }
+}
+
+// Специфичные оптимизации для списков
+.list-stagger-translate {
+    @include layer-animation;
+
+    @include reduce-motion;
+    @include safe-animation(0.5s);
+
+    @include responsive-animation(0.3s, 0.4s, 0.5s);
+
+    // Stagger анимация для элементов списка
+    & > * {
+        @include translate-fade-in-class(0.4s);
+        animation-fill-mode: both;
+
+        @for $i from 1 through 12 {
+            &:nth-child(#{$i}) {
+                animation-delay: #{$i * 0.1s};
+
+                @include motion-reduce {
+                    animation-delay: 0s;
+                }
+
+                @media (max-width: 768px) {
+                    animation-delay: #{$i * 0.05s};
+                }
+            }
+        }
+    }
+
+    @include motion-reduce {
+        & > * {
+            transform: none;
+            opacity: 1;
+            animation: none !important;
+        }
+    }
+}

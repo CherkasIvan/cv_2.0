@@ -1,22 +1,66 @@
+# docker-compose.yml
+version: '3.8'
+
 services:
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.nginx
+  # Production Database
+  postgres_prod:
+    image: postgres:18
+    container_name: postgres_prod
+    environment:
+      POSTGRES_DB: cv_db_prod
+      POSTGRES_USER: jv13
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "80:80"
-    depends_on:
-      - frontend
-      - backend
+      - "5432:5432"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+      - .\database\backups:/backups
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jv13 -d cv_db_prod"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
     networks:
       - cv-network
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.frontend
+  # Development Database
+  postgres_dev:
+    image: postgres:18
+    container_name: postgres_dev
+    environment:
+      POSTGRES_DB: cv_db_dev
+      POSTGRES_USER: jv13
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "4000:4000"
+      - "5433:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jv13 -d cv_db_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - cv-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_cv
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cv.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8082:80"
+    depends_on:
+      postgres_prod:
+        condition: service_healthy
+      postgres_dev:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - cv-network
 
@@ -24,11 +68,43 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile.backend
+    container_name: backend_cv
+    environment:
+      - NODE_ENV=development
+      - DOCKER_CONTAINER=true
+      # Production DB
+      - POSTGRES_PROD_HOST=postgres_prod
+      - POSTGRES_PROD_PORT=5432
+      - POSTGRES_PROD_DB=cv_db_prod
+      - POSTGRES_PROD_USER=jv13
+      - POSTGRES_PROD_PASSWORD=postgres
+      # Development DB
+      - POSTGRES_DEV_HOST=postgres_dev
+      - POSTGRES_DEV_PORT=5432
+      - POSTGRES_DEV_DB=cv_db_dev
+      - POSTGRES_DEV_USER=jv13
+      - POSTGRES_DEV_PASSWORD=postgres
+      # Auto-select based on NODE_ENV
+      - POSTGRES_HOST=postgres_dev
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=cv_db_dev
+      - POSTGRES_USER=jv13
+      - POSTGRES_PASSWORD=postgres
     ports:
       - "3000:3000"
+    depends_on:
+      postgres_prod:
+        condition: service_healthy
+      postgres_dev:
+        condition: service_healthy
+    restart: unless-stopped
     networks:
       - cv-network
 
 networks:
   cv-network:
     driver: bridge
+
+volumes:
+  postgres_data_prod:
+  postgres_data_dev:
