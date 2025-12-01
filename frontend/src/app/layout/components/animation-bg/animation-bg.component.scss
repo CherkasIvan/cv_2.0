@@ -1,0 +1,161 @@
+@use '../../../../assets/styles/variables' as color;
+@use '../../../../assets/animations/scss/fade-animation.scss' as fade;
+@use '../../../../assets/animations/scss/blob-animations.scss' as blob;
+@use '../../../../assets/animations/scss/lava-lamp.animation.scss' as lava;
+
+.animation-bg {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+
+    // ✅ ИСПРАВЛЕНО: используем существующий миксин
+    @include fade.fade-in-out;
+
+    .circles-list {
+        display: flex;
+        position: relative;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        .circle-element {
+            display: flex;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+
+            &.blob-float {
+                opacity: 0.7;
+                background: radial-gradient(circle, #3b82f6, #1d4ed8, #1e40af);
+                @include blob.blob-float;
+            }
+
+            &.blob-float-slow {
+                opacity: 0.6;
+                background: radial-gradient(circle, #8b5cf6, #7c3aed, #6d28d9);
+                @include blob.blob-float-slow;
+            }
+
+            &.blob-float-fast {
+                opacity: 0.8;
+                background: radial-gradient(circle, #ec4899, #db2777, #be185d);
+                @include blob.blob-float-fast;
+            }
+
+            .lava-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+
+                .lava-particle {
+                    position: absolute;
+                    border-radius: 50%;
+                    background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.4));
+
+                    &.lava-lamp {
+                        top: 20%;
+                        left: 20%;
+                        width: 20%;
+                        height: 20%;
+                        @include lava.lava-lamp;
+                    }
+
+                    &.lava-lamp-leave {
+                        right: 25%;
+                        bottom: 30%;
+                        width: 15%;
+                        height: 15%;
+                        @include lava.lava-lamp-leave;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Оставляем только кастомные keyframes
+@keyframes lava-transform-1 {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.8;
+    }
+    25% {
+        transform: translate(50%, -30%) scale(1.3);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(20%, -60%) scale(1.1);
+        opacity: 0.9;
+    }
+    75% {
+        transform: translate(-40%, -20%) scale(1.4);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.8;
+    }
+}
+
+@keyframes lava-transform-2 {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.6;
+    }
+    33% {
+        transform: translate(-60%, 40%) scale(1.5);
+        opacity: 0.9;
+    }
+    66% {
+        transform: translate(30%, -20%) scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-20%, 60%) scale(1.3);
+        opacity: 0.8;
+    }
+}
+
+@media (max-width: 1024px) {
+    .animation-bg {
+        height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .animation-bg {
+        top: 80px;
+        height: 200px;
+        .circles-list {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .animation-bg {
+        height: 150px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animation-bg .circles-list .circle-element {
+        animation: none !important;
+        .lava-container .lava-particle {
+            opacity: 0.5;
+            animation: none !important;
+        }
+    }
+}

@@ -1,0 +1,214 @@
+@use '../../../assets/styles/mixins/animations-mixins';
+
+.start-card-fade-in {
+    @include start-card-fade-in-class(1.5s);
+
+    @include composite-animation;
+    @include will-change-opacity;
+
+    @include reduce-motion;
+    @include safe-animation(1.5s);
+
+    @include responsive-animation(0.8s, 1.2s, 1.5s);
+
+    @media (max-width: 768px) {
+        animation-duration: 0.6s;
+
+        @media (prefers-reduced-data: reduce) {
+            animation-duration: 0.3s;
+        }
+    }
+
+    @include motion-reduce {
+        opacity: 1;
+        animation: none;
+    }
+
+    &.initial-load {
+        animation-duration: 2s;
+
+        @include motion-reduce {
+            opacity: 1;
+            animation: none;
+        }
+    }
+}
+
+.start-card-fade-out {
+    @include start-card-fade-out-class(1.5s);
+
+    @include composite-animation;
+    @include will-change-opacity;
+
+    @include reduce-motion;
+    @include safe-animation(1.5s);
+
+    @include responsive-animation(0.8s, 1.2s, 1.5s);
+
+    @media (max-width: 768px) {
+        animation-duration: 0.4s;
+
+        @media (prefers-reduced-data: reduce) {
+            animation-duration: 0.2s;
+        }
+    }
+
+    @include motion-reduce {
+        display: none;
+        opacity: 0;
+        animation: none;
+    }
+}
+
+.start-card {
+    @include optimize-for-animation;
+    @include layer-animation;
+
+    &:focus-visible {
+        @include will-change-transform;
+        outline: 2px solid #3b82f6;
+        outline-offset: 2px;
+    }
+
+    &.loading {
+        @include pulse-class(2s);
+        @include safe-animation(2s);
+
+        @include motion-reduce {
+            animation: none;
+        }
+    }
+
+    &.success {
+        @include bounce-class(0.6s);
+        @include safe-animation(0.6s);
+
+        @include motion-reduce {
+            animation: none;
+        }
+    }
+
+    &.error {
+        @include shake-class(0.5s);
+        @include safe-animation(0.5s);
+
+        @include motion-reduce {
+            animation: none;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .start-card-fade-in,
+    .start-card-fade-out {
+        transform: translateZ(0);
+        animation-timing-function: ease-out;
+    }
+
+    .start-card {
+        &.loading,
+        &.success,
+        &.error {
+            animation: none;
+
+            @include motion-ok {
+                animation-duration: 0.3s;
+            }
+        }
+    }
+}
+
+@media (pointer: coarse) {
+    .start-card {
+        min-width: 44px;
+        min-height: 44px;
+
+        &:hover {
+            transform: none;
+        }
+    }
+}
+
+@media (prefers-contrast: high) {
+    .start-card {
+        border: 2px solid currentColor;
+
+        &.loading {
+            border-style: dashed;
+        }
+
+        &.success {
+            border-color: green;
+        }
+
+        &.error {
+            border-color: red;
+        }
+    }
+}
+
+[data-theme='dark'] {
+    .start-card {
+        background: rgba(255, 255, 255, 0.05);
+
+        &:focus-visible {
+            outline-color: #60a5fa;
+        }
+    }
+}
+
+@media (prefers-reduced-data: reduce) {
+    .start-card-fade-in,
+    .start-card-fade-out {
+        animation: none;
+
+        @include motion-ok {
+            animation-duration: 0.5s;
+        }
+    }
+}
+
+.start-card-grid {
+    @include layer-animation;
+
+    .start-card {
+        animation-fill-mode: both;
+
+        @for $i from 1 through 12 {
+            &:nth-child(#{$i}) {
+                animation-delay: #{$i * 0.1s};
+
+                @include motion-reduce {
+                    animation-delay: 0s;
+                }
+
+                @media (max-width: 768px) {
+                    animation-delay: #{$i * 0.05s};
+                }
+            }
+        }
+    }
+}
+
+.initial-render {
+    .start-card-fade-in {
+        animation-duration: 0.8s;
+
+        @include motion-reduce {
+            opacity: 1;
+            animation: none;
+        }
+    }
+}
+
+.preload-state {
+    .start-card {
+        transform: translateY(20px);
+        opacity: 0;
+
+        @include motion-reduce {
+            transform: none;
+            opacity: 1;
+        }
+    }
+}

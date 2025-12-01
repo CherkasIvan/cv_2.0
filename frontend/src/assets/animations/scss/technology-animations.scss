@@ -1,0 +1,13 @@
+@use '../../../assets/styles/mixins/animations-mixins' as anim;
+
+.technology-card-fade-in {
+    @include anim.technology-card-fade-in-class(0.5s);
+    @include anim.composite-animation;
+    @include anim.reduce-motion;
+}
+
+.list-stagger {
+    @include anim.list-stagger-class(0.5s, 0.1s);
+    @include anim.layer-animation;
+    @include anim.reduce-motion;
+}

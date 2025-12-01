@@ -1,0 +1,19 @@
+<main class="auth">
+    @if (currentForm() === 'login') {
+        <cv-login-form
+            class="fade-in"
+            header="TITLE"
+            (emittedModalHide)="getModalInstance($event)"
+            (switchToRegister)="switchToRegister()"
+        ></cv-login-form>
+    }
+
+    @if (currentForm() === 'register') {
+        <cv-registration-form
+            class="fade-in"
+            header="REGISTRATION"
+            (emittedModalHide)="getModalInstance($event)"
+            (switchToLogin)="switchToLogin()" 
+        ></cv-registration-form>
+    }
+</main>

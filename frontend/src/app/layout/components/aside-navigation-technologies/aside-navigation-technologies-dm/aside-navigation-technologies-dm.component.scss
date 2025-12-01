@@ -1,0 +1,14 @@
+@use '../../../../../assets/styles/variables' as color;
+
+.aside-navigation.dark-theme {
+    .navigation-list {
+        .navigation_item {
+            .item-button {
+                color: color.$dm-dark-gray;
+            }
+        }
+    }
+    .active {
+        color: color.$white;
+    }
+}

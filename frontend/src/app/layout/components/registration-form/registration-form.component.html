@@ -1,0 +1,342 @@
+<div
+    class="modal-background login-fade-in-out"
+    (click)="onBackgroundClick($event)"
+>
+    <dialog
+        class="modal-dialog fade-in-out"
+        [class.toggle-height]="modalState() === 'expanded'"
+    >
+        <header class="header-block">
+            <cv-language-toggle class="header-block_title"></cv-language-toggle>
+            <h3 class="header-block_title">
+                {{ 'REGISTRATION-MODAL.' + header() | translate }}
+            </h3>
+            <button
+                class="header-block_close-button card-hover"
+                (click)="closeModalDialog()"
+                (keyup.enter)="closeModalDialog()"
+                tabindex="0"
+                aria-label="Close registration modal"
+            >
+                <img
+                    aria-hidden="true"
+                    [src]="closeImageUrl$ | async"
+                    alt="Close"
+                    loading="lazy"
+                />
+            </button>
+        </header>
+
+        <main class="modal-dialog_content">
+            @if (error()) {
+                <div class="error-banner translate-fade-in">
+                    {{ error() }}
+                </div>
+            }
+            <div class="back-to-login fade-in-out">
+                <span class="back-title">
+                    {{ 'REGISTRATION-MODAL.ALREADY_HAVE_ACCOUNT' | translate }}
+                </span>
+                <span
+                    class="back-link card-hover"
+                    (click)="switchToLoginForm()"
+                    tabindex="0"
+                    role="button"
+                >
+                    {{ 'REGISTRATION-MODAL.BACK_TO_LOGIN' | translate }}
+                </span>
+            </div>
+
+            <form
+                [formGroup]="registrationForm"
+                method="post"
+                class="content-form"
+            >
+                <div class="content_fields list-stagger">
+                    <label
+                        for="name"
+                        class="content-form_label technology-card-fade-in"
+                    >
+                        {{ 'REGISTRATION-MODAL.NAME' | translate }} *
+                        <input
+                            type="text"
+                            formControlName="name"
+                            id="name"
+                            class="content-form_input"
+                            [ngClass]="{
+                                error: registrationForm.get('name')?.invalid && registrationForm.get('name')?.touched,
+                            }"
+                        />
+                        @if (registrationForm.get('name')?.invalid && registrationForm.get('name')?.touched) {
+                            <small class="error-message translate-fade-in">
+                                {{ 'REGISTRATION-MODAL.NAME_REQUIRED' | translate }}
+                            </small>
+                        }
+                    </label>
+
+                    <label
+                        for="loginEmail"
+                        class="content-form_label technology-card-fade-in"
+                    >
+                        {{ 'REGISTRATION-MODAL.LOGIN_EMAIL' | translate }} *
+                        <input
+                            type="email"
+                            formControlName="loginEmail"
+                            id="loginEmail"
+                            class="content-form_input"
+                            [ngClass]="{
+                                error:
+                                    registrationForm.get('loginEmail')?.invalid &&
+                                    registrationForm.get('loginEmail')?.touched,
+                            }"
+                        />
+                        @if (
+                            registrationForm.get('loginEmail')?.invalid && registrationForm.get('loginEmail')?.touched
+                        ) {
+                            <small class="error-message translate-fade-in">
+                                {{ 'REGISTRATION-MODAL.VALID_EMAIL_REQUIRED' | translate }}
+                            </small>
+                        }
+                    </label>
+
+                    <div class="array-field technology-card-fade-in">
+                        <label class="content-form_label">
+                            {{ 'REGISTRATION-MODAL.ADDITIONAL_EMAILS' | translate }}
+                        </label>
+                        <div class="input-with-button">
+                            <input
+                                type="email"
+                                formControlName="emailInput"
+                                class="content-form_input"
+                                placeholder="{{ 'REGISTRATION-MODAL.ADD_EMAIL_PLACEHOLDER' | translate }}"
+                            />
+                            <button
+                                type="button"
+                                class="add-button card-hover"
+                                (click)="addEmail()"
+                                [disabled]="!registrationForm.get('emailInput')?.valid"
+                            >
+                                +
+                            </button>
+                        </div>
+                        <div class="array-items">
+                            @for (email of emailsArray.controls; track email; let i = $index) {
+                                <div class="array-item fade-in-out-cards">
+                                    <span>{{ email.value }}</span>
+                                    <button
+                                        type="button"
+                                        class="remove-button card-hover"
+                                        (click)="removeEmail(i)"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <label
+                        for="password"
+                        class="content-form_label technology-card-fade-in"
+                    >
+                        {{ 'REGISTRATION-MODAL.PASSWORD' | translate }} *
+                        <input
+                            type="password"
+                            formControlName="password"
+                            id="password"
+                            class="content-form_input"
+                            [ngClass]="{
+                                error:
+                                    registrationForm.get('password')?.invalid &&
+                                    registrationForm.get('password')?.touched,
+                            }"
+                        />
+                        @if (registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched) {
+                            <small class="error-message translate-fade-in">
+                                {{ 'REGISTRATION-MODAL.PASSWORD_MIN_LENGTH' | translate }}
+                            </small>
+                        }
+                    </label>
+
+                    <label
+                        for="confirmPassword"
+                        class="content-form_label technology-card-fade-in"
+                    >
+                        {{ 'REGISTRATION-MODAL.CONFIRM_PASSWORD' | translate }} *
+                        <input
+                            type="password"
+                            formControlName="confirmPassword"
+                            id="confirmPassword"
+                            class="content-form_input"
+                            [ngClass]="{
+                                error:
+                                    registrationForm.hasError('passwordMismatch') &&
+                                    registrationForm.get('confirmPassword')?.touched,
+                            }"
+                        />
+                        @if (
+                            registrationForm.hasError('passwordMismatch') &&
+                            registrationForm.get('confirmPassword')?.touched
+                        ) {
+                            <small class="error-message translate-fade-in">
+                                {{ 'REGISTRATION-MODAL.PASSWORDS_MISMATCH' | translate }}
+                            </small>
+                        }
+                    </label>
+
+                    <div class="array-field technology-card-fade-in">
+                        <label class="content-form_label">
+                            {{ 'REGISTRATION-MODAL.POSITIONS' | translate }}
+                        </label>
+                        <div class="input-with-button">
+                            <input
+                                type="text"
+                                formControlName="positionInput"
+                                class="content-form_input"
+                                placeholder="{{ 'REGISTRATION-MODAL.ADD_POSITION_PLACEHOLDER' | translate }}"
+                            />
+                            <button
+                                type="button"
+                                class="add-button card-hover"
+                                (click)="addPosition()"
+                                [disabled]="!registrationForm.get('positionInput')?.value"
+                            >
+                                +
+                            </button>
+                        </div>
+                        <div class="array-items">
+                            @for (position of positionsArray.controls; track position; let i = $index) {
+                                <div class="array-item fade-in-out-cards">
+                                    <span>{{ position.value }}</span>
+                                    <button
+                                        type="button"
+                                        class="remove-button card-hover"
+                                        (click)="removePosition(i)"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="array-field technology-card-fade-in">
+                        <label class="content-form_label">
+                            {{ 'REGISTRATION-MODAL.PHONES' | translate }}
+                        </label>
+                        <div class="input-with-button">
+                            <input
+                                type="tel"
+                                formControlName="phoneInput"
+                                class="content-form_input"
+                                placeholder="{{ 'REGISTRATION-MODAL.ADD_PHONE_PLACEHOLDER' | translate }}"
+                            />
+                            <button
+                                type="button"
+                                class="add-button card-hover"
+                                (click)="addPhone()"
+                                [disabled]="!registrationForm.get('phoneInput')?.valid"
+                            >
+                                +
+                            </button>
+                        </div>
+                        <div class="array-items">
+                            @for (phone of phonesArray.controls; track phone; let i = $index) {
+                                <div class="array-item fade-in-out-cards">
+                                    <span>{{ phone.value }}</span>
+                                    <button
+                                        type="button"
+                                        class="remove-button card-hover"
+                                        (click)="removePhone(i)"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <label
+                        for="bio"
+                        class="content-form_label technology-card-fade-in"
+                    >
+                        {{ 'REGISTRATION-MODAL.BIO' | translate }}
+                        <textarea
+                            formControlName="bio"
+                            id="bio"
+                            class="content-form_textarea"
+                            rows="3"
+                            placeholder="{{ 'REGISTRATION-MODAL.BIO_PLACEHOLDER' | translate }}"
+                        ></textarea>
+                    </label>
+
+                    <div class="array-field technology-card-fade-in">
+                        <label class="content-form_label">
+                            {{ 'REGISTRATION-MODAL.LOCATIONS' | translate }}
+                        </label>
+                        <div class="input-with-button">
+                            <input
+                                type="text"
+                                formControlName="locationInput"
+                                class="content-form_input"
+                                placeholder="{{ 'REGISTRATION-MODAL.ADD_LOCATION_PLACEHOLDER' | translate }}"
+                            />
+                            <button
+                                type="button"
+                                class="add-button card-hover"
+                                (click)="addLocation()"
+                                [disabled]="!registrationForm.get('locationInput')?.value"
+                            >
+                                +
+                            </button>
+                        </div>
+                        <div class="array-items">
+                            @for (location of locationsArray.controls; track location; let i = $index) {
+                                <div class="array-item fade-in-out-cards">
+                                    <span>{{ location.value }}</span>
+                                    <button
+                                        type="button"
+                                        class="remove-button card-hover"
+                                        (click)="removeLocation(i)"
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-form_submit-buttons">
+                    <button
+                        class="submit-button card-hover"
+                        (click)="confirmRegistration()"
+                        (keyup.enter)="confirmRegistration()"
+                        type="button"
+                        [disabled]="!registrationForm.valid || isLoading()"
+                        [ngClass]="{
+                            'disabled-submit': !registrationForm.valid || isLoading(),
+                            pulse: isLoading(),
+                        }"
+                        tabindex="0"
+                    >
+                        @if (isLoading()) {
+                            <span class="loading-spinner"></span>
+                        }
+                        {{ 'REGISTRATION-MODAL.REGISTER' | translate }}
+                    </button>
+                    <button
+                        class="reset-button card-hover"
+                        (click)="resetRegistrationForm()"
+                        (keyup.enter)="resetRegistrationForm()"
+                        type="button"
+                        [disabled]="isLoading()"
+                        tabindex="0"
+                    >
+                        {{ 'REGISTRATION-MODAL.RESET' | translate }}
+                    </button>
+                </div>
+            </form>
+        </main>
+    </dialog>
+</div>

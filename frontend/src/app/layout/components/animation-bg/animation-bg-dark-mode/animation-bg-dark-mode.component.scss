@@ -1,0 +1,38 @@
+@use '../../../../../assets/styles/variables' as color;
+
+.animation-bg {
+    .circles-list {
+        .circle-element {
+            &_img.dark-blob {
+                > * {
+                    > * {
+                        background-color: red;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Интересный скролл
+// ::-webkit-scrollbar {
+//     width: 4px;
+//     height: 26px;
+// }
+
+// ::-webkit-scrollbar-track {
+//     background: transparent;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//     opacity: 0.68 !important;
+//     cursor: pointer;
+//     border-radius: 4px;
+//     background: #7e858e;
+//     width: 4px;
+//     height: 26px;
+// }
+
+// ::-webkit-scrollbar-thumb:hover {
+//     opacity: 1 !important;
+// }

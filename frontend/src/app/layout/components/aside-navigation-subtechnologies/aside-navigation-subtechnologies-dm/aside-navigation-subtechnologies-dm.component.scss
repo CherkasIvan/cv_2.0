@@ -1,0 +1,19 @@
+@use '../../../../../assets/styles/variables' as color;
+
+.skills-switcher {
+    .skills-list {
+        .skill-item {
+            &_link {
+                color: color.$dm-dark-text;
+            }
+
+            .active-link {
+                color: color.$blue;
+            }
+
+            &_link:hover {
+                color: color.$blue;
+            }
+        }
+    }
+}

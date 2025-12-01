@@ -1,0 +1,34 @@
+<button
+    class="general-button"
+    [ngClass]="{
+        'dark-theme': buttonTheme(),
+        'light-theme': !buttonTheme(),
+        'long-button': buttonType() === 'long',
+        'short-button': buttonType() === 'short',
+    }"
+    (mouseover)="onHover()"
+    (mouseout)="onLeave()"
+    (focus)="onHover()"
+    (blur)="onLeave()"
+>
+    <span
+        class="general-button_text"
+        [ngClass]="{ generalButtonActive: isHovered }"
+    >
+        {{ buttonText() }}
+    </span>
+    <span
+        #generalButton
+        class="general-button_hover-text"
+        [ngClass]="{ generalButtonActive: isHovered }"
+    >
+        <div
+            class="general-button_text-absolute"
+            [ngClass]="buttonType() === 'short' ? 'connect-me' : 'watch-cv'"
+        >
+            <span class="hovered-text">
+                {{ buttonHoverText() }}
+            </span>
+        </div>
+    </span>
+</button>

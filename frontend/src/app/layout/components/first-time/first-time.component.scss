@@ -1,0 +1,68 @@
+@use '../../../../assets/styles/variables' as color;
+@use '../../../../assets/animations/scss/animation-classes.scss' as anim-classes;
+
+.first-time {
+    display: flex;
+    position: relative;
+    row-gap: 15px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: color.$white;
+    width: 100vw;
+    height: 100vh;
+
+    @extend .fade-in-out;
+
+    .family,
+    .title {
+        font-weight: 700;
+        font-size: 16px;
+        @extend .fade-in-out;
+    }
+
+    .persons {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        @extend .list-stagger;
+    }
+
+    .persons li {
+        padding: 10px;
+        list-style: none;
+        @extend .technology-card-fade-in;
+    }
+
+    .family {
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .first-time {
+        padding: 20px;
+        .family,
+        .title {
+            font-size: 14px;
+            text-align: center;
+        }
+        .persons {
+            gap: 8px;
+        }
+        .persons li {
+            padding: 8px;
+        }
+    }
+}
+
+[data-theme='dark'] {
+    .first-time {
+        background-color: color.$darkGray;
+        color: color.$white;
+        .persons li {
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+    }
+}

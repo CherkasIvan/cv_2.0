@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "@core/*": ["src/core/*"],
+            "@shared/*": ["src/shared/*"],
+            "@common/*": ["src/common/*"],
+            "@entities/*": ["src/shared/entities/*"],
+            "@dto/*": ["src/shared/dto/*"],
+            "@repositories/*": ["src/repositories/*"],
+            "@services/*": ["src/services/*"],
+            "@controllers/*": ["src/controllers/*"],
+            "@guards/*": ["src/guards/*"],
+            "@interceptors/*": ["src/interceptors/*"],
+            "@filters/*": ["src/filters/*"],
+            "@pipes/*": ["src/pipes/*"],
+            "@decorators/*": ["src/decorators/*"],
+            "@config/*": ["src/config/*"],
+            "@utils/*": ["src/utils/*"]
+        },
+        "module": "commonjs",
+        "declaration": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "ES2021",
+        "sourceMap": true,
+        "outDir": "./dist",
+        "baseUrl": "./",
+        "incremental": true,
+        "skipLibCheck": true,
+        "strictNullChecks": false,
+        "noImplicitAny": false,
+        "strictBindCallApply": false,
+        "forceConsistentCasingInFileNames": false,
+        "noFallthroughCasesInSwitch": false
+    }
+}

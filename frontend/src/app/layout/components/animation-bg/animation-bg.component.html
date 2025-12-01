@@ -1,0 +1,18 @@
+@if (isVisible()) {
+    <div class="animation-bg fade-in-out">
+        <div class="circles-list">
+            @for (blob of animationBlobs; track $index; let i = $index) {
+                <div
+                    class="circle-element"
+                    [ngClass]="getBlobClasses(blob.class, (currentTheme$ | async) || false)"
+                    [ngStyle]="{ width: blob.size, height: blob.size }"
+                >
+                    <div class="lava-container">
+                        <div class="lava-particle lava-lamp"></div>
+                        <div class="lava-particle lava-lamp-leave"></div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

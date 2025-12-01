@@ -1,0 +1,18 @@
+.education-cards {
+    display: flex;
+    row-gap: 30px;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.activeEducation {
+    transition: transform 0.3s ease;
+
+    &.first-item:hover {
+        transform: translateY(-120px); // Настройте значение по вашему усмотрению
+    }
+
+    &.other-items:hover {
+        transform: translateY(-20px); // Настройте значение по вашему усмотрению
+    }
+}

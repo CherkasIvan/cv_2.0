@@ -1,0 +1,15 @@
+.work-experience {
+    display: flex;
+    row-gap: 30px;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.first-item {
+    transition: transform 0.3s ease;
+
+    &.first-item:hover {
+        transform: translateY(100px);
+        z-index: 200;
+    }
+}

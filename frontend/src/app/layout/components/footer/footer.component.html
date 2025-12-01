@@ -1,0 +1,26 @@
+<footer
+    class="footer"
+    [ngClass]="{ 'dark-theme': theme() }"
+>
+    <aside class="footer-connect">
+        <cv-button
+            [buttonTheme]="theme()"
+            buttonText="{{ 'BUTTONS.CONTACT.CONTACT-ME' | translate }}"
+            buttonHoverText="{{ 'BUTTONS.CONTACT.WRITE' | translate }}"
+            buttonType="short"
+        ></cv-button>
+    </aside>
+    <ul class="footer-links">
+        @for (itemLink of socialLinks$(); track itemLink.id; let i = $index) {
+            <li class="footer-links_item">
+                <a
+                    href="{{ itemLink.link }}"
+                    target="_blank"
+                    class="item-link"
+                >
+                    <p class="item-link_text">{{ itemLink.value }}</p>
+                </a>
+            </li>
+        }
+    </ul>
+</footer>

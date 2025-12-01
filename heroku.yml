@@ -1,0 +1,8 @@
+build:
+  docker:
+    web: 
+      dockerfile: ./nginx/Dockerfile.nginx
+    frontend:
+      dockerfile: ./frontend/Dockerfile.frontend
+    backend:
+      dockerfile: ./backend/Dockerfile.backend
