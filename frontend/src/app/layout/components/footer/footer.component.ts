@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { ISocialMedia } from '@core/models/social-media.interface';
+import { TSocialMedia } from '@core/models/social-media.type';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -19,6 +19,6 @@ import { ButtonComponent } from '../button/button.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
-    public socialLinks$ = input.required<ISocialMedia[] | null>();
+    public socialLinks$ = input.required<TSocialMedia[] | null>();
     public theme = input<boolean | null>();
 }

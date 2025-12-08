@@ -14,7 +14,7 @@
                         {{ 'TECHNOLOGIES-PAGE.NAVIGATION.' + navItem.value.toUpperCase() | translate }}
                     </a>
                 </button>
-                @if (navItem.id === '1' && selectedTab === 'technologies') {
+                @if (navItem.value === 'technologies' && selectedTab === 'technologies') {
                     <cv-aside-navigation-subtechnologies
                         (emittedTab)="tabForRoute($event)"
                     ></cv-aside-navigation-subtechnologies>

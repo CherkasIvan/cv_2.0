@@ -16,7 +16,7 @@ import { DestroyService } from '@core/service/destroy/destroy.service';
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { selectToggleUrl } from '@layout/store/images-store/images.selectors';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
+import { TDarkModeState } from '@layout/store/model/dark-mode-state.type';
 
 @Component({
     selector: 'cv-dark-mode-toggle',
@@ -33,7 +33,7 @@ export class DarkModeToggleComponent implements OnInit {
     public whiteModeImage$ = new BehaviorSubject<string>('');
 
     constructor(
-        @Inject(Store) private _store$: Store<TDarkMode>,
+        @Inject(Store) private _store$: Store<TDarkModeState>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
         private _cacheStorageService: CacheStorageService,
     ) {}
@@ -43,7 +43,7 @@ export class DarkModeToggleComponent implements OnInit {
         this._cacheStorageService.setDarkMode(this.isChecked);
         this._store$.dispatch(setModeSuccess(this.isChecked));
         this._store$.dispatch(
-            ImagesActions.getToggleIcons({ mode: this.isChecked }),
+            ImagesActions.loadToggleIcons({ mode: this.isChecked }),
         );
     }
 
@@ -55,7 +55,7 @@ export class DarkModeToggleComponent implements OnInit {
                 this.isChecked = darkMode;
                 this._store$.dispatch(setModeSuccess(this.isChecked));
                 this._store$.dispatch(
-                    ImagesActions.getToggleIcons({ mode: this.isChecked }),
+                    ImagesActions.loadToggleIcons({ mode: this.isChecked }),
                 );
             });
 

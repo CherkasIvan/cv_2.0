@@ -1,98 +1,176 @@
-import { createActionGroup, props } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
-import { TExperienceAside } from '@core/models/experience-aside.type';
-import { IExperience } from '@core/models/experience.interface';
-import { IMainPageInfo } from '@core/models/main-page-info';
-import { INavigation } from '@core/models/navigation.interface';
-import { ISocialMedia } from '@core/models/social-media.interface';
-import { TTechnologiesAside } from '@core/models/technologies-aside.type';
-import { ITechnologies } from '@core/models/technologies.interface';
+// ========== LOAD ACTIONS ==========
 
-export const FirebaseActions = createActionGroup({
-    source: 'Firebase API',
-    events: {
-        getNavigation: props<{ imgName: string }>(),
-        getNavigationSuccess: props<{
-            navigation: INavigation[];
-            images?: string[];
-        }>(),
-        getNavigationError: props<{ error: Error | null }>(),
+// Убрать imgName из большинства действий
+export const loadNavigation = createAction('[Firebase] Load Navigation');
+export const loadSocialMedia = createAction('[Firebase] Load Social Media');
+export const loadWorkExperience = createAction(
+    '[Firebase] Load Work Experience',
+);
+export const loadFrontendTech = createAction('[Firebase] Load Frontend Tech');
+export const loadBackendTech = createAction('[Firebase] Load Backend Tech');
+export const loadOtherTech = createAction('[Firebase] Load Other Tech');
+export const loadHardSkillsNav = createAction(
+    '[Firebase] Load Hard Skills Nav',
+);
+export const loadEducationPlaces = createAction(
+    '[Firebase] Load Education Places',
+);
+export const loadExperienceAside = createAction(
+    '[Firebase] Load Experience Aside',
+);
+export const loadTechnologiesAside = createAction(
+    '[Firebase] Load Technologies Aside',
+);
 
-        getSocialMedia: props<{ imgName: string }>(),
-        getSocialMediaSuccess: props<{
-            socialMediaLinks: ISocialMedia[];
-            images?: string[];
-        }>(),
-        getSocialMediaError: props<{ error: Error | null }>(),
+// Оставить imgName только там где это действительно нужно
+export const loadMainPageInfo = createAction(
+    '[Firebase] Load Main Page Info',
+    props<{ imgName?: string }>(),
+);
 
-        getWorkExperience: props<{ imgName: string }>(),
-        getWorkExperienceSuccess: props<{
-            workExperience: IExperience[];
-            images?: string[];
-        }>(),
-        getWorkExperienceError: props<{ error: Error | null }>(),
+// Добавить новые действия для загрузки изображений
+export const loadThemeImages = createAction(
+    '[Firebase] Load Theme Images',
+    props<{ folder: string; searchParam?: string }>(),
+);
 
-        getFrontendTech: props<{ imgName: string }>(),
-        getFrontendTechSuccess: props<{
-            frontendTech: ITechnologies[];
-            images?: string[];
-        }>(),
-        getFrontendTechError: props<{ error: Error | null }>(),
+export const loadImagesByFolder = createAction(
+    '[Firebase] Load Images By Folder',
+    props<{ folder: string; searchParam?: string }>(),
+);
 
-        getBackendTech: props<{ imgName: string }>(),
-        getBackendTechSuccess: props<{
-            backendTech: ITechnologies[];
-            images?: string[];
-        }>(),
-        getBackendTechError: props<{ error: Error | null }>(),
+// ========== SUCCESS ACTIONS ==========
 
-        getOtherTech: props<{ imgName: string }>(),
-        getOtherTechSuccess: props<{
-            otherTech: ITechnologies[];
-            images?: string[];
-        }>(),
-        getOtherTechError: props<{ error: Error | null }>(),
+export const loadNavigationSuccess = createAction(
+    '[Firebase] Load Navigation Success',
+    props<{ navigation: any; images: string[] }>(),
+);
 
-        getHardSkillsNav: props<{ imgName: string }>(),
-        getHardSkillsNavSuccess: props<{
-            hardSkillsNav: INavigation[];
-            images?: string[];
-        }>(),
-        getHardSkillsNavError: props<{ error: Error | null }>(),
+export const loadSocialMediaSuccess = createAction(
+    '[Firebase] Load Social Media Success',
+    props<{ socialMediaLinks: any; images: string[] }>(),
+);
 
-        getEducationPlaces: props<{ imgName: string }>(),
-        getEducationPlacesSuccess: props<{
-            education: IExperience[];
-            images?: string[];
-        }>(),
-        getEducationPlacesError: props<{ error: Error | null }>(),
+export const loadWorkExperienceSuccess = createAction(
+    '[Firebase] Load Work Experience Success',
+    props<{ workExperience: any; images: string[] }>(),
+);
 
-        getMainPageInfo: props<{ imgName: string }>(),
-        getMainPageInfoSuccess: props<{
-            mainPageInfo: IMainPageInfo;
-            images?: string[];
-        }>(),
-        getMainPageInfoError: props<{ error: Error | null }>(),
+export const loadFrontendTechSuccess = createAction(
+    '[Firebase] Load Frontend Tech Success',
+    props<{ frontendTech: any; images: string[] }>(),
+);
 
-        getExperienceAside: props<{ imgName: string }>(),
-        getExperienceAsideSuccess: props<{
-            experienceAside: TExperienceAside[];
-            images?: string[];
-        }>(),
-        getExperienceAsideError: props<{ error: Error | null }>(),
+export const loadBackendTechSuccess = createAction(
+    '[Firebase] Load Backend Tech Success',
+    props<{ backendTech: any; images: string[] }>(),
+);
 
-        getTechnologiesAside: props<{ imgName: string | null }>(),
-        getTechnologiesAsideSuccess: props<{
-            technologiesAside: TTechnologiesAside[];
-            images?: string[];
-        }>(),
-        getTechnologiesAsideError: props<{ error: Error | null }>(),
+export const loadOtherTechSuccess = createAction(
+    '[Firebase] Load Other Tech Success',
+    props<{ otherTech: any; images: string[] }>(),
+);
 
-        getClose: props<{ imgName: string }>(),
-        getCloseSuccess: props<{
-            close: any;
-            images?: string[];
-        }>(),
-        getCloseError: props<{ error: Error | null }>(),
-    },
-});
+export const loadHardSkillsNavSuccess = createAction(
+    '[Firebase] Load Hard Skills Nav Success',
+    props<{ hardSkillsNav: any; images: string[] }>(),
+);
+
+export const loadEducationPlacesSuccess = createAction(
+    '[Firebase] Load Education Places Success',
+    props<{ education: any; images: string[] }>(),
+);
+
+export const loadMainPageInfoSuccess = createAction(
+    '[Firebase] Load Main Page Info Success',
+    props<{ mainPageInfo: any; images: string[] }>(),
+);
+
+export const loadExperienceAsideSuccess = createAction(
+    '[Firebase] Load Experience Aside Success',
+    props<{ experienceAside: any; images: string[] }>(),
+);
+
+export const loadTechnologiesAsideSuccess = createAction(
+    '[Firebase] Load Technologies Aside Success',
+    props<{ technologiesAside: any; images: string[] }>(),
+);
+
+export const loadThemeImagesSuccess = createAction(
+    '[Firebase] Load Theme Images Success',
+    props<{ images: string[] }>(),
+);
+
+export const loadImagesByFolderSuccess = createAction(
+    '[Firebase] Load Images By Folder Success',
+    props<{ folder: string; images: string[] }>(),
+);
+
+// ========== FAILURE ACTIONS ==========
+
+export const loadNavigationFailure = createAction(
+    '[Firebase] Load Navigation Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadSocialMediaFailure = createAction(
+    '[Firebase] Load Social Media Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadWorkExperienceFailure = createAction(
+    '[Firebase] Load Work Experience Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadFrontendTechFailure = createAction(
+    '[Firebase] Load Frontend Tech Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadBackendTechFailure = createAction(
+    '[Firebase] Load Backend Tech Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadOtherTechFailure = createAction(
+    '[Firebase] Load Other Tech Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadHardSkillsNavFailure = createAction(
+    '[Firebase] Load Hard Skills Nav Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadEducationPlacesFailure = createAction(
+    '[Firebase] Load Education Places Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadMainPageInfoFailure = createAction(
+    '[Firebase] Load Main Page Info Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadExperienceAsideFailure = createAction(
+    '[Firebase] Load Experience Aside Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadTechnologiesAsideFailure = createAction(
+    '[Firebase] Load Technologies Aside Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadThemeImagesFailure = createAction(
+    '[Firebase] Load Theme Images Failure',
+    props<{ error: Error }>(),
+);
+
+export const loadImagesByFolderFailure = createAction(
+    '[Firebase] Load Images By Folder Failure',
+    props<{ folder: string; error: Error }>(),
+);

@@ -1,7 +1,6 @@
-import firebase from 'firebase/compat/app';
-import { catchError, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, map, of, switchMap, tap } from 'rxjs';
 
-import { EventEmitter, Inject, Injectable, Output } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -10,87 +9,174 @@ import { ERoute } from '@core/enum/route.enum';
 import { AuthService } from '@core/service/auth/auth.service';
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 
-import { TProfile } from '../model/profile.type';
 import { AuthActions } from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
-    public modalClass = 'fade-in';
-    @Output() emittedModalHide: EventEmitter<boolean> =
-        new EventEmitter<boolean>();
+    private actions$ = inject(Actions);
+    private authService = inject(AuthService);
+    private cacheStorageService = inject(CacheStorageService);
+    private router = inject(Router);
 
-    constructor(
-        @Inject(Actions) private _actions$: Actions,
-        private _authService$: AuthService,
-        private _cacheStorageService: CacheStorageService,
-        private _router: Router,
-    ) {}
-
-    loginUser$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(AuthActions.getLogin),
-            mergeMap((action) =>
-                this._authService$.signIn(action.email, action.password).pipe(
-                    map((userCredential: firebase.auth.UserCredential) => {
-                        if (!userCredential?.user) {
-                            throw new Error('Authentication failed - no user');
+    // 🎯 Login Effect
+    login$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.login),
+            switchMap(({ email, password }) =>
+                this.authService.signIn(email, password).pipe(
+                    map((response) => {
+                        if (response) {
+                            return AuthActions.loginSuccess({
+                                user: response.user,
+                                token: response.token,
+                            });
+                        } else {
+                            return AuthActions.loginFailure({
+                                error: 'Login failed',
+                            });
                         }
-
-                        const user: TProfile = {
-                            uid: userCredential.user.uid,
-                            email: userCredential.user.email || undefined,
-                            displayName:
-                                userCredential.user.displayName || undefined,
-                            photoURL: userCredential.user.photoURL || undefined,
-                            emailVerified: userCredential.user.emailVerified,
-                        };
-                        return AuthActions.getLoginSuccess({ user });
                     }),
+                    catchError((error) =>
+                        of(
+                            AuthActions.loginFailure({
+                                error: error.message || 'Login failed',
+                            }),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    // 🎯 Registration Effect
+    register$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.register),
+            switchMap(({ userData }) =>
+                this.authService.register(userData).pipe(
+                    map((response) => {
+                        if (response) {
+                            return AuthActions.registerSuccess({
+                                user: response.user,
+                                token: response.token,
+                            });
+                        } else {
+                            return AuthActions.registerFailure({
+                                error: 'Registration failed',
+                            });
+                        }
+                    }),
+                    catchError((error) =>
+                        of(
+                            AuthActions.registerFailure({
+                                error: error.message || 'Registration failed',
+                            }),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    // 🎯 Logout Effect
+    logout$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.logout),
+            switchMap(() =>
+                this.authService.signOut().pipe(
+                    map(() => AuthActions.logoutSuccess()),
                     tap(() => {
-                        this.modalClass = 'fade-out';
-                        setTimeout(() => {
-                            this.emittedModalHide.emit(true);
-                            this.modalClass = 'fade-in';
-                        }, 1500);
+                        this.router.navigate([ERoute.AUTH]);
+                        this.cacheStorageService.clearUserData();
                     }),
-                    catchError((error) => {
-                        console.error('Login error:', error);
-                        return of(
-                            AuthActions.getLoginError({ error: error.message }),
-                        );
-                    }),
-                ),
-            ),
-        ),
-    );
-
-    loginGuest$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(AuthActions.getLoginGuest),
-            mergeMap(() =>
-                this._authService$.signInAsGuest().pipe(
-                    map(() => AuthActions.getLoginGuestSuccess()),
                     catchError((error) =>
-                        of(AuthActions.getLoginGuestError({ error })),
+                        of(
+                            AuthActions.logoutFailure({
+                                error: error.message || 'Logout failed',
+                            }),
+                        ),
                     ),
                 ),
             ),
         ),
     );
 
-    logoutUser$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(AuthActions.getLogout),
-            mergeMap(() =>
-                this._authService$.signOut().pipe(
-                    map(() => AuthActions.getLogoutSuccess()),
-                    tap(() => this._router.navigate([ERoute.AUTH])),
-                    tap(() => this._cacheStorageService.clearUserData()),
+    // 🎯 Check Authentication Effect
+    checkAuth$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.checkAuth),
+            map(() => {
+                const user = this.authService.getCurrentUser();
+                return user
+                    ? AuthActions.checkAuthSuccess({ user })
+                    : AuthActions.checkAuthFailure();
+            }),
+        ),
+    );
+
+    // 🎯 Guest Login Effect
+    guestLogin$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.guestLogin),
+            switchMap(() =>
+                this.authService.signInAsGuest().pipe(
+                    map((response) => {
+                        if (response) {
+                            return AuthActions.guestLoginSuccess({
+                                user: response.user,
+                                token: response.token,
+                            });
+                        } else {
+                            return AuthActions.guestLoginFailure({
+                                error: 'Guest login failed',
+                            });
+                        }
+                    }),
                     catchError((error) =>
-                        of(AuthActions.getLogoutError({ error })),
+                        of(
+                            AuthActions.guestLoginFailure({
+                                error: error.message || 'Guest login failed',
+                            }),
+                        ),
                     ),
                 ),
             ),
         ),
+    );
+
+    // 🎯 Success Effects
+    loginSuccess$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(
+                    AuthActions.loginSuccess,
+                    AuthActions.registerSuccess,
+                    AuthActions.guestLoginSuccess,
+                ),
+                tap(() => {
+                    this.router.navigate(['/layout']);
+                }),
+            ),
+        { dispatch: false },
+    );
+
+    // 🎯 Store user data on success
+    storeUserData$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(
+                    AuthActions.loginSuccess,
+                    AuthActions.registerSuccess,
+                    AuthActions.guestLoginSuccess,
+                    AuthActions.checkAuthSuccess,
+                ),
+                tap((action) => {
+                    const user = 'user' in action ? action.user : null;
+                    if (user) {
+                        this.cacheStorageService.setUser(user).subscribe();
+                    }
+                }),
+            ),
+        { dispatch: false },
     );
 }

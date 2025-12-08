@@ -2,6 +2,7 @@
 @use './assets/styles/_reset.scss' as *;
 @use './assets/styles/_global.scss' as *;
 @use './assets/styles/_material.scss' as *;
+@use './assets/styles/mixins/_animations-mixins.scss' as *;
 @use './assets/styles/mixins/_flex.mixin.scss' as *;
 @use './assets/styles/mixins/_glassmorphism.mixin.scss' as *;
 @use './assets/styles/mixins/_layout.mixin.scss' as *;

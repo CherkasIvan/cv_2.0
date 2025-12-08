@@ -1,0 +1,30 @@
+@use '../../../assets/styles/mixins/animations-mixins' as anim;
+
+@mixin fade-in-out {
+    @include anim.fade-in-out-class(0.3s);
+    @include anim.optimize-opacity;
+    @include anim.reduce-motion;
+}
+
+@mixin fade-in-out-cards {
+    @include anim.fade-in-out-cards-class(0.2s);
+    @include anim.composite-animation;
+    @include anim.reduce-motion;
+}
+
+// ✅ ДОБАВЛЕНО: миксин с правильным именем
+@mixin fade-in-out-class {
+    @include anim.fade-in-out-class(0.3s);
+    @include anim.optimize-opacity;
+    @include anim.reduce-motion;
+}
+
+// Дополнительные fade-вариации
+@mixin fade-in {
+    opacity: 0;
+    animation: fade-in-out-animation 0.3s ease-out forwards;
+}
+
+@mixin fade-out {
+    animation: fade-in-out-animation 0.3s ease-out reverse forwards;
+}

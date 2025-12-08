@@ -30,7 +30,7 @@ export class ProfileLogoComponent {
         this.profileImageUrl$ = this.currentTheme$.pipe(
             switchMap((isDarkMode) => {
                 const mode = !isDarkMode;
-                this._store$.dispatch(ImagesActions.getProfileImg({ mode }));
+                this._store$.dispatch(ImagesActions.loadProfileImage({ mode }));
                 return this._store$.pipe(select(selectProfileUrl));
             }),
         );

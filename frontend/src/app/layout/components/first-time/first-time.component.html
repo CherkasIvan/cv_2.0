@@ -1,19 +1,25 @@
 @if (isAuth()) {
     <div class="first-time">
-        <span class="title">
+        <span
+            class="title"
+            [class]="cssClasses.technologyCardFadeIn"
+        >
             {{ showTranslated() ? titles()[0].translated : titles()[0].name }}
         </span>
         <ul
             class="persons"
-            [@listAnimation]="persons().length"
+            [class]="cssClasses.listStagger"
         >
             @for (person of persons(); track person.name; let i = $index) {
-                <li>
+                <li [class]="cssClasses.technologyCardFadeIn">
                     {{ showTranslated() ? person.translated : person.name }}
                 </li>
             }
         </ul>
-        <span class="familly">
+        <span
+            class="family"
+            [class]="cssClasses.technologyCardFadeIn"
+        >
             {{ showTranslated() ? titles()[1].translated : titles()[1].name }}
         </span>
     </div>

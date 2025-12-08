@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: cv_postgres_prod
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cv_db_prod}
+      POSTGRES_USER: ${POSTGRES_USER:-jv13}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-jv13} -d ${POSTGRES_DB:-cv_db_prod}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - cv-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+      args:
+        - NODE_ENV=production
+    container_name: backend_cv_prod
+    environment:
+      - NODE_ENV=production
+      - DOCKER_CONTAINER=true
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB:-cv_db_prod}
+      - POSTGRES_USER=${POSTGRES_USER:-jv13}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - AUTO_MIGRATE=${AUTO_MIGRATE:-true}
+      - FIREBASE_API_KEY=${FIREBASE_API_KEY}
+      - FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - FIREBASE_STORAGE_BUCKET=${FIREBASE_STORAGE_BUCKET}
+      - FIREBASE_MESSAGING_SENDER_ID=${FIREBASE_MESSAGING_SENDER_ID}
+      - FIREBASE_APP_ID=${FIREBASE_APP_ID}
+      - FIREBASE_MEASUREMENT_ID=${FIREBASE_MEASUREMENT_ID}
+      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
+      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
+      - GITHUB_PRIVATE_ACCESS_TOKEN=${GITHUB_PRIVATE_ACCESS_TOKEN}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cv-network
+
+volumes:
+  postgres_data_prod:
+    driver: local
+
+networks:
+  cv-network:
+    driver: bridge

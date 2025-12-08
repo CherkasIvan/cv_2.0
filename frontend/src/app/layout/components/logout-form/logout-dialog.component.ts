@@ -1,15 +1,11 @@
 import { Observable, map, takeUntil } from 'rxjs';
 
-import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
-    EventEmitter,
     HostListener,
     Inject,
-    OnInit,
-    Output,
     ViewChild,
     effect,
     input,
@@ -25,7 +21,6 @@ import { CacheStorageService } from '@core/service/cache-storage/cache-storage.s
 import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
-import { TProfile } from '@layout/store/model/profile.type';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -61,10 +56,9 @@ export class LogoutDialogComponent {
     ) {
         // Инициализация данных через эффекты
         effect(() => {
-            this._cacheStorageService
-                .getUserName()
-                .pipe(takeUntil(this._destroyed$))
-                .subscribe((name) => this.displayName.set(name));
+            // FIX: Use userName signal directly instead of getUserName() method
+            const name = this._cacheStorageService.userName();
+            this.displayName.set(name);
         });
 
         effect(() => {

@@ -1,335 +1,309 @@
-import { Observable, catchError, from, map, of, switchMap, tap } from 'rxjs';
-
+import { Observable, catchError, of, switchMap, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, computed, inject, signal, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ERoute } from '@core/enum/route.enum';
-import { TFirebaseUser } from '@core/models/firebase-user.type';
+import { TAuthResponse } from '@core/models/auth-response.type';
 
-import { TCasheStorageUser } from '@layout/store/model/cash-storage-user.type';
-
-const CACHE_VERSION = 'v1';
-const USER_STATE_CACHE = `user-state-cache-${CACHE_VERSION}`;
+import { TCasheStorageUserState } from '@layout/store/model/cash-storage-user-state.type';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CacheStorageService {
+    private http = inject(HttpClient);
+    private router = inject(Router);
     private isBrowser: boolean;
 
-    constructor(
-        @Inject(PLATFORM_ID) private platformId: object,
-        private readonly _router: Router,
-    ) {
+    // 🎯 State signal (только в памяти)
+    private userState = signal<TCasheStorageUserState | null>(null);
+
+    // 🎯 Computed signals
+    readonly state = computed(() => this.userState());
+    readonly user = computed(() => this.userState()?.user ?? null);
+    readonly isGuest = computed(() => this.userState()?.isGuest ?? false);
+    readonly isFirstTime = computed(() => this.userState()?.isFirstTime ?? true);
+    readonly route = computed(() => this.userState()?.route ?? `${ERoute.LAYOUT}/main`);
+    readonly experienceRoute = computed(() => this.userState()?.experienceRoute ?? 'work');
+    readonly technologiesRoute = computed(() => this.userState()?.technologiesRoute ?? 'technologies');
+    readonly subTechnologiesRoute = computed(() => this.userState()?.subTechnologiesRoute ?? 'frontend');
+    readonly isDark = computed(() => this.userState()?.isDark ?? false);
+    readonly language = computed(() => this.userState()?.language ?? 'ru');
+    readonly userName = computed(() => this.userState()?.user?.displayName ?? '');
+
+    constructor(@Inject(PLATFORM_ID) private platformId: Object) {
         this.isBrowser = isPlatformBrowser(this.platformId);
+        this.initializeUserState();
     }
 
-    private verifyServiceWorker(): Observable<boolean> {
-        if (!this.isBrowser) return of(false);
-
-        return from(navigator.serviceWorker.getRegistration()).pipe(
-            map((registration) => {
-                if (!registration) {
-                    console.warn('No service worker registration found');
-                    return false;
+    private initializeUserState(): void {
+        // Всегда создаем дефолтное состояние
+        const defaultState: TCasheStorageUserState = {
+            isFirstTime: true,
+            isGuest: true,
+            user: null,
+            route: '/auth',
+            experienceRoute: 'work',
+            technologiesRoute: 'technologies',
+            subTechnologiesRoute: 'frontend',
+            isDark: false,
+            language: 'ru',
+        };
+        
+        this.userState.set(defaultState);
+        
+        // Потом пытаемся загрузить из бэкенда только в браузере
+        if (this.isBrowser) {
+            this.getUsersState().subscribe((state) => {
+                if (state) {
+                    this.userState.set(state);
                 }
-                if (!registration.active) {
-                    console.warn('Service worker registered but not active');
-                    return false;
-                }
-                return true;
-            }),
-            catchError((err) => {
-                console.error('Service worker check failed:', err);
-                return of(false);
-            }),
-        );
-    }
-
-    private sendMessageToServiceWorker(message: any): void {
-        if (this.isBrowser && 'serviceWorker' in navigator) {
-            console.log('Sending message to service worker:', message);
-            navigator.serviceWorker
-                .getRegistration()
-                .then((registration) => {
-                    if (registration) {
-                        console.log('Found service worker registration');
-                        if (registration.active) {
-                            console.log(
-                                'Posting message to active service worker',
-                            );
-                            registration.active.postMessage(message);
-                        } else {
-                            console.warn(
-                                'Service worker registered but not active',
-                            );
-                        }
-                    } else {
-                        console.warn('No service worker registration found');
-                    }
-                })
-                .catch((err) => console.error('Service worker error:', err));
+            });
         }
     }
 
-    public setUsersState(state: TCasheStorageUser): Observable<void> {
-        console.log(state);
-        return this.verifyServiceWorker().pipe(
-            switchMap((isActive) => {
-                if (!isActive) {
-                    return this.setCachedData('userState', state);
-                }
-                return this.setCachedData('userState', state).pipe(
-                    tap(() => {
-                        this.sendMessageToServiceWorker({
-                            action: 'updateUsersState',
-                            state,
-                        });
-                    }),
-                );
-            }),
-        );
-    }
-
-    private getCachedData(key: string): Observable<any> {
-        if (!this.isBrowser) return of(null);
-
-        return from(caches.open('user-state-cache')).pipe(
-            switchMap((cache) => from(cache.match(key))),
-            switchMap((response) =>
-                response ? from(response.json()) : of(null),
-            ),
-        );
-    }
-
-    private setCachedData(key: string, data: any): Observable<void> {
-        if (!this.isBrowser) return of(undefined);
-
-        return from(caches.open('user-state-cache')).pipe(
-            switchMap((cache) =>
-                from(cache.put(key, new Response(JSON.stringify(data)))),
-            ),
-            map(() => undefined),
-        );
-    }
-
-    public clearUserData(): Observable<void> {
-        if (!this.isBrowser) return of(undefined);
-
-        return from(caches.open('user-state-cache')).pipe(
-            switchMap((cache) => from(cache.delete('userState'))),
-            map(() => undefined),
-        );
-    }
-
-    public getUsersState(): Observable<TCasheStorageUser | null> {
-        return this.getCachedData('userState').pipe(
-            map((state) => {
-                if (!state) {
-                    return null;
-                }
-                return state;
-            }),
+    // 🎯 Main state management
+    setUsersState(state: TCasheStorageUserState): Observable<void> {
+        this.userState.set(state);
+        
+        // В SSR просто возвращаем успех, в браузере синхронизируем с бэкендом
+        if (!this.isBrowser) {
+            return of(void 0);
+        }
+        
+        return this.http.post<void>('/person/state', state).pipe(
+            tap(() => console.log('User state synced with backend')),
             catchError((error) => {
-                console.error('Error getting user state:', error);
+                console.error('Backend sync failed:', error);
+                throw error;
+            }),
+        );
+    }
+
+    clearUserData(): Observable<void> {
+        this.userState.set(null);
+        
+        if (!this.isBrowser) {
+            return of(void 0);
+        }
+        
+        return this.http.post<void>('/person/clear-state', {}).pipe(
+            catchError((error) => {
+                console.error('Failed to clear backend state:', error);
+                throw error;
+            }),
+        );
+    }
+
+    getUsersState(): Observable<TCasheStorageUserState | null> {
+        // В SSR возвращаем null, в браузере загружаем из бэкенда
+        if (!this.isBrowser) {
+            return of(null);
+        }
+        
+        return this.http.get<TCasheStorageUserState>('/person/state').pipe(
+            catchError((error) => {
+                console.error('Failed to load user state from backend:', error);
                 return of(null);
             }),
         );
     }
 
-    public getUserName(): Observable<string> {
+    // 🎯 User management
+    setUser(userData: TAuthResponse | null): Observable<void> {
         return this.getUsersState().pipe(
-            map((state) => state?.user?.displayName || ''),
+            switchMap((usersState) => {
+                const newState: TCasheStorageUserState = usersState ? {
+                    ...usersState,
+                    user: userData ? this.mapAuthResponseToUser(userData) : null,
+                    isGuest: !userData,
+                } : {
+                    isFirstTime: false,
+                    isGuest: !userData,
+                    user: userData ? this.mapAuthResponseToUser(userData) : null,
+                    route: `${ERoute.LAYOUT}/main`,
+                    experienceRoute: 'work',
+                    technologiesRoute: 'technologies',
+                    subTechnologiesRoute: 'frontend',
+                    isDark: false,
+                    language: 'ru',
+                };
+
+                console.log('Setting user data:', newState);
+                return this.setUsersState(newState);
+            }),
         );
     }
 
-    public checkUserName(): Observable<string> {
+    private mapAuthResponseToUser(authResponse: TAuthResponse): any {
+        return {
+            uid: authResponse.id.toString(),
+            email: authResponse.loginEmail,
+            displayName: authResponse.name,
+            photoURL: authResponse.avatar,
+            emailVerified: true,
+            roles: authResponse.roles,
+            emails: authResponse.emails,
+            positions: authResponse.positions,
+        };
+    }
+
+    initUser(
+        isFirstTime: boolean = false,
+        isGuest: boolean = false,
+        user: TAuthResponse | null,
+        route: string = 'main',
+    ): Observable<void> {
+        const usersState: TCasheStorageUserState = {
+            isFirstTime,
+            isGuest,
+            user: user ? this.mapAuthResponseToUser(user) : null,
+            route: `${ERoute.LAYOUT}/${route}`,
+            experienceRoute: 'work',
+            technologiesRoute: 'technologies',
+            subTechnologiesRoute: 'frontend',
+            isDark: false,
+            language: 'ru',
+        };
+
+        console.log('Initializing user state:', usersState);
+        return this.setUsersState(usersState);
+    }
+
+    // 🎯 Route management
+    updateRoute(route: string): Observable<void> {
         return this.getUsersState().pipe(
-            map((state) => state?.user?.displayName || ''),
+            switchMap((usersState) => {
+                if (usersState) {
+                    usersState.route = route;
+                    return this.setUsersState(usersState);
+                }
+                throw new Error('No user state found');
+            }),
         );
     }
 
-    public redirectToSavedRoute(): void {
+    redirectToSavedRoute(): void {
         this.getUsersState().subscribe((usersState) => {
             if (usersState && (usersState.user || usersState.isGuest)) {
                 const route = usersState.route || '/';
-                this._router.navigate([route]);
+                this.router.navigate([route]);
             }
         });
     }
 
-    public initUser(
-        isFirstTime: boolean = false,
-        isGuest: boolean = false,
-        user: TFirebaseUser | null,
-        route: string | 'main',
-    ): Observable<void> {
-        return this.getUsersState().pipe(
-            switchMap((existingState) => {
-                if (isFirstTime || !existingState) {
-                    const usersState: TCasheStorageUser = {
-                        isFirstTime: false,
-                        isGuest,
-                        user,
-                        route: `${ERoute.LAYOUT}/${route}`,
-                        experienceRoute: 'work',
-                        technologiesRoute: 'technologies',
-                        subTechnologiesRoute: 'frontend',
-                        isDark: false,
-                        language: 'ru',
-                    };
-                    console.log('Initializing new user state', usersState);
-                    return this.setUsersState(usersState);
-                }
-
-                if (user) {
-                    existingState.user = user;
-                    console.log('Updating existing user state', existingState);
-                    return this.setUsersState(existingState);
-                }
-
-                return of(undefined);
-            }),
-        );
-    }
-
-    public setUser(userData: TFirebaseUser | null): Observable<void> {
-        return this.getUsersState().pipe(
-            switchMap((usersState) => {
-                if (usersState) {
-                    usersState.user = userData;
-                    return this.setUsersState(usersState);
-                }
-                return of(undefined);
-            }),
-        );
-    }
-
-    public updateRoute(route: string): Observable<void> {
-        console.log(route);
+    // 🎯 Experience tabs
+    setSelectedExperienceTab(selectedTab: 'work' | 'education'): Observable<void> {
         return this.getUsersState().pipe(
             switchMap((usersState) => {
                 console.log(usersState);
                 if (usersState) {
-                    console.log(usersState.route);
-                    usersState.route = route;
-                    console.log(usersState.route);
+                    usersState.experienceRoute = selectedTab;
                     return this.setUsersState(usersState);
                 }
-                return of(undefined);
+                throw new Error('No user state found');
             }),
         );
     }
 
-    public saveSelectedTab(selectedTab: 'work' | 'education'): void {
-        this.getUsersState().subscribe((usersState) => {
-            if (usersState && (usersState.user || usersState.isGuest)) {
-                usersState.experienceRoute = selectedTab;
-                this.setUsersState(usersState);
-            }
-        });
+    getSelectedExperienceTab(): Observable<'work' | 'education'> {
+        const currentTab = this.state()?.experienceRoute ?? 'work';
+        return of(currentTab);
     }
 
-    public getSelectedTab(): Observable<'work' | 'education'> {
+    // 🎯 Technology tabs
+    setSelectedMainTechnologiesTab(selectedTab: 'technologies' | 'other'): Observable<void> {
         return this.getUsersState().pipe(
-            map((usersState) =>
-                usersState && (usersState.user || usersState.isGuest)
-                    ? usersState.experienceRoute || 'work'
-                    : 'work',
-            ),
+            switchMap((usersState) => {
+                if (usersState) {
+                    usersState.technologiesRoute = selectedTab;
+                    return this.setUsersState(usersState);
+                }
+                throw new Error('No user state found');
+            }),
         );
     }
 
-    public saveSelectedTechnologiesTab(
-        selectedTab: 'technologies' | 'other',
-    ): void {
-        this.getUsersState().subscribe((usersState) => {
-            if (usersState && (usersState.user || usersState.isGuest)) {
-                usersState.technologiesRoute = selectedTab;
-                this.setUsersState(usersState);
-            }
-        });
+    getSelectedMainTechnologiesTab(): Observable<'technologies' | 'other'> {
+        const currentTab = this.state()?.technologiesRoute ?? 'technologies';
+        return of(currentTab);
     }
 
-    public getSelectedTechnologiesTab(): Observable<'technologies' | 'other'> {
+    setSelectedSubTechnologiesTab(selectedTab: 'frontend' | 'backend'): Observable<void> {
         return this.getUsersState().pipe(
-            map((usersState) =>
-                usersState && (usersState.user || usersState.isGuest)
-                    ? usersState.technologiesRoute || 'technologies'
-                    : 'technologies',
-            ),
+            switchMap((usersState) => {
+                if (usersState) {
+                    usersState.subTechnologiesRoute = selectedTab;
+                    return this.setUsersState(usersState);
+                }
+                throw new Error('No user state found');
+            }),
         );
     }
 
-    public saveSelectedSubTechnologiesTab(
-        selectedTab: 'frontend' | 'backend',
-    ): void {
-        this.getUsersState().subscribe((usersState) => {
-            console.log(usersState && (usersState.user || usersState.isGuest));
-            if (usersState) {
-                usersState.subTechnologiesRoute = selectedTab;
-                console.log(usersState.subTechnologiesRoute);
-                this.setUsersState(usersState);
-            }
-        });
+    getSelectedSubTechnologiesTab(): Observable<'frontend' | 'backend'> {
+        const currentTab = this.state()?.subTechnologiesRoute ?? 'frontend';
+        return of(currentTab);
     }
 
-    public getSelectedSubTechnologiesTab(): Observable<'frontend' | 'backend'> {
+    // 🎯 Theme management
+    setDarkMode(isDark: boolean): Observable<void> {
         return this.getUsersState().pipe(
-            map((usersState) =>
-                usersState && (usersState.user || usersState.isGuest)
-                    ? usersState.subTechnologiesRoute || 'frontend'
-                    : 'frontend',
-            ),
+            switchMap((usersState) => {
+                if (usersState) {
+                    usersState.isDark = isDark;
+                    return this.setUsersState(usersState);
+                }
+                throw new Error('No user state found');
+            }),
         );
     }
 
-    public setDarkMode(isDark: boolean): void {
-        this.getUsersState().subscribe((usersState) => {
-            if (usersState) {
-                usersState.isDark = isDark;
-                this.setUsersState(usersState);
-            }
-        });
+    getDarkMode(): Observable<boolean> {
+        const isDark = this.state()?.isDark ?? false;
+        return of(isDark);
     }
 
-    public getDarkMode(): Observable<boolean> {
-        return this.getUsersState().pipe(
-            map((usersState) => (usersState ? usersState.isDark : false)),
-        );
-    }
-
-    public setLanguage(language: 'ru' | 'en'): Observable<void> {
+    // 🎯 Language management
+    setLanguage(language: 'ru' | 'en'): Observable<void> {
         return this.getUsersState().pipe(
             switchMap((usersState) => {
                 if (usersState) {
                     usersState.language = language;
                     return this.setUsersState(usersState);
                 }
-                return of(undefined);
+                throw new Error('No user state found');
             }),
         );
     }
 
-    public getLanguage(): Observable<'ru' | 'en'> {
+    getLanguage(): Observable<'ru' | 'en'> {
+        const language = this.state()?.language ?? 'ru';
+        return of(language);
+    }
+
+    // 🎯 Utility methods
+    getIsFirstTime(): Observable<boolean> {
+        const isFirstTime = this.state()?.isFirstTime ?? true;
+        return of(isFirstTime);
+    }
+
+    setIsFirstTime(isFirstTime: boolean): Observable<void> {
         return this.getUsersState().pipe(
-            map((state) => state?.language || 'ru'),
+            switchMap((usersState) => {
+                if (usersState) {
+                    usersState.isFirstTime = isFirstTime;
+                    return this.setUsersState(usersState);
+                }
+                throw new Error('No user state found');
+            }),
         );
     }
 
-    public getIsFirstTime(): Observable<boolean> {
-        return this.getUsersState().pipe(
-            map((usersState) => (usersState ? usersState.isFirstTime : true)),
-        );
-    }
-
-    public setIsFirstTime(isFirstTime: boolean): void {
-        this.getUsersState().subscribe((usersState) => {
-            if (usersState) {
-                usersState.isFirstTime = isFirstTime;
-                this.setUsersState(usersState);
-            }
-        });
+    // 🎯 SSR compatibility
+    isGuestMode(): boolean {
+        return this.isGuest();
     }
 }

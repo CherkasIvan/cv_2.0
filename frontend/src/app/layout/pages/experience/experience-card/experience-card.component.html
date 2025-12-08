@@ -1,25 +1,27 @@
 @switch (experienceType()) {
     @case ('work') {
         <article
-            class="experience-card"
+            class="experience-card card-work card-fade-in"
             (click)="showDialogExperience(workDescription())"
             (keyup.enter)="showDialogExperience(workDescription())"
             tabindex="0"
-            [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
-            (mouseover)="experienceCardImgVisibility = true"
-            (focus)="experienceCardImgVisibility = true"
-            (mouseleave)="experienceCardImgVisibility = false"
-            (blur)="experienceCardImgVisibility = false"
+            [ngClass]="{
+                'active-work': experienceType() === 'work',
+                'dark-theme': theme(),
+                'card-visible': experienceCardImgVisibility(),
+            }"
+            (mouseover)="onCardHover(true)"
+            (focus)="onCardHover(true)"
+            (mouseleave)="onCardHover(false)"
+            (blur)="onCardHover(false)"
         >
-            @if (experienceCardImgVisibility) {
-                <div
-                    class="experience-card_picture-work"
-                    @fadeInOutCards
-                >
+            @if (experienceCardImgVisibility()) {
+                <div class="experience-card_picture-work card-image-fade">
                     <img
                         class="card-img"
                         [src]="workDescription()?.iconPath"
                         [alt]="workDescription()?.alt"
+                        loading="lazy"
                     />
                 </div>
             }
@@ -35,12 +37,13 @@
             </div>
             <div class="card-button__container">
                 <button
-                    class="card-button"
+                    class="card-button pulse"
                     [ngClass]="{ 'dark-theme': theme() }"
+                    aria-label="View work details"
                 >
                     <img
                         [src]="arrowUrl$ | async"
-                        [alt]="arrowUrl$ | async"
+                        alt="View details"
                     />
                 </button>
             </div>
@@ -48,8 +51,9 @@
     }
     @case ('education') {
         <article
-            class="experience-card"
+            class="experience-card card-education card-fade-in"
             (click)="showDialogExperience(experienceDescription())"
+<<<<<<< HEAD
             [ngClass]="{
                 activeEducation: experienceType() === 'education',
                 'dark-theme': theme(),
@@ -62,10 +66,27 @@
                     class="experience-card_picture-education"
                     @fadeInOutCards
                 >
+=======
+            (keyup.enter)="showDialogExperience(experienceDescription())"
+            tabindex="0"
+            [ngClass]="{
+                'active-education': experienceType() === 'education',
+                'dark-theme': theme(),
+                'card-visible': experienceCardImgVisibility(),
+            }"
+            (mouseover)="onCardHover(true)"
+            (focus)="onCardHover(true)"
+            (mouseleave)="onCardHover(false)"
+            (blur)="onCardHover(false)"
+        >
+            @if (experienceCardImgVisibility()) {
+                <div class="experience-card_picture-education card-image-fade">
+>>>>>>> dc0075a3a5926e3376577d3fbcd6be5913fae6c6
                     <img
                         class="card-img"
                         [src]="experienceDescription()?.iconPath"
                         [alt]="experienceDescription()?.alt"
+                        loading="lazy"
                     />
                 </div>
             }
@@ -83,12 +104,22 @@
 
             <div class="card-button__container">
                 <button
+<<<<<<< HEAD
                     class="card-button"
                     [ngClass]="{ 'dark-theme': theme() }"
                 >
                     <img
                         [src]="downloadUrl$ | async"
                         [alt]="downloadUrl$ | async"
+=======
+                    class="card-button bounce"
+                    [ngClass]="{ 'dark-theme': theme() }"
+                    aria-label="Download certificate"
+                >
+                    <img
+                        [src]="downloadUrl$ | async"
+                        alt="Download"
+>>>>>>> dc0075a3a5926e3376577d3fbcd6be5913fae6c6
                     />
                 </button>
             </div>
@@ -96,26 +127,28 @@
     }
     @default {
         <article
-            class="experience-card"
+            class="experience-card card-work card-fade-in"
             (click)="showDialogExperience(workDescription())"
             (keyup.enter)="showDialogExperience(workDescription())"
             tabindex="0"
-            [ngClass]="{ activeWork: experienceType() === 'work', 'dark-theme': theme() }"
-            (mouseover)="experienceCardImgVisibility = true"
-            (focus)="experienceCardImgVisibility = true"
-            (mouseleave)="experienceCardImgVisibility = false"
-            (blur)="experienceCardImgVisibility = false"
+            [ngClass]="{
+                'active-work': experienceType() === 'work',
+                'dark-theme': theme(),
+                'card-visible': experienceCardImgVisibility(),
+            }"
+            (mouseover)="onCardHover(true)"
+            (focus)="onCardHover(true)"
+            (mouseleave)="onCardHover(false)"
+            (blur)="onCardHover(false)"
         >
-            @if (experienceCardImgVisibility) {
-                <div
-                    class="experience-card_picture-work"
-                    @fadeInOutCards
-                >
+            @if (experienceCardImgVisibility()) {
+                <div class="experience-card_picture-work card-image-fade">
                     <div class="img-border">
                         <img
                             class="card-img"
                             [src]="workDescription()?.iconPath"
                             [alt]="workDescription()?.alt"
+                            loading="lazy"
                         />
                     </div>
                 </div>
@@ -132,10 +165,13 @@
                 class="card-button__container"
                 [ngClass]="{ 'dark-theme': theme() }"
             >
-                <button class="card-button">
+                <button
+                    class="card-button pulse"
+                    aria-label="View details"
+                >
                     <img
                         [src]="arrowUrl$ | async"
-                        [alt]="arrowUrl$ | async"
+                        alt="View details"
                     />
                 </button>
             </div>

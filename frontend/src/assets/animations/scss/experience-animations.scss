@@ -1,0 +1,171 @@
+@use '../../../assets/styles/mixins/animations-mixins';
+
+.card-hover {
+    @include card-hover-class(0.3s);
+
+    // Оптимизация для интерактивных элементов
+    @include optimize-for-animation;
+    @include will-change-transform;
+
+    // Безопасные анимации
+    @include reduce-motion;
+    @include safe-animation(0.3s);
+
+    // Адаптивность
+    @include responsive-animation(0.2s, 0.25s, 0.3s);
+}
+
+.card-fade-in {
+    @include card-fade-in-class(0.4s);
+
+    // Оптимизация появления
+    @include optimize-opacity;
+    @include will-change-transform;
+
+    // Безопасные анимации
+    @include reduce-motion;
+    @include safe-animation(0.4s);
+
+    // Адаптивность
+    @include responsive-animation(0.25s, 0.3s, 0.4s);
+}
+
+.card-image-fade {
+    @include card-image-fade-class(0.25s);
+
+    // Оптимизация для изображений
+    @include optimize-for-animation;
+    @include will-change-transform;
+
+    // Безопасные анимации
+    @include reduce-motion;
+    @include safe-animation(0.25s);
+
+    // Адаптивность
+    @include responsive-animation(0.15s, 0.2s, 0.25s);
+}
+
+.card-slide-in {
+    @include translate-fade-in-class(0.5s);
+
+    @include composite-animation;
+    @include will-change-transform;
+
+    @include reduce-motion;
+    @include safe-animation(0.5s);
+
+    @include responsive-animation(0.3s, 0.4s, 0.5s);
+}
+
+.experience-card {
+    @include optimize-for-animation;
+    @include layer-animation;
+
+    &.active-work {
+        border-left: 4px solid #10b981;
+        @include pulse-class(2s);
+        @include safe-animation(2s);
+
+        @include motion-reduce {
+            animation: none;
+        }
+    }
+
+    &.active-education {
+        border-left: 4px solid #8b5cf6;
+        @include pulse-class(2s);
+        @include safe-animation(2s);
+
+        @include motion-reduce {
+            animation: none;
+        }
+    }
+
+    &.card-click {
+        @include bounce-class(0.5s);
+        @include safe-animation(0.5s);
+
+        @include motion-reduce {
+            animation: none;
+        }
+    }
+
+    &.card-loading {
+        @include pulse-class(1.5s);
+        @include safe-animation(1.5s);
+
+        @include motion-reduce {
+            animation: none;
+        }
+    }
+}
+
+.card-work {
+    @extend .card-hover;
+    @extend .card-fade-in;
+
+    &:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 12px 30px rgba(16, 185, 129, 0.15);
+
+        @include motion-reduce {
+            transform: none;
+        }
+    }
+}
+
+.card-education {
+    @extend .card-hover;
+    @extend .card-fade-in;
+
+    &:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15);
+
+        @include motion-reduce {
+            transform: none;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .card-hover,
+    .card-fade-in,
+    .card-image-fade,
+    .card-slide-in {
+        transform: translateZ(0);
+        animation-duration: 0.2s;
+        transition-duration: 0.2s;
+    }
+
+    .experience-card {
+        &.active-work,
+        &.active-education,
+        &.card-loading {
+            animation: none;
+        }
+    }
+}
+
+[data-theme='dark'] {
+    .experience-card {
+        &.active-work {
+            border-left-color: #34d399;
+        }
+
+        &.active-education {
+            border-left-color: #a78bfa;
+        }
+    }
+}
+
+@media (prefers-contrast: high) {
+    .experience-card {
+        border: 2px solid currentColor;
+
+        &.active-work,
+        &.active-education {
+            border-left-width: 6px;
+        }
+    }
+}

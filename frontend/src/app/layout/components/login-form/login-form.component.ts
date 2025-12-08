@@ -1,18 +1,22 @@
-import { Observable, takeUntil } from 'rxjs';
-
-import { AsyncPipe, NgClass } from '@angular/common';
+// login-form.component.ts
+import { NgClass, isPlatformBrowser } from '@angular/common';
 import {
     Component,
+    DestroyRef,
     ElementRef,
-    EventEmitter,
     HostListener,
-    Inject,
     OnInit,
-    Output,
     ViewChild,
+    computed,
+    inject,
     input,
+    output,
+    signal,
+    PLATFORM_ID,
+    Inject,
 } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
     FormControl,
     FormGroup,
@@ -22,21 +26,20 @@ import {
 
 import { Store } from '@ngrx/store';
 
-import { DestroyService } from '@core/service/destroy/destroy.service';
-import {
-    loginFadeInOut,
-    toggleHeight,
-} from '@core/utils/animations/login.animation';
-
 import { AuthActions } from '@layout/store/auth-store/auth.actions';
+import {
+    selectAuthError,
+    selectAuthLoading,
+} from '@layout/store/auth-store/auth.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
-import { TAuthUser } from '@layout/store/model/auth-user.type';
-import { TProfile } from '@layout/store/model/profile.type';
+
+import ALL_ANIMATION_CLASSES from '@assets/constant/animations.const';
 
 import { TranslateModule } from '@ngx-translate/core';
 
 import { LanguageToggleComponent } from '../language-toggle/language-toggle.component';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
     selector: 'cv-login-form',
@@ -44,101 +47,147 @@ import { LanguageToggleComponent } from '../language-toggle/language-toggle.comp
     imports: [
         ReactiveFormsModule,
         NgClass,
-        AsyncPipe,
         LanguageToggleComponent,
         TranslateModule,
+        SpinnerComponent,
     ],
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.scss'],
-    // animations: [loginFadeInOut, toggleHeight],
-    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent implements OnInit {
-    @ViewChild('modal', { static: false })
-    public modal!: ElementRef;
-    @Output() public emittedModalHide: EventEmitter<boolean> =
-        new EventEmitter<boolean>();
-    @HostListener('document:mousemove', ['$event'])
-    public header = input.required<string>();
-    public imageUrl$!: any;
-    public url!: any;
-    public authForm!: FormGroup;
-    public user: TProfile | null = null;
-    public closeImageUrl$!: Observable<string>;
-    public modalState = 'in';
-    public modalToggleState = 'expanded';
+    header = input.required<string>();
+    emittedModalHide = output<boolean>();
+    switchToRegister = output<void>();
 
-    public onMouseMove(event: MouseEvent) {
+    modalState = signal('in');
+    modalToggleState = signal('expanded');
+    isLoading = signal(false);
+    error = signal<string | null>(null);
+    closeImageUrl = signal<string>('');
+    fieldsVisible = signal(true);
+    isBrowser = false;
+
+    authForm!: FormGroup;
+
+    @ViewChild('modal', { static: false }) modal!: ElementRef;
+
+    private _store$ = inject(Store);
+    private destroyRef = inject(DestroyRef);
+
+    public readonly cssClasses = ALL_ANIMATION_CLASSES;
+
+    isGuestMode = computed(() => this.authForm?.get('guest')?.value ?? false);
+    canSubmit = computed(
+        () => (this.authForm?.valid || this.isGuestMode()) && !this.isLoading(),
+    );
+    showEmailPasswordFields = computed(() => !this.isGuestMode());
+
+    constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+        this.isBrowser = isPlatformBrowser(this.platformId);
+    }
+
+    @HostListener('document:mousemove', ['$event'])
+    onMouseMove(event: MouseEvent) {
+        if (!this.isBrowser) return;
+        
         const target = event.target as HTMLElement;
-        if (!this.modal.nativeElement.contains(target)) {
+        if (
+            this.modal?.nativeElement &&
+            !this.modal.nativeElement.contains(target)
+        ) {
             this.modal.nativeElement.classList.add('dimmed');
-        } else {
+        } else if (this.modal?.nativeElement) {
             this.modal.nativeElement.classList.remove('dimmed');
         }
     }
 
-    constructor(
-        @Inject(Store) private _store$: Store<TAuthUser>,
-        @Inject(DestroyService) private _destroyed$: Observable<void>,
-    ) {}
-
     ngOnInit(): void {
-        this._createForm();
-        this._authFormListener();
-        this.closeImageUrl$ = this._store$.select(selectCloseUrl);
-        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
+        this.createForm();
+        if (this.isBrowser) {
+            this.setupAuthFormListener();
+            this.setupStoreSubscriptions();
+            this._store$.dispatch(ImagesActions.loadCloseImage({ mode: true }));
+        }
     }
 
-    public confirmModalDialog() {
-        console.log('Confirm modal dialog called');
-        this._checkAuth();
+    // 🎯 Public Methods
+    confirmModalDialog() {
+        if (this.isBrowser) {
+            this.checkAuth();
+        }
     }
 
-    public onBackgroundClick(event: MouseEvent): void {
+    onBackgroundClick(event: MouseEvent): void {
+        if (!this.isBrowser) return;
+        
         const target = event.target as HTMLElement;
-        if (target.classList.contains(this.modal.nativeElement.classList)) {
+        if (target.classList.contains('modal-background')) {
             this.closeModalDialog();
         }
     }
 
-    public closeModalDialog() {
-        this.emittedModalHide.emit(true);
-    }
-
-    public resetModalDialog() {
-        this.authForm.patchValue({
-            email: '',
-            password: '',
-        });
-    }
-
-    public toggleModal() {
-        this.modalToggleState =
-            this.modalToggleState === 'expanded' ? 'collapsed' : 'expanded';
-    }
-
-    private _checkAuth() {
-        const { email, password, guest } = this.authForm.value;
-        if (guest) {
-            this._store$.dispatch(AuthActions.getLoginGuest());
-        } else if (this.authForm.valid) {
-            this._store$.dispatch(AuthActions.getLogin({ email, password }));
-        } else {
-            const error = new Error('Invalid form');
-            this._store$.dispatch(AuthActions.getLoginError({ error }));
+    createAccount(): void {
+        if (this.isBrowser) {
+            console.log('Create account clicked - switching to registration');
+            this.switchToRegister.emit();
         }
     }
 
-    private _authFormListener() {
+    closeModalDialog() {
+        if (this.isBrowser) {
+            this.emittedModalHide.emit(true);
+        }
+    }
+
+    resetModalDialog() {
+        if (this.isBrowser) {
+            this.authForm.patchValue({
+                email: '',
+                password: '',
+                guest: false
+            });
+            this.error.set(null);
+            this.fieldsVisible.set(true);
+        }
+    }
+
+    toggleModal() {
+        if (this.isBrowser) {
+            this.modalToggleState.update((state) =>
+                state === 'expanded' ? 'collapsed' : 'expanded',
+            );
+        }
+    }
+
+    // 🔒 Private Methods
+    private checkAuth() {
+        const { email, password, guest } = this.authForm.value;
+
+        if (guest) {
+            this._store$.dispatch(AuthActions.guestLogin());
+        } else if (this.authForm.valid) {
+            this._store$.dispatch(AuthActions.login({ email, password }));
+        } else {
+            this.error.set('Please fill in all required fields');
+        }
+    }
+
+    private setupAuthFormListener() {
+        if (!this.isBrowser) return;
+
         this.authForm
             .get('guest')
-            ?.valueChanges.pipe(takeUntil(this._destroyed$))
-            .subscribe((isGuest) => {
+            ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((isGuest: boolean) => {
                 if (isGuest) {
-                    this.authForm.get('email')?.disable();
-                    this.authForm.get('password')?.disable();
+                    this.fieldsVisible.set(false);
+                    setTimeout(() => {
+                        this.authForm.get('email')?.disable();
+                        this.authForm.get('password')?.disable();
+                    }, 300);
                 } else {
+                    this.fieldsVisible.set(true);
                     this.authForm.get('email')?.enable();
                     this.authForm.get('password')?.enable();
                 }
@@ -146,7 +195,26 @@ export class LoginFormComponent implements OnInit {
             });
     }
 
-    private _createForm(): FormGroup {
+    private setupStoreSubscriptions() {
+        if (!this.isBrowser) return;
+
+        this._store$
+            .select(selectAuthLoading)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((loading) => this.isLoading.set(loading));
+
+        this._store$
+            .select(selectAuthError)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((error) => this.error.set(error));
+
+        this._store$
+            .select(selectCloseUrl)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((url) => this.closeImageUrl.set(url));
+    }
+
+    private createForm(): FormGroup {
         this.authForm = new FormGroup({
             email: new FormControl('', {
                 validators: [

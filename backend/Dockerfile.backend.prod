@@ -1,0 +1,19 @@
+FROM node:20
+
+WORKDIR /app
+
+# Копируем package files
+COPY package*.json ./
+
+# Устанавливаем зависимости и собираем
+RUN npm install --include=dev && \
+    npm run build && \
+    npm ci --only=production
+
+# Копируем исходный код
+COPY . .
+
+EXPOSE 3000
+
+# Простая команда для production
+CMD ["node", "dist/main.js"]

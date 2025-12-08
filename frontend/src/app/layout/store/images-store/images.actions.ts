@@ -1,30 +1,30 @@
 import { createActionGroup, props } from '@ngrx/store';
 
 export const ImagesActions = createActionGroup({
-    source: 'IMAGES',
+    source: 'Images API',
     events: {
-        'Get Logo': props<{ mode: boolean }>(),
-        'Get Logo Success': props<{ logoUrl: string }>(),
-        'Get Logo Failure': props<{ error: any }>(),
+        'Load Logo': props<{ mode: boolean }>(),
+        'Load Logo Success': props<{ logoUrl: string }>(),
+        'Load Logo Failure': props<{ error: Error }>(),
 
-        'Get Profile Img': props<{ mode: boolean }>(),
-        'Get Profile Img Success': props<{ profileUrl: string }>(),
-        'Get Profile Img Failure': props<{ error: any }>(),
+        'Load Profile Image': props<{ mode: boolean }>(),
+        'Load Profile Image Success': props<{ profileUrl: string }>(),
+        'Load Profile Image Failure': props<{ error: Error }>(),
 
-        'Get Close Img': props<{ mode: boolean }>(),
-        'Get Close Img Success': props<{ closeUrl: string }>(),
-        'Get Close Img Failure': props<{ error: any }>(),
+        'Load Close Image': props<{ mode: boolean }>(),
+        'Load Close Image Success': props<{ closeUrl: string }>(),
+        'Load Close Image Failure': props<{ error: Error }>(),
 
-        'Get Toggle Icons': props<{ mode: boolean }>(),
-        'Get Toggle Icons Success': props<{ toggleUrl: string }>(),
-        'Get Toggle Icons Failure': props<{ error: any }>(),
+        'Load Toggle Icons': props<{ mode: boolean }>(),
+        'Load Toggle Icons Success': props<{ toggleUrl: string }>(),
+        'Load Toggle Icons Failure': props<{ error: Error }>(),
 
-        'Get Arrow Icons': props<{ mode: boolean }>(),
-        'Get Arrow Icons Success': props<{ arrowUrl: string }>(),
-        'Get Arrow Icons Failure': props<{ error: any }>(),
+        'Load Arrow Icons': props<{ mode: boolean }>(),
+        'Load Arrow Icons Success': props<{ arrowUrl: string }>(),
+        'Load Arrow Icons Failure': props<{ error: Error }>(),
 
-        'Get Download Icons': props<{ mode: boolean }>(),
-        'Get Download Icons Success': props<{ downloadUrl: string }>(),
-        'Get Download Icons Failure': props<{ error: any }>(),
+        'Load Download Icons': props<{ mode: boolean }>(),
+        'Load Download Icons Success': props<{ downloadUrl: string }>(),
+        'Load Download Icons Failure': props<{ error: Error }>(),
     },
 });

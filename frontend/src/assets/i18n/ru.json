@@ -89,8 +89,36 @@
         "TITLE": "Авторизация",
         "EMAIL": "Е-мэйл",
         "PASSWORD": "Пароль",
+        "CREATE-USER": "Создать пользовалтеля",
         "GUEST-MODE": "Продолжить в гостевом режиме",
+        "ENTER_AS_GUEST": "Войти как гость",
         "LOGIN": "Войти",
-        "CANCEL": "Сбросить"
+        "CANCEL": "Сбросить",
+        "REGISTRATION_QUESTION": "Хотите зарегистрироваться?"
+    },
+    "REGISTRATION-MODAL": {
+        "TITLE": "Регистрация",
+        "NAME": "Полное имя",
+        "NAME_REQUIRED": "Имя обязательно (минимум 2 символа)",
+        "LOGIN_EMAIL": "Email для входа",
+        "VALID_EMAIL_REQUIRED": "Требуется валидный email",
+        "ADDITIONAL_EMAILS": "Дополнительные emails",
+        "ADD_EMAIL_PLACEHOLDER": "Добавить другой email",
+        "PASSWORD": "Пароль",
+        "PASSWORD_MIN_LENGTH": "Пароль должен быть не менее 6 символов",
+        "CONFIRM_PASSWORD": "Подтверждение пароля",
+        "PASSWORDS_MISMATCH": "Пароли не совпадают",
+        "POSITIONS": "Должности",
+        "ADD_POSITION_PLACEHOLDER": "Добавить должность",
+        "PHONES": "Номера телефонов",
+        "ADD_PHONE_PLACEHOLDER": "Добавить номер телефона",
+        "BIO": "Биография",
+        "BIO_PLACEHOLDER": "Расскажите о себе...",
+        "LOCATIONS": "Местоположения",
+        "ADD_LOCATION_PLACEHOLDER": "Добавить местоположение",
+        "REGISTER": "Зарегистрироваться",
+        "RESET": "Сбросить форму",
+        "ALREADY_HAVE_ACCOUNT": "Уже есть аккаунт?",
+        "BACK_TO_LOGIN": "Вернуться к входу"
     }
 }

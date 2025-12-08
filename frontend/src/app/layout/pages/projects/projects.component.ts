@@ -10,13 +10,13 @@ import {
 
 import { Store, select } from '@ngrx/store';
 
-import { TGitHub } from '@core/models/github.type';
+import { TGitHubMapped } from '@core/models/github-mapped.type';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { GithubRepositoriesActions } from '@layout/store/github-projects-store/github-projects.action';
 import { selectGithubRepositories } from '@layout/store/github-projects-store/github-projects.selector';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
+import { TDarkModeState } from '@layout/store/model/dark-mode-state.type';
 
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -41,7 +41,7 @@ import { ProjectChipsComponent } from './components/project-chips/project-chips.
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsComponent implements OnInit {
-    public githubRepos$: Observable<TGitHub[]> = this._store$.pipe(
+    public githubRepos$: Observable<TGitHubMapped[]> = this._store$.pipe(
         select(selectGithubRepositories),
     );
     public currentTheme$: Observable<boolean> = this._store$.pipe(
@@ -63,7 +63,9 @@ export class ProjectsComponent implements OnInit {
         return '';
     }
 
-    constructor(@Inject(Store) private _store$: Store<TGitHub[] | TDarkMode>) {}
+    constructor(
+        @Inject(Store) private _store$: Store<TGitHubMapped[] | TDarkModeState>,
+    ) {}
 
     ngOnInit(): void {
         this._store$.dispatch(GithubRepositoriesActions.getRepositories());

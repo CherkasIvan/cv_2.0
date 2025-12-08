@@ -11,8 +11,8 @@ import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
-import { TDarkMode } from '@layout/store/model/dark-mode.type';
-import { TLanguages } from '@layout/store/model/languages.type';
+import { TDarkModeState } from '@layout/store/model/dark-mode-state.type';
+import { TLanguagesState } from '@layout/store/model/languages-state.type';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -40,7 +40,7 @@ export class LanguageToggleComponent implements OnInit {
 
     constructor(
         private route: ActivatedRoute,
-        @Inject(Store) private _store$: Store<TLanguages | TDarkMode>,
+        @Inject(Store) private _store$: Store<TLanguagesState | TDarkModeState>,
         @Inject(DestroyService) private _destroyed$: Observable<void>,
         @Inject(TranslateService)
         private readonly _translateService: TranslateService,

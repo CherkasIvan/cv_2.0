@@ -1,70 +1,48 @@
-import firebase from 'firebase/compat/app';
-import {
-    Observable,
-    catchError,
-    from,
-    map,
-    of,
-    shareReplay,
-    switchMap,
-    tap,
-    throwError,
-} from 'rxjs';
+import { catchError, of, tap, BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, PLATFORM_ID, computed, inject, signal } from '@angular/core';
 
-import { isPlatformBrowser } from '@angular/common';
-import {
-    DestroyRef,
-    Injectable,
-    PLATFORM_ID,
-    inject,
-    signal,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import {
-    AngularFirestore,
-    AngularFirestoreDocument,
-} from '@angular/fire/compat/firestore';
-import { Router } from '@angular/router';
+import { TAuthResponse } from '@core/models/auth-response.type';
+import { isPlatformServer } from '@angular/common';
 
-import { Store } from '@ngrx/store';
+interface AuthState {
+    user: TAuthResponse | null;
+    isLoading: boolean;
+    error: string | null;
+}
 
-import { ERoute } from '@core/enum/route.enum';
-import { TFirebaseUser } from '@core/models/firebase-user.type';
-
-import { AuthActions } from '@layout/store/auth-store/auth.actions';
-import { TCasheStorageUser } from '@layout/store/model/cash-storage-user.type';
-import { TProfile } from '@layout/store/model/profile.type';
-
-import { CacheStorageService } from '../cache-storage/cache-storage.service';
-
-@Injectable({ providedIn: 'root' })
+@Injectable({
+    providedIn: 'root',
+})
 export class AuthService {
-    private _afAuth = inject(AngularFireAuth);
-    private _afs = inject(AngularFirestore);
-    private _router = inject(Router);
-    private _cacheStorage = inject(CacheStorageService);
-    private _store = inject(Store);
-    private _destroyRef = inject(DestroyRef);
-    private _platformId = inject(PLATFORM_ID);
+    private http = inject(HttpClient);
+    
+    // 🎯 State signals (только в памяти)
+    private state = signal<AuthState>({
+        user: null,
+        isLoading: false,
+        error: null,
+    });
 
-    public authState$: Observable<{ isAuth: boolean; isGuest: boolean }>;
-    private _isBrowser = isPlatformBrowser(this._platformId);
+    // 🎯 BehaviorSubject для Observable состояния
+    private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
 
-    // Add these signal declarations
-    public isAuthenticated = signal(false);
-    public isGuest = signal(false);
+    // 🎯 Public computed signals
+    readonly user = computed(() => this.state().user);
+    readonly isLoading = computed(() => this.state().isLoading);
+    readonly error = computed(() => this.state().error);
+    readonly isAuthenticated = computed(() => !!this.state().user);
+    
+    // 🎯 Observable для guards и других подписок
+    readonly isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+    isServer: boolean;
 
-    constructor() {
-        this.authState$ = this._initAuthState();
-    }
-
-    private _initAuthState(): Observable<{
-        isAuth: boolean;
-        isGuest: boolean;
-    }> {
-        if (!this._isBrowser) {
-            return of({ isAuth: false, isGuest: false });
+    constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+        this.isServer = isPlatformServer(this.platformId);
+        
+        // Проверяем авторизацию только в браузере
+        if (!this.isServer) {
+            this.checkAuthStatus();
         }
 
         return this._afAuth.authState.pipe(
@@ -92,152 +70,128 @@ export class AuthService {
         );
     }
 
-    signIn(
-        email: string,
-        password: string,
-    ): Observable<firebase.auth.UserCredential> {
-        return from(
-            this._afAuth.signInWithEmailAndPassword(email, password),
-        ).pipe(
-            switchMap((result) => {
-                if (!this._isBrowser || !result.user) {
-                    return throwError(() => new Error('Authentication failed'));
-                }
-
-                const user = this._convertToUserType(result.user);
-                return this._cacheStorage.getUsersState().pipe(
-                    switchMap((state) => {
-                        const update$ = !state
-                            ? this._cacheStorage.initUser(
-                                  true,
-                                  false,
-                                  user,
-                                  'main',
-                              )
-                            : this._cacheStorage.setUser(user);
-
-                        return update$.pipe(
-                            tap(() => {
-                                this._setUserData(user);
-                                this.isAuthenticated.set(true);
-                                this.isGuest.set(false);
-                                this._router.navigate([ERoute.LAYOUT]);
-                            }),
-                            map(() => result),
-                        );
-                    }),
-                );
-            }),
-            catchError((error) => {
-                this.isAuthenticated.set(false);
-                this.isGuest.set(false);
-                return throwError(() => error);
-            }),
-        );
+    // 🎯 Private state updaters
+     updateState(updates: Partial<AuthState>) {
+        this.state.update((current) => ({ ...current, ...updates }));
+        // Обновляем BehaviorSubject при изменении состояния
+        this.isAuthenticatedSubject.next(!!this.state().user);
     }
 
-    signInAsGuest(): Observable<{ isAuth: boolean; isGuest: boolean }> {
-        return from(this._afAuth.signInAnonymously()).pipe(
-            switchMap((result) => {
-                if (!result.user) {
-                    return throwError(() => new Error('Guest auth failed'));
-                }
-
-                const guestState: TCasheStorageUser = {
-                    isFirstTime: false,
-                    isGuest: true, // Убедитесь, что isGuest: true
-                    user: null,
-                    route: `${ERoute.LAYOUT}/main`,
-                    experienceRoute: 'work',
-                    technologiesRoute: 'technologies',
-                    subTechnologiesRoute: 'frontend',
-                    isDark: false,
-                    language: 'ru',
-                };
-
-                return this._cacheStorage.setUsersState(guestState).pipe(
-                    switchMap(() => {
-                        // Возвращаем явно гостевой статус
-                        return of({
-                            isAuth: true,
-                            isGuest: true,
-                        }).pipe(
-                            tap((authState) => {
-                                this.isAuthenticated.set(authState.isAuth);
-                                this.isGuest.set(authState.isGuest);
-                                console.log('Guest auth state:', authState);
-                                this._router.navigate([ERoute.LAYOUT]);
-                            }),
-                        );
-                    }),
-                );
-            }),
-            catchError((error) => {
-                this.isAuthenticated.set(false);
-                this.isGuest.set(false);
-                return throwError(() => error);
-            }),
-        );
+    private setLoading(loading: boolean) {
+        this.updateState({ isLoading: loading, error: null });
     }
 
-    signOut(): Observable<void> {
-        return from(this._afAuth.signOut()).pipe(
-            switchMap(() => this._cacheStorage.getUsersState()),
-            switchMap((state) => {
-                const update$ = state
-                    ? this._cacheStorage.setUsersState({
-                          ...state,
-                          isGuest: false,
-                          user: null,
-                      })
-                    : of(undefined);
+    private setError(error: string) {
+        this.updateState({ error, isLoading: false });
+    }
 
-                return update$.pipe(
-                    switchMap(() => this._cacheStorage.clearUserData()),
-                );
-            }),
+    // 🎯 Auth methods
+    signIn(email: string, password: string) {
+        this.setLoading(true);
+
+        return this.http
+            .post<TAuthResponse>('/auth/login', {
+                loginEmail: email,
+                password,
+            })
+            .pipe(
+                tap((user) => {
+                    this.updateState({ user, isLoading: false });
+                }),
+                catchError((error) => {
+                    this.setError(error.message);
+                    return of(null);
+                }),
+            );
+    }
+
+    register(userData: any) {
+        this.setLoading(true);
+
+        return this.http
+            .post<TAuthResponse>('/auth/register', userData)
+            .pipe(
+                tap((user) => {
+                    this.updateState({ user, isLoading: false });
+                }),
+                catchError((error) => {
+                    this.setError(error.message);
+                    return of(null);
+                }),
+            );
+    }
+
+    signOut() {
+        this.setLoading(true);
+
+        return this.http.post<void>('/auth/logout', {}).pipe(
             tap(() => {
-                this.isAuthenticated.set(false);
-                this.isGuest.set(false);
-                this._store.dispatch(AuthActions.getLogout());
-                this._router.navigate([ERoute.AUTH]);
+                this.updateState({
+                    user: null,
+                    isLoading: false,
+                });
+            }),
+            catchError((error) => {
+                this.setError(error.message);
+                this.updateState({ user: null });
+                return of(void 0);
             }),
         );
     }
 
-    private _setUserData(user: TFirebaseUser): Observable<void> {
-        if (!user) return of(undefined);
+    signInAsGuest() {
+        this.setLoading(true);
 
-        const userRef: AngularFirestoreDocument<TProfile> = this._afs.doc(
-            `users/${user.uid}`,
-        );
-        const userData: TProfile = {
-            uid: user.uid,
-            email: user.email || undefined,
-            displayName: user.displayName || undefined,
-            photoURL: user.photoURL || undefined,
-            emailVerified: user.emailVerified,
-        };
-
-        return from(userRef.set(userData, { merge: true }));
+        return this.http
+            .post<TAuthResponse>('/auth/guest-login', {})
+            .pipe(
+                tap((user) => {
+                    this.updateState({ user, isLoading: false });
+                }),
+                catchError((error) => {
+                    this.setError(error.message);
+                    return of(null);
+                }),
+            );
     }
 
-    private _convertToUserType(user: any): TFirebaseUser {
-        return {
-            uid: user.uid,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            emailVerified: user.emailVerified,
-            providerData: (user.providerData || [])
-                .filter((p: any) => p !== null)
-                .map((p: any) => ({
-                    uid: p.uid,
-                    displayName: p.displayName,
-                    email: p.email,
-                    photoURL: p.photoURL,
-                    providerId: p.providerId,
-                })),
-        };
+    // 🎯 Проверка авторизации
+    checkAuthStatus() {
+        return this.http
+            .get<TAuthResponse>('/auth/profile')
+            .pipe(
+                tap((user) => {
+                    this.updateState({ user });
+                    console.log('Auth status check: User authenticated', user);
+                }),
+                catchError((error) => {
+                    // Не авторизован - это нормально
+                    console.log('Auth status check: User not authenticated');
+                    this.updateState({ user: null });
+                    return of(null);
+                }),
+            )
+            .subscribe();
+    }
+
+    // 🎯 Refresh token
+    refreshToken() {
+        return this.http
+            .post<TAuthResponse>('/auth/refresh', {})
+            .pipe(
+                tap((user) => {
+                    this.updateState({ user });
+                }),
+                catchError((error) => {
+                    console.error('Token refresh error:', error);
+                    this.updateState({ user: null });
+                    return of(null);
+                }),
+            );
+    }
+
+    // 🎯 Получить текущего пользователя
+    getCurrentUser(): TAuthResponse | null {
+        return this.user();
     }
 }

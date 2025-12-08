@@ -1,8 +1,32 @@
-FROM node:18
+FROM node:20
+
 WORKDIR /app
+
+# ARG для разных сред
+ARG NODE_ENV=production
+
+# Копируем конфигурационные файлы
 COPY package*.json ./
-RUN npm install
+COPY tsconfig*.json ./
+COPY nest-cli.json ./
+
+# Устанавливаем ВСЕ зависимости включая dev зависимости для сборки
+RUN npm install --include=dev
+
+# Копируем исходный код
 COPY . .
-RUN npm run build --prod
+
+# Собираем приложение только для production
+RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
+
+# Удаляем dev зависимости только в production после сборки
+RUN if [ "$NODE_ENV" = "production" ]; then npm prune --production; fi
+
 EXPOSE 3000
-CMD ["node", "dist/main"]
+
+# Запускаем приложение в зависимости от среды
+CMD if [ "$NODE_ENV" = "development" ]; then \
+        npm run start:dev; \
+    else \
+        node dist/main.js; \
+    fi

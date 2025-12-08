@@ -1,0 +1,9 @@
+@use '../../../assets/styles/mixins/animations-mixins';
+
+@mixin lava-lamp {
+    animation: lava-transform-1 8s ease-in-out infinite;
+}
+
+@mixin lava-lamp-leave {
+    animation: lava-transform-2 12s ease-in-out infinite;
+}

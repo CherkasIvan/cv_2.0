@@ -3,30 +3,30 @@
         <cv-aside-navigation-experience
             [navigationList]="(experienceAside$ | async) ?? []"
             (emittedTab)="switchTab($event)"
-            [theme]="currentTheme$ | async"
+            [theme]="(currentTheme$ | async) ?? false"
         ></cv-aside-navigation-experience>
     </aside>
     <section class="experience_places">
         @switch (selectedTab) {
             @case ('work') {
                 <cv-work-experience
-                    [selectedTabWork]="selectedTab"
+                    selectedTabWork="work"
                     [workExperience$]="workPlace$ | async"
-                    [theme]="currentTheme$ | async"
+                    [theme]="(currentTheme$ | async) ?? false"
                 ></cv-work-experience>
             }
             @case ('education') {
                 <cv-education-experience
-                    [selectedTabEducation]="selectedTab"
+                    selectedTabEducation="education"
                     [educationExperience$]="educationPlace$ | async"
-                    [theme]="currentTheme$ | async"
+                    [theme]="(currentTheme$ | async) ?? false"
                 ></cv-education-experience>
             }
             @default {
                 <cv-work-experience
-                    [selectedTabWork]="selectedTab"
+                    selectedTabWork="work"
                     [workExperience$]="workPlace$ | async"
-                    [theme]="currentTheme$ | async"
+                    [theme]="(currentTheme$ | async) ?? false"
                 ></cv-work-experience>
             }
         }

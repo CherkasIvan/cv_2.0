@@ -2,20 +2,19 @@ import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    OnChanges,
-    SimpleChanges,
+    computed,
     input,
     signal,
 } from '@angular/core';
 
-import { ITechnologies } from '@core/models/technologies.interface';
-import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fade-in.animation';
+import { TBackendTechnologies } from '@core/models/backend-technologies.type';
+import { TFrontendTechnologies } from '@core/models/frontend-technologies.type';
+import { TOtherTechnologies } from '@core/models/other-technologies.type';
 
 @Component({
     selector: 'cv-technology-card',
     standalone: true,
     imports: [NgClass],
-    animations: [technologyCardFadeIn],
     templateUrl: './technology-card.component.html',
     styleUrls: [
         './technology-card.component.scss',
@@ -23,19 +22,21 @@ import { technologyCardFadeIn } from '@core/utils/animations/technology-card-fad
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TechnologyCardComponent implements OnChanges {
-    public technologyItem = input.required<ITechnologies | null>();
+export class TechnologyCardComponent {
+    public technologyItem = input.required<
+        TBackendTechnologies | TFrontendTechnologies | TOtherTechnologies | null
+    >();
     public theme = input<boolean | null>();
-    public delay = input<string>();
+    public animationDelay = input<number>(0);
     public isImageLoaded = signal(false);
 
-    public onImageLoad() {
-        this.isImageLoaded.set(true);
-    }
+    public cardStyles = computed(() => ({
+        '--animation-delay': `${this.animationDelay()}ms`,
+    }));
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['technologyItem']) {
-            this.isImageLoaded.set(false);
-        }
+    public onImageLoad() {
+        setTimeout(() => {
+            this.isImageLoaded.set(true);
+        }, 50);
     }
 }
