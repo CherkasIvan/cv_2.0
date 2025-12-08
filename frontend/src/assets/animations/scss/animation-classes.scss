@@ -1,0 +1,29 @@
+@use '../../../assets/styles/mixins/animations-mixins' as anim;
+
+.login-fade-in-out {
+    @include anim.login-fade-in-out-class(2s);
+}
+
+.fade-in-out {
+    @include anim.fade-in-out-class(0.3s);
+}
+
+.fade-in-out-cards {
+    @include anim.fade-in-out-cards-class(0.2s);
+}
+
+.toggle-height {
+    @include anim.toggle-height-class(0.5s);
+}
+
+.technology-card-fade-in {
+    @include anim.technology-card-fade-in-class(0.5s);
+}
+
+.translate-fade-in {
+    @include anim.translate-fade-in-class(0.5s);
+}
+
+.list-stagger {
+    @include anim.list-stagger-class(0.5s, 0.1s);
+}

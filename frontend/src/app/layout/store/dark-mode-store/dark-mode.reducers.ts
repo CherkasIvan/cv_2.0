@@ -1,3 +1,4 @@
+// dark-mode.reducers.ts
 import { createReducer, on } from '@ngrx/store';
 
 import { setModeSuccess } from './dark-mode.actions';
@@ -12,8 +13,11 @@ export const initialDarkModeState: DarkModeState = {
 
 export const darkModeReducer = createReducer(
     initialDarkModeState,
-    on(setModeSuccess, (state, { isDark }) => ({
-        ...state,
-        isDark,
-    })),
+    on(
+        setModeSuccess,
+        (state: DarkModeState, { isDark }: { isDark: boolean }) => ({
+            ...state,
+            isDark,
+        }),
+    ),
 );

@@ -13,7 +13,7 @@
             "@pages/*": ["app/pages/*"],
             "@core/*": ["app/core/*"],
             "@layout/*": ["app/layout/*"],
-            "zone.js/node": ["node_modules/zone.js/bundles/zone-node.umd.js"]
+            "zone.js/node": ["node_modules/zone.js/bundles/zone-node.umd.js"],
         },
         "outDir": "./dist/out-tsc",
         "strict": true,

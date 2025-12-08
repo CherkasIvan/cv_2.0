@@ -1,41 +1,53 @@
+<!-- login-form.component.html -->
 <div
-    class="modal-background"
+    class="modal-background login-fade-in-out"
     #modal
     (click)="onBackgroundClick($event)"
 >
     <dialog
-        class="modal-dialog"
-        [@fadeInOut]="modalState"
+        class="modal-dialog fade-in-out"
+        [class.toggle-height]="modalToggleState() === 'expanded'"
     >
         <header class="header-block">
-            <cv-language-toggle class="header-block_title"></cv-language-toggle>
+            <cv-language-toggle class="header-block_title" />
             <h3 class="header-block_title">
                 {{ 'LOGIN-MODAL.' + header() | translate }}
             </h3>
             <button
-                class="header-block_close-button"
-                (click)="resetModalDialog()"
-                (keyup.enter)="resetModalDialog()"
+                class="header-block_close-button card-hover"
+                (click)="closeModalDialog()"
+                (keyup.enter)="closeModalDialog()"
                 tabindex="0"
+                aria-label="Close login modal"
             >
                 <img
                     aria-hidden="true"
-                    [src]="closeImageUrl$ | async"
-                    [alt]="closeImageUrl$ | async"
+                    [src]="closeImageUrl()"
+                    alt="Close"
+                    loading="lazy"
                 />
             </button>
         </header>
+
         <main class="modal-dialog_content">
+            @if (error()) {
+                <div class="error-banner translate-fade-in">
+                    {{ error() }}
+                </div>
+            }
+
             <form
                 [formGroup]="authForm"
                 method="post"
                 class="content-form"
             >
                 <div class="content_fields">
-                    @if (!authForm.get('guest')?.value) {
+                    @if (showEmailPasswordFields()) {
                         <label
                             for="email"
-                            class="content-form_label"
+                            class="content-form_label fields-animation"
+                            [class.fields-visible]="fieldsVisible()"
+                            [class.fields-hidden]="!fieldsVisible()"
                         >
                             {{ 'LOGIN-MODAL.EMAIL' | translate }}
                             <input
@@ -44,13 +56,24 @@
                                 id="email"
                                 class="content-form_input"
                                 autocomplete="username"
+                                [ngClass]="{
+                                    error: authForm.get('email')?.invalid && authForm.get('email')?.touched,
+                                }"
                             />
+                            @if (authForm.get('email')?.invalid && authForm.get('email')?.touched) {
+                                <small class="error-message translate-fade-in">
+                                    {{ 'LOGIN-MODAL.VALID_EMAIL_REQUIRED' | translate }}
+                                </small>
+                            }
                         </label>
                     }
-                    @if (!authForm.get('guest')?.value) {
+
+                    @if (showEmailPasswordFields()) {
                         <label
                             for="password"
-                            class="content-form_label"
+                            class="content-form_label fields-animation"
+                            [class.fields-visible]="fieldsVisible()"
+                            [class.fields-hidden]="!fieldsVisible()"
                         >
                             {{ 'LOGIN-MODAL.PASSWORD' | translate }}
                             <input
@@ -59,13 +82,40 @@
                                 formControlName="password"
                                 class="content-form_input"
                                 autocomplete="current-password"
+                                [ngClass]="{
+                                    error: authForm.get('password')?.invalid && authForm.get('password')?.touched,
+                                }"
                             />
+                            @if (authForm.get('password')?.invalid && authForm.get('password')?.touched) {
+                                <small class="error-message translate-fade-in">
+                                    {{ 'LOGIN-MODAL.PASSWORD_REQUIRED' | translate }}
+                                </small>
+                            }
                         </label>
                     }
                 </div>
+
+                @if (fieldsVisible()) {
+                    <div class="register-prompt fields-animation"
+                         [class.fields-visible]="fieldsVisible()"
+                         [class.fields-hidden]="!fieldsVisible()">
+                        <span class="regester-title">
+                            {{ 'LOGIN-MODAL.REGISTRATION_QUESTION' | translate }}
+                        </span>
+                        <span
+                            class="register-link card-hover"
+                            (click)="createAccount()"
+                            tabindex="0"
+                            role="button"
+                        >
+                            {{ 'LOGIN-MODAL.CREATE-USER' | translate }}
+                        </span>
+                    </div>
+                }
+
                 <label
                     for="guest"
-                    class="content-form_guest"
+                    class="content-form_guest fade-in-out"
                 >
                     {{ 'LOGIN-MODAL.GUEST-MODE' | translate }}
                     <input
@@ -75,32 +125,38 @@
                         class="content-form_checkbox"
                     />
                 </label>
+
                 <div class="content-form_submit-buttons">
                     <button
-                        class="submit-button"
+                        class="submit-button card-hover"
                         (click)="confirmModalDialog()"
                         (keyup.enter)="confirmModalDialog()"
                         type="button"
-                        [disabled]="!authForm.valid && !authForm.get('guest')?.value"
-                        [ngClass]="{ 'disabled-submit': !authForm.valid && !authForm.get('guest')?.value }"
-                        tabindex="0"
-                    >
-                        {{ 'LOGIN-MODAL.LOGIN' | translate }}
-                    </button>
-                    <button
-                        *ngIf="!authForm.get('guest')?.value"
-                        class="reset-button"
-                        (click)="resetModalDialog()"
-                        (keyup.enter)="resetModalDialog()"
-                        type="button"
-                        [disabled]="!authForm.get('email')?.value || !authForm.get('password')?.value"
+                        [disabled]="!canSubmit()"
                         [ngClass]="{
-                            'disabled-reset': !authForm.get('email')?.value || !authForm.get('password')?.value,
+                            'disabled-submit': !canSubmit(),
+                            pulse: isLoading(),
                         }"
                         tabindex="0"
                     >
-                        {{ 'LOGIN-MODAL.CANCEL' | translate }}
+                        @if (isLoading()) {
+                            <cv-spinner></cv-spinner>
+                        }
+                        {{ isGuestMode() ? ('LOGIN-MODAL.ENTER_AS_GUEST' | translate) : ('LOGIN-MODAL.LOGIN' | translate) }}
                     </button>
+
+                    @if (showEmailPasswordFields() && fieldsVisible()) {
+                        <button
+                            class="reset-button card-hover"
+                            (click)="resetModalDialog()"
+                            (keyup.enter)="resetModalDialog()"
+                            type="button"
+                            [disabled]="isLoading()"
+                            tabindex="0"
+                        >
+                            {{ 'LOGIN-MODAL.CANCEL' | translate }}
+                        </button>
+                    }
                 </div>
             </form>
         </main>

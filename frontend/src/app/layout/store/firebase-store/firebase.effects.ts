@@ -1,294 +1,362 @@
-import { catchError, forkJoin, map, mergeMap, of, tap } from 'rxjs';
+import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
 
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 
+import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ApiService } from '@core/service/api/api.service';
 
-import { FirebaseActions } from './firebase.actions';
+import * as FirebaseActions from './firebase.actions';
 
 @Injectable()
 export class FirebaseEffects {
-    constructor(
-        private _actions$: Actions<Action<string>>,
-        private _apiService: ApiService,
-    ) {}
+    private readonly actions$ = inject(Actions);
+    private readonly apiService = inject(ApiService);
+    private readonly destroyRef = inject(DestroyRef);
 
+    // ✅ Navigation - обычно не требует изображений
     loadNavigation$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getNavigation),
-            mergeMap((action) =>
-                forkJoin({
-                    navigation: this._apiService.getNavigation(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ navigation, images }) =>
-                        FirebaseActions.getNavigationSuccess({
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadNavigation),
+            switchMap(() =>
+                this.apiService.getNavigation().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((navigation) =>
+                        FirebaseActions.loadNavigationSuccess({
                             navigation,
-                            images,
+                            images: [],
                         }),
                     ),
-                    catchError((error) =>
-                        of(FirebaseActions.getNavigationError({ error })),
+                    catchError((error: Error) =>
+                        of(FirebaseActions.loadNavigationFailure({ error })),
                     ),
                 ),
             ),
         ),
     );
 
-    loadSocialMediaLinks$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getSocialMedia),
-            mergeMap((action) =>
-                forkJoin({
-                    socialMediaLinks: this._apiService.getSocialMediaLinks(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ socialMediaLinks, images }) =>
-                        FirebaseActions.getSocialMediaSuccess({
+    // ✅ Social Media - обычно не требует изображений
+    loadSocialMedia$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadSocialMedia),
+            switchMap(() =>
+                this.apiService.getSocialMediaLinks().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((socialMediaLinks) =>
+                        FirebaseActions.loadSocialMediaSuccess({
                             socialMediaLinks,
-                            images,
+                            images: [],
                         }),
                     ),
-                    catchError((error) =>
-                        of(FirebaseActions.getSocialMediaError({ error })),
+                    catchError((error: Error) =>
+                        of(FirebaseActions.loadSocialMediaFailure({ error })),
                     ),
                 ),
             ),
         ),
     );
 
+    // ✅ Work Experience - изображения уже включены в данные
     loadWorkExperience$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getWorkExperience),
-            mergeMap((action) =>
-                forkJoin({
-                    workExperience: this._apiService.getWorkExperience(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ workExperience, images }) =>
-                        FirebaseActions.getWorkExperienceSuccess({
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadWorkExperience),
+            switchMap(() =>
+                this.apiService.getWorkExperience().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((workExperience) =>
+                        FirebaseActions.loadWorkExperienceSuccess({
                             workExperience,
-                            images,
+                            images: [],
                         }),
                     ),
-                    catchError((error) =>
-                        of(FirebaseActions.getWorkExperienceError({ error })),
+                    catchError((error: Error) =>
+                        of(
+                            FirebaseActions.loadWorkExperienceFailure({
+                                error,
+                            }),
+                        ),
                     ),
                 ),
             ),
         ),
     );
 
+    // ✅ Frontend Tech - изображения уже включены в данные
     loadFrontendTech$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getFrontendTech),
-            mergeMap((action) =>
-                forkJoin({
-                    frontendTech: this._apiService.getFrontendTech(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ frontendTech, images }) =>
-                        FirebaseActions.getFrontendTechSuccess({
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadFrontendTech),
+            switchMap(() =>
+                this.apiService.getFrontendTech().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((frontendTech) =>
+                        FirebaseActions.loadFrontendTechSuccess({
                             frontendTech,
-                            images,
+                            images: [],
                         }),
                     ),
-                    catchError((error) =>
-                        of(FirebaseActions.getFrontendTechError({ error })),
+                    catchError((error: Error) =>
+                        of(FirebaseActions.loadFrontendTechFailure({ error })),
                     ),
                 ),
             ),
         ),
     );
 
+    // ✅ Backend Tech - изображения уже включены в данные
     loadBackendTech$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getBackendTech),
-            mergeMap((action) =>
-                forkJoin({
-                    backendTech: this._apiService.getBackendTech(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ backendTech, images }) =>
-                        FirebaseActions.getBackendTechSuccess({
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadBackendTech),
+            switchMap(() =>
+                this.apiService.getBackendTech().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((backendTech) =>
+                        FirebaseActions.loadBackendTechSuccess({
                             backendTech,
-                            images,
+                            images: [],
                         }),
                     ),
-                    catchError((error) =>
-                        of(FirebaseActions.getBackendTechError({ error })),
+                    catchError((error: Error) =>
+                        of(FirebaseActions.loadBackendTechFailure({ error })),
                     ),
                 ),
             ),
         ),
     );
 
+    // ✅ Other Tech - изображения уже включены в данные
     loadOtherTech$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getOtherTech),
-            mergeMap((action) =>
-                forkJoin({
-                    otherTech: this._apiService.getOtherTech(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ otherTech, images }) =>
-                        FirebaseActions.getOtherTechSuccess({
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadOtherTech),
+            switchMap(() =>
+                this.apiService.getOtherTech().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((otherTech) =>
+                        FirebaseActions.loadOtherTechSuccess({
                             otherTech,
-                            images,
+                            images: [],
                         }),
                     ),
-                    catchError((error) =>
-                        of(FirebaseActions.getOtherTechError({ error })),
+                    catchError((error: Error) =>
+                        of(FirebaseActions.loadOtherTechFailure({ error })),
                     ),
                 ),
             ),
         ),
     );
 
+    // ✅ Hard Skills Nav - обычно не требует изображений
     loadHardSkillsNav$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getHardSkillsNav),
-            mergeMap((action) =>
-                forkJoin({
-                    hardSkillsNav: this._apiService.getHardSkillsNav(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ hardSkillsNav, images }) =>
-                        FirebaseActions.getHardSkillsNavSuccess({
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadHardSkillsNav),
+            switchMap(() =>
+                this.apiService.getHardSkillsNav().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((hardSkillsNav) =>
+                        FirebaseActions.loadHardSkillsNavSuccess({
                             hardSkillsNav,
-                            images,
+                            images: [],
                         }),
                     ),
-                    catchError((error) =>
-                        of(FirebaseActions.getHardSkillsNavError({ error })),
+                    catchError((error: Error) =>
+                        of(FirebaseActions.loadHardSkillsNavFailure({ error })),
                     ),
                 ),
             ),
         ),
     );
 
+    // ✅ Education Places - изображения уже включены в данные
     loadEducationPlaces$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getEducationPlaces),
-            mergeMap((action) =>
-                forkJoin({
-                    education: this._apiService.getEducationPlaces(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ education, images }) => {
-                        console.log(action);
-                        return FirebaseActions.getEducationPlacesSuccess({
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadEducationPlaces),
+            switchMap(() =>
+                this.apiService.getEducationPlaces().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((education) =>
+                        FirebaseActions.loadEducationPlacesSuccess({
                             education,
-                            images,
+                            images: [],
+                        }),
+                    ),
+                    catchError((error: Error) =>
+                        of(
+                            FirebaseActions.loadEducationPlacesFailure({
+                                error,
+                            }),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    // ✅ Main Page Info - может требовать изображения для аватара/фона
+    loadMainPageInfo$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadMainPageInfo),
+            switchMap(({ imgName }) => {
+                const mainPageInfo$ = this.apiService.getMainPageInfo();
+                const images$ = imgName
+                    ? this.apiService.getImages(imgName)
+                    : of([]);
+
+                return forkJoin({
+                    mainPageInfo: mainPageInfo$,
+                    images: images$,
+                }).pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map(({ mainPageInfo, images }) => {
+                        if (!mainPageInfo) {
+                            throw new Error('Main page info not found');
+                        }
+                        return FirebaseActions.loadMainPageInfoSuccess({
+                            mainPageInfo,
+                            images: images || [],
                         });
                     }),
-                    catchError((error) =>
-                        of(FirebaseActions.getEducationPlacesError({ error })),
+                    catchError((error: Error) =>
+                        of(FirebaseActions.loadMainPageInfoFailure({ error })),
                     ),
-                ),
-            ),
+                );
+            }),
         ),
     );
 
-    loadMainPageInfo$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getMainPageInfo),
-            mergeMap((action) =>
-                forkJoin({
-                    mainPageInfo: this._apiService.getMainPageInfo(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    map(({ mainPageInfo, images }) =>
-                        FirebaseActions.getMainPageInfoSuccess({
-                            mainPageInfo,
-                            images,
-                        }),
-                    ),
-                    catchError((error) =>
-                        of(FirebaseActions.getMainPageInfoError({ error })),
-                    ),
-                ),
-            ),
-        ),
-    );
-
+    // ✅ Experience Aside - обычно не требует изображений
     loadExperienceAside$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getExperienceAside),
-            mergeMap((action) =>
-                forkJoin({
-                    experienceAside: this._apiService.getExperienceAside(),
-                    images: this._apiService.getImages(action.imgName),
-                }).pipe(
-                    tap((el) => console.log(action)),
-                    map(({ experienceAside, images }) =>
-                        FirebaseActions.getExperienceAsideSuccess({
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadExperienceAside),
+            switchMap(() =>
+                this.apiService.getExperienceAside().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((experienceAside) =>
+                        FirebaseActions.loadExperienceAsideSuccess({
                             experienceAside,
-                            images,
+                            images: [],
                         }),
                     ),
-                    catchError((error) =>
-                        of(FirebaseActions.getExperienceAsideError({ error })),
+                    catchError((error: Error) =>
+                        of(
+                            FirebaseActions.loadExperienceAsideFailure({
+                                error,
+                            }),
+                        ),
                     ),
                 ),
             ),
         ),
     );
 
+    // ✅ Technologies Aside - требует изображения для каждой технологии
     loadTechnologiesAside$ = createEffect(() =>
-        this._actions$.pipe(
-            ofType(FirebaseActions.getTechnologiesAside),
-            mergeMap(() =>
-                this._apiService.getTechnologiesAside().pipe(
-                    mergeMap((technologiesAside) => {
-                        const imageRequests = technologiesAside.map((tech) => {
-                            if (tech.imgName) {
-                                return this._apiService
-                                    .getImages(tech.imgName)
-                                    .pipe(
-                                        map((images) => ({
-                                            ...tech,
-                                            images,
-                                        })),
-                                    );
-                            } else {
-                                return of(tech);
-                            }
-                        });
-                        return forkJoin(imageRequests).pipe(
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadTechnologiesAside),
+            switchMap(() =>
+                this.apiService.getTechnologiesAside().pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    switchMap((technologiesAside: TTechnologiesAside[]) => {
+                        if (technologiesAside.length === 0) {
+                            return of(
+                                FirebaseActions.loadTechnologiesAsideSuccess({
+                                    technologiesAside: [],
+                                    images: [],
+                                }),
+                            );
+                        }
+
+                        // Загружаем изображения для каждой технологии
+                        const technologyRequests = technologiesAside.map(
+                            (tech: TTechnologiesAside) => {
+                                if (tech.imgName) {
+                                    return this.apiService
+                                        .getImages(tech.imgName)
+                                        .pipe(
+                                            map((images: string[]) => ({
+                                                ...tech,
+                                                images: images || [],
+                                            })),
+                                        );
+                                } else {
+                                    return of({
+                                        ...tech,
+                                        images: [] as string[],
+                                    });
+                                }
+                            },
+                        );
+
+                        return forkJoin(technologyRequests).pipe(
+                            takeUntilDestroyed(this.destroyRef),
                             map((updatedTechnologiesAside) => {
-                                const images = updatedTechnologiesAside
-                                    .map((tech) => tech.images)
-                                    .flat()
-                                    .filter(
-                                        (image): image is string =>
-                                            image !== undefined,
+                                // Собираем все изображения в один массив
+                                const allImages = updatedTechnologiesAside
+                                    .flatMap((tech) => tech.images || [])
+                                    .filter((image): image is string =>
+                                        Boolean(image),
                                     );
 
-                                return FirebaseActions.getTechnologiesAsideSuccess(
+                                return FirebaseActions.loadTechnologiesAsideSuccess(
                                     {
                                         technologiesAside:
                                             updatedTechnologiesAside,
-                                        images,
+                                        images: allImages,
                                     },
                                 );
                             }),
-                            catchError((error) =>
-                                of(
-                                    FirebaseActions.getTechnologiesAsideError({
-                                        error,
-                                    }),
-                                ),
-                            ),
                         );
                     }),
-                    catchError((error) =>
+                    catchError((error: Error) =>
                         of(
-                            FirebaseActions.getTechnologiesAsideError({
+                            FirebaseActions.loadTechnologiesAsideFailure({
                                 error,
+                            }),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    // ✅ Дополнительный эффект для загрузки тематических изображений
+    loadThemeImages$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadThemeImages),
+            switchMap(({ folder, searchParam }) =>
+                this.apiService.getImages(folder, searchParam).pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((images) =>
+                        FirebaseActions.loadThemeImagesSuccess({
+                            images: images || [],
+                        }),
+                    ),
+                    catchError((error: Error) =>
+                        of(FirebaseActions.loadThemeImagesFailure({ error })),
+                    ),
+                ),
+            ),
+        ),
+    );
+
+    // ✅ Эффект для загрузки любых изображений по папке
+    loadImagesByFolder$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(FirebaseActions.loadImagesByFolder),
+            switchMap(({ folder, searchParam }) =>
+                this.apiService.getImages(folder, searchParam).pipe(
+                    takeUntilDestroyed(this.destroyRef),
+                    map((images) =>
+                        FirebaseActions.loadImagesByFolderSuccess({
+                            folder,
+                            images: images || [],
+                        }),
+                    ),
+                    catchError((error: Error) =>
+                        of(
+                            FirebaseActions.loadImagesByFolderFailure({
+                                error,
+                                folder,
                             }),
                         ),
                     ),

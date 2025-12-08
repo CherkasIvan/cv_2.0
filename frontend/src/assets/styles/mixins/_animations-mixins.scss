@@ -1,0 +1,206 @@
+// =============================================
+// ANIMATIONS MIXINS - ИСПРАВЛЕННАЯ ВЕРСИЯ
+// =============================================
+
+// 1. Сначала определяем ВСЕ keyframes ОДИН РАЗ
+@keyframes fade-in-out-animation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in-out-cards-animation {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes login-fade-in-out-animation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes toggle-height-animation {
+    from {
+        height: 0;
+        overflow: hidden;
+    }
+    to {
+        height: var(--target-height, auto);
+        overflow: hidden;
+    }
+}
+
+@keyframes technology-card-fade-in-animation {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes translate-fade-in-animation {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+// 2. Исправленный базовый миксин (убираем deprecated синтаксис)
+@mixin animate(
+    $animation,
+    $duration: 1s,
+    $timing: ease,
+    $delay: 0s,
+    $iteration: 1,
+    $direction: normal,
+    $fill-mode: both
+) {
+    animation-duration: $duration;
+    animation-timing-function: $timing;
+    animation-delay: $delay;
+    animation-iteration-count: $iteration;
+    animation-direction: $direction;
+    animation-fill-mode: $fill-mode;
+    // Исправляем deprecated синтаксис - выносим свойства из вложенности
+    animation-name: $animation;
+}
+
+// 3. Исправленные миксины классов (БЕЗ создания keyframes)
+@mixin fade-in-out-class($duration: 0.3s) {
+    @include animate(fade-in-out-animation, $duration, ease-out);
+    &.leave {
+        animation-direction: reverse;
+    }
+}
+
+@mixin fade-in-out-cards-class($duration: 0.2s) {
+    @include animate(fade-in-out-cards-animation, $duration, ease-out);
+    &.leave {
+        animation-direction: reverse;
+    }
+}
+
+@mixin login-fade-in-out-class($duration: 2s) {
+    @include animate(login-fade-in-out-animation, $duration, ease-in, $fill-mode: forwards);
+    &.leave {
+        animation-duration: $duration;
+        animation-timing-function: ease-out;
+        animation-direction: reverse;
+        animation-fill-mode: forwards;
+        animation-name: login-fade-in-out-animation;
+    }
+}
+
+@mixin toggle-height-class($duration: 0.5s) {
+    @include animate(toggle-height-animation, $duration, ease-in-out);
+    &.leave {
+        animation-direction: reverse;
+    }
+}
+
+@mixin technology-card-fade-in-class($duration: 0.5s) {
+    @include animate(technology-card-fade-in-animation, $duration, ease-out);
+}
+
+@mixin translate-fade-in-class($duration: 0.5s) {
+    @include animate(translate-fade-in-animation, $duration, ease-out);
+}
+
+@mixin list-stagger-class($duration: 0.5s, $delay-step: 0.1s) {
+    & > * {
+        @include animate(technology-card-fade-in-animation, $duration, ease-out, 0s, 1, normal, both);
+    }
+
+    @for $i from 1 through 20 {
+        & > *:nth-child(#{$i}) {
+            animation-delay: #{$i * $delay-step};
+        }
+    }
+}
+
+// Остальные миксины остаются без изменений
+@mixin will-change-transform {
+    will-change: transform;
+}
+@mixin will-change-opacity {
+    will-change: opacity;
+}
+@mixin will-change-auto {
+    will-change: auto;
+}
+@mixin layer-animation {
+    contain: layout style paint;
+    isolation: isolate;
+}
+@mixin composite-animation {
+    @include layer-animation;
+}
+
+@mixin reduce-motion {
+    @media (prefers-reduced-motion: reduce) {
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@mixin safe-animation($duration: 0.3s) {
+    @media (prefers-reduced-motion: reduce) {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
+    @media (prefers-reduced-motion: no-preference) {
+        animation-duration: $duration;
+    }
+}
+
+@mixin motion-ok {
+    @media (prefers-reduced-motion: no-preference) {
+        @content;
+    }
+}
+
+@mixin motion-reduce {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}
+
+@mixin responsive-animation($mobile-duration, $tablet-duration, $desktop-duration) {
+    @media (max-width: 768px) {
+        animation-duration: $mobile-duration;
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+        animation-duration: $tablet-duration;
+    }
+    @media (min-width: 1025px) {
+        animation-duration: $desktop-duration;
+    }
+}
+
+@mixin optimize-opacity {
+    @include will-change-opacity;
+}
+@mixin optimize-for-animation {
+    @include will-change-transform;
+}

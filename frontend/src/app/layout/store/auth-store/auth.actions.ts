@@ -1,20 +1,34 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { TProfile } from '../model/profile.type';
+import { TAuthResponse } from '@core/models/auth-response.type';
+import { TRegistrationForm } from '@core/models/registration-form.type';
 
 export const AuthActions = createActionGroup({
     source: 'Auth',
     events: {
-        getLogin: props<{ email: string; password: string }>(),
-        getLoginSuccess: props<{ user: TProfile }>(),
-        getLoginError: props<{ error: unknown }>(),
+        // Login
+        login: props<{ email: string; password: string }>(),
+        loginSuccess: props<{ user: TAuthResponse; token: string }>(),
+        loginFailure: props<{ error: string }>(),
 
-        getLoginGuest: emptyProps(),
-        getLoginGuestSuccess: emptyProps(),
-        getLoginGuestError: props<{ error: unknown }>(),
+        // Registration
+        register: props<{ userData: TRegistrationForm }>(),
+        registerSuccess: props<{ user: TAuthResponse; token: string }>(),
+        registerFailure: props<{ error: string }>(),
 
-        getLogout: emptyProps(),
-        getLogoutSuccess: emptyProps(),
-        getLogoutError: props<{ error: unknown }>(),
+        // Logout
+        logout: emptyProps(),
+        logoutSuccess: emptyProps(),
+        logoutFailure: props<{ error: string }>(),
+
+        // Check Authentication
+        checkAuth: emptyProps(),
+        checkAuthSuccess: props<{ user: TAuthResponse }>(),
+        checkAuthFailure: emptyProps(),
+
+        // Guest Login
+        guestLogin: emptyProps(),
+        guestLoginSuccess: props<{ user: TAuthResponse; token: string }>(),
+        guestLoginFailure: props<{ error: string }>(),
     },
 });

@@ -89,8 +89,36 @@
         "TITLE": "Authorization",
         "EMAIL": "E-mail",
         "PASSWORD": "Password",
+        "CREATE-USER": "Create account",
         "GUEST-MODE": "Continue in guest mode",
+        "ENTER_AS_GUEST": "Enter as Guest",
         "LOGIN": "Login",
-        "CANCEL": "Reset"
+        "CANCEL": "Reset",
+        "REGISTRATION_QUESTION": "Want to register?"
+    },
+    "REGISTRATION-MODAL": {
+        "TITLE": "Registration",
+        "NAME": "Full Name",
+        "NAME_REQUIRED": "Name is required (min 2 characters)",
+        "LOGIN_EMAIL": "Login Email",
+        "VALID_EMAIL_REQUIRED": "Valid email is required",
+        "ADDITIONAL_EMAILS": "Additional Emails",
+        "ADD_EMAIL_PLACEHOLDER": "Add another email",
+        "PASSWORD": "Password",
+        "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters",
+        "CONFIRM_PASSWORD": "Confirm Password",
+        "PASSWORDS_MISMATCH": "Passwords do not match",
+        "POSITIONS": "Positions",
+        "ADD_POSITION_PLACEHOLDER": "Add position",
+        "PHONES": "Phone Numbers",
+        "ADD_PHONE_PLACEHOLDER": "Add phone number",
+        "BIO": "Biography",
+        "BIO_PLACEHOLDER": "Tell us about yourself...",
+        "LOCATIONS": "Locations",
+        "ADD_LOCATION_PLACEHOLDER": "Add location",
+        "REGISTER": "Register",
+        "RESET": "Reset Form",
+        "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+        "BACK_TO_LOGIN": "Back to Login"
     }
 }

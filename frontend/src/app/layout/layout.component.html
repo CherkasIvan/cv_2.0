@@ -1,9 +1,9 @@
 @if ((isFirstTime$ | async) === true) {
-    <cv-first-time @startCardFadeOut></cv-first-time>
+    <cv-first-time [class]="startCardClasses.startCardFadeOut"></cv-first-time>
 }
 @if ((isFirstTime$ | async) === false) {
     <div
-        @startCardFadeIn
+        [class]="startCardClasses.startCardFadeIn"
         class="layout-container"
         [ngClass]="(currentTheme$ | async) ? 'dark-theme' : 'light-theme'"
     >
@@ -20,9 +20,9 @@
 
             <main
                 class="general"
-                [@routeAnimations]="prepareRoute(outlet)"
+                [class]="routeClasses.routeEnter"
             >
-                <router-outlet #outlet="outlet"></router-outlet>
+                <router-outlet></router-outlet>
             </main>
 
             <footer class="footer">
@@ -33,11 +33,11 @@
             </footer>
         </main>
 
-        @if (isModalDialogVisible) {
-            <cv-logout-form
+        @if (isModalDialogVisible()) {
+            <cv-logout-dialog
                 header="{{ 'LOGOUT-MODAL.TITLE' | translate }}?"
                 (emittedModalHide)="getModalInstance($event)"
-            ></cv-logout-form>
+            ></cv-logout-dialog>
         }
 
         @if (isExperienceDialogVisible$ | async) {

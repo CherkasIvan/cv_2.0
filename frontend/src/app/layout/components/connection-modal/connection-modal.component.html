@@ -1,0 +1,35 @@
+<p>connection-modal works!</p>
+<div
+    class="modal-background"
+    #modal
+    (click)="onBackgroundClick($event)"
+>
+    <dialog class="modal-dialog">
+        <header class="header-block">
+            <h3 class="header-block__title"></h3>
+            <button class="header-block__close-button">
+                <!-- [src]="closeImageUrl$ | async" [alt]="closeImageUrl$ | async" -->
+                <img aria-hidden="true" />
+            </button>
+        </header>
+        <main class="modal-dialog__content">
+            <div class="content__question"></div>
+            <div class="content__submit-buttons">
+                <button
+                    class="submit-button"
+                    (click)="sendDialogForm()"
+                    type="button"
+                >
+                    {{ 'LOGOUT-MODAL.LOGOUT' | translate }}
+                </button>
+                <button
+                    class="reset-button"
+                    (click)="closeDialogForm()"
+                    type="button"
+                >
+                    {{ 'LOGOUT-MODAL.CANCEL' | translate }}
+                </button>
+            </div>
+        </main>
+    </dialog>
+</div>

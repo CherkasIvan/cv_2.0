@@ -1,4 +1,4 @@
-<ng-container *ngIf="modalData$ | async as modalData">
+@if (modalData$ | async; as modalData) {
     <div
         class="modal-background"
         #modal
@@ -52,4 +52,4 @@
             </main>
         </dialog>
     </div>
-</ng-container>
+}

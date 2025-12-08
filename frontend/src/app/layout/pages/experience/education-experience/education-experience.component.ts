@@ -1,12 +1,8 @@
 import { NgClass } from '@angular/common';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    Input,
-    input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { IExperience } from '@core/models/experience.interface';
+import { TEducationExperience } from '@core/models/education-experience.type';
+import { TWorkExperience } from '@core/models/work-experience.type';
 
 import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
 
@@ -19,9 +15,9 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EducationExperienceComponent {
-    @Input() experience: any;
-    @Input() $index!: number;
-    public selectedTabEducation = input<string>('');
-    public educationExperience$ = input.required<IExperience[] | null>();
-    public theme = input<boolean | null>();
+    public selectedTabEducation = input.required<string>();
+    public educationExperience$ = input.required<
+        TEducationExperience[] | TWorkExperience[] | null
+    >();
+    public theme = input<boolean>(false);
 }

@@ -6,7 +6,7 @@ import {
     input,
 } from '@angular/core';
 
-import { IExperience } from '@core/models/experience.interface';
+import { TWorkExperience } from '@core/models/work-experience.type';
 
 import { ExperienceCardComponent } from '@layout/pages/experience/experience-card/experience-card.component';
 
@@ -19,9 +19,7 @@ import { ExperienceCardComponent } from '@layout/pages/experience/experience-car
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkExperienceComponent {
-    @Input() experience: any;
-    @Input() $index!: number;
     public selectedTabWork = input.required<string>();
-    public workExperience$ = input.required<IExperience[] | null>();
-    public theme = input<boolean | null>();
+    public workExperience$ = input.required<TWorkExperience[] | null>();
+    public theme = input<boolean>(false);
 }

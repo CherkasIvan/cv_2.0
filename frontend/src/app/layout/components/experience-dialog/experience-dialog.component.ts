@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { AsyncPipe, NgIf } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -15,21 +15,22 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Store, select } from '@ngrx/store';
 
-import { IExperience } from '@core/models/experience.interface';
+import { TAuthState } from '@core/models/auth-state.type';
+import { TEducationExperience } from '@core/models/education-experience.type';
+import { TWorkExperience } from '@core/models/work-experience.type';
 
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
 import { ModalState } from '@layout/store/experience-dialog-store/experience-dialog.reducers';
 import { selectModalData } from '@layout/store/experience-dialog-store/experience-dialog.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
-import { TProfile } from '@layout/store/model/profile.type';
 
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'cv-experience-dialog',
     standalone: true,
-    imports: [ReactiveFormsModule, AsyncPipe, NgIf, TranslateModule],
+    imports: [ReactiveFormsModule, AsyncPipe, TranslateModule],
     templateUrl: './experience-dialog.component.html',
     styleUrls: ['./experience-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,10 +40,12 @@ export class ExperienceDialogComponent implements OnInit {
     @ViewChild('modalDialog', { static: false })
     public modalDialog!: ElementRef;
 
-    public modalData$!: Observable<IExperience | null>;
+    public modalData$!: Observable<
+        TWorkExperience | TEducationExperience | null
+    >;
     public header = input.required<string>();
     public authForm!: FormGroup;
-    public user: TProfile | null = null;
+    public user: TAuthState | null = null;
     public closeImageUrl$!: Observable<string>;
     @HostListener('document:mousemove', ['$event'])
     public onMouseMove(event: MouseEvent) {
@@ -61,7 +64,7 @@ export class ExperienceDialogComponent implements OnInit {
 
     ngOnInit(): void {
         this.modalData$ = this._store$.pipe(select(selectModalData));
-        this._store$.dispatch(ImagesActions.getCloseImg({ mode: true }));
+        this._store$.dispatch(ImagesActions.loadCloseImage({ mode: true }));
         this.closeImageUrl$ = this._store$.select(selectCloseUrl);
     }
 

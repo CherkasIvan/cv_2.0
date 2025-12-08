@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: cv_postgres_dev
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cv_db_dev}
+      POSTGRES_USER: ${POSTGRES_USER:-jv13}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-jv13} -d ${POSTGRES_DB:-cv_db_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+      args:
+        - NODE_ENV=development
+    container_name: backend_cv_dev
+    environment:
+      - NODE_ENV=development
+      - DOCKER_CONTAINER=true
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB:-cv_db_dev}
+      - POSTGRES_USER=${POSTGRES_USER:-jv13}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - AUTO_MIGRATE=${AUTO_MIGRATE:-true}
+      - FIREBASE_API_KEY=${FIREBASE_API_KEY}
+      - FIREBASE_AUTH_DOMAIN=${FIREBASE_AUTH_DOMAIN}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - FIREBASE_STORAGE_BUCKET=${FIREBASE_STORAGE_BUCKET}
+      - FIREBASE_MESSAGING_SENDER_ID=${FIREBASE_MESSAGING_SENDER_ID}
+      - FIREBASE_APP_ID=${FIREBASE_APP_ID}
+      - FIREBASE_MEASUREMENT_ID=${FIREBASE_MEASUREMENT_ID}
+      - FIREBASE_PRIVATE_KEY=${FIREBASE_PRIVATE_KEY}
+      - FIREBASE_CLIENT_EMAIL=${FIREBASE_CLIENT_EMAIL}
+      - GITHUB_PRIVATE_ACCESS_TOKEN=${GITHUB_PRIVATE_ACCESS_TOKEN}
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    restart: unless-stopped
+
+volumes:
+  postgres_data_dev:
+    driver: local

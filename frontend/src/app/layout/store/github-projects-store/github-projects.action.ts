@@ -1,12 +1,12 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 
-import { TGitHub } from '@core/models/github.type';
+import { TGitHubMapped } from '@core/models/github-mapped.type';
 
 export const GithubRepositoriesActions = createActionGroup({
     source: 'Repositories',
     events: {
         getRepositories: emptyProps(),
-        getRepositoriesSuccess: props<{ repositories: TGitHub[] }>(),
+        getRepositoriesSuccess: props<{ repositories: TGitHubMapped[] }>(),
         getRepositoriesError: props<{ error: unknown }>(),
         getRepositoryLanguages: props<{ repoName: string }>(),
         getRepositoryLanguagesSuccess: props<{

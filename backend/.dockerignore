@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+dist
+build
+.git
+.env.development
+.env.production
+.nyc_output
+coverage
+*.tar.gz
+*.tgz

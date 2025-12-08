@@ -1,0 +1,22 @@
+@use '../../../assets/styles/mixins/animations-mixins';
+
+.blob-float {
+    @include blob-float-class(15s);
+
+    @include will-change-transform;
+    @include layer-animation;
+
+    @include reduce-motion;
+    @include safe-animation(15s);
+
+    @include responsive-animation(10s, 12s, 15s);
+
+    @media (max-width: 768px) and (prefers-reduced-motion: no-preference) {
+        animation-duration: 20s;
+        animation-iteration-count: 1;
+    }
+
+    @include motion-reduce {
+        animation: none;
+    }
+}

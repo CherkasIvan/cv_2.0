@@ -1,7 +1,11 @@
-import { firebaseConfig } from '../app/core/utils/firebase/firebase.config';
+import { firebaseConfig } from '@core/utils/firebase/firebase.config';
 
 export const environment = {
     production: true,
+    apiUrl: process.env['API_URL'],
+    ssr: process.env['SSR'] === 'true' || true,
     firebase: firebaseConfig,
-    appUrl: 'http://localhost:4200/',
+    appUrl: process.env['APP_URL'] || 'http://localhost',
+    proxyEnabled: false,
+    useBackendTranslations: true,
 };

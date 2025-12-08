@@ -1,15 +1,15 @@
-# Stage 1: Build the Angular app
-FROM node:18 AS build
+FROM node:20
 
 WORKDIR /app
 
 COPY package*.json ./
+
 RUN npm install --legacy-peer-deps
 
 COPY . .
-COPY src/assets/ /app/src/assets/styles/
 
-RUN npm run build:ssr --prod
+RUN npm run build:prod
 
 EXPOSE 4000
-CMD ["npm", "run", "start:ssr"]
+
+CMD ["npm", "run", "serve:ssr:prod"]

@@ -1,7 +1,36 @@
 {
-    "/api": {
-        "target": "http://localhost:4000",
-        "secure": false,
-        "changeOrigin": true
-    }
+  "/api/*": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": "/api/v1"
+    },
+    "logLevel": "debug"
+  },
+  "/auth/*": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/firebase/*": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/person/*": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/template/*": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/i18n/*": {
+    "target": "http://localhost:3000",
+    "secure": false,
+    "changeOrigin": true
+  }
 }

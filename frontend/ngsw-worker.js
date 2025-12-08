@@ -8,7 +8,6 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
     console.log('Service Worker activating.');
-    // Clean up old caches
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
@@ -27,6 +26,17 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+    if (event.request.url.includes('/app-state/')) {
+        const key = event.request.url.split('/app-state/')[1];
+        event.respondWith(
+            caches
+                .open(USER_STATE_CACHE)
+                .then((cache) => {
+                    return cache.match(new Request(key));
+                })
+                .then((response) => response || new Response(null)),
+        );
+    }
     if (
         event.request.url.startsWith(
             'https://firebasestorage.googleapis.com/v0/b/cv-cherkas-db.appspot.com/',
@@ -62,6 +72,46 @@ self.addEventListener('fetch', (event) => {
 self.addEventListener('message', (event) => {
     if (!event.data) return;
 
+    const { action, key, value } = event.data;
+    console.log('Received message:', action, key, value);
+
+    if (action === 'SAVE_STATE') {
+        event.waitUntil(
+            caches
+                .open(USER_STATE_CACHE)
+                .then((cache) => {
+                    return cache.put(
+                        new Request(key),
+                        new Response(JSON.stringify(value)),
+                    );
+                })
+                .then(() => console.log(`State saved for key: ${key}`)),
+        );
+    }
+
+    if (action === 'GET_STATE') {
+        event.waitUntil(
+            caches
+                .open(USER_STATE_CACHE)
+                .then((cache) => {
+                    return cache.match(new Request(key));
+                })
+                .then((response) => {
+                    if (response) {
+                        return response.json();
+                    }
+                    return null;
+                })
+                .then((state) => {
+                    event.ports[0].postMessage(state);
+                }),
+        );
+    }
+});
+
+self.addEventListener('message', (event) => {
+    if (!event.data) return;
+
     const { action, state } = event.data;
     console.log('Received message:', action, state);
 
@@ -70,7 +120,7 @@ self.addEventListener('message', (event) => {
             caches
                 .open(USER_STATE_CACHE)
                 .then((cache) => {
-                    console.log('Cache opened, storing state');
+                    console.log(cache);
                     return cache.put(
                         'userState',
                         new Response(JSON.stringify(state)),

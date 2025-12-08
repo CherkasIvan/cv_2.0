@@ -1,40 +1,45 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { LogoState } from './images.reducers';
+import { ImagesState } from './images.reducers';
 
-export const selectLogoState = createFeatureSelector<LogoState>('logo');
+export const selectImagesState = createFeatureSelector<ImagesState>('images');
 
 export const selectLogoUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.logoUrl,
+    selectImagesState,
+    (state: ImagesState) => state?.logoUrl || '',
 );
 
 export const selectProfileUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.profileUrl,
+    selectImagesState,
+    (state: ImagesState) => state?.profileUrl || '',
 );
 
 export const selectCloseUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.closeUrl,
+    selectImagesState,
+    (state: ImagesState) => state?.closeUrl || '',
 );
 
 export const selectToggleUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.toggleUrl,
+    selectImagesState,
+    (state: ImagesState) => state?.toggleUrl || '',
 );
 
 export const selectArrowUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.arrowUrl,
+    selectImagesState,
+    (state: ImagesState) => state?.arrowUrl || '',
 );
 
 export const selectDownloadUrl = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.downloadUrl,
+    selectImagesState,
+    (state: ImagesState) => state?.downloadUrl || '',
 );
 
-export const selectLogoError = createSelector(
-    selectLogoState,
-    (state: LogoState) => state.error,
+export const selectImagesError = createSelector(
+    selectImagesState,
+    (state: ImagesState) => state?.error || Error.name,
+);
+
+export const selectImagesLoading = createSelector(
+    selectImagesState,
+    (state: ImagesState) => state?.loading || false,
 );
