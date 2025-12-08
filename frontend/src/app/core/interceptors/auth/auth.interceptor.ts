@@ -1,52 +1,31 @@
-import { Injectable, Injector } from '@angular/core';
-import { 
-    HttpInterceptor, 
-    HttpRequest, 
-    HttpHandler, 
-    HttpEvent, 
-    HttpErrorResponse 
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+// auth.interceptor.ts
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { catchError, throwError } from 'rxjs';
 import { AuthService } from '@core/service/auth/auth.service';
+import { isPlatformBrowser } from '@angular/common';
+import { PLATFORM_ID } from '@angular/core';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-    
-    // Используем Injector вместо прямого инжектирования AuthService
-    constructor(
-        private injector: Injector,
-        private router: Router
-    ) {}
+export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+    const authService = inject(AuthService);
+    const router = inject(Router);
+    const platformId = inject(PLATFORM_ID);
+    const isBrowser = isPlatformBrowser(platformId);
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(req).pipe(
-            catchError((error: HttpErrorResponse) => {
-                // Обрабатываем только ошибки API
-                if (this.isApiRequest(req.url) && error.status === 401) {
-                    // Получаем AuthService через инжектор, чтобы избежать циклической зависимости
-                    const authService = this.injector.get(AuthService);
-                    // Автоматический разлогин при 401 ошибке
+    return next(req).pipe(
+        catchError((error) => {
+            // Только в браузере обрабатываем ошибки авторизации
+            if (isBrowser) {
+                const isApiRequest =  ['/auth', '/firebase', '/person', '/template', '/i18n', '/api']
+                    .some(pattern => req.url.includes(pattern));
+                
+                if (isApiRequest && error.status === 401) {
                     authService.updateState({ user: null });
-                    this.router.navigate(['/auth']);
+                    router.navigate(['/auth']);
                 }
-                return throwError(() => error);
-            })
-        );
-    }
-
-    private isApiRequest(url: string): boolean {
-        // Определяем, является ли запрос API запросом
-        const apiPatterns = [
-            '/auth',
-            '/firebase',
-            '/template',
-            '/person',
-            '/api/'
-        ];
-        
-        return apiPatterns.some(pattern => url.includes(pattern));
-    }
-}   
+            }
+            return throwError(() => error);
+        })
+    );
+};

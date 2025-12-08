@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { JwtAuthGuard } from '@core/guard/jwt-auth.guard';
+import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
 import { JwtStrategy } from '@core/strategy/jwt.strategy';
 
 import { PersonEntity } from '@shared/entities/person.entity';

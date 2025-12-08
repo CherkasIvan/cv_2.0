@@ -21,7 +21,10 @@
               "http-proxy-middleware"
             ],
             "outputPath": "dist/cv_2.0",
-            "index": "src/index.html",
+            "index": {
+              "input": "src/index.html",
+              "output": "index.html"
+            },
             "browser": "src/main.ts",
             "server": "src/main.server.ts",
             "ssr": {
@@ -34,7 +37,11 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
               {
                 "glob": "**/*",
                 "input": "public"
@@ -87,6 +94,10 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
+              "index": {
+                "input": "src/index.html",
+                "output": "index.csr.html"
+              },
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -111,34 +122,22 @@
           },
           "defaultConfiguration": "development"
         },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/cv_2.0/server",
-            "main": "server.ts",
-            "tsConfig": "tsconfig.server.json"
-          },
-          "configurations": {
-            "production": {
-              "outputHashing": "media"
-            },
-            "development": {
-              "optimization": false,
-              "sourceMap": true,
-              "extractLicenses": false
-            }
-          }
-        },
         "serve-ssr": {
           "builder": "@angular-devkit/build-angular:ssr-dev-server",
+          "options": {
+            "port": 4000,
+            "proxyConfig": "proxy.conf.json",
+            "browserTarget": "cv_2.0:build:development",
+            "serverTarget": "cv_2.0:build:development"
+          },
           "configurations": {
             "development": {
               "browserTarget": "cv_2.0:build:development",
-              "serverTarget": "cv_2.0:server:development"
+              "serverTarget": "cv_2.0:build:development"
             },
             "production": {
               "browserTarget": "cv_2.0:build:production",
-              "serverTarget": "cv_2.0:server:production"
+              "serverTarget": "cv_2.0:build:production"
             }
           },
           "defaultConfiguration": "development"
@@ -149,23 +148,14 @@
             "routes": [
               "/",
               "/auth",
-              "/main",
+              "/layout",
               "/about",
               "/projects",
               "/experience",
               "/technologies",
               "/contact"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "cv_2.0:build:production",
-              "serverTarget": "cv_2.0:server:production"
-            },
-            "development": {
-              "browserTarget": "cv_2.0:build:development",
-              "serverTarget": "cv_2.0:server:development"
-            }
+            ],
+            "browserTarget": "cv_2.0:build:production"
           }
         },
         "extract-i18n": {
@@ -185,11 +175,16 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "/assets"
+              },
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.scss",

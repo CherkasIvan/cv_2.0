@@ -6,4 +6,6 @@ export const environment = {
     ssr: process.env['SSR'] === 'true' || true,
     firebase: firebaseConfig,
     appUrl: process.env['APP_URL'] || 'http://localhost',
+    proxyEnabled: false,
+    useBackendTranslations: true,
 };

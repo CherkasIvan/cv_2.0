@@ -1,4 +1,3 @@
-// app.routes.ts
 import { Routes } from '@angular/router';
 import { ERoute } from './core/enum/route.enum';
 import { AuthGuard } from './core/utils/guards/auth/auth.guard';
@@ -6,9 +5,6 @@ import { NoAuthGuard } from '@core/utils/guards/no-auth/no-auth.guard';
 import { LayoutComponent } from './layout/layout.component';
 
 export const MAIN_ROUTES: Routes = [
-  // Remove the catch-all redirect that conflicts
-  // { path: '**', redirectTo: `/${ERoute.AUTH}` }, // ⛔ REMOVE THIS
-  
   {
     path: '',
     redirectTo: ERoute.AUTH,
@@ -29,9 +25,9 @@ export const MAIN_ROUTES: Routes = [
     loadChildren: () =>
       import('./layout/layout.routes').then((c) => c.LAYOUT_ROUTES),
   },
-  // Add catch-all at the end, but only for client-side navigation
   {
     path: '**',
-    redirectTo: ERoute.AUTH
+    redirectTo: ERoute.AUTH,
+    pathMatch: 'full'
   }
 ];

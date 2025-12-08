@@ -1,19 +1,15 @@
 import * as path from 'path';
-
 import { CacheModule } from '@nestjs/cache-manager';
 import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-// Config
 import { getDatabaseConfig } from './config/database.config';
-// Modules
 import { AuthModule } from './core/auth/auth.module';
 import { FirebaseModule } from './modules/firebase/firebase.module';
 import { MigrationModule } from './modules/migration/migration.module';
 import { PersonModule } from './modules/person/person.module';
 import { TemplateModule } from './modules/template/template.module';
-// Entities
+import { FileStorageModule } from './modules/file-storage/file-storage.module';
 import { EducationExperienceEntity } from './shared/entities/education-experience.entity';
 import { ExperienceAsideEntity } from './shared/entities/experience-aside.entity';
 import { HardSkillsNavEntity } from './shared/entities/hard-skills-nav.entity';
@@ -57,7 +53,7 @@ const envFile =
         PersonModule,
         TemplateModule,
         AuthModule,
-
+        FileStorageModule,  
         CacheModule.register({
             isGlobal: true,
         }),
@@ -80,6 +76,8 @@ const envFile =
             RepositoryMigrationEntity,
         ]),
     ],
+    controllers: [],  
+    providers: [],
 })
 export class AppModule implements OnModuleInit {
     private readonly logger = new Logger('AppModule');

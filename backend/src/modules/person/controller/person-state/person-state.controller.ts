@@ -2,7 +2,7 @@
 import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '@core/guard/jwt-auth.guard';
+import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
 import { PersonStateService } from '../../service/person-state/person-state.service';
 
 

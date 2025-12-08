@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '@core/guard/jwt-auth.guard';
+import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
 
 import { PersonResponseClassDto } from '@shared/dto/person-response-class.dto';
 import { RegisterClassDto } from '@shared/dto/register-class.dto';

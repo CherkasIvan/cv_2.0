@@ -1,77 +1,93 @@
-import 'zone.js/node';
-import { APP_BASE_HREF } from '@angular/common';
+// @ts-nocheck
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
-import bootstrap from './src/main.server';
-import { CommonEngine } from '@angular/ssr/node';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-export function app(): express.Express {
-    const server = express();
-    const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-    const browserDistFolder = resolve(serverDistFolder, '../browser');
-    const indexHtml = join(serverDistFolder, 'index.server.html');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-    const commonEngine = new CommonEngine();
+const app = express();
+const PORT = process.env['PORT'] || 4000;
 
-    // 🔥 ВСЕГДА добавляем прокси, не только для dev режима
-    const proxyOptions = {
-        target: 'http://localhost:3000',
-        changeOrigin: true,
-        secure: false,
-        logLevel: 'debug' as const
-    };
+// 🔧 Создаем отдельные прокси для каждого маршрута
+const createApiProxy = (options: any) => {
+  const defaultOptions = {
+    target: 'http://localhost:3000',
+    changeOrigin: true,
+    secure: false,
+    logLevel: 'debug' as any,
+    onProxyReq: (proxyReq: any, req: any, res: any) => {
+      console.log(`📡 Proxying: ${req.method} ${req.originalUrl} -> ${proxyReq.path}`);
+    },
+    onError: (err: any, req: any, res: any) => {
+      console.error('❌ Proxy error:', err.message);
+      res.status(500).json({ error: 'Proxy error', message: err.message });
+    }
+  };
 
-    // Прокси для API маршрутов - ДОЛЖНО БЫТЬ ПЕРЕД ВСЕМИ ОСТАЛЬНЫМИ МАРШРУТАМИ
-    server.use('/api', createProxyMiddleware(proxyOptions));
-    server.use('/auth', createProxyMiddleware(proxyOptions));
-    server.use('/firebase', createProxyMiddleware(proxyOptions));
-    server.use('/person', createProxyMiddleware(proxyOptions));
-    server.use('/template', createProxyMiddleware(proxyOptions));
+  return createProxyMiddleware({ ...defaultOptions, ...options });
+};
 
-    server.set('view engine', 'html');
-    server.set('views', browserDistFolder);
+// 🔧 ФИКС: Используем регулярные выражения вместо wildcard
+app.use(/^\/api/, createApiProxy({ 
+  pathRewrite: { '^/api': '/api/v1' }
+}));
 
-    // Serve static files
-    server.get('*.*', express.static(browserDistFolder, {
-        maxAge: '1y'
-    }));
+app.use(/^\/auth/, createApiProxy({}));
+app.use(/^\/firebase/, createApiProxy({}));
+app.use(/^\/person/, createApiProxy({}));
+app.use(/^\/template/, createApiProxy({}));
+app.use(/^\/i18n/, createApiProxy({}));
 
-    // Handle all other routes
-    server.get('*', (req, res, next) => {
-        const { protocol, originalUrl, baseUrl, headers } = req;
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    service: 'cv-portfolio',
+    timestamp: new Date().toISOString(),
+    environment: process.env['NODE_ENV'] || 'development'
+  });
+});
 
-        commonEngine
-            .render({
-                bootstrap,
-                documentFilePath: indexHtml,
-                url: `${protocol}://${headers.host}${originalUrl}`,
-                publicPath: browserDistFolder,
-                providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-            })
-            .then((html) => res.send(html))
-            .catch((err) => {
-                console.error('SSR Error:', err);
-                // Fallback to client-side rendering
-                res.sendFile(join(browserDistFolder, 'index.html'));
-            });
-    });
+// 🔧 Логирование всех входящих запросов
+app.use((req, res, next) => {
+  console.log(`🔍 Incoming: ${req.method} ${req.originalUrl}`);
+  next();
+});
 
-    return server;
-}
+// Статические файлы из Angular build
+app.use('/assets', express.static(join(__dirname, '../browser/assets'), {
+  maxAge: '1y'
+}));
 
-function run(): void {
-    const port = process.env['PORT'] || 4000;
-    const server = app();
-    
-    server.listen(port, () => {
-        console.log(`Node Express server listening on http://localhost:${port}`);
-        console.log(`API requests are proxied to: http://localhost:3000`);
-        console.log(`Frontend available at: http://localhost:4200`);
-    });
-}
+app.use(express.static(join(__dirname, '../browser'), {
+  maxAge: '1y',
+  index: false
+}));
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-    run();
-}
+// 🔧 ФИКС: Используем регулярное выражение вместо '*'
+app.get(/.*/, (req, res, next) => {
+  // 🔧 Пропускаем API запросы
+  if (req.path.startsWith('/api') || 
+      req.path.startsWith('/auth') ||
+      req.path.startsWith('/firebase') ||
+      req.path.startsWith('/person') ||
+      req.path.startsWith('/template') ||
+      req.path.startsWith('/i18n') ||
+      req.path === '/health') {
+    return next();
+  }
+  
+  console.log(`📄 Serving Angular app for: ${req.path}`);
+  res.sendFile(join(__dirname, '../browser/index.csr.html'));
+});
+
+app.listen(PORT, () => {
+  console.log('='.repeat(60));
+  console.log(`🚀 CV Portfolio Server запущен!`);
+  console.log(`🌐 Frontend URL: http://localhost:${PORT}`);
+  console.log(`📡 API Backend:  http://localhost:3000`);
+  console.log(`🏥 Health Check: http://localhost:${PORT}/health`);
+  console.log('='.repeat(60));
+});

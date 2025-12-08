@@ -7,7 +7,7 @@ import {
     ApiTags,
 } from '@nestjs/swagger';
 
-import { JwtAuthGuard } from '@core/guard/jwt-auth.guard';
+import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
 
 import { GuestLoginResponseClassDto } from '@shared/dto/guest-login-response-class.dto';
 import { LoginClassDto } from '@shared/dto/login-class.dto';
