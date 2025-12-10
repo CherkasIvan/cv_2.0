@@ -1,0 +1,63 @@
+{
+    "$schema": "./node_modules/@angular/service-worker/config/schema.json",
+    "index": "/index.html",
+    "assetGroups": [
+        {
+            "name": "app",
+            "installMode": "prefetch",
+            "updateMode": "prefetch",
+            "resources": {
+                "files": [
+                    "/favicon.ico",
+                    "/index.html",
+                    "/manifest.webmanifest",
+                    "/*.css",
+                    "/*.js"
+                ]
+            }
+        },
+        {
+            "name": "assets",
+            "installMode": "lazy",
+            "updateMode": "prefetch",
+            "resources": {
+                "files": [
+                    "/assets/**",
+                    "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+                ]
+            }
+        }
+    ],
+    "dataGroups": [
+        {
+            "name": "api-static",
+            "urls": ["/api/i18n/**", "/api/settings", "/api/menu"],
+            "cacheConfig": {
+                "maxSize": 20,
+                "maxAge": "1d",
+                "strategy": "performance",
+                "timeout": "5s"
+            }
+        },
+        {
+            "name": "api-dynamic",
+            "urls": ["/api/auth/**", "/api/user/**"],
+            "cacheConfig": {
+                "maxSize": 10,
+                "maxAge": "5m",
+                "strategy": "freshness",
+                "timeout": "10s"
+            }
+        },
+        {
+            "name": "images-cache",
+            "urls": ["https://firebasestorage.googleapis.com/**"],
+            "cacheConfig": {
+                "maxSize": 50,
+                "maxAge": "30d",
+                "strategy": "performance"
+            }
+        }
+    ],
+    "navigationUrls": ["/**", "!/**/*.*", "!/api/**", "!/auth/**"]
+}
