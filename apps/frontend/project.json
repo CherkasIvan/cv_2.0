@@ -1,0 +1,82 @@
+{
+    "name": "frontend",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/frontend/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nx/angular:browser",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/apps/frontend",
+                "index": "apps/frontend/src/index.html",
+                "main": "apps/frontend/src/main.ts",
+                "tsConfig": "apps/frontend/tsconfig.app.json",
+                "assets": [
+                    "apps/frontend/src/favicon.ico",
+                    {
+                        "glob": "**/*",
+                        "input": "apps/frontend/src/assets",
+                        "output": "/assets"
+                    }
+                ],
+                "styles": ["apps/frontend/src/styles.scss"],
+                "scripts": []
+            },
+            "configurations": {
+                "production": {
+                    "optimization": true,
+                    "outputHashing": "all",
+                    "sourceMap": false,
+                    "namedChunks": false,
+                    "extractLicenses": true,
+                    "vendorChunk": false,
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "2mb",
+                            "maximumError": "5mb"
+                        }
+                    ]
+                },
+                "development": {
+                    "optimization": false,
+                    "sourceMap": true,
+                    "extractLicenses": false,
+                    "namedChunks": true
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve": {
+            "executor": "@nx/angular:dev-server",
+            "options": {
+                "buildTarget": "frontend:build"
+            },
+            "configurations": {
+                "production": {
+                    "buildTarget": "frontend:build:production"
+                },
+                "development": {
+                    "buildTarget": "frontend:build:development"
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "clean": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": ["rimraf node_modules package-lock.json"],
+                "cwd": "{projectRoot}"
+            }
+        },
+        "server": {
+            "executor": "@nx/angular:server",
+            "options": {
+                "outputPath": "dist/apps/frontend/server",
+                "main": "apps/frontend/src/main.server.ts",
+                "tsConfig": "apps/frontend/tsconfig.server.json"
+            }
+        }
+    }
+}

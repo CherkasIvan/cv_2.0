@@ -1,0 +1,164 @@
+@switch (experienceType()) {
+    @case ('work') {
+        <article
+            class="experience-card card-work card-fade-in"
+            (click)="showDialogExperience(workDescription())"
+            (keyup.enter)="showDialogExperience(workDescription())"
+            tabindex="0"
+            [ngClass]="{
+                'active-work': experienceType() === 'work',
+                'dark-theme': theme(),
+                'card-visible': experienceCardImgVisibility(),
+            }"
+            (mouseover)="onCardHover(true)"
+            (focus)="onCardHover(true)"
+            (mouseleave)="onCardHover(false)"
+            (blur)="onCardHover(false)"
+        >
+            @if (experienceCardImgVisibility()) {
+                <div class="experience-card_picture-work card-image-fade">
+                    <img
+                        class="card-img"
+                        [src]="workDescription()?.iconPath"
+                        [alt]="workDescription()?.alt"
+                        loading="lazy"
+                    />
+                </div>
+            }
+
+            <div class="card-info">
+                <span class="card-info_place">
+                    {{ 'EXPERIENCE-PAGE.PLACE.WORK-PLACE' | translate }}
+                </span>
+                <span class="card-info_place-name">
+                    {{ workDescription()?.company }}
+                </span>
+                <span class="card-info_time">
+                    {{ workDescription()?.from }} - {{ workDescription()?.to }}
+                </span>
+            </div>
+            <div class="card-button__container">
+                <button
+                    class="card-button pulse"
+                    [ngClass]="{ 'dark-theme': theme() }"
+                    aria-label="View work details"
+                >
+                    <img
+                        [src]="arrowUrl$ | async"
+                        alt="View details"
+                    />
+                </button>
+            </div>
+        </article>
+    }
+    @case ('education') {
+        <article
+            class="experience-card card-education card-fade-in"
+            (click)="showDialogExperience(experienceDescription())"
+            (keyup.enter)="showDialogExperience(experienceDescription())"
+            tabindex="0"
+            [ngClass]="{
+                'active-education': experienceType() === 'education',
+                'dark-theme': theme(),
+                'card-visible': experienceCardImgVisibility(),
+            }"
+            (mouseover)="onCardHover(true)"
+            (focus)="onCardHover(true)"
+            (mouseleave)="onCardHover(false)"
+            (blur)="onCardHover(false)"
+        >
+            @if (experienceCardImgVisibility()) {
+                <div class="experience-card_picture-education card-image-fade">
+                    <img
+                        class="card-img"
+                        [src]="experienceDescription()?.iconPath"
+                        [alt]="experienceDescription()?.alt"
+                        loading="lazy"
+                    />
+                </div>
+            }
+
+            <div class="card-info">
+                <span class="card-info_place">
+                    {{ 'EXPERIENCE-PAGE.PLACE.COURSE' | translate }}
+                </span>
+                <span class="card-info_place-name">
+                    {{ experienceDescription()?.company }}
+                    {{ experienceDescription()?.specialization }}
+                </span>
+                <span class="card-info_time">
+                    {{ experienceDescription()?.from }} -
+                    {{ experienceDescription()?.to }}
+                </span>
+            </div>
+
+            <div class="card-button__container">
+                <button
+                    class="card-button"
+                    [ngClass]="{ 'dark-theme': theme() }"
+                >
+                    <img
+                        [src]="downloadUrl$ | async"
+                        [alt]="downloadUrl$ | async"
+                    />
+                </button>
+            </div>
+        </article>
+    }
+    @default {
+        <article
+            class="experience-card card-work card-fade-in"
+            (click)="showDialogExperience(workDescription())"
+            (keyup.enter)="showDialogExperience(workDescription())"
+            tabindex="0"
+            [ngClass]="{
+                'active-work': experienceType() === 'work',
+                'dark-theme': theme(),
+                'card-visible': experienceCardImgVisibility(),
+            }"
+            (mouseover)="onCardHover(true)"
+            (focus)="onCardHover(true)"
+            (mouseleave)="onCardHover(false)"
+            (blur)="onCardHover(false)"
+        >
+            @if (experienceCardImgVisibility()) {
+                <div class="experience-card_picture-work card-image-fade">
+                    <div class="img-border">
+                        <img
+                            class="card-img"
+                            [src]="workDescription()?.iconPath"
+                            [alt]="workDescription()?.alt"
+                            loading="lazy"
+                        />
+                    </div>
+                </div>
+            }
+
+            <div class="card-info">
+                <span class="card-info_place">
+                    {{ 'EXPERIENCE-PAGE.PLACE.WORK-PLACE' | translate }}
+                </span>
+                <span class="card-info_place-name">
+                    {{ workDescription()?.company }}
+                </span>
+                <span class="card-info_time">
+                    {{ workDescription()?.from }} - {{ workDescription()?.to }}
+                </span>
+            </div>
+            <div
+                class="card-button__container"
+                [ngClass]="{ 'dark-theme': theme() }"
+            >
+                <button
+                    class="card-button pulse"
+                    aria-label="View details"
+                >
+                    <img
+                        [src]="arrowUrl$ | async"
+                        alt="View details"
+                    />
+                </button>
+            </div>
+        </article>
+    }
+}

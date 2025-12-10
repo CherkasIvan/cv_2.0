@@ -1,0 +1,53 @@
+{
+    "name": "cv_2.0-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "nx run-many --target=serve --projects=frontend,backend",
+        "dev:ssr": "nx serve frontend --configuration=development-ssr",
+        "build": "nx run-many --target=build --projects=frontend,backend",
+        "build:ssr": "nx run frontend:build-ssr",
+        "test": "nx run-many --target=test --all",
+        "lint": "nx run-many --target=lint --all",
+        "format": "prettier --write \"**/*.{ts,js,json,html,css,scss}\"",
+        "format:check": "prettier --check \"**/*.{ts,js,json,html,css,scss}\"",
+        "docker:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+        "docker:prod": "docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --build -d",
+        "docker:down": "docker-compose -f docker-compose.yml down",
+        "clean:all": "node scripts/reinstall-and-build.js",
+        "clean:full": "npm run clean:all && if exist .nx\\cache rmdir /s /q .nx\\cache",
+        "reinstall": "npm run clean:all && npm install",
+        "rebuild:dev": "node scripts/reinstall-and-build.js --mode=dev",
+        "rebuild:prod": "node scripts/reinstall-and-build.js --mode=prod",
+        "rebuild:dev:noclean": "node scripts/reinstall-and-build.js --mode=dev --skip-clean",
+        "rebuild:prod:noclean": "node scripts/reinstall-and-build.js --mode=prod --skip-clean",
+        "build:only": "node scripts/reinstall-and-build.js --skip-clean --skip-install",
+        "install:all": "node scripts/reinstall-and-build.js --skip-clean --skip-build",
+        "prepare": "husky install",
+        "precommit": "lint-staged"
+    },
+    "devDependencies": {
+        "@nx/angular": "^21.6.10",
+        "@nx/eslint": "^22.2.0",
+        "@nx/js": "^21.6.10",
+        "@nx/nest": "^21.6.10",
+        "@trivago/prettier-plugin-sort-imports": "^6.0.0",
+        "@types/jest": "^30.0.0",
+        "@types/node": "^24.10.2",
+        "@typescript-eslint/eslint-plugin": "^8.49.0",
+        "@typescript-eslint/parser": "^8.49.0",
+        "concurrently": "^9.2.1",
+        "eslint": "^9.39.1",
+        "husky": "^9.0.0",
+        "lint-staged": "^15.0.0",
+        "nx": "^21.6.10",
+        "prettier": "^3.7.4",
+        "prettier-plugin-css-order": "^2.1.2",
+        "rimraf": "^6.1.2",
+        "typescript": "~5.9.3"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=9.0.0"
+    }
+}

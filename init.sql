@@ -1,2 +1,0 @@
--- init.sql
-CREATE DATABASE IF NOT EXISTS cv_db;

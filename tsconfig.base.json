@@ -1,0 +1,36 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "rootDir": ".",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "target": "es2022",
+        "module": "esnext",
+        "lib": ["es2022", "dom"],
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "baseUrl": ".",
+        "paths": {
+            "@cv_2.0/shared": ["libs/shared/src/index.ts"],
+            "@cv_2.0/shared/*": ["libs/shared/src/*"],
+
+            // Frontend пути с полным путем
+            "@frontend-env/*": ["apps/frontend/src/environments/*"],
+            "@frontend-utils/*": ["apps/frontend/src/utils/*"],
+            "@frontend-store/*": ["apps/frontend/src/app/store/*"],
+            "@frontend-app/*": ["apps/frontend/src/app/*"],
+            "@frontend-assets/*": ["apps/frontend/src/assets/*"],
+            "@frontend-pages/*": ["apps/frontend/src/app/pages/*"],
+            "@frontend-core/*": ["apps/frontend/src/app/core/*"],
+            "@frontend-layout/*": ["apps/frontend/src/app/layout/*"],
+
+            // Backend пути
+            "@backend/*": ["apps/backend/src/*"]
+        }
+    },
+    "exclude": ["node_modules", "tmp"]
+}
