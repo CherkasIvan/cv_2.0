@@ -1,6 +1,6 @@
-import { IFileMetadataModel } from "./file-metadata.model";
+import { IFileMetadataModel } from './file-metadata.model';
 
 export interface IFileContent {
-  content: string | object;
-  metadata: IFileMetadataModel;
+    content: string | object;
+    metadata: IFileMetadataModel;
 }

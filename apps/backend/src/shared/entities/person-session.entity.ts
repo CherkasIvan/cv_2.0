@@ -1,13 +1,14 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
     Column,
     CreateDateColumn,
-    UpdateDateColumn,
-    ManyToOne,
-    JoinColumn,
+    Entity,
     Index,
+    JoinColumn,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
 } from 'typeorm';
+
 import { ApiProperty } from '@nestjs/swagger';
 
 import { PersonEntity } from './person.entity';

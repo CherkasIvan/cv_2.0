@@ -1,20 +1,25 @@
-import { 
-    Body, 
-    Controller, 
-    Delete, 
-    Get, 
-    Param, 
-    ParseIntPipe, 
-    Post, 
-    Put, 
-    UseGuards 
-} from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-
 import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
 
 import { PersonResponseClassDto } from '@shared/dto/person-response-class.dto';
 import { RegisterClassDto } from '@shared/dto/register-class.dto';
+
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Put,
+    UseGuards,
+} from '@nestjs/common';
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger';
 
 import { PersonService } from '../service/person.service';
 
@@ -134,7 +139,9 @@ export class PersonController {
         status: 404,
         description: 'Персона не найдена',
     })
-    async deactivate(@Param('id', ParseIntPipe) id: number): Promise<PersonResponseClassDto> {
+    async deactivate(
+        @Param('id', ParseIntPipe) id: number,
+    ): Promise<PersonResponseClassDto> {
         return this.personsService.update(id, { isActive: false });
     }
 
@@ -151,11 +158,13 @@ export class PersonController {
         status: 404,
         description: 'Персона не найдена',
     })
-    async activate(@Param('id', ParseIntPipe) id: number): Promise<PersonResponseClassDto> {
-        return this.personsService.update(id, { 
+    async activate(
+        @Param('id', ParseIntPipe) id: number,
+    ): Promise<PersonResponseClassDto> {
+        return this.personsService.update(id, {
             isActive: true,
             failedLoginAttempts: 0,
-            lockedUntil: null 
+            lockedUntil: null,
         });
     }
 }

@@ -1,24 +1,24 @@
-import { Observable, map, takeUntil } from 'rxjs';
+import { map } from 'rxjs';
 
 import {
     ChangeDetectionStrategy,
     Component,
+    DestroyRef,
     ElementRef,
     HostListener,
-    Inject,
-    ViewChild,
-    effect,
+    inject,
     input,
     output,
     signal,
+    viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
 import { AuthService } from '@core/service/auth/auth.service';
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
-import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { selectCloseUrl } from '@layout/store/images-store/images.selectors';
 
@@ -30,81 +30,75 @@ import { TranslateModule } from '@ngx-translate/core';
     imports: [ReactiveFormsModule, TranslateModule],
     templateUrl: './logout-dialog.component.html',
     styleUrls: ['./logout-dialog.component.scss'],
-    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LogoutDialogComponent {
-    // Входные параметры через signal-based input API
-    public header = input.required<string>();
+    private readonly _destroyRef = inject(DestroyRef);
+    private readonly _authService = inject(AuthService);
+    private readonly _cacheStorageService = inject(CacheStorageService);
+    private readonly _store = inject(Store);
 
-    // Выходные события через signal-based output API
-    public emittedModalHide = output<boolean>();
+    public readonly header = input.required<string>();
+    public readonly emittedModalHide = output<boolean>();
 
-    // Реактивные сигналы для состояния
-    public displayName = signal('');
-    public closeImageUrl = signal('');
+    public readonly displayName = signal<string>('');
+    public readonly closeImageUrl = signal<string>('');
 
-    // Ссылка на элемент модального окна
-    @ViewChild('modal', { static: false })
-    public modal!: ElementRef;
+    protected readonly _modal = viewChild<ElementRef>('modal');
 
-    constructor(
-        @Inject(DestroyService) private _destroyed$: Observable<void>,
-        private _authService: AuthService,
-        private _cacheStorageService: CacheStorageService,
-        private _store$: Store,
-    ) {
-        // Инициализация данных через эффекты
-        effect(() => {
-            // FIX: Use userName signal directly instead of getUserName() method
-            const name = this._cacheStorageService.userName();
-            this.displayName.set(name);
-        });
+    public constructor() {
+        this._cacheStorageService.userName$
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe((name: string) => {
+                this.displayName.set(name);
+            });
 
-        effect(() => {
-            this._store$
-                .select(selectCloseUrl)
-                .pipe(
-                    takeUntil(this._destroyed$),
-                    map((response) => response as string),
-                )
-                .subscribe((url) => this.closeImageUrl.set(url));
-        });
+        this._store
+            .select(selectCloseUrl)
+            .pipe(
+                takeUntilDestroyed(this._destroyRef),
+                map((response) => response as string),
+            )
+            .subscribe((url: string) => this.closeImageUrl.set(url));
     }
 
-    // Обработчик движения мыши с использованием сигналов
     @HostListener('document:mousemove', ['$event'])
-    public onMouseMove(event: MouseEvent) {
+    public onMouseMove(event: MouseEvent): void {
+        const modalElement = this._modal()?.nativeElement;
+        if (!modalElement) return;
+
         const target = event.target as HTMLElement;
-        if (!this.modal?.nativeElement?.contains(target)) {
-            this.modal.nativeElement.classList.add('dimmed');
+        if (!modalElement.contains(target)) {
+            modalElement.classList.add('dimmed');
         } else {
-            this.modal.nativeElement.classList.remove('dimmed');
+            modalElement.classList.remove('dimmed');
         }
     }
 
-    // Методы с использованием сигналов
-    public confirmLogout() {
+    public confirmLogout(): void {
         this._authService
             .signOut()
-            .pipe(takeUntil(this._destroyed$))
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(() => {
                 this.emittedModalHide.emit(false);
             });
     }
 
     public onBackgroundClick(event: Event): void {
+        const modalElement = this._modal()?.nativeElement;
+        if (!modalElement) return;
+
         const target = event.target as HTMLElement;
-        if (target.classList.contains(this.modal.nativeElement.classList)) {
+        if (target.classList.contains(modalElement.classList)) {
             this.closeLogoutDialog();
         }
     }
 
-    public closeLogoutDialog() {
+    public closeLogoutDialog(): void {
         this.emittedModalHide.emit(false);
     }
 
-    public resetModalDialog() {
+    public resetModalDialog(): void {
         this.emittedModalHide.emit(false);
     }
 }

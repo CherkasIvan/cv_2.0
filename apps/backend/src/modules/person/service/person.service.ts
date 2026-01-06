@@ -1,14 +1,14 @@
 import { Repository } from 'typeorm';
 
-import { 
-    BadRequestException, 
-    Injectable, 
-    NotFoundException 
-} from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-
 import { PersonResponseClassDto } from '@shared/dto/person-response-class.dto';
 import { PersonEntity } from '@shared/entities/person.entity';
+
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PersonService {
@@ -49,11 +49,13 @@ export class PersonService {
     ): Promise<PersonResponseClassDto> {
         // Проверяем, существует ли пользователь с таким email
         const existingUser = await this.personRepository.findOne({
-            where: { loginEmail: userData.loginEmail }
+            where: { loginEmail: userData.loginEmail },
         });
 
         if (existingUser) {
-            throw new BadRequestException('Пользователь с таким email уже существует');
+            throw new BadRequestException(
+                'Пользователь с таким email уже существует',
+            );
         }
 
         const user = this.personRepository.create(userData);
@@ -72,12 +74,17 @@ export class PersonService {
         }
 
         // Если обновляется email, проверяем уникальность
-        if (updateData.loginEmail && updateData.loginEmail !== user.loginEmail) {
+        if (
+            updateData.loginEmail &&
+            updateData.loginEmail !== user.loginEmail
+        ) {
             const existingUser = await this.personRepository.findOne({
-                where: { loginEmail: updateData.loginEmail }
+                where: { loginEmail: updateData.loginEmail },
             });
             if (existingUser) {
-                throw new BadRequestException('Пользователь с таким email уже существует');
+                throw new BadRequestException(
+                    'Пользователь с таким email уже существует',
+                );
             }
         }
 

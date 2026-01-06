@@ -7,35 +7,16 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
-        "target": "ES2021",
+        "target": "ES2022",
         "sourceMap": true,
         "outDir": "../../dist/out-tsc",
-        "baseUrl": "./src",
         "incremental": true,
-        "skipLibCheck": true,
         "strictNullChecks": false,
         "noImplicitAny": false,
         "strictBindCallApply": false,
         "forceConsistentCasingInFileNames": false,
-        "noFallthroughCasesInSwitch": false,
-        "paths": {
-            "@cv_2.0/shared": ["../../libs/shared/src/index.ts"],
-            "@cv_2.0/shared/*": ["../../libs/shared/src/*"],
-            "@core/*": ["core/*"],
-            "@shared/*": ["shared/*"],
-            "@common/*": ["common/*"],
-            "@entities/*": ["shared/entities/*"],
-            "@dto/*": ["shared/dto/*"],
-            "@repositories/*": ["repositories/*"],
-            "@services/*": ["services/*"],
-            "@controllers/*": ["controllers/*"],
-            "@guards/*": ["guards/*"],
-            "@interceptors/*": ["interceptors/*"],
-            "@filters/*": ["filters/*"],
-            "@pipes/*": ["pipes/*"],
-            "@decorators/*": ["decorators/*"],
-            "@config/*": ["config/*"],
-            "@utils/*": ["utils/*"]
-        }
-    }
+        "noFallthroughCasesInSwitch": false
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules", "dist"]
 }

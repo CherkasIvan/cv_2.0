@@ -1,7 +1,7 @@
 import { DocumentData } from 'firebase/firestore';
-import { TNavigationDto } from 'src/models/navigation-dto.type';
 
 import { TExperienceDto } from './experience-dto.type';
+import { TNavigationDto } from './navigation-dto.type';
 import { TSocialMediaDto } from './social-media-dto.type';
 import { TTechnologiesDto } from './technologies-dto.type';
 

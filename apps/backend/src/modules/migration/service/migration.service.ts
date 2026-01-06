@@ -649,71 +649,82 @@ export class MigrationService implements OnModuleInit {
         status: 500,
         description: 'Ошибка при миграции персон',
     })
-// src/modules/migration/service/migration.service.ts
+    // src/modules/migration/service/migration.service.ts
+    async migratePersons(): Promise<void> {
+        try {
+            console.log('Migrating persons...');
 
-async migratePersons(): Promise<void> {
-  try {
-    console.log('Migrating persons...');
-    
-    // НЕ очищаем таблицу! Просто получаем данные из Firebase
-    const personsData = await this.firebaseService.getPersons();
-    
-    let createdCount = 0;
-    let updatedCount = 0;
+            // НЕ очищаем таблицу! Просто получаем данные из Firebase
+            const personsData = await this.firebaseService.getPersons();
 
-    for (const person of personsData) {
-      // Проверяем, существует ли пользователь с таким email
-      const existingPerson = await this.personRepository.findOne({
-        where: { loginEmail: person.loginEmail }
-      });
+            let createdCount = 0;
+            let updatedCount = 0;
 
-      if (existingPerson) {
-        // ОБНОВЛЯЕМ существующего пользователя
-        await this.personRepository.update(existingPerson.id, {
-          firstName: person.firstName || existingPerson.firstName,
-          lastName: person.lastName || existingPerson.lastName,
-          middleName: person.middleName || existingPerson.middleName,
-          positions: person.positions || existingPerson.positions,
-          emails: person.emails || existingPerson.emails,
-          phones: person.phones || existingPerson.phones,
-          avatar: person.avatar || existingPerson.avatar,
-          bio: person.bio || existingPerson.bio,
-          locations: person.locations || existingPerson.locations,
-          isAdmin: person.isAdmin !== undefined ? person.isAdmin : existingPerson.isAdmin,
-          isActive: person.isActive !== undefined ? person.isActive : existingPerson.isActive,
-          roles: person.roles || existingPerson.roles,
-          // Не обновляем пароль и чувствительные данные
-        });
-        updatedCount++;
-      } else {
-        // СОЗДАЕМ нового пользователя
-        const newPerson = this.personRepository.create({
-          firstName: person.firstName || '',
-          lastName: person.lastName || '',
-          middleName: person.middleName || '',
-          positions: person.positions || [],
-          emails: person.emails || [],
-          loginEmail: person.loginEmail,
-          password: person.password || null, // Пароль должен хешироваться
-          phones: person.phones || [],
-          avatar: person.avatar || '',
-          bio: person.bio || '',
-          locations: person.locations || [],
-          isAdmin: person.isAdmin || false,
-          isActive: person.isActive !== undefined ? person.isActive : true,
-          roles: person.roles || ['user'],
-        });
-        await this.personRepository.save(newPerson);
-        createdCount++;
-      }
+            for (const person of personsData) {
+                // Проверяем, существует ли пользователь с таким email
+                const existingPerson = await this.personRepository.findOne({
+                    where: { loginEmail: person.loginEmail },
+                });
+
+                if (existingPerson) {
+                    // ОБНОВЛЯЕМ существующего пользователя
+                    await this.personRepository.update(existingPerson.id, {
+                        firstName: person.firstName || existingPerson.firstName,
+                        lastName: person.lastName || existingPerson.lastName,
+                        middleName:
+                            person.middleName || existingPerson.middleName,
+                        positions: person.positions || existingPerson.positions,
+                        emails: person.emails || existingPerson.emails,
+                        phones: person.phones || existingPerson.phones,
+                        avatar: person.avatar || existingPerson.avatar,
+                        bio: person.bio || existingPerson.bio,
+                        locations: person.locations || existingPerson.locations,
+                        isAdmin:
+                            person.isAdmin !== undefined
+                                ? person.isAdmin
+                                : existingPerson.isAdmin,
+                        isActive:
+                            person.isActive !== undefined
+                                ? person.isActive
+                                : existingPerson.isActive,
+                        roles: person.roles || existingPerson.roles,
+                        // Не обновляем пароль и чувствительные данные
+                    });
+                    updatedCount++;
+                } else {
+                    // СОЗДАЕМ нового пользователя
+                    const newPerson = this.personRepository.create({
+                        firstName: person.firstName || '',
+                        lastName: person.lastName || '',
+                        middleName: person.middleName || '',
+                        positions: person.positions || [],
+                        emails: person.emails || [],
+                        loginEmail: person.loginEmail,
+                        password: person.password || null, // Пароль должен хешироваться
+                        phones: person.phones || [],
+                        avatar: person.avatar || '',
+                        bio: person.bio || '',
+                        locations: person.locations || [],
+                        isAdmin: person.isAdmin || false,
+                        isActive:
+                            person.isActive !== undefined
+                                ? person.isActive
+                                : true,
+                        roles: person.roles || ['user'],
+                    });
+                    await this.personRepository.save(newPerson);
+                    createdCount++;
+                }
+            }
+
+            console.log(
+                `Persons migration completed: ${createdCount} created, ${updatedCount} updated`,
+            );
+        } catch (error) {
+            console.error('Persons migration failed:', error);
+            throw error;
+        }
     }
-    
-    console.log(`Persons migration completed: ${createdCount} created, ${updatedCount} updated`);
-  } catch (error) {
-    console.error('Persons migration failed:', error);
-    throw error;
-  }
-}
 
     // Методы для получения данных из PostgreSQL с декораторами Swagger
     @ApiOperation({ summary: 'Получить мигрированные данные навигации' })

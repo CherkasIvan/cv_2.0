@@ -1,13 +1,14 @@
+import { Observable, map, takeUntil } from 'rxjs';
+
 import { AsyncPipe, NgClass } from '@angular/common';
 import { Component, DestroyRef, Inject, inject, input } from '@angular/core';
 
-import { Observable, map, takeUntil } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { GithubRepositoriesActions } from '@layout/store/github-projects-store/github-projects.action';
 import { GithubState } from '@layout/store/github-projects-store/github-projects.reducer';
 import { selectRepositoryLanguages } from '@layout/store/github-projects-store/github-projects.selector';
-import { Store, select } from '@ngrx/store';
 
 @Component({
     selector: 'cv-project-chips',

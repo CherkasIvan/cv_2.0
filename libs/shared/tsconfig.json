@@ -18,24 +18,8 @@
         "importHelpers": true,
         "target": "ES2022",
         "module": "ES2022",
-        "lib": ["ES2022", "dom"],
-        "paths": {
-            "@cv_2.0/shared": ["../../libs/shared/src/index.ts"],
-            "@cv_2.0/shared/*": ["../../libs/shared/src/*"],
-            "@env/*": ["environments/*"],
-            "@utils/*": ["utils/*"],
-            "@store/*": ["app/store/*"],
-            "@*": ["app/*"],
-            "@assets/*": ["assets/*"],
-            "@pages/*": ["app/pages/*"],
-            "@core/*": ["app/core/*"],
-            "@layout/*": ["app/layout/*"]
-        }
+        "lib": ["ES2022", "dom"]
     },
-    "angularCompilerOptions": {
-        "enableI18nLegacyMessageIdFormat": false,
-        "strictInjectionParameters": true,
-        "strictInputAccessModifiers": true,
-        "strictTemplates": true
-    }
+    "include": ["src/**/*.ts"],
+    "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

@@ -21,12 +21,15 @@ import {
     RouterLinkActive,
 } from '@angular/router';
 
+import { Store } from '@ngrx/store';
+
 import { TNavigation } from '@core/models/navigation.type';
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
+
 import { selectAuthUser } from '@layout/store/auth-store/auth.selectors';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import { selectLogoUrl } from '@layout/store/images-store/images.selectors';
-import { Store } from '@ngrx/store';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 import { DarkModeToggleComponent } from '../dark-mode-toggle/dark-mode-toggle.component';

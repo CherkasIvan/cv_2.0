@@ -1,10 +1,15 @@
 // modules/person/controller/person-state.controller.ts
-import { Controller, Get, Post, Body, UseGuards, Req } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-
 import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
-import { PersonStateService } from '../../service/person-state/person-state.service';
 
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+    ApiBearerAuth,
+    ApiOperation,
+    ApiResponse,
+    ApiTags,
+} from '@nestjs/swagger';
+
+import { PersonStateService } from '../../service/person-state/person-state.service';
 
 @ApiTags('person')
 @Controller('person')

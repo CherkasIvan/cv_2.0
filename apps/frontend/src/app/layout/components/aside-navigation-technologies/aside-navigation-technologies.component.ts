@@ -1,22 +1,23 @@
-import { Observable, distinctUntilChanged, takeUntil } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs';
 
 import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    DestroyRef,
     OnInit,
     inject,
     input,
     output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Store, select } from '@ngrx/store';
 
 import { THardSkillsNav } from '@core/models/hard-skills-nav.type';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
-import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
 
@@ -32,7 +33,6 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
         AsideNavigationSubtechnologiesComponent,
         TranslateModule,
     ],
-    providers: [DestroyService],
     templateUrl: './aside-navigation-technologies.component.html',
     styleUrls: [
         './aside-navigation-technologies.component.scss',
@@ -41,81 +41,88 @@ import { AsideNavigationSubtechnologiesComponent } from '../aside-navigation-sub
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsideNavigationTechnologiesComponent implements OnInit {
-    public emittedMainTab = output<'technologies' | 'other'>();
-    public emittedSubTab = output<'frontend' | 'backend'>();
+    public readonly emittedMainTab = output<'technologies' | 'other'>();
+    public readonly emittedSubTab = output<'frontend' | 'backend'>();
 
-    private _destroyed$ = inject(DestroyService);
-    private _cdr = inject(ChangeDetectorRef);
-    private _store$ = inject(Store);
-    private _cacheStorageService = inject(CacheStorageService);
+    private readonly _destroyRef = inject(DestroyRef);
+    private readonly _cdr = inject(ChangeDetectorRef);
+    private readonly _store = inject(Store);
+    private readonly _cacheStorageService = inject(CacheStorageService);
 
-    public hardSkillsNavigation$: Observable<THardSkillsNav[]> =
-        this._store$.pipe(select(selectHardSkillsNav), distinctUntilChanged());
+    public readonly hardSkillsNavigation$ = this._store.pipe(
+        select(selectHardSkillsNav),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this._destroyRef),
+    );
 
-    public theme = input<boolean | null>(false);
-    public navigationList = input<TTechnologiesAside[]>([]);
-    public currentSkills: string = '';
-    public selectedTab: 'technologies' | 'other' = 'technologies';
-    public previousSkills: string = '';
+    public readonly theme = input<boolean | null>(false);
+    public readonly navigationList = input<TTechnologiesAside[]>([]);
 
-    public changeTab(tab: 'technologies' | 'other') {
-        if (this.selectedTab === tab) {
+    protected _currentSkills: string = '';
+    protected _selectedTab: 'technologies' | 'other' = 'technologies';
+    protected _previousSkills: string = '';
+
+    public changeTab(tab: 'technologies' | 'other'): void {
+        if (this._selectedTab === tab) {
             return;
         }
 
-        this.selectedTab = tab;
+        this._selectedTab = tab;
 
         this._cacheStorageService
-            .setSelectedMainTechnologiesTab(tab) // Исправлено: saveSelectedTechnologiesTab → setSelectedMainTechnologiesTab
-            .pipe(takeUntil(this._destroyed$))
+            .setSelectedMainTechnologiesTab(tab)
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(() => {
                 console.log('Technologies tab saved successfully');
 
                 this.emittedMainTab.emit(tab);
 
-                if (this.selectedTab === 'technologies') {
+                if (this._selectedTab === 'technologies') {
                     this._cacheStorageService
-                        .getSelectedSubTechnologiesTab() // Исправлено: getSelectedSubTechnologiesTabSync → getSelectedSubTechnologiesTab
-                        .pipe(takeUntil(this._destroyed$))
+                        .getSelectedSubTechnologiesTab()
+                        .pipe(takeUntilDestroyed(this._destroyRef))
                         .subscribe((savedSubTab: 'frontend' | 'backend') => {
-                            console.log('Loading saved sub technology:', savedSubTab);
+                            console.log(
+                                'Loading saved sub technology:',
+                                savedSubTab,
+                            );
 
                             this.emittedSubTab.emit(savedSubTab);
-                            this.previousSkills = savedSubTab;
+                            this._previousSkills = savedSubTab;
                             this._cdr.detectChanges();
                         });
                 } else {
-                    this.previousSkills = tab;
+                    this._previousSkills = tab;
                     this._cdr.detectChanges();
                 }
             });
     }
 
-    public tabForRoute(event: 'frontend' | 'backend') {
-        if (this.previousSkills !== event) {
+    public tabForRoute(event: 'frontend' | 'backend'): void {
+        if (this._previousSkills !== event) {
             this.emittedSubTab.emit(event);
-            this.previousSkills = event;
+            this._previousSkills = event;
         }
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this._cacheStorageService
-            .getSelectedMainTechnologiesTab() // Исправлено: getSelectedTechnologiesTab → getSelectedMainTechnologiesTab
-            .pipe(takeUntil(this._destroyed$))
+            .getSelectedMainTechnologiesTab()
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((tab: 'technologies' | 'other') => {
-                if (this.selectedTab !== tab) {
-                    this.selectedTab = tab;
+                if (this._selectedTab !== tab) {
+                    this._selectedTab = tab;
 
                     this.hardSkillsNavigation$
-                        .pipe(takeUntil(this._destroyed$))
+                        .pipe(takeUntilDestroyed(this._destroyRef))
                         .subscribe((skills: THardSkillsNav[]) => {
                             console.log('Hard skills loaded:', skills);
                             if (
                                 skills.length > 0 &&
-                                this.currentSkills !== skills[0].link
+                                this._currentSkills !== skills[0].link
                             ) {
-                                this.currentSkills = skills[0].link;
-                                this.previousSkills = this.currentSkills;
+                                this._currentSkills = skills[0].link;
+                                this._previousSkills = this._currentSkills;
                             }
                             this._cdr.detectChanges();
                         });
@@ -124,17 +131,22 @@ export class AsideNavigationTechnologiesComponent implements OnInit {
 
                     if (tab === 'technologies') {
                         this._cacheStorageService
-                            .getSelectedSubTechnologiesTab() // Исправлено: getSelectedSubTechnologiesTabSync → getSelectedSubTechnologiesTab
-                            .pipe(takeUntil(this._destroyed$))
-                            .subscribe((savedSubTab: 'frontend' | 'backend') => {
-                                console.log('Loading saved sub technology:', savedSubTab);
+                            .getSelectedSubTechnologiesTab()
+                            .pipe(takeUntilDestroyed(this._destroyRef))
+                            .subscribe(
+                                (savedSubTab: 'frontend' | 'backend') => {
+                                    console.log(
+                                        'Loading saved sub technology:',
+                                        savedSubTab,
+                                    );
 
-                                this.emittedSubTab.emit(savedSubTab);
-                                this.previousSkills = savedSubTab;
-                                this._cdr.detectChanges();
-                            });
+                                    this.emittedSubTab.emit(savedSubTab);
+                                    this._previousSkills = savedSubTab;
+                                    this._cdr.detectChanges();
+                                },
+                            );
                     } else {
-                        this.previousSkills = tab;
+                        this._previousSkills = tab;
                         this._cdr.detectChanges();
                     }
                 }

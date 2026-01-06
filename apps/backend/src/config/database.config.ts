@@ -1,4 +1,5 @@
 import * as path from 'path';
+
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 export const getDatabaseConfig = (): TypeOrmModuleOptions => {
@@ -12,8 +13,13 @@ export const getDatabaseConfig = (): TypeOrmModuleOptions => {
         username: process.env.POSTGRES_USER || 'jv13',
         password: process.env.POSTGRES_PASSWORD || 'postgres',
         database: process.env.POSTGRES_DB || 'cv_db_dev',
-        entities: [path.join(__dirname, '../**/!(*auth-session|*user).entity{.ts,.js}')],
-        synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true', 
+        entities: [
+            path.join(
+                __dirname,
+                '../**/!(*auth-session|*user).entity{.ts,.js}',
+            ),
+        ],
+        synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
         logging: process.env.NODE_ENV === 'development',
         migrations: [path.join(__dirname, '../migrations/*{.ts,.js}')],
         migrationsRun: process.env.TYPEORM_MIGRATIONS_RUN === 'true',
@@ -24,10 +30,13 @@ export const getDatabaseConfig = (): TypeOrmModuleOptions => {
     if (isProduction) {
         return {
             ...baseConfig,
-            synchronize: true, 
+            synchronize: true,
             logging: false,
             extra: {
-                ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+                ssl:
+                    process.env.DB_SSL === 'true'
+                        ? { rejectUnauthorized: false }
+                        : false,
             },
         };
     }

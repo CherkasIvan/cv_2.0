@@ -4,14 +4,14 @@ import { CanActivateFn } from '@angular/router';
 import { NoAuthGuard } from './no-auth.guard';
 
 describe('NoAuthGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => NoAuthGuard(...guardParameters));
+    const executeGuard: CanActivateFn = (...guardParameters) =>
+        TestBed.runInInjectionContext(() => NoAuthGuard(...guardParameters));
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+    });
 
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
-  });
+    it('should be created', () => {
+        expect(executeGuard).toBeTruthy();
+    });
 });

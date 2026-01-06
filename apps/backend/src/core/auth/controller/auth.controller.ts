@@ -1,10 +1,11 @@
+import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
+
 import { GuestLoginResponseClassDto } from '@shared/dto/guest-login-response-class.dto';
 import { LoginClassDto } from '@shared/dto/login-class.dto';
 import { LoginResponseClassDto } from '@shared/dto/login-response-class.dto';
 import { RefreshTokenDto } from '@shared/dto/refresh-token.dto';
 import { RegisterClassDto } from '@shared/dto/register-class.dto';
 
-import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import {
     ApiBearerAuth,

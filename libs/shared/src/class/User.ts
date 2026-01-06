@@ -1,4 +1,3 @@
-// libs/shared/src/class/User.ts
 export class User {
     constructor(
         public id: number,
@@ -6,7 +5,7 @@ export class User {
         public email: string,
     ) {}
 
-    greet(): string {
+    public greet(): string {
         return `Hello, ${this.name}!`;
     }
 }

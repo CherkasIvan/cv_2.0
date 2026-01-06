@@ -9,15 +9,18 @@ import {
 
 import { filter, map } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
+
 import { TEducationExperience } from '@core/models/education-experience.type';
 import { TWorkExperience } from '@core/models/work-experience.type';
+
 import { ExperienceActions } from '@layout/store/experience-dialog-store/experience-dialog.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
 import {
     selectArrowUrl,
     selectDownloadUrl,
 } from '@layout/store/images-store/images.selectors';
-import { Store } from '@ngrx/store';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({

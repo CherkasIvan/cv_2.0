@@ -1,9 +1,7 @@
 // src/migration/ReplacePersonNameWithFullNameFields.ts
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class ReplacePersonNameWithFullNameFields1711231234568
-    implements MigrationInterface
-{
+export class ReplacePersonNameWithFullNameFields1711231234568 implements MigrationInterface {
     name = 'ReplacePersonNameWithFullNameFields1711231234568';
 
     public async up(queryRunner: QueryRunner): Promise<void> {

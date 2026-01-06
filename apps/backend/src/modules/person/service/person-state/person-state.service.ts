@@ -1,8 +1,10 @@
 // src/modules/person/service/person-state/person-state.service.ts
+import { Repository } from 'typeorm';
+
+import { PersonStateEntity } from '@shared/entities/person-state.entity';
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PersonStateEntity } from '@shared/entities/person-state.entity';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class PersonStateService {
@@ -13,7 +15,7 @@ export class PersonStateService {
 
     async getPersonState(personId: number): Promise<any> {
         const state = await this.personStateRepository.findOne({
-            where: { personId }
+            where: { personId },
         });
 
         return state ? state.state : null;
@@ -21,7 +23,7 @@ export class PersonStateService {
 
     async setPersonState(personId: number, state: any): Promise<void> {
         let personState = await this.personStateRepository.findOne({
-            where: { personId }
+            where: { personId },
         });
 
         if (personState) {
@@ -46,7 +48,7 @@ export class PersonStateService {
     // Дополнительные методы
     async setOnlineStatus(personId: number, isOnline: boolean): Promise<void> {
         let personState = await this.personStateRepository.findOne({
-            where: { personId }
+            where: { personId },
         });
 
         if (personState) {
@@ -67,7 +69,7 @@ export class PersonStateService {
 
     async getOnlineStatus(personId: number): Promise<boolean> {
         const state = await this.personStateRepository.findOne({
-            where: { personId }
+            where: { personId },
         });
 
         return state ? state.isOnline : false;

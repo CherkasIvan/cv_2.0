@@ -3,13 +3,13 @@ import { AsyncPipe, NgClass, isPlatformBrowser } from '@angular/common';
 import {
     Component,
     DestroyRef,
+    Inject,
+    OnInit,
+    PLATFORM_ID,
     inject,
     input,
     output,
     signal,
-    PLATFORM_ID,
-    Inject,
-    OnInit,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -132,7 +132,7 @@ export class RegistrationFormComponent implements OnInit {
 
     onBackgroundClick(event: MouseEvent): void {
         if (!this.isBrowser) return;
-        
+
         if (
             (event.target as HTMLElement).classList.contains('modal-background')
         ) {
@@ -142,7 +142,7 @@ export class RegistrationFormComponent implements OnInit {
 
     confirmRegistration(): void {
         if (!this.isBrowser) return;
-        
+
         if (this.registrationForm.valid) {
             this.isLoading.set(true);
             this.error.set(null);
@@ -191,7 +191,7 @@ export class RegistrationFormComponent implements OnInit {
 
     resetRegistrationForm(): void {
         if (!this.isBrowser) return;
-        
+
         this.registrationForm.reset({
             name: '',
             positionInput: '',
@@ -218,7 +218,7 @@ export class RegistrationFormComponent implements OnInit {
 
     addEmail(): void {
         if (!this.isBrowser) return;
-        
+
         const emailInput = this.registrationForm.get('emailInput');
         if (emailInput?.valid && emailInput.value) {
             const newEmail = emailInput.value.trim();
@@ -235,7 +235,7 @@ export class RegistrationFormComponent implements OnInit {
 
     addPosition(): void {
         if (!this.isBrowser) return;
-        
+
         const positionInput = this.registrationForm.get('positionInput');
         if (positionInput?.value) {
             const newPosition = positionInput.value.trim();
@@ -252,7 +252,7 @@ export class RegistrationFormComponent implements OnInit {
 
     addPhone(): void {
         if (!this.isBrowser) return;
-        
+
         const phoneInput = this.registrationForm.get('phoneInput');
         if (phoneInput?.valid && phoneInput.value) {
             const newPhone = phoneInput.value.trim();
@@ -269,7 +269,7 @@ export class RegistrationFormComponent implements OnInit {
 
     addLocation(): void {
         if (!this.isBrowser) return;
-        
+
         const locationInput = this.registrationForm.get('locationInput');
         if (locationInput?.value) {
             const newLocation = locationInput.value.trim();

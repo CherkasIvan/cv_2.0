@@ -1,3 +1,3 @@
 export interface FlatTranslationsModel {
-  [key: string]: string;
+    [key: string]: string;
 }

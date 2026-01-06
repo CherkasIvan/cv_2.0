@@ -1,11 +1,13 @@
 // auth.interceptor.ts
+import { catchError, throwError } from 'rxjs';
+
+import { isPlatformBrowser } from '@angular/common';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
-import { AuthService } from '@core/service/auth/auth.service';
-import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { AuthService } from '@core/service/auth/auth.service';
 
 export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
     const authService = inject(AuthService);
@@ -17,15 +19,21 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
         catchError((error) => {
             // Только в браузере обрабатываем ошибки авторизации
             if (isBrowser) {
-                const isApiRequest =  ['/auth', '/firebase', '/person', '/template', '/i18n', '/api']
-                    .some(pattern => req.url.includes(pattern));
-                
+                const isApiRequest = [
+                    '/auth',
+                    '/firebase',
+                    '/person',
+                    '/template',
+                    '/i18n',
+                    '/api',
+                ].some((pattern) => req.url.includes(pattern));
+
                 if (isApiRequest && error.status === 401) {
                     authService.updateState({ user: null });
                     router.navigate(['/auth']);
                 }
             }
             return throwError(() => error);
-        })
+        }),
     );
 };

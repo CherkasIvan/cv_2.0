@@ -1,13 +1,19 @@
-import { Observable, map, switchMap, takeUntil } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    DestroyRef,
+    OnInit,
+    inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store, select } from '@ngrx/store';
 
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
-import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import { setLanguageSuccess } from '@layout/store/language-selector-store/language.actions';
@@ -21,66 +27,66 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     standalone: true,
     imports: [TranslateModule, NgClass, AsyncPipe],
     templateUrl: './language-toggle.component.html',
-    providers: [DestroyService],
     styleUrls: [
         './language-toggle.component.scss',
         './language-toggle-dark-mode/language-toggle.component.dm.scss',
     ],
 })
 export class LanguageToggleComponent implements OnInit {
+    private readonly _route = inject(ActivatedRoute);
+    private readonly _store =
+        inject<Store<TLanguagesState | TDarkModeState>>(Store);
+    private readonly _destroyRef = inject(DestroyRef);
+    private readonly _translateService = inject(TranslateService);
+    private readonly _cdr = inject(ChangeDetectorRef);
+    private readonly _cacheStorageService = inject(CacheStorageService);
+
     public currentLanguage: string = 'EN';
     public isCheckedLanguage: boolean = false;
     public authPath!: any;
-    public currentTheme$: Observable<boolean> = this._store$.pipe(
+
+    public readonly currentTheme$ = this._store.pipe(
         select(darkModeSelector),
+        takeUntilDestroyed(this._destroyRef),
     );
 
     protected readonly _locales = ['en', 'ru'];
-    protected isCollapsed = true;
+    protected _isCollapsed = true;
 
-    constructor(
-        private route: ActivatedRoute,
-        @Inject(Store) private _store$: Store<TLanguagesState | TDarkModeState>,
-        @Inject(DestroyService) private _destroyed$: Observable<void>,
-        @Inject(TranslateService)
-        private readonly _translateService: TranslateService,
-        private _cdr: ChangeDetectorRef,
-        private _cacheStorageService: CacheStorageService,
-    ) {}
-
-    public changeLanguage() {
+    public changeLanguage(): void {
         this.isCheckedLanguage = !this.isCheckedLanguage;
         const newLanguage = this.isCheckedLanguage ? 'en' : 'ru';
 
         this._translateService
             .use(newLanguage)
             .pipe(
-                takeUntil(this._destroyed$),
+                takeUntilDestroyed(this._destroyRef),
                 switchMap(() =>
                     this._cacheStorageService.setLanguage(newLanguage),
                 ),
-                takeUntil(this._destroyed$),
             )
             .subscribe({
                 next: () => {
-                    this._store$.dispatch(setLanguageSuccess(newLanguage));
+                    this._store.dispatch(setLanguageSuccess(newLanguage));
                     this._cdr.markForCheck();
                 },
                 error: (err) => console.error('Error changing language:', err),
             });
     }
 
-    ngOnInit(): void {
-        this.route.url.pipe(takeUntil(this._destroyed$)).subscribe((url) => {
-            this.authPath = url.find((el) => el.path);
-            this._cdr.markForCheck();
-        });
+    public ngOnInit(): void {
+        this._route.url
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe((url) => {
+                this.authPath = url.find((el) => el.path);
+                this._cdr.markForCheck();
+            });
 
         this._cacheStorageService
             .getLanguage()
             .pipe(
-                takeUntil(this._destroyed$),
-                switchMap((storedLanguage) => {
+                takeUntilDestroyed(this._destroyRef),
+                switchMap((storedLanguage: string) => {
                     const languageToSet = storedLanguage || 'en';
                     return this._translateService.use(languageToSet).pipe(
                         switchMap(() =>
@@ -93,11 +99,11 @@ export class LanguageToggleComponent implements OnInit {
                 }),
             )
             .subscribe({
-                next: (languageToSet) => {
-                    this._store$.dispatch(setLanguageSuccess(languageToSet));
+                next: (languageToSet: string) => {
+                    this._store.dispatch(setLanguageSuccess(languageToSet));
                     this._cdr.markForCheck();
                 },
-                error: (err) =>
+                error: (err: any) =>
                     console.error('Error initializing language:', err),
             });
     }

@@ -1,3 +1,14 @@
+import {
+    BehaviorSubject,
+    Observable,
+    catchError,
+    map,
+    of,
+    shareReplay,
+    switchMap,
+    tap,
+} from 'rxjs';
+
 import { isPlatformServer } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
@@ -10,17 +21,6 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
-import {
-    BehaviorSubject,
-    Observable,
-    catchError,
-    map,
-    of,
-    shareReplay,
-    switchMap,
-    tap,
-} from 'rxjs';
 
 import { TAuthResponse } from '@core/models/auth-response.type';
 

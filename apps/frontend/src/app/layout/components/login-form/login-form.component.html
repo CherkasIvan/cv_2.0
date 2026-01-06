@@ -96,9 +96,11 @@
                 </div>
 
                 @if (fieldsVisible()) {
-                    <div class="register-prompt fields-animation"
-                         [class.fields-visible]="fieldsVisible()"
-                         [class.fields-hidden]="!fieldsVisible()">
+                    <div
+                        class="register-prompt fields-animation"
+                        [class.fields-visible]="fieldsVisible()"
+                        [class.fields-hidden]="!fieldsVisible()"
+                    >
                         <span class="regester-title">
                             {{ 'LOGIN-MODAL.REGISTRATION_QUESTION' | translate }}
                         </span>
@@ -142,7 +144,11 @@
                         @if (isLoading()) {
                             <cv-spinner></cv-spinner>
                         }
-                        {{ isGuestMode() ? ('LOGIN-MODAL.ENTER_AS_GUEST' | translate) : ('LOGIN-MODAL.LOGIN' | translate) }}
+                        {{
+                            isGuestMode()
+                                ? ('LOGIN-MODAL.ENTER_AS_GUEST' | translate)
+                                : ('LOGIN-MODAL.LOGIN' | translate)
+                        }}
                     </button>
 
                     @if (showEmailPasswordFields() && fieldsVisible()) {

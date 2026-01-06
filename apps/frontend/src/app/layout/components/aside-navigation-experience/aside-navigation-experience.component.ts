@@ -1,23 +1,22 @@
-import { Observable, takeUntil } from 'rxjs';
-
 import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Inject,
+    DestroyRef,
     OnInit,
+    inject,
     input,
     output,
     signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Store, select } from '@ngrx/store';
 
 import { TExperienceAside } from '@core/models/experience-aside.type';
 import { THardSkillsNav } from '@core/models/hard-skills-nav.type';
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
-import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { selectHardSkillsNav } from '@layout/store/firebase-store/firebase.selectors';
 
@@ -27,7 +26,6 @@ import { TranslateModule } from '@ngx-translate/core';
     selector: 'cv-aside-navigation-experience',
     standalone: true,
     imports: [NgClass, TranslateModule],
-    providers: [DestroyService],
     templateUrl: './aside-navigation-experience.component.html',
     styleUrls: [
         './aside-navigation-experience.component.scss',
@@ -36,48 +34,48 @@ import { TranslateModule } from '@ngx-translate/core';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AsideNavigationExperienceComponent implements OnInit {
-    public emittedTab = output<string>();
+    public readonly emittedTab = output<string>();
 
-    public hardSkillsNavigation$: Observable<THardSkillsNav[]> =
-        this._store$.pipe(select(selectHardSkillsNav));
-    public theme = input<boolean | null>(false);
-    public navigationList = input<TExperienceAside[]>([]);
+    private readonly _destroyRef = inject(DestroyRef);
+    private readonly _cdr = inject(ChangeDetectorRef);
+    private readonly _store = inject(Store);
+    private readonly _cacheStorageService = inject(CacheStorageService);
 
-    public currentSkills = signal<string>('');
-    public selectedTab = signal<'work' | 'education'>('work');
+    public readonly hardSkillsNavigation$ = this._store.pipe(
+        select(selectHardSkillsNav),
+        takeUntilDestroyed(this._destroyRef),
+    );
 
-    constructor(
-        private _cdr: ChangeDetectorRef,
-        @Inject(Store) private _store$: Store<THardSkillsNav>,
-        @Inject(DestroyService) private _destroyed$: Observable<void>,
-        private _cacheStorageService: CacheStorageService,
-    ) {}
+    public readonly theme = input<boolean | null>(false);
+    public readonly navigationList = input<TExperienceAside[]>([]);
 
-    public changeTab(tab: 'education' | 'work') {
+    public readonly currentSkills = signal<string>('');
+    public readonly selectedTab = signal<'work' | 'education'>('work');
+
+    public changeTab(tab: 'education' | 'work'): void {
         this.selectedTab.set(tab);
-        
-        // Исправлено: saveSelectedTab → setSelectedExperienceTab
-        this._cacheStorageService.setSelectedExperienceTab(tab)
-            .pipe(takeUntil(this._destroyed$))
+
+        this._cacheStorageService
+            .setSelectedExperienceTab(tab)
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe(() => {
                 console.log('Experience tab saved successfully');
             });
-            
+
         this.emittedTab.emit(tab);
         this._cdr.detectChanges();
     }
 
-    public changeSkillsList(tab: string) {
+    public changeSkillsList(tab: string): void {
         this.currentSkills.set(tab);
         this.emittedTab.emit(tab);
         this._cdr.detectChanges();
     }
 
-    ngOnInit(): void {
-        // Исправлено: getSelectedTab → getSelectedExperienceTab
+    public ngOnInit(): void {
         this._cacheStorageService
             .getSelectedExperienceTab()
-            .pipe(takeUntil(this._destroyed$))
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((tab: 'work' | 'education') => {
                 this.selectedTab.set(tab);
                 this.emittedTab.emit(tab);
@@ -85,7 +83,7 @@ export class AsideNavigationExperienceComponent implements OnInit {
             });
 
         this.hardSkillsNavigation$
-            .pipe(takeUntil(this._destroyed$))
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((skills: THardSkillsNav[]) => {
                 const skill = skills.find((skill) => skill.id === 1);
                 if (skill) {

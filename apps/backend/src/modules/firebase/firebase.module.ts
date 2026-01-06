@@ -10,9 +10,7 @@ import { FirebaseService } from './service/firebase.service';
 // Загружаем .env файлы из корня проекта
 const rootPath = path.resolve(process.cwd(), '..');
 const envFile =
-    process.env.NODE_ENV === 'production'
-        ? '.env'
-        : '.env.development';
+    process.env.NODE_ENV === 'production' ? '.env' : '.env.development';
 
 dotenv.config({ path: path.resolve(rootPath, envFile) });
 

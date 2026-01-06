@@ -4,7 +4,7 @@
         "rootDir": ".",
         "sourceMap": true,
         "declaration": false,
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "importHelpers": true,
@@ -13,11 +13,37 @@
         "lib": ["es2022", "dom"],
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
-        "baseUrl": ".",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "useDefineForClassFields": false,
+        "removeComments": false,
+        "incremental": true,
+        "resolveJsonModule": true,
         "paths": {
             "@cv_2.0/shared": ["libs/shared/src/index.ts"],
-            "@cv_2.0/shared/*": ["libs/shared/src/*"]
+            "@cv_2.0/shared/*": ["libs/shared/src/*"],
+
+            "@env/*": ["apps/frontend/src/environments/*"],
+            "@utils/*": ["apps/frontend/src/utils/*"],
+            "@store/*": ["apps/frontend/src/app/store/*"],
+            "@assets/*": ["apps/frontend/src/assets/*"],
+            "@pages/*": ["apps/frontend/src/app/pages/*"],
+            "@core/*": ["apps/frontend/src/app/core/*"],
+            "@layout/*": ["apps/frontend/src/app/layout/*"],
+            "@models/*": ["apps/frontend/src/app/core/models/*"],
+            "@services/*": ["apps/frontend/src/app/core/services/*"],
+            "@directives/*": ["apps/frontend/src/app/core/directives/*"],
+
+            "@entities/*": ["apps/backend/src/shared/entities/*"],
+            "@dto/*": ["apps/backend/src/shared/dto/*"],
+            "@repositories/*": ["apps/backend/src/repositories/*"]
         }
     },
-    "exclude": ["node_modules", "tmp"]
+    "exclude": ["node_modules", "tmp", "dist"]
 }

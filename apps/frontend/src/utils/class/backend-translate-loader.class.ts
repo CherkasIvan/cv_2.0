@@ -1,6 +1,7 @@
+import { Observable, of } from 'rxjs';
+
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { Language, TranslateLoader } from '@ngx-translate/core';

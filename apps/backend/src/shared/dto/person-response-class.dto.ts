@@ -1,7 +1,7 @@
 // dto/person-response.dto.ts
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-
 import { PersonEntity } from '@shared/entities/person.entity';
+
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class PersonResponseClassDto {
     @ApiProperty({

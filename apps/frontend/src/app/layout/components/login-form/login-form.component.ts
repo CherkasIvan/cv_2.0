@@ -5,15 +5,15 @@ import {
     DestroyRef,
     ElementRef,
     HostListener,
+    Inject,
     OnInit,
+    PLATFORM_ID,
     ViewChild,
     computed,
     inject,
     input,
     output,
     signal,
-    PLATFORM_ID,
-    Inject,
 } from '@angular/core';
 import { ChangeDetectionStrategy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -90,7 +90,7 @@ export class LoginFormComponent implements OnInit {
     @HostListener('document:mousemove', ['$event'])
     onMouseMove(event: MouseEvent) {
         if (!this.isBrowser) return;
-        
+
         const target = event.target as HTMLElement;
         if (
             this.modal?.nativeElement &&
@@ -120,7 +120,7 @@ export class LoginFormComponent implements OnInit {
 
     onBackgroundClick(event: MouseEvent): void {
         if (!this.isBrowser) return;
-        
+
         const target = event.target as HTMLElement;
         if (target.classList.contains('modal-background')) {
             this.closeModalDialog();
@@ -145,7 +145,7 @@ export class LoginFormComponent implements OnInit {
             this.authForm.patchValue({
                 email: '',
                 password: '',
-                guest: false
+                guest: false,
             });
             this.error.set(null);
             this.fieldsVisible.set(true);

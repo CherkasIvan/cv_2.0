@@ -1,19 +1,17 @@
-import { Observable, takeUntil } from 'rxjs';
-
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    Inject,
+    DestroyRef,
     OnInit,
+    inject,
 } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Store, select } from '@ngrx/store';
 
 import { TMainPageInfo } from '@core/models/main-page-info';
-import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { ButtonComponent } from '@layout/components/button/button.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
@@ -40,32 +38,32 @@ import { ProfileLogoComponent } from '../../../layout/components/profile-logo/pr
         './main.component.scss',
         './main-dark-mode/main-dark-mode.component.scss',
     ],
-    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainComponent implements OnInit {
-    public mainInfo$: Observable<TMainPageInfo | null> = this._store$.pipe(
+    private readonly _cdr = inject(ChangeDetectorRef);
+    private readonly _store =
+        inject<Store<TDarkModeState | TMainPageInfo>>(Store);
+    private readonly _destroyRef = inject(DestroyRef);
+
+    public readonly mainInfo$ = this._store.pipe(
         select(selectMainPageInfo),
+        takeUntilDestroyed(this._destroyRef),
     );
-    public mainInfoPageData: TMainPageInfo | null = null;
+
+    protected _mainInfoPageData: TMainPageInfo | null = null;
     public mainInfoKeys: string[] = [];
 
-    public currentTheme$: Observable<boolean> = this._store$.pipe(
+    public readonly currentTheme$ = this._store.pipe(
         select(darkModeSelector),
+        takeUntilDestroyed(this._destroyRef),
     );
 
-    constructor(
-        private _cdr: ChangeDetectorRef,
-        @Inject(Store) private _store$: Store<TDarkModeState | TMainPageInfo>,
-        @Inject(DestroyService) private _destroyed$: Observable<void>,
-    ) {}
+    public ngOnInit(): void {
+        this._store.dispatch(FirebaseActions.loadMainPageInfo({ imgName: '' }));
 
-    ngOnInit(): void {
-        this._store$.dispatch(
-            FirebaseActions.loadMainPageInfo({ imgName: '' }),
-        );
-        this.mainInfo$.pipe(takeUntil(this._destroyed$)).subscribe((info) => {
-            this.mainInfoPageData = info;
+        this.mainInfo$.subscribe((info: TMainPageInfo | null) => {
+            this._mainInfoPageData = info;
             if (info) {
                 this.mainInfoKeys = Object.keys(info).sort();
                 console.log(this.mainInfoKeys);

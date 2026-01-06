@@ -199,26 +199,26 @@
 
 .back-to-login {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     gap: 8px;
     margin-bottom: 20px;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 12px;
 
     .back-title {
-        font-size: 14px;
         color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
     }
 
     .back-link {
-        color: #4fc3f7;
+        transition: color 0.3s ease;
         cursor: pointer;
+        color: #4fc3f7;
         font-weight: 500;
         text-decoration: none;
-        transition: color 0.3s ease;
 
         &:hover {
             color: #29b6f6;

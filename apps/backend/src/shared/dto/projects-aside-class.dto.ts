@@ -8,7 +8,7 @@ export class ProjectsAsideClassDto {
     id: number;
 
     @ApiProperty({
-        description: 'Приватность проекта',d
+        description: 'Приватность проекта',
         example: false,
     })
     isPrivate: boolean;

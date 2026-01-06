@@ -1,17 +1,18 @@
-import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
-    Inject,
+    DestroyRef,
     OnInit,
+    inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { Store, select } from '@ngrx/store';
 
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
-import { DestroyService } from '@core/service/destroy/destroy.service';
 
 import { setModeSuccess } from '@layout/store/dark-mode-store/dark-mode.actions';
 import { ImagesActions } from '@layout/store/images-store/images.actions';
@@ -24,50 +25,42 @@ import { TDarkModeState } from '@layout/store/model/dark-mode-state.type';
     imports: [NgClass, AsyncPipe],
     templateUrl: './dark-mode-toggle.component.html',
     styleUrls: ['./dark-mode-toggle.component.scss'],
-    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DarkModeToggleComponent implements OnInit {
-    public isChecked = false;
-    public darkModeImage$ = new BehaviorSubject<string>('');
-    public whiteModeImage$ = new BehaviorSubject<string>('');
+    private readonly _destroyRef = inject(DestroyRef);
+    private readonly _store = inject<Store<TDarkModeState>>(Store);
+    private readonly _cacheStorageService = inject(CacheStorageService);
 
-    constructor(
-        @Inject(Store) private _store$: Store<TDarkModeState>,
-        @Inject(DestroyService) private _destroyed$: Observable<void>,
-        private _cacheStorageService: CacheStorageService,
-    ) {}
+    public isChecked = false;
+    public readonly darkModeImage$ = new BehaviorSubject<string>('');
+    public readonly whiteModeImage$ = new BehaviorSubject<string>('');
 
     public changeView(): void {
         this.isChecked = !this.isChecked;
         this._cacheStorageService.setDarkMode(this.isChecked);
-        this._store$.dispatch(setModeSuccess(this.isChecked));
-        this._store$.dispatch(
+        this._store.dispatch(setModeSuccess(this.isChecked));
+        this._store.dispatch(
             ImagesActions.loadToggleIcons({ mode: this.isChecked }),
         );
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this._cacheStorageService
             .getDarkMode()
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe((darkMode) => {
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe((darkMode: boolean) => {
                 this.isChecked = darkMode;
-                this._store$.dispatch(setModeSuccess(this.isChecked));
-                this._store$.dispatch(
+                this._store.dispatch(setModeSuccess(this.isChecked));
+                this._store.dispatch(
                     ImagesActions.loadToggleIcons({ mode: this.isChecked }),
                 );
             });
 
-        this._store$
-            .pipe(takeUntil(this._destroyed$), select(selectToggleUrl))
-            .subscribe((url) => {
+        this._store
+            .pipe(takeUntilDestroyed(this._destroyRef), select(selectToggleUrl))
+            .subscribe((url: string) => {
                 this.darkModeImage$.next(url);
-            });
-
-        this._store$
-            .pipe(takeUntil(this._destroyed$), select(selectToggleUrl))
-            .subscribe((url) => {
                 this.whiteModeImage$.next(url);
             });
     }

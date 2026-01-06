@@ -20,10 +20,15 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+
 import { ApiPrefixInterceptor } from '@core/interceptors/api-prefix/api-prefix.interceptor';
 import { AuthInterceptor } from '@core/interceptors/auth/auth.interceptor';
 import { LoadingInterceptor } from '@core/interceptors/loading/loading.interceptor';
 import { SsrInterceptor } from '@core/interceptors/ssr/ssr.interceptor';
+
 import { darkModeReducer } from '@layout/store/dark-mode-store/dark-mode.reducers';
 import { experienceDialogReducer } from '@layout/store/experience-dialog-store/experience-dialog.reducers';
 import { FirebaseEffects } from '@layout/store/firebase-store/firebase.effects';
@@ -34,12 +39,11 @@ import { ImagesEffects } from '@layout/store/images-store/images.effects';
 import { imagesReducer } from '@layout/store/images-store/images.reducers';
 import { languageReducer } from '@layout/store/language-selector-store/language.reducers';
 import { spinnerReducer } from '@layout/store/spinner-store/spinner.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
-import { StoreModule } from '@ngrx/store';
+
+import { BackendTranslateLoader } from '@utils/class/backend-translate-loader.class';
+
 // Импорты ngx-translate
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { BackendTranslateLoader } from '@utils/class/backend-translate-loader.class';
 
 import { environment } from '../environments/environment.development';
 import { AuthEffects } from './layout/store/auth-store/auth.effects';

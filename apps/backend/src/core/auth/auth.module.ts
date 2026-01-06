@@ -1,10 +1,11 @@
 import { PersonSessionService } from 'modules/person/service/person-session/person-session.service';
 
+import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
+import { JwtStrategy } from '@core/strategy/jwt.strategy';
+
 import { PersonSessionEntity } from '@shared/entities/person-session.entity';
 import { PersonEntity } from '@shared/entities/person.entity';
 
-import { JwtAuthGuard } from '@core/guard/jwt-auth/jwt-auth.guard';
-import { JwtStrategy } from '@core/strategy/jwt.strategy';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';

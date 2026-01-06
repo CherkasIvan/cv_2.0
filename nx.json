@@ -1,7 +1,11 @@
 {
-    "$schema": "../../node_modules/nx/schemas/nx-schema.json",
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "projects": {
-        "shared": "libs/shared",
+        "shared": {
+            "root": "libs/shared",
+            "sourceRoot": "libs/shared/src",
+            "projectType": "library"
+        },
         "frontend": "apps/frontend",
         "backend": "apps/backend"
     },

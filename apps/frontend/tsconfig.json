@@ -2,18 +2,7 @@
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "outDir": "./dist/out-tsc",
-        "paths": {
-            "@env/*": ["./src/environments/*"],
-            "@utils/*": ["./src/utils/*"],
-            "@store/*": ["./src/app/store/*"],
-            "@assets/*": ["./src/assets/*"],
-            "@pages/*": ["./src/app/pages/*"],
-            "@core/*": ["./src/app/core/*"],
-            "@layout/*": ["./src/app/layout/*"],
-            "@models/*": ["./src/app/core/models/*"],
-            "@services/*": ["./src/app/core/services/*"],
-            "@directives/*": ["./src/app/core/directives/*"]
-        }
+        "moduleResolution": "bundler"
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,

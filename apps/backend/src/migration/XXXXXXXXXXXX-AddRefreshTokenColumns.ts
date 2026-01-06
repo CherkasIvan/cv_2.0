@@ -1,7 +1,7 @@
-  import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class AddRefreshTokenColumns1712345678901 implements MigrationInterface {
-    name = 'AddRefreshTokenColumns1712345678901'
+    name = 'AddRefreshTokenColumns1712345678901';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
@@ -9,7 +9,8 @@ export class AddRefreshTokenColumns1712345678901 implements MigrationInterface {
             ADD COLUMN "refreshToken" TEXT,
             ADD COLUMN "refreshTokenExpires" TIMESTAMP
         `);
-    }А
+    }
+    А;
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`

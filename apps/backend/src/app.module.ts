@@ -1,36 +1,37 @@
 import * as path from 'path';
+
+import { WorkExperienceEntity } from '@shared/entities/work-experience.entity';
+
 import { CacheModule } from '@nestjs/cache-manager';
 import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { getDatabaseConfig } from './config/database.config';
 import { AuthModule } from './core/auth/auth.module';
+import { FileStorageModule } from './modules/file-storage/file-storage.module';
 import { FirebaseModule } from './modules/firebase/firebase.module';
 import { MigrationModule } from './modules/migration/migration.module';
 import { PersonModule } from './modules/person/person.module';
 import { TemplateModule } from './modules/template/template.module';
-import { FileStorageModule } from './modules/file-storage/file-storage.module';
 import { EducationExperienceEntity } from './shared/entities/education-experience.entity';
 import { ExperienceAsideEntity } from './shared/entities/experience-aside.entity';
 import { HardSkillsNavEntity } from './shared/entities/hard-skills-nav.entity';
 import { MainPageInfoEntity } from './shared/entities/main-page-info.entity';
 import { NavigationEntity } from './shared/entities/navigation.entity';
-import { PersonEntity } from './shared/entities/person.entity';
 import { PersonSessionEntity } from './shared/entities/person-session.entity';
 import { PersonStateEntity } from './shared/entities/person-state.entity';
+import { PersonEntity } from './shared/entities/person.entity';
 import { ProjectEntity } from './shared/entities/project.entity';
 import { RepositoryMigrationEntity } from './shared/entities/repository-migration.entity';
 import { SocialMediaEntity } from './shared/entities/social-media.entity';
 import { TechnologiesAsideEntity } from './shared/entities/technologies-aside.entity';
 import { TechnologyEntity } from './shared/entities/technology.entity';
 import { ThemelessPicturesEntity } from './shared/entities/themeless-pictures.entity';
-import { WorkExperienceEntity } from '@shared/entities/work-experience.entity';
 
 const rootPath = path.resolve(process.cwd(), '..');
 const envFile =
-    process.env.NODE_ENV === 'production'
-        ? '.env'
-        : '.env.development';
+    process.env.NODE_ENV === 'production' ? '.env' : '.env.development';
 
 @Module({
     imports: [
@@ -53,7 +54,7 @@ const envFile =
         PersonModule,
         TemplateModule,
         AuthModule,
-        FileStorageModule,  
+        FileStorageModule,
         CacheModule.register({
             isGlobal: true,
         }),
@@ -76,7 +77,7 @@ const envFile =
             RepositoryMigrationEntity,
         ]),
     ],
-    controllers: [],  
+    controllers: [],
     providers: [],
 })
 export class AppModule implements OnModuleInit {

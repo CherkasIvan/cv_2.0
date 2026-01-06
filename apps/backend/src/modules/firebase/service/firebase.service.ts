@@ -11,7 +11,6 @@ import {
 import { Injectable } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-
 import { db } from '../../../config/firebase.config';
 import { EducationExperienceClassDto } from '../../../shared/dto/education-experience-class.dto';
 import { ExperienceAsideClassDto } from '../../../shared/dto/experience-aside-class.dto';

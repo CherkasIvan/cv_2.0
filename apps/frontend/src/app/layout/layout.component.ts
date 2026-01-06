@@ -1,8 +1,11 @@
+import { Observable, timer } from 'rxjs';
+
 import { AsyncPipe, NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    DestroyRef,
     OnInit,
     computed,
     inject,
@@ -12,18 +15,17 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { RouterOutlet } from '@angular/router';
 
-import { ROUTER_CLASSES } from '@assets/animations/css.ts/router-animations.css';
-import { START_CARD_CLASSES } from '@assets/animations/css.ts/start-card-animations.css';
-
-import { Observable, takeUntil, timer } from 'rxjs';
+import { Store, select } from '@ngrx/store';
 
 import { TEducationExperience } from '@core/models/education-experience.type';
 import { TNavigation } from '@core/models/navigation.type';
 import { TSocialMedia } from '@core/models/social-media.type';
 import { TWorkExperience } from '@core/models/work-experience.type';
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
-import { DestroyService } from '@core/service/destroy/destroy.service';
-import { Store, select } from '@ngrx/store';
+
+import { ROUTER_CLASSES } from '@assets/animations/css.ts/router-animations.css';
+import { START_CARD_CLASSES } from '@assets/animations/css.ts/start-card-animations.css';
+
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AnimationBgComponent } from './components/animation-bg/animation-bg.component';
@@ -61,7 +63,6 @@ import {
         FirstTimeComponent,
         TranslateModule,
         NgClass,
-        LogoutDialogComponent,
     ],
     templateUrl: './layout.component.html',
     styleUrls: [
@@ -69,103 +70,87 @@ import {
         './layout-dm/layout-dm.component.scss',
         './layout-media/layout-media.component.scss',
     ],
-    providers: [DestroyService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LayoutComponent implements OnInit {
-    private _destroyed$ = inject(DestroyService);
-    private _cdr = inject(ChangeDetectorRef);
-    private _store$ = inject(Store);
-    private _cacheStorageService = inject(CacheStorageService);
-    private _afAuth = inject(AngularFireAuth);
-    private _isFirstTimeSignal$ = computed(() =>
+    private readonly _destroyRef = inject(DestroyRef);
+    private readonly _cdr = inject(ChangeDetectorRef);
+    private readonly _store = inject(Store);
+    private readonly _cacheStorageService = inject(CacheStorageService);
+    private readonly _afAuth = inject(AngularFireAuth);
+
+    private readonly _isFirstTimeSignal = computed(() =>
         this._cacheStorageService.isFirstTime(),
     );
 
-    public isFirstTime$ = toObservable(this._isFirstTimeSignal$);
-
+    public readonly isFirstTime$ = toObservable(this._isFirstTimeSignal);
     public readonly routeClasses = ROUTER_CLASSES;
     public readonly startCardClasses = START_CARD_CLASSES;
 
-    public isModalDialogVisible = signal<boolean>(false);
-    public isAuth: boolean = false;
-    public modalData$!: Observable<
-        TWorkExperience | TEducationExperience | null
-    >;
+    protected readonly _isModalDialogVisible = signal<boolean>(false);
+    protected readonly _isAuth = signal<boolean>(false);
 
-    public isExperienceDialogVisible$ = this._store$.pipe(
-        takeUntil(this._destroyed$),
+    public readonly isExperienceDialogVisible$ = this._store.pipe(
         select(selectIsModalOpen),
+        takeUntilDestroyed(this._destroyRef),
     );
 
-    public currentTheme$: Observable<boolean> = this._store$.pipe(
-        takeUntil(this._destroyed$),
+    public readonly currentTheme$ = this._store.pipe(
         select(darkModeSelector),
+        takeUntilDestroyed(this._destroyRef),
     );
 
-    public navigation$: Observable<TNavigation[]> = this._store$.pipe(
-        takeUntil(this._destroyed$),
+    public readonly navigation$ = this._store.pipe(
         select(selectNavigation),
+        takeUntilDestroyed(this._destroyRef),
     );
 
-    public social$: Observable<TSocialMedia[]> = this._store$.pipe(
-        takeUntil(this._destroyed$),
+    public readonly social$ = this._store.pipe(
         select(selectSocialMediaLinks),
+        takeUntilDestroyed(this._destroyRef),
     );
 
-    constructor() {
-        this._store$.dispatch(FirebaseActions.loadNavigation());
-        this._store$.dispatch(FirebaseActions.loadSocialMedia());
+    public readonly modalData$ = this._store.pipe(
+        select(selectModalData),
+        takeUntilDestroyed(this._destroyRef),
+    );
 
-        this.isFirstTime$.pipe(takeUntilDestroyed()).subscribe((firstTime) => {
-            if (firstTime) {
-                timer(12000)
-                    .pipe(takeUntilDestroyed())
-                    .subscribe(() => {
-                        this._cacheStorageService.setIsFirstTime(false);
-                    });
-            }
-        });
+    public constructor() {
+        this._store.dispatch(FirebaseActions.loadNavigation());
+        this._store.dispatch(FirebaseActions.loadSocialMedia());
+
+        this.isFirstTime$
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe((firstTime: boolean) => {
+                if (firstTime) {
+                    timer(12000)
+                        .pipe(takeUntilDestroyed(this._destroyRef))
+                        .subscribe(() => {
+                            this._cacheStorageService.setIsFirstTime(false);
+                        });
+                }
+            });
     }
 
-    ngOnInit(): void {
-        this._store$.dispatch(FirebaseActions.loadNavigation());
-        this._store$.dispatch(FirebaseActions.loadSocialMedia());
-
-        this.currentTheme$
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe((theme) => {
-                console.log(theme);
-                this._cdr.markForCheck();
-            });
-
+    public ngOnInit(): void {
         this._afAuth.authState
-            .pipe(takeUntil(this._destroyed$))
+            .pipe(takeUntilDestroyed(this._destroyRef))
             .subscribe((user) => {
-                this.isAuth = !!user;
+                this._isAuth.set(!!user);
                 if (!user) {
-                    this.isModalDialogVisible.set(true);
+                    this._isModalDialogVisible.set(true);
                 }
                 this._cdr.markForCheck();
             });
 
-        this.isExperienceDialogVisible$ = this._store$.pipe(
-            takeUntil(this._destroyed$),
-            select(selectIsModalOpen),
-        );
-        this.modalData$ = this._store$.pipe(
-            takeUntil(this._destroyed$),
-            select(selectModalData),
-        );
-
         this.isFirstTime$
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe((firstTime) => {
+            .pipe(takeUntilDestroyed(this._destroyRef))
+            .subscribe((firstTime: boolean) => {
                 if (firstTime) {
                     this._cdr.markForCheck();
 
                     timer(12000)
-                        .pipe(takeUntil(this._destroyed$))
+                        .pipe(takeUntilDestroyed(this._destroyRef))
                         .subscribe(() => {
                             this._cacheStorageService.setIsFirstTime(false);
                             this._cdr.markForCheck();
@@ -175,19 +160,15 @@ export class LayoutComponent implements OnInit {
     }
 
     public getModalInstance(visible: boolean): void {
-        this.isModalDialogVisible.set(visible);
+        this._isModalDialogVisible.set(visible);
     }
 
-    public preparERoute(outlet: RouterOutlet) {
-        return (
-            outlet &&
-            outlet.activatedRouteData &&
-            outlet.activatedRouteData['animation']
-        );
+    public preparERoute(outlet: RouterOutlet): string | null {
+        return outlet?.activatedRouteData?.['animation'] || null;
     }
 
-    public closeModal() {
-        this.isModalDialogVisible.set(false);
+    public closeModal(): void {
+        this._isModalDialogVisible.set(false);
         this._cdr.markForCheck();
     }
 }

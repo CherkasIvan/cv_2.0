@@ -1,5 +1,5 @@
 export interface TranslationUnitModel {
-  id: string;
-  source: string;
-  target: string;
+    id: string;
+    source: string;
+    target: string;
 }

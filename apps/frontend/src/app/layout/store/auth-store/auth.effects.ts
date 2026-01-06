@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 
-import { AuthService } from '@core/service/auth/auth.service';
-import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
+import { AuthService } from '../../../core/service/auth/auth.service';
+import { CacheStorageService } from '../../../core/service/cache-storage/cache-storage.service';
 import { AuthActions } from './auth.actions';
 
 @Injectable()

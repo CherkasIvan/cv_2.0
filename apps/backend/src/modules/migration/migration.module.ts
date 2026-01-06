@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { EducationExperienceEntity } from '@shared/entities/education-experience.entity';
 import { WorkExperienceEntity } from '@shared/entities/work-experience.entity';
+
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ExperienceAsideEntity } from '../../shared/entities/experience-aside.entity';
 import { HardSkillsNavEntity } from '../../shared/entities/hard-skills-nav.entity';

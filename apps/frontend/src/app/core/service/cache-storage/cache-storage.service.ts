@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { Observable, catchError, of, switchMap, tap } from 'rxjs';
 
 import { TAuthResponse } from '@core/models/auth-response.type';
-import { ERoute } from '@cv_2.0/shared/enum/route.enum';
+import { ERoute } from '@cv_2.0//shared/src/enum/route.enum';
 import { TCasheStorageUserState } from '@layout/store/model/cash-storage-user-state.type';
 
 @Injectable({

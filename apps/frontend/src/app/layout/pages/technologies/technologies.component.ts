@@ -1,3 +1,5 @@
+import { Observable, distinctUntilChanged, of, switchMap } from 'rxjs';
+
 import { AsyncPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
@@ -10,7 +12,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { Observable, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { EvenColumnDirective } from '@core/directives/even-column.directive';
 import { TBackendTechnologies } from '@core/models/backend-technologies.type';
@@ -19,6 +21,7 @@ import { TOtherTechnologies } from '@core/models/other-technologies.type';
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ApiService } from '@core/service/api/api.service';
 import { CacheStorageService } from '@core/service/cache-storage/cache-storage.service';
+
 import { AsideNavigationTechnologiesComponent } from '@layout/components/aside-navigation-technologies/aside-navigation-technologies.component';
 import { darkModeSelector } from '@layout/store/dark-mode-store/dark-mode.selectors';
 import * as FirebaseActions from '@layout/store/firebase-store/firebase.actions';
@@ -28,7 +31,6 @@ import {
     selectOtherTech,
     selectTechnologiesAside,
 } from '@layout/store/firebase-store/firebase.selectors';
-import { Store } from '@ngrx/store';
 
 import { TechnologyCardComponent } from './components/technology-card/technology-card.component';
 

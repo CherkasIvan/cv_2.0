@@ -1,7 +1,9 @@
+import { Repository } from 'typeorm';
+
+import { PersonSessionEntity } from '@shared/entities/person-session.entity';
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { PersonSessionEntity } from '@shared/entities/person-session.entity';
 
 @Injectable()
 export class PersonSessionService {
@@ -40,21 +42,25 @@ export class PersonSessionService {
         });
     }
 
-    async findActiveSessionByAccessToken(accessToken: string): Promise<PersonSessionEntity> {
+    async findActiveSessionByAccessToken(
+        accessToken: string,
+    ): Promise<PersonSessionEntity> {
         return await this.sessionRepository.findOne({
-            where: { 
+            where: {
                 accessToken,
-                isActive: true 
+                isActive: true,
             },
             relations: ['person'],
         });
     }
 
-    async findActiveSessionByRefreshToken(refreshToken: string): Promise<PersonSessionEntity> {
+    async findActiveSessionByRefreshToken(
+        refreshToken: string,
+    ): Promise<PersonSessionEntity> {
         return await this.sessionRepository.findOne({
-            where: { 
+            where: {
                 refreshToken,
-                isActive: true 
+                isActive: true,
             },
             relations: ['person'],
         });
@@ -75,7 +81,7 @@ export class PersonSessionService {
     async deactivateAllUserSessions(personId: number): Promise<void> {
         await this.sessionRepository.update(
             { personId, isActive: true },
-            { isActive: false }
+            { isActive: false },
         );
     }
 

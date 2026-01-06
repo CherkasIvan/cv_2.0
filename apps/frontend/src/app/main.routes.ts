@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { NoAuthGuard } from '@core/utils/guards/no-auth/no-auth.guard';
-import { ERoute } from '@cv_2.0/shared/enum/route.enum';
+import { ERoute } from '@cv_2.0/shared/src/enum/route.enum';
 
 import { AuthGuard } from './core/utils/guards/auth/auth.guard';
 import { LayoutComponent } from './layout/layout.component';

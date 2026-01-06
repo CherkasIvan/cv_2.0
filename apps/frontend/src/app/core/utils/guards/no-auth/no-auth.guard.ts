@@ -1,13 +1,14 @@
 // no-auth.guard.ts
-import { Injectable, inject, Inject, PLATFORM_ID } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { map, Observable, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
+
 import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { CanActivate, Router } from '@angular/router';
 
 import { AuthService } from '@core/service/auth/auth.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class NoAuthGuard implements CanActivate {
     private authService = inject(AuthService);
@@ -25,7 +26,7 @@ export class NoAuthGuard implements CanActivate {
         }
 
         return this.authService.isAuthenticated$.pipe(
-            map(isAuthenticated => {
+            map((isAuthenticated) => {
                 if (!isAuthenticated) {
                     return true;
                 } else {
@@ -33,7 +34,7 @@ export class NoAuthGuard implements CanActivate {
                     this.router.navigate(['/layout']);
                     return false;
                 }
-            })
+            }),
         );
     }
 }

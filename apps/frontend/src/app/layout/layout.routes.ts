@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { ERoute } from '@cv_2.0/shared';
+import { ERoute } from '@cv_2.0/shared/src/enum/route.enum';
 
 export const LAYOUT_ROUTES: Routes = [
     {

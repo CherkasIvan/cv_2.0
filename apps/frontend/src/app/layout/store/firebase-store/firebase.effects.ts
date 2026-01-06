@@ -1,11 +1,12 @@
+import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
+
 import { DestroyRef, Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { catchError, forkJoin, map, of, switchMap } from 'rxjs';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { TTechnologiesAside } from '@core/models/technologies-aside.type';
 import { ApiService } from '@core/service/api/api.service';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import * as FirebaseActions from './firebase.actions';
 

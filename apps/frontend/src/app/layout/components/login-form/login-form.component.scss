@@ -226,35 +226,35 @@
 }
 
 .fields-visible {
+    transform: translateY(0);
     opacity: 1;
     max-height: 100px;
-    transform: translateY(0);
 }
 
 .fields-hidden {
-    opacity: 0;
-    max-height: 0;
     transform: translateY(-10px);
+    opacity: 0;
     margin: 0;
     padding: 0;
+    max-height: 0;
     pointer-events: none;
 }
 
 // Обновленные стили для плавного скрытия
 .content-form_label.fields-hidden {
     margin-bottom: 0;
-    
+
     .content-form_input {
-        height: 0;
-        padding: 0;
         border: none;
+        padding: 0;
+        height: 0;
     }
 }
 
 .register-prompt.fields-hidden {
-    height: 0;
     margin: 0;
-    
+    height: 0;
+
     .regester-title,
     .register-link {
         opacity: 0;

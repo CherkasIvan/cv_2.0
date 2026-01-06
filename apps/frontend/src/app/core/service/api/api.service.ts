@@ -1,7 +1,15 @@
-import { catchError, map, Observable, of } from 'rxjs';
-import { HttpClient, HttpXhrBackend } from '@angular/common/http';
-import { Injectable, computed, inject, signal, PLATFORM_ID, Inject } from '@angular/core';
+import { Observable, catchError, map, of } from 'rxjs';
+
 import { isPlatformServer } from '@angular/common';
+import { HttpClient, HttpXhrBackend } from '@angular/common/http';
+import {
+    Inject,
+    Injectable,
+    PLATFORM_ID,
+    computed,
+    inject,
+    signal,
+} from '@angular/core';
 
 import { TBackendTechnologies } from '@core/models/backend-technologies.type';
 import { TEducationExperience } from '@core/models/education-experience.type';
@@ -78,48 +86,50 @@ export class ApiService {
 
     // 🎯 Create proper fallback data that matches the types
     private getNavigationFallback(): TNavigation[] {
-        return this.isServer ? [
-            {
-                id: 'main-fallback',
-                link: '/main',
-                position: 1,
-                value: 'Main',
-                imgName: 'home'
-            },
-            {
-                id: 'about-fallback',
-                link: '/about',
-                position: 2,
-                value: 'About',
-                imgName: 'info'
-            }
-        ] : [];
+        return this.isServer
+            ? [
+                  {
+                      id: 'main-fallback',
+                      link: '/main',
+                      position: 1,
+                      value: 'Main',
+                      imgName: 'home',
+                  },
+                  {
+                      id: 'about-fallback',
+                      link: '/about',
+                      position: 2,
+                      value: 'About',
+                      imgName: 'info',
+                  },
+              ]
+            : [];
     }
 
     private getMainPageInfoFallback(): TMainPageInfo | null {
-        return this.isServer ? {
-            id: 'main-page-fallback',
-            buttonHoverText: 'View portfolio',
-            buttonText: 'Explore',
-            description: 'Developer Portfolio',
-            name: 'Portfolio',
-            imgSrc: '',
-            stack: 'Full Stack Developer',
-            status: 'Available for work',
-            imgName: 'avatar'
-        } : null;
+        return this.isServer
+            ? {
+                  id: 'main-page-fallback',
+                  buttonHoverText: 'View portfolio',
+                  buttonText: 'Explore',
+                  description: 'Developer Portfolio',
+                  name: 'Portfolio',
+                  imgSrc: '',
+                  stack: 'Full Stack Developer',
+                  status: 'Available for work',
+                  imgName: 'avatar',
+              }
+            : null;
     }
 
     // 🎯 Data loading methods with SSR fallbacks
     getBackendTech() {
-        return this.http
-            .get<TBackendTechnologies[]>('/firebase/backend')
-            .pipe(
-                catchError((error) => {
-                    console.error('Error loading backend tech:', error);
-                    return of(this.isServer ? [] : []);
-                }),
-            );
+        return this.http.get<TBackendTechnologies[]>('/firebase/backend').pipe(
+            catchError((error) => {
+                console.error('Error loading backend tech:', error);
+                return of(this.isServer ? [] : []);
+            }),
+        );
     }
 
     getFrontendTech() {
@@ -134,41 +144,35 @@ export class ApiService {
     }
 
     getOtherTech() {
-        return this.http
-            .get<TOtherTechnologies[]>('/firebase/other')
-            .pipe(
-                catchError((error) => {
-                    console.error('Error loading other tech:', error);
-                    return of(this.isServer ? [] : []);
-                }),
-            );
+        return this.http.get<TOtherTechnologies[]>('/firebase/other').pipe(
+            catchError((error) => {
+                console.error('Error loading other tech:', error);
+                return of(this.isServer ? [] : []);
+            }),
+        );
     }
 
-getNavigation() {
-    if (this.isServer) {
-        console.log('SSR: Returning fallback navigation');
-        return of(this.getNavigationFallback());
-    }
-    
-    return this.http
-        .get<TNavigation[]>('/template/navigation')
-        .pipe(
+    getNavigation() {
+        if (this.isServer) {
+            console.log('SSR: Returning fallback navigation');
+            return of(this.getNavigationFallback());
+        }
+
+        return this.http.get<TNavigation[]>('/template/navigation').pipe(
             catchError((error) => {
                 console.error('Error loading navigation:', error);
                 return of(this.getNavigationFallback());
             }),
         );
-}
+    }
 
     getSocialMediaLinks() {
-        return this.http
-            .get<TSocialMedia[]>('/template/social-media')
-            .pipe(
-                catchError((error) => {
-                    console.error('Error loading social media:', error);
-                    return of(this.isServer ? [] : []);
-                }),
-            );
+        return this.http.get<TSocialMedia[]>('/template/social-media').pipe(
+            catchError((error) => {
+                console.error('Error loading social media:', error);
+                return of(this.isServer ? [] : []);
+            }),
+        );
     }
 
     getHardSkillsNav() {
@@ -194,15 +198,13 @@ getNavigation() {
     }
 
     getMainPageInfo() {
-        return this.http
-            .get<TMainPageInfo[]>('/template/main-page-info')
-            .pipe(
-                map((data) => data[0]),
-                catchError((error) => {
-                    console.error('Error loading main page info:', error);
-                    return of(this.getMainPageInfoFallback());
-                }),
-            );
+        return this.http.get<TMainPageInfo[]>('/template/main-page-info').pipe(
+            map((data) => data[0]),
+            catchError((error) => {
+                console.error('Error loading main page info:', error);
+                return of(this.getMainPageInfoFallback());
+            }),
+        );
     }
 
     getEducationPlaces() {
@@ -239,114 +241,128 @@ getNavigation() {
     }
 
     getThemelessPicturesImages() {
-        return this.http
-            .get<any[]>('/firebase/themeless-pictures')
-            .pipe(
-                catchError((error) => {
-                    console.error('Error loading themeless pictures:', error);
-                    return of(this.isServer ? [] : []);
-                }),
-            );
+        return this.http.get<any[]>('/firebase/themeless-pictures').pipe(
+            catchError((error) => {
+                console.error('Error loading themeless pictures:', error);
+                return of(this.isServer ? [] : []);
+            }),
+        );
     }
 
-// api.service.ts (partial fix for getImages method)
-getImages(folder?: string, searchParam?: string) {
-  if (!folder || this.isServer) {
-    console.log('SSR: Skipping image loading for', folder);
-    return of([]);
-  }
+    // api.service.ts (partial fix for getImages method)
+    getImages(folder?: string, searchParam?: string) {
+        if (!folder || this.isServer) {
+            console.log('SSR: Skipping image loading for', folder);
+            return of([]);
+        }
 
-  // Use a different approach to avoid circular dependencies
-  return new Observable<string[]>(observer => {
-    // Create a new HttpClient instance without interceptors for image loading
-    const http = new HttpClient(new HttpXhrBackend({ build: () => new XMLHttpRequest() }));
-    
-    http.get<string[]>(`/firebase/images/${folder}`)
-      .pipe(
-        map((urls) => {
-          if (!urls || !Array.isArray(urls) || urls.length === 0) {
-            console.warn(`⚠️ No images found in folder: ${folder}`);
-            return [];
-          }
-
-          const validUrls = urls.filter(
-            (url) => url && typeof url === 'string' && url.trim().length > 0,
-          );
-
-          let resultUrls = validUrls;
-
-          if (searchParam) {
-            resultUrls = validUrls.filter((url) =>
-              url.toLowerCase().includes(searchParam.toLowerCase()),
+        // Use a different approach to avoid circular dependencies
+        return new Observable<string[]>((observer) => {
+            // Create a new HttpClient instance without interceptors for image loading
+            const http = new HttpClient(
+                new HttpXhrBackend({ build: () => new XMLHttpRequest() }),
             );
-          }
 
-          return resultUrls;
-        }),
-        catchError((error) => {
-          console.error(`Error loading images from ${folder}:`, error.message);
-          return of([]);
-        })
-      )
-      .subscribe({
-        next: (urls) => observer.next(urls),
-        error: (err) => observer.error(err),
-        complete: () => observer.complete()
-      });
-  });
-}
+            http.get<string[]>(`/firebase/images/${folder}`)
+                .pipe(
+                    map((urls) => {
+                        if (
+                            !urls ||
+                            !Array.isArray(urls) ||
+                            urls.length === 0
+                        ) {
+                            console.warn(
+                                `⚠️ No images found in folder: ${folder}`,
+                            );
+                            return [];
+                        }
+
+                        const validUrls = urls.filter(
+                            (url) =>
+                                url &&
+                                typeof url === 'string' &&
+                                url.trim().length > 0,
+                        );
+
+                        let resultUrls = validUrls;
+
+                        if (searchParam) {
+                            resultUrls = validUrls.filter((url) =>
+                                url
+                                    .toLowerCase()
+                                    .includes(searchParam.toLowerCase()),
+                            );
+                        }
+
+                        return resultUrls;
+                    }),
+                    catchError((error) => {
+                        console.error(
+                            `Error loading images from ${folder}:`,
+                            error.message,
+                        );
+                        return of([]);
+                    }),
+                )
+                .subscribe({
+                    next: (urls) => observer.next(urls),
+                    error: (err) => observer.error(err),
+                    complete: () => observer.complete(),
+                });
+        });
+    }
     // В ApiService добавьте этот метод:
 
-loadPublicData() {
-    console.log('Loading public data from API...');
-    
-    // На сервере загружаем только минимальные данные с обработкой ошибок
-    if (this.isServer) {
-        console.log('SSR: Loading minimal public data');
-        
-        this.getNavigation().subscribe((data) => {
-            this.updateState({ navigation: data });
-            console.log('SSR: Navigation loaded:', data.length);
-        });
+    loadPublicData() {
+        console.log('Loading public data from API...');
 
-        this.getMainPageInfo().subscribe((data) => {
-            this.updateState({ mainPageInfo: data });
-            console.log('SSR: Main page info loaded');
-        });
+        // На сервере загружаем только минимальные данные с обработкой ошибок
+        if (this.isServer) {
+            console.log('SSR: Loading minimal public data');
 
-        this.getSocialMediaLinks().subscribe((data) => {
-            this.updateState({ socialMedia: data });
-            console.log('SSR: Social media loaded:', data.length);
-        });
-    } else {
-        // В браузере загружаем все данные
-        console.log('Browser: Loading full public data');
-        
-        this.getNavigation().subscribe((data) => {
-            this.updateState({ navigation: data });
-        });
+            this.getNavigation().subscribe((data) => {
+                this.updateState({ navigation: data });
+                console.log('SSR: Navigation loaded:', data.length);
+            });
 
-        this.getMainPageInfo().subscribe((data) => {
-            this.updateState({ mainPageInfo: data });
-        });
+            this.getMainPageInfo().subscribe((data) => {
+                this.updateState({ mainPageInfo: data });
+                console.log('SSR: Main page info loaded');
+            });
 
-        this.getSocialMediaLinks().subscribe((data) => {
-            this.updateState({ socialMedia: data });
-        });
+            this.getSocialMediaLinks().subscribe((data) => {
+                this.updateState({ socialMedia: data });
+                console.log('SSR: Social media loaded:', data.length);
+            });
+        } else {
+            // В браузере загружаем все данные
+            console.log('Browser: Loading full public data');
 
-        this.getBackendTech().subscribe((data) => {
-            this.updateState({ backendTech: data });
-        });
+            this.getNavigation().subscribe((data) => {
+                this.updateState({ navigation: data });
+            });
 
-        this.getFrontendTech().subscribe((data) => {
-            this.updateState({ frontendTech: data });
-        });
+            this.getMainPageInfo().subscribe((data) => {
+                this.updateState({ mainPageInfo: data });
+            });
 
-        this.getWorkExperience().subscribe((data) => {
-            this.updateState({ workExperience: data });
-        });
+            this.getSocialMediaLinks().subscribe((data) => {
+                this.updateState({ socialMedia: data });
+            });
+
+            this.getBackendTech().subscribe((data) => {
+                this.updateState({ backendTech: data });
+            });
+
+            this.getFrontendTech().subscribe((data) => {
+                this.updateState({ frontendTech: data });
+            });
+
+            this.getWorkExperience().subscribe((data) => {
+                this.updateState({ workExperience: data });
+            });
+        }
     }
-}
 
     // 🎯 Load all data and update state
     loadAllData() {

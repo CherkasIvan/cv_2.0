@@ -1,5 +1,5 @@
 export interface LanguageStatsModel {
-  totalKeys: number;
-  modules: number;
-  lastModified: Date;
+    totalKeys: number;
+    modules: number;
+    lastModified: Date;
 }

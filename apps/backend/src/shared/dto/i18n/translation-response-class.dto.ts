@@ -1,5 +1,5 @@
-  import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
-  export class TranslationResponseClassDto {
+export class TranslationResponseClassDto {
     [key: string]: any;
-  }
+}

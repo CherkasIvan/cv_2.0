@@ -1,8 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddRefreshTokenToPersons1764262804682
-    implements MigrationInterface
-{
+export class AddRefreshTokenToPersons1764262804682 implements MigrationInterface {
     name = 'AddRefreshTokenToPersons1764262804682';
 
     public async up(queryRunner: QueryRunner): Promise<void> {
