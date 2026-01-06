@@ -1,0 +1,17 @@
+[2J[3J[H7:45:19 am - Starting compilation in watch mode...
+
+
+7:45:19 am - Found 0 errors. Watching for file changes.
+C:\Users\JV13\Desktop\Projects\cv_2.0\node_modules\@nx\js\src\executors\node\node.impl.js:351
+    throw new Error(`Could not find ${fileToRun}. Make sure your build succeeded.`);
+          ^
+
+Error: Could not find C:\Users\JV13\Desktop\Projects\cv_2.0\dist\apps\backend\src\main.js. Make sure your build succeeded.
+    at fileToRunCorrectPath [90m(C:\Users\JV13\Desktop\Projects\cv_2.0\[39mnode_modules\[4m@nx[24m\js\src\executors\node\node.impl.js:351:11[90m)[39m
+    at [90mC:\Users\JV13\Desktop\Projects\cv_2.0\[39mnode_modules\[4m@nx[24m\js\src\executors\node\node.impl.js:122:49
+    at new Promise (<anonymous>)
+    at Object.start [90m(C:\Users\JV13\Desktop\Projects\cv_2.0\[39mnode_modules\[4m@nx[24m\js\src\executors\node\node.impl.js:113:36[90m)[39m
+    at async processQueue [90m(C:\Users\JV13\Desktop\Projects\cv_2.0\[39mnode_modules\[4m@nx[24m\js\src\executors\node\node.impl.js:78:13[90m)[39m
+    at async Timeout._onTimeout [90m(C:\Users\JV13\Desktop\Projects\cv_2.0\[39mnode_modules\[4m@nx[24m\js\src\executors\node\lib\coalescing-debounce.js:24:40[90m)[39m
+
+Node.js v24.5.0

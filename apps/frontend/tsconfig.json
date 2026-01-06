@@ -1,45 +1,26 @@
 {
-    "compileOnSave": false,
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "baseUrl": "./src",
-        "paths": {
-            "@cv_2.0/shared": ["../../../libs/shared/src/index.ts"],
-            "@cv_2.0/shared/*": ["../../../libs/shared/src/*"],
-
-            "firebase/*": ["node_modules/firebase/compat/*"],
-            "@angular/*": ["./node_modules/@angular/*"],
-            "@env/*": ["environments/*"],
-            "@utils/*": ["utils/*"],
-            "@store/*": ["app/store/*"],
-            "@*": ["app/*"],
-            "@assets/*": ["assets/*"],
-            "@pages/*": ["app/pages/*"],
-            "@core/*": ["app/core/*"],
-            "@layout/*": ["app/layout/*"],
-            "zone.js/node": ["node_modules/zone.js/bundles/zone-node.umd.js"]
-        },
         "outDir": "./dist/out-tsc",
-        "strict": true,
-        "noImplicitOverride": true,
-        "noPropertyAccessFromIndexSignature": true,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true,
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "sourceMap": true,
-        "declaration": false,
-        "experimentalDecorators": true,
-        "moduleResolution": "bundler",
-        "importHelpers": true,
-        "target": "ES2022",
-        "module": "ES2022",
-        "useDefineForClassFields": false,
-        "lib": ["ES2022", "dom"]
+        "paths": {
+            "@env/*": ["./src/environments/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@store/*": ["./src/app/store/*"],
+            "@assets/*": ["./src/assets/*"],
+            "@pages/*": ["./src/app/pages/*"],
+            "@core/*": ["./src/app/core/*"],
+            "@layout/*": ["./src/app/layout/*"],
+            "@models/*": ["./src/app/core/models/*"],
+            "@services/*": ["./src/app/core/services/*"],
+            "@directives/*": ["./src/app/core/directives/*"]
+        }
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
         "strictTemplates": true
-    }
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules", "test.ts", "**/*.spec.ts", "dist"]
 }

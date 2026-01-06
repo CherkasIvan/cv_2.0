@@ -1,0 +1,9 @@
+
+[0m[7m[1m[31m NX [39m[22m[27m[0m  [31mCannot find module '@angular-devkit/architect'[39m
+
+Require stack:
+- C:\Users\JV13\Desktop\Projects\cv_2.0\node_modules\nx\src\adapter\ngcli-adapter.js
+- C:\Users\JV13\Desktop\Projects\cv_2.0\node_modules\nx\src\command-line\run\run.js
+- C:\Users\JV13\Desktop\Projects\cv_2.0\node_modules\nx\bin\run-executor.js
+Pass --verbose to see the stacktrace.
+

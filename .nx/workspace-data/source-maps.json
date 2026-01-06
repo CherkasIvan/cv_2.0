@@ -8,6 +8,10 @@
       "apps/backend/project.json",
       "nx/core/project-json"
     ],
+    "projectType": [
+      "apps/backend/project.json",
+      "nx/core/project-json"
+    ],
     "tags": [
       "apps/backend/package.json",
       "nx/core/package-json"
@@ -212,10 +216,6 @@
       "apps/backend/project.json",
       "nx/core/project-json"
     ],
-    "projectType": [
-      "apps/backend/project.json",
-      "nx/core/project-json"
-    ],
     "targets.build": [
       "apps/backend/project.json",
       "nx/core/project-json"
@@ -299,6 +299,46 @@
     "targets.lint.options.lintFilePatterns": [
       "apps/backend/project.json",
       "nx/core/project-json"
+    ],
+    "targets.build.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.build.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.serve.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.serve.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.serve.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.inputs": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.cache": [
+      "nx.json",
+      "nx/target-defaults"
+    ],
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
     ]
   },
   "apps/frontend": {
@@ -307,6 +347,10 @@
       "nx/core/project-json"
     ],
     "name": [
+      "apps/frontend/project.json",
+      "nx/core/project-json"
+    ],
+    "projectType": [
       "apps/frontend/project.json",
       "nx/core/project-json"
     ],
@@ -1122,10 +1166,6 @@
       "apps/frontend/project.json",
       "nx/core/project-json"
     ],
-    "projectType": [
-      "apps/frontend/project.json",
-      "nx/core/project-json"
-    ],
     "targets.build": [
       "apps/frontend/project.json",
       "nx/core/project-json"
@@ -1313,132 +1353,58 @@
     "targets.server.options.tsConfig": [
       "apps/frontend/project.json",
       "nx/core/project-json"
-    ]
-  },
-  "libs/shared": {
-    "root": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
     ],
-    "name": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
+    "targets.test.inputs": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "tags": [
-      "libs/shared/package.json",
-      "nx/core/package-json"
+    "targets.test.cache": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "tags.npm:private": [
-      "libs/shared/package.json",
-      "nx/core/package-json"
+    "targets.test.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "metadata.targetGroups": [
-      "libs/shared/package.json",
-      "nx/core/package-json"
+    "targets.lint.inputs": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "metadata.js": [
-      "libs/shared/package.json",
-      "nx/core/package-json"
+    "targets.lint.cache": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "metadata.js.packageName": [
-      "libs/shared/package.json",
-      "nx/core/package-json"
+    "targets.lint.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "metadata.js.packageVersion": [
-      "libs/shared/package.json",
-      "nx/core/package-json"
+    "targets.build.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "metadata.js.isInPackageManagerWorkspaces": [
-      "libs/shared/package.json",
-      "nx/core/package-json"
+    "targets.build.inputs": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "targets": [
-      "libs/shared/package.json",
-      "nx/core/package-json"
+    "targets.build.cache": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "$schema": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
+    "targets.build.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "sourceRoot": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
+    "targets.serve.dependsOn": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "projectType": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
+    "targets.serve.cache": [
+      "nx.json",
+      "nx/target-defaults"
     ],
-    "targets.build": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.executor": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.outputs": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options.outputPath": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options.main": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options.tsConfig": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.build.options.assets": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.clean": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.clean.executor": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.clean.options": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.clean.options.commands": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.clean.options.cwd": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.executor": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.outputs": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.options": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
-    ],
-    "targets.lint.options.lintFilePatterns": [
-      "libs/shared/project.json",
-      "nx/core/project-json"
+    "targets.serve.parallelism": [
+      "nx.json",
+      "nx/target-defaults"
     ]
   }
 }
